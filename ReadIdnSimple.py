@@ -1,11 +1,12 @@
+# Goal: Connect to a SpikeSafe and request module identification
+# SCPI Command: *IDN?
+# Example Result: Vektrex, SpikeSafe Mini, Rev 2.0.3.18; Ch 1: DSP 2.0.9, CPLD C.2, Last Cal Date: 17 FEB 2020, SN: 12006, HwRev: E1, Model: MINI-PRF-10-10US\n
+# Note: Written for simplicity
+
 import socket
 
 ip_address = '10.0.0.240'   # SpikeSafe IP address
 port_number = 8282          # SpikeSafe port number
-
-#  Goal:  Connect to a SpikeSafe and request module identification
-#  SCPI Command:  *IDN
-#  Example Result: Vektrex, SpikeSafe Mini, Rev 2.0.3.18; Ch 1: DSP 2.0.9, CPLD C.2, Last Cal Date: 17 FEB 2020, SN: 12006, HwRev: E1, Model: MINI-PRF-10-10US\n
 
 tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)  # create socket object
 tcp_socket.settimeout(5)
