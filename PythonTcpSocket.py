@@ -48,11 +48,6 @@ try:
     sendScpiCommand('*IDN?')        # request SpikeSafe information
     data = readData()               # read SpikeSafe information
     print(data)                     # print SpikeSafe response to terminal
-
-    sendScpiCommand('MEM:TABL:READ')
-    data = readData()
-    print(data)
-
     closeSocket()                   # disconnect from SpikeSafe
 except Exception as e:
     print('Program error: {}'.format(e))
