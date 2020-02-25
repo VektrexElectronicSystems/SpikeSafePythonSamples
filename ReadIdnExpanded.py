@@ -4,6 +4,8 @@
 # Note: Written for expansion to add future commands
 
 import sys
+import MemoryTableRead
+from MemoryTableReadUtility import ParseMemoryTableRead
 import TcpSocket
 
 # set these before starting application
@@ -17,6 +19,10 @@ try:
     tcp_socket.sendScpiCommand('*IDN?')             # request SpikeSafe information
     data = tcp_socket.readData()                    # read SpikeSafe information
     print(data)                                     # print SpikeSafe response to terminal
+    tcp_socket.sendScpiCommand('MEM:TABL:READ')     # request SpikeSafe status
+    data = tcp_socket.readData()                    # read SpikeSafe status
+    print(data)                                     # print SpikeSafe response to terminal
+    memory_table_read = ParseMemoryTableRead(data)  # parse SpikeSafe status
     tcp_socket.closeSocket()                        # disconnect from SpikeSafe
 except Exception as err:
     print('Program error: {}'.format(err))          # print any error to terminal
