@@ -1,4 +1,6 @@
-import MemoryTableRead
+from GetStatus import ChannelData
+from GetStatus import MemoryTableRead
+from GetStatus import TemperatureData
 
 def ParseMemoryTableRead(memory_table_read_str):
     memory_table_read = MemoryTableRead.MemoryTableRead()

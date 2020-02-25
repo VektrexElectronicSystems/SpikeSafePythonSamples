@@ -1,6 +1,4 @@
 import math
-import ChannelData
-import TemperatureData
 
 class MemoryTableRead():
     
@@ -9,3 +7,6 @@ class MemoryTableRead():
     channel_data = []
 
     temperature_data = []
+
+    def __init__(self):
+        pass

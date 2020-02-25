@@ -4,8 +4,10 @@
 # Note: Written for expansion to add future commands
 
 import sys
-import MemoryTableRead
-from MemoryTableReadUtility import ParseMemoryTableRead
+import EmptyEventQueue.EventData
+from EmptyEventQueue.EmptyEventQueueUtility import EmptyEventQueue
+import GetStatus.MemoryTableRead
+from GetStatus.MemoryTableReadUtility import ParseMemoryTableRead
 import TcpSocket
 
 # set these before starting application
@@ -19,6 +21,9 @@ try:
     tcp_socket.sendScpiCommand('*IDN?')             # request SpikeSafe information
     data = tcp_socket.readData()                    # read SpikeSafe information
     print(data)                                     # print SpikeSafe response to terminal
+    event_data = EmptyEventQueue(tcp_socket)        # empty SpikeSafe event queue
+    for event in event_data:                        # print all SpikeSafe events to terminal
+        print(event)
     tcp_socket.sendScpiCommand('MEM:TABL:READ')     # request SpikeSafe status
     data = tcp_socket.readData()                    # read SpikeSafe status
     print(data)                                     # print SpikeSafe response to terminal
