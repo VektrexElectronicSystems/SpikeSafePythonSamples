@@ -31,5 +31,23 @@ def __parseBulkVoltage__(get_status_response):
         return bulk_voltage                                                                             # return bulk voltage to caller
 
     except Exception as err:
-        print("Error parsing event code: {}".format(err))                                               # print any error to terminal
+        print("Error parsing bulk voltage: {}".format(err))                                             # print any error to terminal
         raise                                                                                           # raise error to function caller
+
+def __parseChannelStatus__(get_status_response):
+    try:
+        channel_status = []
+        return channel_status
+    except Exception as err:
+        print("Error parsing channel status: {}".format(err))                                           # print any error to terminal
+        raise                                                                                           # raise error to function caller
+
+def __parsetemperatureStatus__(get_status_response):
+    try:
+        temperature_status = []
+        return temperature_status
+    except Exception as err:
+        print("Error parsing temperature status: {}".format(err))                                           # print any error to terminal
+        raise                                                                                           # raise error to function caller
+
+
