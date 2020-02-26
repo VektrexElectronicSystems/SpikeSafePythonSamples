@@ -39,5 +39,5 @@ class TcpSocket():
             data_str = tcp_socket.recv(2048)                                # read data from socket, which is automatically converted from type byte to type string
             return data_str                                                 # return data to function caller
         except Exception as err:
-            print('Error reading data from socket: {}'.format(err)) # print any error to terminal
-            raise                                                   # raise error to function caller
+            print('Error reading data from socket: {}'.format(err))         # print any error to terminal
+            raise                                                           # raise error to function caller
