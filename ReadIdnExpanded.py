@@ -23,7 +23,7 @@ try:
     print(data)                                     # print SpikeSafe response to terminal
     event_data = EmptyEventQueue(tcp_socket)        # empty SpikeSafe event queue
     for event in event_data:                        # print all SpikeSafe events to terminal
-        print(event)
+        print(event.event_text)
     tcp_socket.sendScpiCommand('MEM:TABL:READ')     # request SpikeSafe status
     data = tcp_socket.readData()                    # read SpikeSafe status
     print(data)                                     # print SpikeSafe response to terminal
