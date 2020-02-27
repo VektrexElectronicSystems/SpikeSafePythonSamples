@@ -1,3 +1,6 @@
+# Goal: Parse channel portion of SpikeSafe get status into an accessible object
+# Example: (CH1 10.123456 1.123000 1)
+
 import math
 
 class ChannelData():
@@ -13,8 +16,7 @@ class ChannelData():
     def __init__(self):
         pass
 
-    # Goal: Parse channel portion of SpikeSafe get status into an accessible object
-    # Example: (CH1 10.123456 1.123000 1)
+    # Goal: Helper function to parse channel portion of SpikeSafe get status into an accessible object
     def ParseChannelData(self, channel_get_status_response):
         # find start of CH, extract "1 10.123456 1.123000 1" to string, and separate by " " into list
         search_str = b"CH"
@@ -24,7 +26,7 @@ class ChannelData():
 
         # set all values
         if len(channel_response_split) == 4:
-            self.channel = int(channel_response_split[0])
+            self.channel_number = int(channel_response_split[0])
             self.voltage_reading = float(channel_response_split[1])
             self.current_reading = float(channel_response_split[2])
             self.is_on_state = {b'0': False, b'1': True}[channel_response_split[3]]

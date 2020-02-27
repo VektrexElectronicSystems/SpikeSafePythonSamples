@@ -30,7 +30,7 @@ def ReadAllEvents(spikeSafeSocket):
                     event_data_list.append(event_data)                                  
                 else:
                     # Example message: 0, OK
-                    # When "0,OK is read the SpikeSafe event queqe is empty
+                    # When "0,OK is read the SpikeSafe event queue is empty
                     is_event_queue_empty = True                                                 
             else:
                 # unexpected response detected from SpikeSafe, end checking
