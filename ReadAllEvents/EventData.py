@@ -36,16 +36,10 @@ class EventData():
             code = None
             # split event response by ",". e.g. [200, Max Compliance Voltage; Channel(s) 1,2,3]                                                                                                                                                    
             event_data_arr = event_response.split(b',', 1)                                      
+            # set integer code
+            code = int(event_data_arr[0])                                                   
 
-            # check an event response was split, remove the white-space, and confirm integer code
-            if (len(event_data_arr) > 0 and                                                     
-            isinstance(int(event_data_arr[0].strip()), int) == True):                           
-                code = int(event_data_arr[0])                                                   
-
-            if code == None:  
-                # unexpected code detected from SpikeSafe, end parsing
-                raise Exception('Could not parse event code from: {}'.format(event_response))
-
+            # return code to caller
             return code
         except Exception as err:
             # print any error to terminal and raise error to function caller
@@ -58,21 +52,11 @@ class EventData():
         try:
             message = None
             # split event response by ",". e.g. [200, Max Compliance Voltage; Channel(s) 1,2,3]                                                                      
-            event_data_arr = event_response.split(b',', 1)                                      
-
-            # check an event response was split to at least two sections
-            if len(event_data_arr) > 1:
-                # split second section by ";". e.g. [ Max Compliance Voltage, Channel(s) 1,2,3]
-                event_message_arr = event_data_arr[1].split(b';')                               
-                
-                # check the second section was split to at least one section. e.g. [ Max Compliance Voltage, Channel(s) 1,2,3]
-                if len(event_message_arr) > 0:
-                    # remove all whitespace set message to value. e.g. Max Compliance Voltage
-                    message = event_message_arr[0].strip()                                      
-
-            # unexpected message detected from SpikeSafe, end parsing
-            if message == None:                                                                 
-                raise Exception('Could not parse message code from: {}'.format(event_response))
+            event_data_arr = event_response.split(b',', 1)
+            # split second section by ";". e.g. [ Max Compliance Voltage, Channel(s) 1,2,3]
+            event_message_arr = event_data_arr[1].split(b';')                               
+            # remove all whitespace set message to value. e.g. Max Compliance Voltage
+            message = event_message_arr[0].strip()                                      
 
             # return message to caller    
             return message                                                                      

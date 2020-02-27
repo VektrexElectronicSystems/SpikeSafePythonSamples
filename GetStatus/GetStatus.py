@@ -23,6 +23,7 @@ class GetStatus():
         self.channel_data = self.__parseAllChannelData__(get_status_response)
         self.temperature_data = self.__parseAllTemperatureData__(get_status_response)
 
+        # return get status object to caller
         return self
     
     # Goal: Helper function to parse bulk votage SpikeSafe get status
@@ -34,20 +35,13 @@ class GetStatus():
             search_str = b"(BULK "
             bulk_start_index = get_status_response.find(search_str)
 
-            # find first ) after BULK, extract bulk voltage string, and confirm float bulk voltage
-            if bulk_start_index > -1: 
-                bulk_parenthesis_end_index = get_status_response.find(b")", bulk_start_index)
-                bulk_voltage_str = get_status_response[bulk_start_index + len(search_str) : bulk_parenthesis_end_index]
+            # find first ) after BULK, extract bulk voltage string, and set float bulk voltage
+            bulk_parenthesis_end_index = get_status_response.find(b")", bulk_start_index)
+            bulk_voltage_str = get_status_response[bulk_start_index + len(search_str) : bulk_parenthesis_end_index]
+            bulk_voltage = float(bulk_voltage_str)           
 
-                if isinstance(float(bulk_voltage_str), float) == True:                                      
-                    bulk_voltage = float(bulk_voltage_str)           
-
-            # unexpected bulk voltage detected from SpikeSafe, end parsing
-            if bulk_voltage == None:                                                                        
-                raise Exception('Could not parse bulk voltage from: {}'.format(get_status_response))
-
+            # return bulk voltage to caller
             return bulk_voltage
-
         except Exception as err:
             # print any error to terminal and raise to function caller
             print("Error parsing bulk voltage: {}".format(err))                                            

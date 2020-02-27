@@ -6,8 +6,7 @@
 import sys
 import ReadAllEvents.EventData
 from ReadAllEvents.ReadAllEvents import ReadAllEvents
-import GetStatus.MemoryTableRead
-from GetStatus.MemoryTableReadUtility import ParseMemoryTableRead
+from GetStatus import GetStatus
 import TcpSocket
 
 # set these before starting application
@@ -16,19 +15,20 @@ port_number = 8282          # SpikeSafe port number
 
 # start of main program
 try:
-    tcp_socket = TcpSocket.TcpSocket()              # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket.openSocket(ip_address, port_number)  # connect to SpikeSafe
-    tcp_socket.sendScpiCommand('*IDN?')             # request SpikeSafe information
-    data = tcp_socket.readData()                    # read SpikeSafe information
-    print(data)                                     # print SpikeSafe response to terminal
-    event_data = ReadAllEvents(tcp_socket)        # empty SpikeSafe event queue
-    for event in event_data:                        # print all SpikeSafe events to terminal
-        print(event.event_text)
-    tcp_socket.sendScpiCommand('MEM:TABL:READ')     # request SpikeSafe status
-    data = tcp_socket.readData()                    # read SpikeSafe status
-    print(data)                                     # print SpikeSafe response to terminal
-    memory_table_read = ParseMemoryTableRead(data)  # parse SpikeSafe status
-    tcp_socket.closeSocket()                        # disconnect from SpikeSafe
+    tcp_socket = TcpSocket.TcpSocket()                              # instantiate new TcpSocket to connect to SpikeSafe
+    tcp_socket.openSocket(ip_address, port_number)                  # connect to SpikeSafe
+    tcp_socket.sendScpiCommand('*IDN?')                             # request SpikeSafe information
+    data = tcp_socket.readData()                                    # read SpikeSafe information
+    print(data)                                                     # print SpikeSafe response to terminal
+    event_data = ReadAllEvents(tcp_socket)                          # empty SpikeSafe event queue
+    for event in event_data:                                        # print all SpikeSafe events to terminal
+        print(event.event)
+    tcp_socket.sendScpiCommand('MEM:TABL:READ')                     # request SpikeSafe status
+    data = tcp_socket.readData()                                    # read SpikeSafe status
+    print(data)                                                     # print SpikeSafe response to terminal
+    memory_table_read = GetStatus.GetStatus().ParseGetStatus(data)  # parse SpikeSafe status
+    tcp_socket.closeSocket()                                        # disconnect from SpikeSafe
 except Exception as err:
-    print('Program error: {}'.format(err))          # print any error to terminal
-    sys.exit(1)                                     # exit application on any error
+    print('Program error: {}'.format(err))                          # print any error to terminal
+    sys.exit(1)                                                     # exit application on any error
+
