@@ -1,4 +1,5 @@
 import math
+from GetStatus import ChannelData
 
 class GetStatus():
     
@@ -15,7 +16,8 @@ class GetStatus():
     # Example status 1: (DIF (NAME "Output Readings" (DATA (BULK 99.7) (CH1 10.123456 1.123000 1) (T1 20.7) (T2 0.0) (T3 0.0) (T4 0.0) )))
     # Example status 2: (DIF (NAME "Output Readings" (DATA (BULK 99.7) (CH1 10.123456 1.123000 1) (CH2 0.000000 0.000000 0) (T1 20.7) (T2 21.0) (T3 0.0) (T4 0.0) )))
     def ParseGetStatus(self, get_status_response):
-        self.bulk_voltage = self.__parseBulkVoltage__(get_status_response)  # extract bulk voltage from SpikeSafe get status response
+        self.bulk_voltage = self.__parseBulkVoltage__(get_status_response)
+        self.channel_data = self.__parseAllChannelData__(get_status_response)
 
         return self
     
@@ -44,11 +46,29 @@ class GetStatus():
             # print any error to terminal and raise to function caller
             print("Error parsing bulk voltage: {}".format(err))                                            
             raise  
-
+    
+    
+    #(CH1 10.123456 1.123000 1)
     def __parseAllChannelData__(self, get_status_response):
         try:
-            channel_status = []
-            return channel_status
+            channel_data_list = []
+            channel_data_found = True
+            last_channel_data_start_index = 0
+
+            while channel_data_found == True:
+                search_str = b"CH"
+                channel_data_start_index = get_status_response.find(search_str, last_channel_data_start_index)
+
+                if channel_data_start_index != -1:
+                    channel_data_end_index = get_status_response.find(b")", channel_data_start_index)
+                    channel_data_str = get_status_response[channel_data_start_index - 1:channel_data_end_index + 1]
+                    channel_data = ChannelData.ChannelData().ParseChannelData(channel_data_str)
+                    channel_data_list.append(channel_data)
+                    last_channel_data_start_index = channel_data_start_index + len(search_str)
+                else:
+                    channel_data_found = False
+
+            return channel_data_list
         except Exception as err:
             # print any error to terminal and raise to function caller
             print("Error parsing channel status: {}".format(err))
