@@ -3,10 +3,10 @@
 # Example status 2: (DIF (NAME "Output Readings" (DATA (BULK 99.7) (CH1 10.123456 1.123000 1) (CH2 0.000000 0.000000 0) (T1 20.7) (T2 21.0) (T3 0.0) (T4 0.0) )))
 
 import math
-from GetStatus import ChannelData
-from GetStatus import TemperatureData
+from Data.ChannelData import ChannelData
+from Data.TemperatureData import TemperatureData
 
-class GetStatus():
+class MemoryTableReadData():
     
     bulk_voltage = math.nan
 
@@ -69,7 +69,7 @@ class GetStatus():
                     # look for the end of the channel data, parse it into an object, add it to list, and continue search
                     channel_data_end_index = get_status_response.find(b")", channel_data_start_index)
                     channel_data_str = get_status_response[channel_data_start_index - 1:channel_data_end_index + 1]
-                    channel_data = ChannelData.ChannelData().ParseChannelData(channel_data_str)
+                    channel_data = ChannelData().ParseChannelData(channel_data_str)
                     channel_data_list.append(channel_data)
                     last_channel_data_start_index = channel_data_start_index + len(search_str)
                 else:
@@ -105,7 +105,7 @@ class GetStatus():
                     # look for the end of the temperature data, parse it into an object, add it to list, and continue search
                     temperature_data_end_index = get_status_response.find(b")", temperature_data_start_index)
                     temperature_data_str = get_status_response[temperature_data_start_index - 1:temperature_data_end_index + 1]
-                    temperature_data = TemperatureData.TemperatureData().ParseTemperatureData(temperature_data_str)
+                    temperature_data = TemperatureData().ParseTemperatureData(temperature_data_str)
                     temperature_data_list.append(temperature_data)
                     last_temperature_data_start_index = temperature_data_start_index + len(search_str)
                 else:

@@ -5,7 +5,7 @@
 # Example message 2: 200, Max Compliance Voltage; Channel(s) 1,2,3
 
 
-from ReadAllEvents import EventData
+from Data.EventData import EventData
 
 def ReadAllEvents(spikeSafeSocket):
     try:
@@ -23,7 +23,7 @@ def ReadAllEvents(spikeSafeSocket):
 
             if event_response != '':
                  # parse all valid event responses from SpikeSafe into event_data class                                                           
-                event_data = EventData.EventData().ParseEventData(event_response)
+                event_data = EventData().ParseEventData(event_response)
 
                 if event_data.code != 0:
                     # events with code greater than 0 are valid, add these to event data list
