@@ -1,4 +1,4 @@
-# Goal: Parse channel portion of SpikeSafe get status into an accessible object
+# Goal: Parse channel portion of SpikeSafe memory table read into an accessible object
 # Example: (CH1 10.123456 1.123000 1)
 
 import math
@@ -16,13 +16,13 @@ class ChannelData():
     def __init__(self):
         pass
 
-    # Goal: Helper function to parse channel portion of SpikeSafe get status into an accessible object
-    def ParseChannelData(self, channel_get_status_response):
+    # Goal: Helper function to parse channel portion of SpikeSafe memory table read into an accessible object
+    def ParseChannelData(self, channel_memory_table_read_response):
         try:
             # find start of CH, extract "1 10.123456 1.123000 1" to string, and separate by " " into list
             search_str = b"CH"
-            channel_data_start_index = channel_get_status_response.find(search_str)
-            channel_parsable_format = channel_get_status_response[channel_data_start_index + len(search_str) : len(channel_get_status_response) - 1]
+            channel_data_start_index = channel_memory_table_read_response.find(search_str)
+            channel_parsable_format = channel_memory_table_read_response[channel_data_start_index + len(search_str) : len(channel_memory_table_read_response) - 1]
             channel_response_split = channel_parsable_format.split(b' ')
 
             # set all values
@@ -35,5 +35,5 @@ class ChannelData():
             return self
         except Exception as err:
             # print any error to terminal and raise to function caller
-            print("Error parsing channel data from SpikeSafe get status: {}".format(err))                                            
+            print("Error parsing channel data from SpikeSafe memory table read: {}".format(err))                                            
             raise  

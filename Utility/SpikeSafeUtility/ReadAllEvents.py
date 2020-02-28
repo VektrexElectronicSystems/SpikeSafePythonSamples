@@ -1,9 +1,8 @@
-# Goal: Retrive Spikesafe events from queue by reading all events
+# Goal: Read all Spikesafe events from event queue
 # SCPI Command: *SYST:ERR?
 # SpikeSafe events are parsed into EventData class
-# Example message 1: 102, External Paused Signal Stopped
-# Example message 2: 200, Max Compliance Voltage; Channel(s) 1,2,3
-
+# Example event 1: 102, External Paused Signal Stopped
+# Example event 2: 200, Max Compliance Voltage; Channel(s) 1,2,3
 
 from Data.EventData import EventData
 
