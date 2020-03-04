@@ -5,18 +5,32 @@
 import sys
 from Utility.SpikeSafeUtility.TcpSocket import TcpSocket
 
-# set these before starting application
-ip_address = '10.0.0.246'   # SpikeSafe IP address
-port_number = 8282          # SpikeSafe port number
+### set these before starting application
 
-# start of main program
+# SpikeSafe IP address
+ip_address = '10.0.0.246'
+
+# SpikeSafe port number   
+port_number = 8282          
+
+### start of main program
 try:
-    tcp_socket = TcpSocket()                        # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket.openSocket(ip_address, port_number)  # connect to SpikeSafe
-    tcp_socket.sendScpiCommand('*IDN?')             # request SpikeSafe information
-    data = tcp_socket.readData()                    # read SpikeSafe information
-    tcp_socket.closeSocket()                        # disconnect from SpikeSafe
+    # instantiate new TcpSocket to connect to SpikeSafe
+    tcp_socket = TcpSocket()
+
+    # connect to SpikeSafe
+    tcp_socket.openSocket(ip_address, port_number)  
+    
+    # request SpikeSafe information
+    tcp_socket.sendScpiCommand('*IDN?')             
+    
+    # read SpikeSafe information
+    data = tcp_socket.readData()                    
+    
+    # disconnect from SpikeSafe
+    tcp_socket.closeSocket()                        
 except Exception as err:
-    print('Program error: {}'.format(err))          # print any error to terminal
-    sys.exit(1)                                     # exit application on any error
+    # print any error to terminal and exit application
+    print('Program error: {}'.format(err))          
+    sys.exit(1)
 
