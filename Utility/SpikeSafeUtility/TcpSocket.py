@@ -8,36 +8,47 @@ class TcpSocket():
     def openSocket(self, ip_address, port_number):
         global tcp_socket
         try:
-            tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)          # create socket object
-            tcp_socket.settimeout(2)                                                # 2 second socket timeout
-            tcp_socket.connect((ip_address, port_number))                           # connect to socket
+            # create socket with 2 second timeout and connect to SpikeSafe
+            tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)          
+            tcp_socket.settimeout(2)                                                
+            tcp_socket.connect((ip_address, port_number))                           
         except Exception as err:
-            print('Error connecting to socket at {}: {}'.format(ip_address, err))   # print any error to terminal
-            raise                                                                   # raise error to function caller
+            # print any error to terminal and raise error to function caller
+            print('Error connecting to socket at {}: {}'.format(ip_address, err))   
+            raise                                                                   
 
     # close a connection via socket
     def closeSocket(self):
         try:
-            tcp_socket.close()  # disconnect from socket
+            # disconnect from socket
+            tcp_socket.close()  
         except Exception as err:
-            print('Error disconnecting from socket: {}'.format(err))    # print any error to terminal
-            raise                                                       # raise error to function caller
+            # print any error to terminal and raise error to function caller
+            print('Error disconnecting from socket: {}'.format(err))    
+            raise                                                       
         
     # send a SCPI command via socket
     def sendScpiCommand(self, scpi_command):
         try:
-            scpi_command_str = scpi_command + '\n'                          # add \n termination to SCPI command
-            scpi_command_byte = scpi_command_str.encode()                   # encode SCPI command to type byte, which is the format required by the socket
-            tcp_socket.send(scpi_command_byte)                              # send byte to socket
+            # add \n termination to SCPI command
+            # encode SCPI command to type byte, which is the format required by the socket
+            # send byte to socket
+            scpi_command_str = scpi_command + '\n'                          
+            scpi_command_byte = scpi_command_str.encode()                   
+            tcp_socket.send(scpi_command_byte)                              
         except Exception as err:
-            print('Error sending SCPI command to socket: {}'.format(err))   # print any error to terminal
-            raise                                                           # raise error to function caller
+            # print any error to terminal and raise error to function caller
+            print('Error sending SCPI command to socket: {}'.format(err))   
+            raise                                                           
 
     # read data via socket
     def readData(self):
         try:
-            data_str = tcp_socket.recv(2048)                                # read data from socket, which is automatically converted from type byte to type string
-            return data_str                                                 # return data to function caller
+            # read data from socket, which is automatically converted from type byte to type string
+            # return data to function calle
+            data_str = tcp_socket.recv(2048)                                
+            return data_str                                                 
         except Exception as err:
-            print('Error reading data from socket: {}'.format(err))         # print any error to terminal
-            raise                                                           # raise error to function caller
+            # print any error to terminal and raise error to function caller
+            print('Error reading data from socket: {}'.format(err))         
+            raise                                                           
