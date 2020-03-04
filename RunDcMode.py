@@ -12,16 +12,12 @@ from Utility.Threading import Wait
 
 # SpikeSafe IP address
 ip_address = '10.0.0.246'
-
-# SpikeSafe port number   
 port_number = 8282          
 
 ### start of main program
 try:
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
-
-    # connect to SpikeSafe                            
     tcp_socket.openSocket(ip_address, port_number)
 
     # reset to default state and check for all events,
