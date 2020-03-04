@@ -4,19 +4,31 @@ import sys
 from Utility.SpikeSafeUtility.ReadAllEvents import ReadAllEvents
 from Utility.SpikeSafeUtility.TcpSocket import TcpSocket
 
-# set these before starting application
-ip_address = '10.0.0.246'   # SpikeSafe IP address
-port_number = 8282          # SpikeSafe port number
+### set these before starting application
 
-# start of main program
+# SpikeSafe IP address
+ip_address = '10.0.0.246'
+
+# SpikeSafe port number   
+port_number = 8282          
+
+### start of main program
 try:
-    tcp_socket = TcpSocket()                        # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket.openSocket(ip_address, port_number)  # connect to SpikeSafe
-    event_data = ReadAllEvents(tcp_socket)          # read all events in SpikeSafe event queue and store in list
-    for event in event_data:                        # print all SpikeSafe events to terminal
+    # instantiate new TcpSocket to connect to SpikeSafe
+    tcp_socket = TcpSocket()
+
+    # connect to SpikeSafe                        
+    tcp_socket.openSocket(ip_address, port_number)  
+    
+    # read all events in SpikeSafe event queue, store in list, and print them to terminal
+    event_data = ReadAllEvents(tcp_socket)          
+    for event in event_data:                        
         print(event.event)
-    tcp_socket.closeSocket()                        # disconnect from SpikeSafe
+    
+    # disconnect from SpikeSafe
+    tcp_socket.closeSocket()                        
 except Exception as err:
-    print('Program error: {}'.format(err))          # print any error to terminal
-    sys.exit(1)                                     # exit application on any error
+    # print any error to terminal and exit application
+    print('Program error: {}'.format(err))          
+    sys.exit(1)
 
