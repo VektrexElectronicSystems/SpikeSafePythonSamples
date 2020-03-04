@@ -117,4 +117,9 @@ class MemoryTableReadData():
         except Exception as err:
             # print any error to terminal and raise to function caller
             print("Error parsing temperature from memory table read: {}".format(err))
-            raise   
+            raise
+
+def LogMemoryTableRead(spike_safe_socket):
+    spike_safe_socket.sendScpiCommand('MEM:TABL:READ') # request SpikeSafe memory table
+    data = spike_safe_socket.readData()                # read SpikeSafe memory table
+    print(data)   

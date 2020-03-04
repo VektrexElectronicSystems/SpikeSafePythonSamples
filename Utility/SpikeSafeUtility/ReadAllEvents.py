@@ -6,7 +6,7 @@
 
 from Data.EventData import EventData
 
-def ReadAllEvents(spikeSafeSocket):
+def ReadAllEvents(spike_safe_socket):
     try:
         # event list to be returned to caller
         event_data_list = []
@@ -17,8 +17,8 @@ def ReadAllEvents(spikeSafeSocket):
         # run as long as there is an event in the SpikeSafe queue
         while is_event_queue_empty == False:
             # request SpikeSafe events and read data
-            spikeSafeSocket.sendScpiCommand('SYST:ERR?')                                        
-            event_response = spikeSafeSocket.readData()                                        
+            spike_safe_socket.sendScpiCommand('SYST:ERR?')                                        
+            event_response = spike_safe_socket.readData()                                        
 
             if event_response != '':
                  # parse all valid event responses from SpikeSafe into event_data class                                                           
@@ -40,5 +40,10 @@ def ReadAllEvents(spikeSafeSocket):
     except Exception as err:
         # print any error to terminal and raise error to function caller
         print("Error emptying event queue: {}".format(err))                                     
-        raise                                                                             
+        raise
+
+def LogAllEvents(spike_safe_socket):
+    event_data = ReadAllEvents(spike_safe_socket)   # read all events in SpikeSafe event queue and store in list
+    for event in event_data:                        # print all SpikeSafe events to terminal
+        print(event.event)                                                                             
 
