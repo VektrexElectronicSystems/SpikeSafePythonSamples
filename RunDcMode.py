@@ -8,11 +8,15 @@ from Utility.SpikeSafeUtility.ReadAllEvents import LogAllEvents
 from Utility.SpikeSafeUtility.TcpSocket import TcpSocket
 from Utility.Threading import Wait     
 
-# set these before starting application
-ip_address = '10.0.0.246'   # SpikeSafe IP address
-port_number = 8282          # SpikeSafe port number
+### set these before starting application
 
-# start of main program
+# SpikeSafe IP address
+ip_address = '10.0.0.246'
+
+# SpikeSafe port number   
+port_number = 8282          
+
+### start of main program
 try:
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
