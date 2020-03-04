@@ -14,8 +14,6 @@ port_number = 8282
 try:
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
-
-    # connect to SpikeSafe                                                
     tcp_socket.openSocket(ip_address, port_number)
 
     # request SpikeSafe memory table
