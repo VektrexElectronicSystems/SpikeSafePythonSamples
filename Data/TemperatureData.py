@@ -4,6 +4,23 @@
 import math
 
 class TemperatureData():
+    """ A class used to store data in a simple accessible object from 
+    a heat sink in SpikeSafe's event response
+
+    ...
+
+    Attributes
+    ----------
+    heat_sink_number : int
+        Heat sink number
+    temperature_reading : float
+        Heat sink temperature reading
+
+    Methods
+    -------
+    ParseTemperatureData(self, temperature_memory_table_read_response)
+        Parses a heat sink in SpikeSafe's event response into a simple accessible object
+    """
     
     heat_sink_number = 0
 
@@ -14,6 +31,23 @@ class TemperatureData():
 
     # Goal: Helper function to parse temperature portion of SpikeSafe memory table read into an accessible object
     def ParseTemperatureData(self, temperature_memory_table_read_response):
+        """Parses a heat sink in SpikeSafe's event response into a simple accessible object
+
+        Parameters
+        ----------
+        temperature_memory_table_read_response : str
+            Heat sink in SpikeSafe's event response
+        
+        Returns
+        -------
+        TemperatureData
+            Heat sink in SpikeSafe's event response in a simple accessible object
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         try:
             # find start of T, extract "1 20.7" to string, and separate by " " into list
             search_str = b"T"

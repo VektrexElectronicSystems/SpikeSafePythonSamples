@@ -4,6 +4,27 @@
 import math
 
 class ChannelData():
+    """ A class used to store data in a simple accessible object from 
+    a channel in SpikeSafe's event response
+
+    ...
+
+    Attributes
+    ----------
+    channel_number : int
+        Channel number
+    current_reading : float
+        Channel current reading
+    is_on_state : bool
+        Channel on state
+    voltage_reading : float
+        Channel voltage reading
+
+    Methods
+    -------
+    ParseChannelData(self, channel_memory_table_read_response)
+        Parses a channel in SpikeSafe's event response into a simple accessible object
+    """
 
     channel_number = 0
 
@@ -18,6 +39,23 @@ class ChannelData():
 
     # Goal: Helper function to parse channel portion of SpikeSafe memory table read into an accessible object
     def ParseChannelData(self, channel_memory_table_read_response):
+        """Parses a channel in SpikeSafe's event response into a simple accessible object
+
+        Parameters
+        ----------
+        channel_memory_table_read_response : str
+            Channel in SpikeSafe's event response
+        
+        Returns
+        -------
+        ChannelData
+            Channel in SpikeSafe's event response in a simple accessible object
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         try:
             # find start of CH, extract "1 10.123456 1.123000 1" to string, and separate by " " into list
             search_str = b"CH"

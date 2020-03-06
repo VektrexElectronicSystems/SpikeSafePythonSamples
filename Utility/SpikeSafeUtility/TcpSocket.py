@@ -5,7 +5,7 @@ import socket
 class TcpSocket():
     """
     A class used to represent a TCP socket for remote communication
-    to a SpikeSafe.
+    to a SpikeSafe
 
     ...
 
