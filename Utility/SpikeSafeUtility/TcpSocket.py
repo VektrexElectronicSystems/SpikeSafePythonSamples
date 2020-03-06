@@ -29,7 +29,7 @@ class TcpSocket():
         ----------
         ip_address : str
             IP address of the SpikeSafe (10.0.0.220 to 10.0.0.0.251)
-        port_number : str
+        port_number : int
             Port number of the SpikeSafe (8282 by default)
 
         Raises
@@ -50,6 +50,13 @@ class TcpSocket():
 
     # close a connection via socket
     def closeSocket(self):
+        """Closes TCP/IP socket used for remote communication to a SpikeSafe
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         try:
             # disconnect from socket
             tcp_socket.close()  
@@ -60,6 +67,18 @@ class TcpSocket():
         
     # send a SCPI command via socket
     def sendScpiCommand(self, scpi_command):
+        """Sends a SCPI command via TCP/IP socket to a SpikeSafe
+
+        Parameters
+        ----------
+        scpi_command : str
+            SCPI command to send to SpikeSafe
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         try:
             # add \n termination to SCPI command
             # encode SCPI command to type byte, which is the format required by the socket
@@ -74,6 +93,18 @@ class TcpSocket():
 
     # read data via socket
     def readData(self):
+        """Reads data reply via TCP/IP socket from a SpikeSafe
+
+        Returns
+        -------
+        str
+            Data response from SpikeSafe
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         try:
             # read data from socket, which is automatically converted from type byte to type string
             # return data to function calle
