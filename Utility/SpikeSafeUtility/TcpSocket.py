@@ -3,9 +3,40 @@
 import socket
 
 class TcpSocket():
+    """
+    A class used to represent a TCP socket for remote communication
+    to a SpikeSafe
+
+    ...
+
+    Methods
+    -------
+    openSocket(self, ip_address, port_number)
+        Opens a TCP/IP socket for remote communication to a SpikeSafe
+    closeSocket(self)
+        Closes TCP/IP socket used for remote communication to a SpikeSafe
+    sendScpiCommand(self, scpi_command)
+        Sends a SCPI command via TCP/IP socket to a SpikeSafe
+    readData(self)
+        Reads data reply via TCP/IP socket from a SpikeSafe
+    """
 
     # create a connection via socket
     def openSocket(self, ip_address, port_number):
+        """Opens a TCP/IP socket for remote communication to a SpikeSafe
+
+        Parameters
+        ----------
+        ip_address : str
+            IP address of the SpikeSafe (10.0.0.220 to 10.0.0.0.251)
+        port_number : int
+            Port number of the SpikeSafe (8282 by default)
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         global tcp_socket
         try:
             # create socket with 2 second timeout and connect to SpikeSafe
@@ -19,6 +50,13 @@ class TcpSocket():
 
     # close a connection via socket
     def closeSocket(self):
+        """Closes TCP/IP socket used for remote communication to a SpikeSafe
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         try:
             # disconnect from socket
             tcp_socket.close()  
@@ -29,6 +67,18 @@ class TcpSocket():
         
     # send a SCPI command via socket
     def sendScpiCommand(self, scpi_command):
+        """Sends a SCPI command via TCP/IP socket to a SpikeSafe
+
+        Parameters
+        ----------
+        scpi_command : str
+            SCPI command to send to SpikeSafe
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         try:
             # add \n termination to SCPI command
             # encode SCPI command to type byte, which is the format required by the socket
@@ -43,6 +93,18 @@ class TcpSocket():
 
     # read data via socket
     def readData(self):
+        """Reads data reply via TCP/IP socket from a SpikeSafe
+
+        Returns
+        -------
+        str
+            Data response from SpikeSafe
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         try:
             # read data from socket, which is automatically converted from type byte to type string
             # return data to function calle

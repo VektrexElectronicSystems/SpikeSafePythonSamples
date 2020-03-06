@@ -7,6 +7,27 @@ from Data.ChannelData import ChannelData
 from Data.TemperatureData import TemperatureData
 
 class MemoryTableReadData():
+    """ A class used to store data in a simple accessible object from 
+    a SpikeSafe's Memory Table Read response
+
+    ...
+
+    Attributes
+    ----------
+    bulk_voltage : float
+        Bulk voltage (V) input to SpikeSafe
+    channel_data : ChannelData[]
+        All channel data in list of ChannelData objects
+    temperature_data : TemperatureData[]
+        All temperature data in a list of TemperatureData objects
+
+    Methods
+    -------
+    ParseMemoryTableRead(self, get_memory_table_read_response)
+        Parses SpikeSafe's Memory Table Read response into a simple accessible object
+    LogMemoryTableRead(spike_safe_socket)
+        Reads SpikeSafe's Memory Table Read response and prints it to terminal
+    """
     
     bulk_voltage = math.nan
 
@@ -19,6 +40,23 @@ class MemoryTableReadData():
 
     # Goal: Helper function to parse SpikeSafe memory table read into an accessible object
     def ParseMemoryTableRead(self, get_memory_table_read_response):
+        """Parses SpikeSafe's Memory Table Read response into a simple accessible object
+
+        Parameters
+        ----------
+        get_memory_table_read_response : str
+            SpikeSafe's Memory Table Read response
+        
+        Returns
+        -------
+        MemoryTableReadData
+            SpikeSafe's Memory Table Read response in a simple accessible object
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         self.bulk_voltage = self.__parseBulkVoltage__(get_memory_table_read_response)
         self.channel_data = self.__parseAllChannelData__(get_memory_table_read_response)
         self.temperature_data = self.__parseAllTemperatureData__(get_memory_table_read_response)
@@ -120,6 +158,13 @@ class MemoryTableReadData():
             raise
 
 def LogMemoryTableRead(spike_safe_socket):
+    """Reads SpikeSafe's Memory Table Read response and prints it to terminal
+
+    Parameters
+    ----------
+    spike_safe_socket : str
+        Socket object used to communicate with SpikeSafe
+    """
     spike_safe_socket.sendScpiCommand('MEM:TABL:READ') # request SpikeSafe memory table
     data = spike_safe_socket.readData()                # read SpikeSafe memory table
     print(data)   

@@ -5,6 +5,27 @@
 import math
 
 class EventData():
+    """ A class used to store data in a simple accessible object from 
+    a SpikeSafe's event response
+
+    ...
+
+    Attributes
+    ----------
+    event : str
+        Event response
+    code : int
+        Event code
+    message : str
+        Event message
+    channel_list : int[]
+        Channels affected by event as list of integers
+
+    Methods
+    -------
+    ParseEventData(self, event_data)
+        Parses SpikeSafe's event response into a simple accessible object
+    """
     
     event = None
 
@@ -19,6 +40,23 @@ class EventData():
         
     # Goal: Helper function to parse event_data from SpikeSafe
     def ParseEventData(self, event_data):
+        """Parses SpikeSafe's event response into a simple accessible object
+
+        Parameters
+        ----------
+        event_data : str
+            SpikeSafe's event response
+        
+        Returns
+        -------
+        EventData
+            SpikeSafe's event response in a simple accessible object
+
+        Raises
+        ------
+        Exception
+            On any error
+        """
         try:
             # populate object with extracted values
             self.event = event_data

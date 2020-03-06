@@ -7,6 +7,23 @@
 from Data.EventData import EventData
 
 def ReadAllEvents(spike_safe_socket):
+    """Reads all SpikeSafe events from event queue
+
+    Parameters
+    ----------
+    spike_safe_socket : TcpSocket
+        Socket object used to communicate with SpikeSafe
+    
+    Returns
+    -------
+    EventData[]
+        All events from SpikeSafe in a list of EventData objects
+
+    Raises
+    ------
+    Exception
+        On any error
+    """
     try:
         # event list to be returned to caller
         event_data_list = []
@@ -43,6 +60,13 @@ def ReadAllEvents(spike_safe_socket):
         raise
 
 def LogAllEvents(spike_safe_socket):
+    """Reads all SpikeSafe events from event queue and prints them to terminal
+
+    Parameters
+    ----------
+    spike_safe_socket : TcpSocket
+        Socket object used to communicate with SpikeSafe
+    """
     event_data = ReadAllEvents(spike_safe_socket)   # read all events in SpikeSafe event queue and store in list
     for event in event_data:                        # print all SpikeSafe events to terminal
         print(event.event)                                                                             
