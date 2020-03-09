@@ -10,7 +10,7 @@ from Utility.Threading import Wait
 
 ### set these before starting application
 
-# SpikeSafe IP address
+# SpikeSafe IP address and port number
 ip_address = '10.0.0.246'
 port_number = 8282          
 
