@@ -9,6 +9,11 @@ class TcpSocket():
 
     ...
 
+    Attributes
+    ----------
+    tcp_socket : TcpSocket
+        TCP/IP socket for remote communication to a SpikeSafe
+
     Methods
     -------
     openSocket(self, ip_address, port_number)
@@ -20,6 +25,8 @@ class TcpSocket():
     readData(self)
         Reads data reply via TCP/IP socket from a SpikeSafe
     """
+
+    tcp_socket = None
 
     # create a connection via socket
     def openSocket(self, ip_address, port_number):
@@ -37,12 +44,11 @@ class TcpSocket():
         Exception
             On any error
         """
-        global tcp_socket
         try:
             # create socket with 2 second timeout and connect to SpikeSafe
-            tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)          
-            tcp_socket.settimeout(2)                                                
-            tcp_socket.connect((ip_address, port_number))                           
+            self.tcp_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)          
+            self.tcp_socket.settimeout(2)                                                
+            self.tcp_socket.connect((ip_address, port_number))                           
         except Exception as err:
             # print any error to terminal and raise error to function caller
             print('Error connecting to socket at {}: {}'.format(ip_address, err))   
@@ -59,7 +65,7 @@ class TcpSocket():
         """
         try:
             # disconnect from socket
-            tcp_socket.close()  
+            self.tcp_socket.close()  
         except Exception as err:
             # print any error to terminal and raise error to function caller
             print('Error disconnecting from socket: {}'.format(err))    
@@ -85,7 +91,7 @@ class TcpSocket():
             # send byte to socket
             scpi_command_str = scpi_command + '\n'                          
             scpi_command_byte = scpi_command_str.encode()                   
-            tcp_socket.send(scpi_command_byte)                              
+            self.tcp_socket.send(scpi_command_byte)                              
         except Exception as err:
             # print any error to terminal and raise error to function caller
             print('Error sending SCPI command to socket: {}'.format(err))   
@@ -108,7 +114,7 @@ class TcpSocket():
         try:
             # read data from socket, which is automatically converted from type byte to type string
             # return data to function calle
-            data_str = tcp_socket.recv(2048)                                
+            data_str = self.tcp_socket.recv(2048)                                
             return data_str                                                 
         except Exception as err:
             # print any error to terminal and raise error to function caller
