@@ -34,7 +34,7 @@ try:
     LogAllEvents(tcp_socket) 
 
     # set Channel 1's bias current to 10 mA and check for all events
-    tcp_socket.sendScpiCommand('SOUR1:CURR:BIAS 0.1')        
+    tcp_socket.sendScpiCommand('SOUR1:CURR:BIAS 0.01')        
     LogAllEvents(tcp_socket)  
 
     # set Channel 1's voltage to 10 V and check for all events

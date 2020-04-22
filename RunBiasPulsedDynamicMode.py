@@ -38,7 +38,7 @@ try:
     # set Channel 1's voltage to 10 V 
     tcp_socket.sendScpiCommand('SOUR1:VOLT 10') 
 
-    # set Channel 1's bias current to 10 mA and check for all events
+    # set Channel 1's bias current to 20 mA and check for all events
     tcp_socket.sendScpiCommand('SOUR1:CURR:BIAS 0.02')   
 
     # In this example, we specify pulse settings using Pulse Width and Period Commands
@@ -63,7 +63,20 @@ try:
 
     # check for all events and measure readings on Channel 1 once per second for 10 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
-    time_end = time.time() + 20                         
+    time_end = time.time() + 10                         
+    while time.time() < time_end:                       
+        LogAllEvents(tcp_socket)
+        LogMemoryTableRead(tcp_socket)
+        Wait(1)
+
+    # set Channel 1's current to 150 mA while running
+    tcp_socket.sendScpiCommand('SOUR1:CURR 0.15')      
+
+    # set Channel 1's Pulse Width to 2 ms while running. The Duty Cycle will be adjusted as a result
+    tcp_socket.sendScpiCommand('SOUR1:PULS:WIDT 0.002')
+
+    # Run for 10 more seconds while checking all events and measuring readings for Channel 1
+    time_end = time.time() + 10                         
     while time.time() < time_end:                       
         LogAllEvents(tcp_socket)
         LogMemoryTableRead(tcp_socket)
