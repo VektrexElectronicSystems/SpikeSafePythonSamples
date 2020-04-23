@@ -2,7 +2,7 @@
 
 ## Purpose
 - These sequences contain code to run a SpikeSafe in either DC or DC Dynamic mode
-- These operation modes output constant current at the specifying Set Current. Current is outputted with a software current ramp and automated power reduction
+- These operation modes output constant current at the specified Set Current. Current is outputted with a software current ramp and automated power reduction
 - In DC Dynamic mode, the Set Current can be modified while the SpikeSafe is outputting current
 
 ## Key Settings
