@@ -3,10 +3,10 @@
 
 import sys
 import time
-from Data.MemoryTableReadData import LogMemoryTableRead
-from Utility.SpikeSafeUtility.ReadAllEvents import LogAllEvents
-from Utility.SpikeSafeUtility.TcpSocket import TcpSocket
-from Utility.Threading import Wait     
+from spikesafe_python.data.MemoryTableReadData import LogMemoryTableRead
+from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import LogAllEvents
+from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
+from spikesafe_python.utility.Threading import Wait     
 
 ### set these before starting application
 

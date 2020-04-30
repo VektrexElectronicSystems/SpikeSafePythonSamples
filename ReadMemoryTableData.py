@@ -1,8 +1,8 @@
 # Goal: Connect to a SpikeSafe and read memory table data
 
 import sys
-from Data.MemoryTableReadData import MemoryTableReadData
-from Utility.SpikeSafeUtility.TcpSocket import TcpSocket
+from spikesafe_python.data.MemoryTableReadData import MemoryTableReadData
+from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
 
 ### set these before starting application
 

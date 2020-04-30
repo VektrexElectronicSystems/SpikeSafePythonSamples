@@ -1,8 +1,8 @@
 # Goal: Connect to a SpikeSafe and read all events
 
 import sys
-from Utility.SpikeSafeUtility.ReadAllEvents import ReadAllEvents
-from Utility.SpikeSafeUtility.TcpSocket import TcpSocket
+from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import ReadAllEvents
+from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
 
 ### set these before starting application
 
