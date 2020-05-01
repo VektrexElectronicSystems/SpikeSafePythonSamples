@@ -19,7 +19,7 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
   - \Run Pulsed Sweep
   - \Run Pulsed
   - \Run Single Pulse
-- Application-Specific Examples - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output.
+- [Application-Specific Examples](/Application-Specific%20Examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output.
 
 ## Installation
 
