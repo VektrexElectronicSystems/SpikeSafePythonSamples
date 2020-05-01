@@ -12,4 +12,5 @@
 
 ## Images
 - When running either sequence, one can expect to see the following current ramp. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
+
 ![](DC_Ramp.png)
