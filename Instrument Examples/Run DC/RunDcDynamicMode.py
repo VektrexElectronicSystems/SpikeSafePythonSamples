@@ -6,7 +6,7 @@ import time
 from spikesafe_python.data.MemoryTableReadData import LogMemoryTableRead
 from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import LogAllEvents
 from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import Wait     
+from spikesafe_python.utility.Threading import wait     
 
 ### set these before starting application
 
@@ -18,31 +18,31 @@ port_number = 8282
 try:
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
-    tcp_socket.openSocket(ip_address, port_number)
+    tcp_socket.open_socket(ip_address, port_number)
 
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
-    tcp_socket.sendScpiCommand('*RST')                  
+    tcp_socket.send_scpi_command('*RST')                  
     LogAllEvents(tcp_socket)
 
     # set Channel 1's pulse mode to DC Dynamic and check for all events
-    tcp_socket.sendScpiCommand('SOUR1:FUNC:SHAP DCDYNAMIC')    
+    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')    
     LogAllEvents(tcp_socket)
 
     # set Channel 1's safety threshold for over current protection to 50% and check for all events
-    tcp_socket.sendScpiCommand('SOUR1:CURR:PROT 50')    
+    tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     LogAllEvents(tcp_socket) 
 
     # set Channel 1's current to 50 mA and check for all events
-    tcp_socket.sendScpiCommand('SOUR1:CURR 0.05')        
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.05')        
     LogAllEvents(tcp_socket)  
 
     # set Channel 1's voltage to 10 V and check for all events
-    tcp_socket.sendScpiCommand('SOUR1:VOLT 20')         
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')         
     LogAllEvents(tcp_socket) 
 
     # turn on Channel 1 and check for all events
-    tcp_socket.sendScpiCommand('OUTP1 1')               
+    tcp_socket.send_scpi_command('OUTP1 1')               
     LogAllEvents(tcp_socket)                            
 
     # check for all events and measure readings on Channel 1 once per second for 5 seconds,
@@ -51,41 +51,41 @@ try:
     while time.time() < time_end:                       
         LogAllEvents(tcp_socket)
         LogMemoryTableRead(tcp_socket)
-        Wait(1)    
+        wait(1)    
 
     # While the channel is running, dynamically change the Set Current to 100mA. Check events and measure readings afterward
-    tcp_socket.sendScpiCommand('SOUR1:CURR 0.1')        
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
     LogAllEvents(tcp_socket)
     LogMemoryTableRead(tcp_socket)
-    Wait(1)
+    wait(1)
 
     # While the channel is running, dynamically change the Set Current to 150mA. Check events and measure readings afterward
-    tcp_socket.sendScpiCommand('SOUR1:CURR 0.15')        
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.15')        
     LogAllEvents(tcp_socket)
     LogMemoryTableRead(tcp_socket)
-    Wait(1)
+    wait(1)
 
     # While the channel is running, dynamically change the Set Current to 200mA. Check events and measure readings afterward
-    tcp_socket.sendScpiCommand('SOUR1:CURR 0.2')        
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.2')        
     LogAllEvents(tcp_socket)
     LogMemoryTableRead(tcp_socket)
-    Wait(1)
+    wait(1)
 
     # While the channel is running, dynamically change the Set Current to 100mA. Check events and measure readings afterward
-    tcp_socket.sendScpiCommand('SOUR1:CURR 0.1')        
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
     LogAllEvents(tcp_socket)
     LogMemoryTableRead(tcp_socket)
-    Wait(1)
+    wait(1)
     
     # turn off Channel 1 and check for all events
-    tcp_socket.sendScpiCommand('OUTP1 0')               
+    tcp_socket.send_scpi_command('OUTP1 0')               
     LogAllEvents(tcp_socket)
 
     # check Channel 1 is off
     LogMemoryTableRead(tcp_socket)
 
     # disconnect from SpikeSafe                      
-    tcp_socket.closeSocket()                            
+    tcp_socket.close_socket()                            
 except Exception as err:
     # print any error to terminal and exit application
     print('Program error: {}'.format(err))          
