@@ -18,7 +18,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## Authors
 
-* **Eljay Gemoto** - *Initial work* - [eljayg](https://github.com/eljayg)
+* **Eljay Gemoto** - [eljayg](https://github.com/eljayg)
 * **Bill Thompson** - [BillThomp](https://github.com/BillThomp)
 
 ## License
