@@ -4,7 +4,8 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ## Where Do I Start?
 
-First start with [TcpSocket.py](https://github.com/eljayg/SpikeSafePythonSamples/blob/master/TcpSocket.py) sample to learn how setup a simple socket to communicate with your SpikeSafe.
+First start with [TcpSocket.py](https://github.com/VektrexElectronicSystems/SpikeSafePythonSamples/Getting%20Started/TcpSocket.py) sample to learn how setup a simple socket to communicate with your SpikeSafe.
+![](https://github.com/eljayg/SpikeSafePythonSamples/blob/master/TcpSocket.py)
 
 ## Built With
 
@@ -18,6 +19,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 ## Authors
 
 * **Eljay Gemoto** - *Initial work* - [eljayg](https://github.com/eljayg)
+* **Bill Thompson** - [BillThomp](https://github.com/BillThomp)
 
 ## License
 
