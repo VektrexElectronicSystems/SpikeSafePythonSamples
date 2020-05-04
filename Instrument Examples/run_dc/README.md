@@ -27,7 +27,7 @@ Operates SpikeSafe as DC current source with single output current.
 ## **Run DC Dynamic Mode**
 
 ### Overview
-Operates SpikeSafe as DC current source with multiple output current. In DC Dynamic mode, the Set Current can be modified while the SpikeSafe is outputting current.  This example can be used to generate a software controlled stair case ramp.
+Operates SpikeSafe as DC current source with multiple output currents. In DC Dynamic mode, the Set Current can be modified while the SpikeSafe is outputting current.  This example can be used to generate a software controlled stair case ramp.
 
 Set the Maximum Compliance Voltage (MCV) to the expected load voltage +5V. Reduce MCV if an internal over power error occurs. 
 

@@ -1,6 +1,7 @@
-# Goal: Connect to a SpikeSafe and run Pulsed Dynamic mode into a shorting plug for 20 seconds while obtaining readings
+# Goal: Connect to a SpikeSafe and run Pulsed Dynamic mode into a shorting plug for 17 seconds while obtaining readings
 #       Settings will be adjusted while running "dynamically" to demonstrate dynamic mode features
 # Expectation: Channel 1 will be driven with 100mA with a forward voltage of ~100mV during this time
+#       While running, Set Current will be changed to 200mA, and On Time & Off Time will be changed to 100µs
 
 import sys
 import time
@@ -26,10 +27,7 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
 
-    # Synchronize rising edge of all channels
-    tcp_socket.send_scpi_command('SOUR1:PULS:STAG 0')   
-
-    # set Channel 1's pulse mode to Pulsed Dynamic and check for all events
+    # set Channel 1's pulse mode to Pulsed Dynamic
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDDYNAMIC')
 
     # set Channel 1's current to 100 mA
@@ -38,14 +36,11 @@ try:
     # set Channel 1's voltage to 10 V 
     tcp_socket.send_scpi_command('SOUR1:VOLT 10')   
 
-    # In this example, we specify pulse settings using Pulse Width and Period Commands
-    # Unless specifying On Time and Off Time, set pulse HOLD before any other pulse settings
-    tcp_socket.send_scpi_command('SOUR1:PULS:HOLD PERIOD')   
+    # set Channel 1's Pulse On Time to 1ms
+    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.001')
 
-    tcp_socket.send_scpi_command('SOUR1:PULS:PER 0.01')
-
-    # When Pulse Width is set, Period will not be adjusted at all because we are holding period. Duty Cycle will be adjusted as a result
-    tcp_socket.send_scpi_command('SOUR1:PULS:WIDT 0.001')
+    # set Channel 1's Pulse Off Time to 9ms
+    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.009')
 
     # set Channel 1's compensation settings to their default values
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
@@ -60,7 +55,29 @@ try:
 
     # check for all events and measure readings on Channel 1 once per second for 10 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
-    time_end = time.time() + 20                         
+    time_end = time.time() + 10                         
+    while time.time() < time_end:                       
+        log_all_events(tcp_socket)
+        log_memory_table_read(tcp_socket)
+        wait(1)
+
+    # set Channel 1's current to 200 mA dynamically while channel is operating. Check events and measure readings
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.2')
+    log_all_events(tcp_socket)
+    log_memory_table_read(tcp_socket)
+    wait(1)
+
+    # set Channel 1's Pulse On Time to 100µs dynamically while channel is operating. Check events and measure readings
+    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
+    log_all_events(tcp_socket)
+    log_memory_table_read(tcp_socket)
+    wait(1)
+
+    # set Channel 1's Pulse Off Time to 100µs dynamically while channel is operating. Check events and measure readings
+    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.0001')
+
+    # after dynamically applying all new settings, check for all events and measure readings on Channel 1 once per second for 5 seconds
+    time_end = time.time() + 5                         
     while time.time() < time_end:                       
         log_all_events(tcp_socket)
         log_memory_table_read(tcp_socket)
