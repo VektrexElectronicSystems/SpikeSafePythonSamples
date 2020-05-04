@@ -1,9 +1,9 @@
-# Goal: Connect to a SpikeSafe and run DC Dynamic mode into a shorting plug. Demonstrate the concept of changing current Set Point dynamically (while the channel is outputting)
-# Expectation: Channel 1 will initially be driven with 50mA with a forward voltage of < 1V during this time. While running change the current to 100mA, 150mA, 200mA, then 100mA again
+# Goal: Connect to a SpikeSafe and run DC mode into a shorting plug for 60 seconds
+# Expectation: Channel 1 will be driven with 100mA with a forward voltage of ~100mV during this time
 
 import sys
 import time
-from spikesafe_python.data.MemoryTableReadData import LogMemoryTableRead
+from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
 from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
 from spikesafe_python.utility.Threading import wait     
@@ -25,16 +25,16 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
 
-    # set Channel 1's pulse mode to DC Dynamic and check for all events
-    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')    
+    # set Channel 1's pulse mode to DC and check for all events
+    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DC')    
     log_all_events(tcp_socket)
 
     # set Channel 1's safety threshold for over current protection to 50% and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     log_all_events(tcp_socket) 
 
-    # set Channel 1's current to 50 mA and check for all events
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.05')        
+    # set Channel 1's current to 100 mA and check for all events
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
     log_all_events(tcp_socket)  
 
     # set Channel 1's voltage to 10 V and check for all events
@@ -45,37 +45,13 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')               
     log_all_events(tcp_socket)                            
 
-    # check for all events and measure readings on Channel 1 once per second for 5 seconds,
+    # check for all events and measure readings on Channel 1 once per second for 60 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
-    time_end = time.time() + 10                         
+    time_end = time.time() + 60                         
     while time.time() < time_end:                       
         log_all_events(tcp_socket)
         LogMemoryTableRead(tcp_socket)
-        wait(1)    
-
-    # While the channel is running, dynamically change the Set Current to 100mA. Check events and measure readings afterward
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
-    log_all_events(tcp_socket)
-    LogMemoryTableRead(tcp_socket)
-    wait(1)
-
-    # While the channel is running, dynamically change the Set Current to 150mA. Check events and measure readings afterward
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.15')        
-    log_all_events(tcp_socket)
-    LogMemoryTableRead(tcp_socket)
-    wait(1)
-
-    # While the channel is running, dynamically change the Set Current to 200mA. Check events and measure readings afterward
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.2')        
-    log_all_events(tcp_socket)
-    LogMemoryTableRead(tcp_socket)
-    wait(1)
-
-    # While the channel is running, dynamically change the Set Current to 100mA. Check events and measure readings afterward
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
-    log_all_events(tcp_socket)
-    LogMemoryTableRead(tcp_socket)
-    wait(1)
+        wait(1)                            
     
     # turn off Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 0')               
