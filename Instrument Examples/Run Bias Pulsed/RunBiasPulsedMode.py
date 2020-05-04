@@ -3,8 +3,8 @@
 
 import sys
 import time
-from spikesafe_python.data.MemoryTableReadData import LogMemoryTableRead
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import LogAllEvents
+from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
 from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
 from spikesafe_python.utility.Threading import wait     
 
@@ -23,7 +23,7 @@ try:
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    LogAllEvents(tcp_socket)
+    log_all_events(tcp_socket)
 
     # Synchronize rising edge of all channels
     tcp_socket.send_scpi_command('SOUR0:PULS:STAG 0')   
@@ -55,7 +55,7 @@ try:
     tcp_socket.send_scpi_command('SOUR0:PULS:RCOM 4')   
 
     # Check for any errors with initializing commands
-    LogAllEvents(tcp_socket)
+    log_all_events(tcp_socket)
 
     # turn on all channels
     tcp_socket.send_scpi_command('OUTP0 1')
@@ -64,8 +64,8 @@ try:
     # it is best practice to do this to ensure each channel is on and does not have any errors
     time_end = time.time() + 20                         
     while time.time() < time_end:                       
-        LogAllEvents(tcp_socket)
-        LogMemoryTableRead(tcp_socket)
+        log_all_events(tcp_socket)
+        log_memory_table_read(tcp_socket)
         wait(1)
 
     # turn off all channels after routine is complete

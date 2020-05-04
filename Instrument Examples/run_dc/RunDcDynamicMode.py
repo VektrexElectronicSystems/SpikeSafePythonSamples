@@ -50,31 +50,31 @@ try:
     time_end = time.time() + 10                         
     while time.time() < time_end:                       
         log_all_events(tcp_socket)
-        LogMemoryTableRead(tcp_socket)
+        log_memory_table_read(tcp_socket)
         wait(1)    
 
     # While the channel is running, dynamically change the Set Current to 100mA. Check events and measure readings afterward
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
     log_all_events(tcp_socket)
-    LogMemoryTableRead(tcp_socket)
+    log_memory_table_read(tcp_socket)
     wait(1)
 
     # While the channel is running, dynamically change the Set Current to 150mA. Check events and measure readings afterward
     tcp_socket.send_scpi_command('SOUR1:CURR 0.15')        
     log_all_events(tcp_socket)
-    LogMemoryTableRead(tcp_socket)
+    log_memory_table_read(tcp_socket)
     wait(1)
 
     # While the channel is running, dynamically change the Set Current to 200mA. Check events and measure readings afterward
     tcp_socket.send_scpi_command('SOUR1:CURR 0.2')        
     log_all_events(tcp_socket)
-    LogMemoryTableRead(tcp_socket)
+    log_memory_table_read(tcp_socket)
     wait(1)
 
     # While the channel is running, dynamically change the Set Current to 100mA. Check events and measure readings afterward
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
     log_all_events(tcp_socket)
-    LogMemoryTableRead(tcp_socket)
+    log_memory_table_read(tcp_socket)
     wait(1)
     
     # turn off Channel 1 and check for all events
@@ -82,7 +82,7 @@ try:
     log_all_events(tcp_socket)
 
     # check Channel 1 is off
-    LogMemoryTableRead(tcp_socket)
+    log_memory_table_read(tcp_socket)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()                            

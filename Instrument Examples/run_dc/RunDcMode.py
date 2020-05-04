@@ -50,7 +50,7 @@ try:
     time_end = time.time() + 60                         
     while time.time() < time_end:                       
         log_all_events(tcp_socket)
-        LogMemoryTableRead(tcp_socket)
+        log_memory_table_read(tcp_socket)
         wait(1)                            
     
     # turn off Channel 1 and check for all events
@@ -58,7 +58,7 @@ try:
     log_all_events(tcp_socket)
 
     # check Channel 1 is off
-    LogMemoryTableRead(tcp_socket)
+    log_memory_table_read(tcp_socket)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()                            
