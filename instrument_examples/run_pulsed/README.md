@@ -48,6 +48,6 @@ Set the Maximum Compliance Voltage (MCV) to the expected load voltage +5V. Reduc
 - **Ramp Rate:** Default. Voltage will ramp as fast as 10V/sec. Current will ramp as fast as 1A/sec.
 
 ### Current Output
-- In addition to seeing the current ramp in the figure above, one can expect to see the following current modifications when running this Pulsed Dynamic sequence. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
+- One can expect to see the following current pulse train when running this Pulsed Dynamic sequence. Note the changes in Set Current, On Time, and Off Time. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
 ![](Pulsed_Dynamic_Adjustments.png)
