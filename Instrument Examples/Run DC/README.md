@@ -14,7 +14,7 @@ Operates SpikeSafe as DC current source with single output current.
 
 ### Key Settings 
 - **Set Current:** 100mA
-- **Compliance Voltage:** 10V
+- **Compliance Voltage:** 20V
 - **Ramp Rate:** Default. Voltage will ramp as fast as 10V/sec. Current will ramp as fast as 1A/sec.
 
 ### Current Output
@@ -33,7 +33,7 @@ Set the Maximum Compliance Voltage (MCV) to the expected load voltage +5V. Reduc
 
 ### Key Settings
 - **Set Current:** 50mA initially. While the channel is operating, the Set Current will be dynamically changed to 100mA, 150mA, 200mA, then back to 100mA.
-- **Compliance Voltage:** 10V
+- **Compliance Voltage:** 20V
 - **Ramp Rate:** Default. Voltage will ramp as fast as 10V/sec. Current will ramp as fast as 1A/sec.
 
 ### Current Output

@@ -38,7 +38,7 @@ try:
     LogAllEvents(tcp_socket)  
 
     # set Channel 1's voltage to 10 V and check for all events
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10')         
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')         
     LogAllEvents(tcp_socket) 
 
     # turn on Channel 1 and check for all events
