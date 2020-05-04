@@ -6,7 +6,7 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ## Directory
 
-- [Getting Started](/getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within [/Instrument Examples](/instrument_examples).
+- [Getting Started](/getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within [Instrument Examples](/instrument_examples).
   - [Read All Events](/getting_started/read_all_events)
   - [Read IDN](/getting_started/read_idn)
   - [Read Memory Table Data](/getting_started/read_memory_table_data)
