@@ -6,20 +6,20 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ## Directory
 
-- [/Getting Started](/getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within [/Instrument Examples](/instrument_examples).
-  - [/Read All Events](/getting_started/read_all_events)
-  - [/Read IDN](/getting_started/read_idn)
-  - [/Read Memory Table Data](/getting_started/read_memory_table_data)
-- [/Instrument Examples](/instrument_examples) - These folders contain examples to run specific SpikeSafe modes. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
-  - [/Run Bias Pulsed](/instrument_examples/run_bias_pulsed)
-  - [/Run Bias](/instrument_examples/run_bias)
-  - [/Run DC](/instrument_examples/run_dc)
-  - [/Run Modulated DC](/instrument_examples/run_modulated_dc)
-  - [/Run Multi Pulse](/instrument_examples/run_multi_pulse)
-  - [/Run Pulsed Sweep](/instrument_examples/run_pulsed_sweep)
-  - [/Run Pulsed](/instrument_examples/run_pulsed)
-  - [/Run Single Pulse](/instrument_examples/run_single_pulse)
-- [/Application Specific Examples](/application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output.
+- [Getting Started](/getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within [/Instrument Examples](/instrument_examples).
+  - [Read All Events](/getting_started/read_all_events)
+  - [Read IDN](/getting_started/read_idn)
+  - [Read Memory Table Data](/getting_started/read_memory_table_data)
+- [Instrument Examples](/instrument_examples) - These folders contain examples to run specific SpikeSafe modes. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
+  - [Run Bias Pulsed](/instrument_examples/run_bias_pulsed)
+  - [Run Bias](/instrument_examples/run_bias)
+  - [Run DC](/instrument_examples/run_dc)
+  - [Run Modulated DC](/instrument_examples/run_modulated_dc)
+  - [Run Multi Pulse](/instrument_examples/run_multi_pulse)
+  - [Run Pulsed Sweep](/instrument_examples/run_pulsed_sweep)
+  - [Run Pulsed](/instrument_examples/run_pulsed)
+  - [Run Single Pulse](/instrument_examples/run_single_pulse)
+- [Application Specific Examples](/application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output.
 
 ## Usage
 
@@ -37,7 +37,7 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
 
 ## Where Do I Start?
 
-First start with [read_idn.py](/getting_started/read_idn) sample to learn how setup a simple socket to communicate with your SpikeSafe.
+First start with [read_idn.py](/getting_started/read_idn) sample to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](/getting_started).
 
 ## Built With
 
