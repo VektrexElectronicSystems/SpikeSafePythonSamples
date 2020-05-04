@@ -25,9 +25,11 @@ On Time and Off Time can be set using an alternative command set that consists o
 - When running either sequence, one can expect to see the following current output and pulse shape. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
 **Pulse Shape**
+
 ![](Continuous_Pulse_Shape.png)
 
 **Continuous Pulse Train**
+
 ![](Continuous_Pulse_Train.png)
 
 
