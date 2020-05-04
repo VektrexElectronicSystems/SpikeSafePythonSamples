@@ -1,5 +1,5 @@
 
-# Goal: Connect to a SpikeSafe and run Pulsed mode into a shorting plug for 60 seconds while obtaining readings
+# Goal: Connect to a SpikeSafe and run Pulsed mode into a shorting plug for 15 seconds while obtaining readings
 # Expectation: Channel 1 will be driven with 100mA with a forward voltage of ~100mV during this time
 
 import sys
@@ -12,7 +12,7 @@ from spikesafe_python.utility.Threading import wait
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.245'
+ip_address = '10.0.0.220'
 port_number = 8282          
 
 ### start of main program
@@ -53,16 +53,16 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
     log_all_events(tcp_socket)  
 
-    # set Channel 1's voltage to 10 V and check for all events
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10')
+    # set Channel 1's voltage to 20 V and check for all events
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')
     log_all_events(tcp_socket)
 
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')
 
-    # check for all events and measure readings on Channel 1 once per second for 60 seconds,
+    # check for all events and measure readings on Channel 1 once per second for 15 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
-    time_end = time.time() + 60                         
+    time_end = time.time() + 15                        
     while time.time() < time_end:                       
         log_all_events(tcp_socket)
         log_memory_table_read(tcp_socket)
