@@ -13,7 +13,7 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 - \Instrument Examples - These folders contain examples to run specific SpikeSafe modes. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
   - \Run Bias
   - \Run Bias Pulsed
-  - \Run DC
+  - \run_dc
   - \Run Modulated DC
   - \Run Multi Pulse
   - \Run Pulsed Sweep
