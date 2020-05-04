@@ -7,9 +7,6 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 ## Directory
 
 - [Getting Started](/getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within [Instrument Examples](/instrument_examples).
-  - [Read All Events](/getting_started/read_all_events)
-  - [Read IDN](/getting_started/read_idn)
-  - [Read Memory Table Data](/getting_started/read_memory_table_data)
 - [Instrument Examples](/instrument_examples) - These folders contain examples to run specific SpikeSafe modes. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
   - [Run Bias Pulsed](/instrument_examples/run_bias_pulsed)
   - [Run Bias](/instrument_examples/run_bias)
