@@ -37,10 +37,10 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR:BIAS 0.01')     
 
     # set Channel 1's voltage to 10 V 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10')   
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
     # set Channel 1's pulse width to 1ms. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
-    tcp_socket.send_scpi_command('SOUR1:PULS:WIDT 0.001')
+    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.001')
 
     # set Channel 1's compensation settings to their default values
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
