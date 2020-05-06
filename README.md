@@ -6,17 +6,9 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ## Directory
 
-- [Getting Started](/getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within [Instrument Examples](/instrument_examples).
-- [Instrument Examples](/instrument_examples) - These folders contain examples to run specific SpikeSafe modes. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
-  - [Run Bias Pulsed](/instrument_examples/run_bias_pulsed)
-  - [Run Bias](/instrument_examples/run_bias)
-  - [Run DC](/instrument_examples/run_dc)
-  - [Run Modulated DC](/instrument_examples/run_modulated_dc)
-  - [Run Multi Pulse](/instrument_examples/run_multi_pulse)
-  - [Run Pulsed Sweep](/instrument_examples/run_pulsed_sweep)
-  - [Run Pulsed](/instrument_examples/run_pulsed)
-  - [Run Single Pulse](/instrument_examples/run_single_pulse)
-- [Application Specific Examples](/application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output.
+- [Getting Started](/getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within the instrument_examples folder.
+- [Instrument Examples](/instrument_examples) - These folders contain examples to run specific SpikeSafe modes designed to test LEDs, Lasers, and electrical equipment. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
+- [Application Specific Examples](/application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output. These sequences explain how to make light measurements using a SpikeSafe and a spectrometer, how to make in-situ junction temperature measurements on LEDs, and how to take full advantage of all SpikeSafe features.
 
 ## Usage
 
