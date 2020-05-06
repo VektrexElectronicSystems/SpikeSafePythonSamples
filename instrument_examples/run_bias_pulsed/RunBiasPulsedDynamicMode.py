@@ -1,6 +1,8 @@
-# Goal: Connect to a SpikeSafe and run Bias Pulsed Dynamic mode into a shorting plug for 20 seconds while obtaining readings
+# Goal: Connect to a SpikeSafe and run Bias Pulsed Dynamic mode into a shorting plug for over 15 seconds while obtaining readings
 #       Settings will be adjusted while running "dynamically" to demonstrate dynamic mode features
-# Expectation: Channel 1 will be driven with 100mA with a forward voltage of ~100mV during this time
+# Expectation: Channel 1 will be driven constant with 20mA, and increase by 100mA during On Times
+#       While running, the On and Off Times will be adjusted to 100µs, and the pulsed Set Current will be adjusted to 200mA
+#       We expect a forward voltage of ~100mV while runing this sequence
 
 import sys
 import time
@@ -36,19 +38,16 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
 
     # set Channel 1's voltage to 10 V 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10') 
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20') 
 
     # set Channel 1's bias current to 20 mA and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR:BIAS 0.02')   
 
-    # In this example, we specify pulse settings using Pulse Width and Period Commands
-    # Unless specifying On Time and Off Time, set pulse HOLD before any other pulse settings
-    tcp_socket.send_scpi_command('SOUR1:PULS:HOLD PERIOD')   
+    # set Channel 1's Pulse On Time to 1ms
+    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.001')
 
-    tcp_socket.send_scpi_command('SOUR1:PULS:PER 0.01')
-
-    # When Pulse Width is set, Period will not be adjusted at all because we are holding period. Duty Cycle will be adjusted as a result
-    tcp_socket.send_scpi_command('SOUR1:PULS:WIDT 0.001')
+    # set Channel 1's Pulse Off Time to 9ms
+    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.009')
 
     # set Channel 1's compensation settings to their default values
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
@@ -69,14 +68,20 @@ try:
         log_memory_table_read(tcp_socket)
         wait(1)
 
-    # set Channel 1's current to 150 mA while running
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.15')      
+    # set Channel 1's current to 200 mA while running
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.2')      
 
-    # set Channel 1's Pulse Width to 2 ms while running. The Duty Cycle will be adjusted as a result
-    tcp_socket.send_scpi_command('SOUR1:PULS:WIDT 0.002')
+    # set Channel 1's Pulse On Time to 100µs dynamically while channel is operating. Check events and measure readings
+    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
+    log_all_events(tcp_socket)
+    log_memory_table_read(tcp_socket)
+    wait(1)
 
-    # Run for 10 more seconds while checking all events and measuring readings for Channel 1
-    time_end = time.time() + 10                         
+    # set Channel 1's Pulse Off Time to 100µs dynamically while channel is operating. Check events and measure readings
+    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.0001')
+
+    # after dynamically applying all new settings, check for all events and measure readings on Channel 1 once per second for 5 seconds
+    time_end = time.time() + 5                         
     while time.time() < time_end:                       
         log_all_events(tcp_socket)
         log_memory_table_read(tcp_socket)

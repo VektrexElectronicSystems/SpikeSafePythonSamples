@@ -5,7 +5,7 @@ Demonstrate how to use a SpikeSafe PRF or SMU to deliver high precision pulsed c
 
 Vektrex recommends using Continuous Dynamic for testing low currents below a few amps.  Continuous Dynamic starts with no ramp, the current transitions from zero to the programmed value in microseconds. Continuous Dynamic does not make adjustement to decrease internal power disipation.
 
-For long term testing over a few amps Continuous mode is recommend. Continuous Mode makes internal adjustment to decrease power dissipation. For long term reliability testing the reduction is power can same energy and generate less heat. The small adjustments can introduce a very small current variation, usually less than 0.1% of programmed setpoint.
+For long term testing over a few amps Continuous mode is recommended. Continuous Mode makes internal adjustment to decrease power dissipation. For long term reliability testing the reduction is power can same energy and generate less heat. The small adjustments can introduce a very small current variation, usually less than 0.1% of programmed setpoint.
 
 ## **Run Pulsed Mode**
 
