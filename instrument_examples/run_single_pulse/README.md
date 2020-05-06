@@ -8,15 +8,15 @@ Demonstrate how to use a SpikeSafe PRF or SMU to deliver a high precision single
 ### Overview 
 Operates SpikeSafe as pulsed current source outputting a single pulse with user-specified output current and Pulse On Time. Pulses are outputted when the "Output Trigger" SCPI command is received. 
 
-A channel that is operating in Single Pulse mode can output as many pulses as specified while enabled. A pulse will only be outputted if the command is received after the previous pulse is complete.
+A channel that is operating in Single Pulse mode can output as many pulses as specified while enabled. A pulse will only be outputted if the command is received after the previous pulse is complete. When a channel is enabled but no pulse is outputting, the user is able to change the Set Current.
 
 ### Key Settings 
-- **Set Current:** 100mA
+- **Set Current:** 100mA initially. After pulses have been outputted, the Set Current is changed to 200mA while the channels are enabled.
 - **Compliance Voltage:** 20V
 - **On Time:** 1ms
 
 ### Current Output
-When running this sequence, one can expect to see the following pulse output. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
+When running this sequence, one can expect to see the following pulse output when running with a Set Current of 100mA. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
 ![](Single_Pulse_Shape.png)
 

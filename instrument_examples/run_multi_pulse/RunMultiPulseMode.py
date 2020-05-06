@@ -1,5 +1,6 @@
 # Goal: Connect to a SpikeSafe and run Multi Pulse mode on Channel 1 into a shorting plug
-# Expectation: All channels will output a 100mA pulse with a pulse width of 1ms and a Bias Current of 10mA. This will happen 3 times. 
+# Expectation: All channels will output a 100mA pulse with a pulse width of 1ms and a Bias Current of 10mA. This will happen 3 times
+#               After outputting one Multi-Pulse train at 100mA, change the Set Current to 200mA while the channel is enabled and trigger another Multi-Pulse train
 #               Expecting a low (<1V) forward voltage
 
 import sys
@@ -34,7 +35,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1') 
 
     # set Channel 1's voltage to 10 V 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10')   
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
     # set Channel 1's Pulse On Time and Pulse Off Time to 1s each
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 1')
@@ -74,6 +75,9 @@ try:
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
         wait(0.5)
+
+    # After the pulsing has ended, set Channel 1's current to 200 mA while the channel is enabled
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.2') 
 
     # Output 1ms pulse for Channel 1. Multiple pulses can be outputted while the channel is enabled
     tcp_socket.send_scpi_command('OUTP1:TRIG')

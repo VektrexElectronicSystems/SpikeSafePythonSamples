@@ -73,6 +73,9 @@ try:
         log_memory_table_read(tcp_socket)
         wait(1) 
 
+    # After the pulse is complete, set each channel's current to 200 mA while the channels are enabled
+    tcp_socket.send_scpi_command('SOUR0:CURR 0.2')  
+
     # Output 1ms pulse for all channels
     tcp_socket.send_scpi_command('OUTP0:TRIG')
 
