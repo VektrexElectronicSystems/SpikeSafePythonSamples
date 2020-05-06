@@ -25,7 +25,13 @@ With default settings, a pulsed sweep is started when the "Output Trigger" SCPI 
 ### Current Output
 When running a pulsed sweep using this sequence, one can expect to see the following output. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
+**Full Pulsed Sweep**
+
 ![](Pulsed_Sweep_Output.png)
+
+**Current Pulse Shape**
+
+![](Pulsed_Sweep_Pulse_Shape.png)
 
 ## **Run Bias Pulsed Mode**
 
@@ -44,6 +50,6 @@ This mode is very similar to Pulsed Sweep mode, except that there is a user-spec
 - **Off Time:** 99µs
 
 ### Current Output
-When running this sequence, one can expect to see the following pulse output. Note the 10mA offset between the channel running Bias Single Pulse (in blue) and the channel running Single Pulse without a Bias Current (in white). This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
+When running this sequence, one can expect to see the following pulse output. Note the 10mA offset between the channel running Bias Pulsed Sweep (in yellow) and the channel running Pulsed Sweep without a Bias Current (in white). This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
-![](Bias_Pulsed_Sweep_Comparison.png)
+![](BPS_vs_PS_Output.png)
