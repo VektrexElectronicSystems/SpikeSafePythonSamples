@@ -1,13 +1,15 @@
 # Examples for Operating a SpikeSafe PRF or SMU in Bias Pulsed modes
 
 ## **Purpose**
-Demonstrate how to use a SpikeSafe PRF or SMU to deliver high precision pulsed current to an LED or Laser while also delivering a constant low-amperage DC bias curent. These operation modes output a continuous current pulse train at the specified Set Current, Bias Current, On Time, and Off Time. The two modes differ in the way they start up, and the way they regulate current after startup.
+Demonstrate how to use a SpikeSafe PRF or SMU to deliver high precision pulsed current to an LED or Laser while also delivering a constant low-amperage DC bias curent. These operation modes output a continuous current pulse train at the specified Set Current, Bias Current, On Time, and Off Time. These bias current modes incorporate a secondary low-current DC source that is useful when making junction temperature (Tj) measurements. The two modes differ in the way they start up, and the way they regulate current after startup.
 
 These modes are similar to their corresponding [Pulsed Mode](../run_pulsed) in every aspect except for the always-on bias current that is outputted while a channel running a Bias Pulsed mode is enabled.
 
 Vektrex recommends using Continuous Dynamic (CDBC) for testing low currents below a few amps.  CDBC mode starts with no ramp, the current transitions from zero to the programmed value in microseconds. CDBC mode does not make adjustement to decrease internal power disipation.
 
 For long term testing over a few amps Continuous Bias Current (CBC) mode is recommended. CBC mode makes internal adjustment to decrease power dissipation. For long term reliability testing the reduction is power can same energy and generate less heat. The small adjustments can introduce a very small current variation, usually less than 0.1% of programmed setpoint.
+
+ When using these Bias modes for Tj measurements, CDBC mode is normally used and the bias source is programmed to a small fraction of the load device operating current. When the heating current then turns off (during the pulse off time) the small bias current continues to drive the load device. The load forward voltage can then be measured and compared with calibration voltage readings to determine the temperature of the load device. Bias Current only mode is normally used to generate the calibration voltage readings. More information about Tj measurement can be found at [JESD 51-51](https://www.jedec.org/sites/default/files/docs/JESD51-51.pdf) and [LEDs Magazine](https://www.ledsmagazine.com/manufacturing-services-testing/article/14173251/jedec-technique-simplifies-led-junction-temperature-measurement). 
 
 ## **Run Pulsed Mode**
 

@@ -20,7 +20,7 @@ Set the Maximum Compliance Voltage (MCV) to the expected load voltage +5V. Reduc
 - **Ramp Rate:** Default. Voltage will ramp as fast as 10V/sec. Current will ramp as fast as 1A/sec.
 - **Sequence:**
     - `1(1@20,1@40,1@60,1@80,1@100)`: This will perform a 5-step DC staircase. There will be 1-second steps of 40mA, 80mA, 120mA, 160mA, and 200mA.
-    - `*(2(.25@0,.25@60),2(.5@0,.5@30),1@90)`: This will output a continuous pulsing pattern that will last as long as the channel is enabled. It will continuous output the following 3 steps:
+    - `*(2(.25@0,.25@60),2(.5@0,.5@30),1@90)`: This will output a continuous pulsing pattern that will last as long as the channel is enabled. It will repeatedly output the following 3 steps:
         1. It will pulse Off for 250ms, then On for 250ms at 120mA. This will happen twice
         2. It will pulse Off for 500ms, then On for 500ms at 60mA. This will also happen twice 
         3. For one second, 180mA will be outputted
