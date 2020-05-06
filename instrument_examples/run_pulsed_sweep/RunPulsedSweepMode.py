@@ -34,8 +34,8 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR:STOP 0.2')   
     tcp_socket.send_scpi_command('SOUR1:CURR:STEP 100')   
 
-    # set Channel 1's voltage to 10 V 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10')   
+    # set Channel 1's voltage to 20 V 
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
     # set Channel 1's pulse settings for a 1% duty cycle and 1ms Period using the Pulse On Time and Pulse Off Time commands
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
