@@ -6,20 +6,9 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ## Directory
 
-- [/Getting Started](/Getting%20Started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within [/Instrument Examples](/Instrument%20Examples).
-  - [/Read All Events](/Getting%20Started/Read%20All%20Events)
-  - [/Read IDN](/Getting%20Started/Read%20IDN)
-  - [/Read Memory Table Data](/Getting%20Started/Read%20Memory%20Table%20Data)
-- [/Instrument Examples](/Instrument%20Examples) - These folders contain examples to run specific SpikeSafe modes. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
-  - [/Run Bias Pulsed](/Instrument%20Examples/Run%20Bias%20Pulsed)
-  - [/Run Bias](/Instrument%20Examples/Run%20Bias)
-  - [/Run DC](/Instrument%20Examples/Run%20DC)
-  - [/Run Modulated DC](/Instrument%20Examples/Run%20Modulated%20DC)
-  - [/Run Multi Pulse](/Instrument%20Examples/Run%20Multi%20Pulse)
-  - [/Run Pulsed Sweep](/Instrument%20Examples/Run%20Pulsed%20Sweep)
-  - [/Run Pulsed](/Instrument%20Examples/Run%20Pulsed)
-  - [/Run Single Pulse](/Instrument%20Examples/Run%20Single%20Pulse)
-- [/Application Specific Examples](/Application-Specific%20Examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output.
+- [Getting Started](/getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within the instrument_examples folder.
+- [Instrument Examples](/instrument_examples) - These folders contain examples to run specific SpikeSafe modes designed to test LEDs, Lasers, and electrical equipment. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
+- [Application Specific Examples](/application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output. These sequences explain how to make light measurements using a SpikeSafe and a spectrometer, how to make in-situ junction temperature measurements on LEDs, and how to take full advantage of all SpikeSafe features.
 
 ## Usage
 
@@ -37,7 +26,7 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
 
 ## Where Do I Start?
 
-First start with [TcpSocket.py](https://github.com/VektrexElectronicSystems/SpikeSafePythonSamples/tree/development/Getting%20Started/TCP%20Socket%20Sample) sample to learn how setup a simple socket to communicate with your SpikeSafe.
+First start with [read_idn.py](/getting_started/read_idn) sample to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](/getting_started).
 
 ## Built With
 
@@ -54,11 +43,10 @@ If any further assistance is needed beyond the information provided within this 
 
 Feature requests and bug reports can be submitted to the [Issues Page](/issues) of this repository. This page is regularly monitored and maintained by Vektrex engineers.
 
-
 ## Authors
 
-* **Eljay Gemoto** - [eljayg](https://github.com/eljayg)
 * **Bill Thompson** - [BillThomp](https://github.com/BillThomp)
+* **Eljay Gemoto** - [eljayg](https://github.com/eljayg)
 
 ## License
 
