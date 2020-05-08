@@ -87,9 +87,12 @@ try:
         digitizerHasNewData = tcp_socket.read_data()
         wait(0.5)
 
-    # fetch and print the Digitizer voltage readings
+    # fetch the Digitizer voltage readings
     tcp_socket.send_scpi_command('VOLT:FETC?')
     digitizerData = tcp_socket.read_data()
+
+    # turn off Channel 1 after routine is complete
+    tcp_socket.send_scpi_command('OUTP1 0')
 
     # put the fetched data in a plottable data format
     voltageReadingStrings = digitizerData.decode(sys.stdout.encoding).split(",")
@@ -101,12 +104,9 @@ try:
         sampleNumbers.append(sample)
         sample += 1
 
-    # plot the pulse shape using the voltage readings
+    # plot the pulse shape using the fetched voltage readings
     plotter.plot(sampleNumbers, voltageReadings)
     plotter.show()
-
-    # turn off Channel 1 after routine is complete
-    tcp_socket.send_scpi_command('OUTP1 0')
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    
