@@ -7,7 +7,7 @@ from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
 from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import read_until_event
 from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import wait     
+from spikesafe_python.utility.Threading import wait   
 
 ### set these before starting application
 
@@ -73,7 +73,7 @@ try:
     # start Digitizer measurements
     tcp_socket.send_scpi_command('VOLT:INIT')
 
-    # wait for the Digitizer measurements to complete
+    # wait for the Digitizer measurements to complete. Once "TRUE" is returned, it means the Digitizer is ready to fetch new data
     digitizerHasNewData = ''                       
     while digitizerHasNewData != b'TRUE\n':                       
         log_all_events(tcp_socket)

@@ -8,11 +8,12 @@ Operates SpikeSafe as both a pulsed current source and a high precision voltage 
 
 The digitizer is set to receive a hardware trigger, meaning that it will use the SpikeSafe's output trigger signal as it input trigger. The measurement is delayed slightly to avoid measuring any rise time or possible current overshoot on the DUT.
 
-Note the use of the New Data query while the SpikeSafe is operating. While the Digitizer is still acquiring voltage data, it can be unobtrusively queried to determine if the buffer is full yet. The data fetch will only return fresh data if the specified measurements have occurred.
+Note the use of the New Data query while the SpikeSafe is operating. While the Digitizer is still acquiring voltage data, it can be unobtrusively queried to determine if the buffer is full yet. This information can be used to determine whether the user would ideally want to fetch data, as the data fetch will only return fresh data if the specified measurements have occurred.
 
 ## Key Settings
 
 ### SpikeSafe Current Output Settings
+- **Pulse Mode:** Continuous Pulse
 - **Set Current:** 100mA
 - **Compliance Voltage:** 20V
 - **On Time:** 1ms
@@ -32,6 +33,8 @@ Note the use of the New Data query while the SpikeSafe is operating. While the D
 This sequence assumes the user has basic knowledge of SpikeSafe Pulsed Mode operation. To find more information on the basics of SpikeSafe pulsed current output, see [Run Pulsed Mode](../run_pulsed).
 
 ## Expected Results
-The SpikeSafe current output will look exactly as it does in the "Run Pulsed" example. The Digitizer voltage measurements will be returned as a string in byte format with comma-separated voltage measurements in scientific notation. See the example fetch response below, in which a DUT with a forward voltage of 1V was measured:
+The SpikeSafe current output will look exactly as it does in the "Run Pulsed" example. The Digitizer voltage measurements will be returned as a string in byte format with comma-separated voltage measurements in scientific notation. See the format of the fetch response below, in which a DUT with a forward voltage of 1V was measured:
 
 `b'9.9962598e-01,1.0007857e+00,9.9950254e-01,[...],9.9971998e-01\n'`
+
+A full fetch response string resulting from this sequence can be observed in expected_fetch_response.txt.

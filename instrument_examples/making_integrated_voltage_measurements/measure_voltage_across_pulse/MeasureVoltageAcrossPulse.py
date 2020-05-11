@@ -77,7 +77,7 @@ try:
     # output a current pulse for Channel 1
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
-    # wait for the Digitizer measurements to complete. This loop should only iterate once
+    # wait for the Digitizer measurements to complete. Once "TRUE" is returned, it means the Digitizer is ready to fetch new data. Given the settings, this loop should only iterate once
     digitizerHasNewData = ''                       
     while digitizerHasNewData != b'TRUE\n':                       
         log_all_events(tcp_socket)
@@ -106,6 +106,9 @@ try:
 
     # plot the pulse shape using the fetched voltage readings
     plotter.plot(sampleNumbers, voltageReadings)
+    plotter.ylabel('Voltage (V)')
+    plotter.xlabel('Sample Number')
+    plotter.title('Digitizer Voltage Readings - 1ms 100mA Pulse')
     plotter.show()
 
     # disconnect from SpikeSafe                      
