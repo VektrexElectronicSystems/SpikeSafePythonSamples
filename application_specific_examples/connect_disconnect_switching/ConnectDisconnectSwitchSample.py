@@ -1,0 +1,114 @@
+# Goal: Demonstrate the connect/disconnect switch functionality of the SpikeSafe SMU while operating in Multi-Pulse mode
+# Expectation: Channel 1 will run in Multi-Pulse mode with the switch set to Primary
+#               While the channel is enabled but not outputting, the switch be set to Auxiliary mode to isolate the source from the DUT
+#               Once any modifications to the DUTs have completed in Auxiliary mode, the switch will be set to Primary in which the SpikeSafe will output another Multi-Pulse train
+
+import sys
+import time
+from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
+from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import read_until_event
+from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
+from spikesafe_python.utility.Threading import wait
+from tkinter import messagebox     
+
+### set these before starting application
+
+# SpikeSafe IP address and port number
+ip_address = '10.0.0.220'
+port_number = 8282          
+
+### start of main program
+try:
+    # instantiate new TcpSocket to connect to SpikeSafe
+    tcp_socket = TcpSocket()
+    tcp_socket.open_socket(ip_address, port_number)
+
+    # reset to default state    
+    tcp_socket.send_scpi_command('*RST')                  
+
+    # check that the Force Sense Selector Switch is available for this SpikeSafe. We need the switch to run this sequence
+    # If switch related SCPI is sent and there is no switch configured, it will result in error "386, Output Switch is not installed"
+    tcp_socket.send_scpi_command('OUTP1:CONN:AVAIL?')
+    isSwitchAvailable = tcp_socket.read_data()
+    if isSwitchAvailable != b'Ch:1\n':
+        raise Exception('Force Sense Selector Switch is not available, and is necessary to run this sequence.')
+
+    # set the Force Sense Selector Switch state to Primary (A) so that the SpikeSafe can output to the DUT
+    # the default switch state can be manually adjusted using SCPI, so it is best to send this command even after sending a *RST
+    tcp_socket.send_scpi_command('OUTP1:CONN PRI')
+
+    # set Channel 1's settings to operate in Multi-Pulse mode
+    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP MULTIPULSE')
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.1') 
+    tcp_socket.send_scpi_command('SOUR1:VOLT 30')   
+    tcp_socket.send_scpi_command('SOUR1:PULS:TON 1')
+    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 1')
+    tcp_socket.send_scpi_command('SOUR1:PULS:COUN 3')
+    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
+    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
+
+    # Check for any errors with initializing commands
+    log_all_events(tcp_socket)
+
+    # turn on Channel 1
+    tcp_socket.send_scpi_command('OUTP1 1')
+
+    # Wait until channel is ready for a trigger command
+    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+
+    # Output 1ms pulse for Channel 1
+    tcp_socket.send_scpi_command('OUTP1:TRIG')
+
+    # check for all events and measure readings on the channel once per second for 2 seconds,
+    # it is best practice to do this to ensure the channel is on and does not have any errors
+    time_end = time.time() + 2                         
+    while time.time() < time_end:                       
+        log_all_events(tcp_socket)
+        log_memory_table_read(tcp_socket)
+        wait(1)        
+
+    # check that the Multi Pulse output has ended
+    hasMultiPulseEndedString = ''
+    while hasMultiPulseEndedString != b'TRUE\n':
+        tcp_socket.send_scpi_command('SOUR1:PULS:END?')
+        hasMultiPulseEndedString =  tcp_socket.read_data()
+        wait(0.5)
+
+    # set the Force Sense Selector Switch state to Auxiliary to disconnect the SpikeSafe output from the DUT
+    # this action can be performed as long as no pulses are actively being outputted from the SpikeSafe. The channel may be enabled
+    tcp_socket.send_scpi_command('OUTP1:CONN AUX')
+
+    # Show a message box so any tasks using the Auxiliary source may be performed before adjusting the switch back to Primary
+    # The SpikeSafe is not electrically connected to the DUT at this time
+    messagebox.showinfo("SpikeSafe Output Disconnected", "Force Sense Selector Switch is in Auxiliary mode, so SpikeSafe is isolated from the DUT. Once DUT modifications are complete, close this window to adjust the switch back to Primary mode and re-connect the SpikeSafe.")
+
+    # set the Force Sense Selector Switch state to Primary (A) so that the SpikeSafe can output to the DUT
+    tcp_socket.send_scpi_command('OUTP1:CONN PRI')
+
+    # Output 1ms pulse for Channel 1. Multiple pulses can be outputted while the channel is enabled
+    tcp_socket.send_scpi_command('OUTP1:TRIG')
+
+    # check for all events and measure readings after the second pulse output
+    time_end = time.time() + 2                         
+    while time.time() < time_end:                       
+        log_all_events(tcp_socket)
+        log_memory_table_read(tcp_socket)
+        wait(1) 
+
+    # check that the Multi Pulse output has ended
+    hasMultiPulseEndedString = ''
+    while hasMultiPulseEndedString != b'TRUE\n':
+        tcp_socket.send_scpi_command('SOUR1:PULS:END?')
+        hasMultiPulseEndedString =  tcp_socket.read_data()
+        wait(0.5)
+
+    # turn off all Channel 1 after routine is complete
+    tcp_socket.send_scpi_command('OUTP1 0')
+
+    # disconnect from SpikeSafe                      
+    tcp_socket.close_socket()    
+except Exception as err:
+    # print any error to terminal and exit application
+    print('Program error: {}'.format(err))          
+    sys.exit(1)
