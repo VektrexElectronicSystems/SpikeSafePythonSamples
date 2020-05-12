@@ -73,7 +73,8 @@ try:
     # start Digitizer measurements
     tcp_socket.send_scpi_command('VOLT:INIT')
 
-    # wait for the Digitizer measurements to complete. Once "TRUE" is returned, it means the Digitizer is ready to fetch new data
+    # wait for the Digitizer measurements to complete. 
+    # We need to wait for the data acquisition to complete before fetching the data. Once "TRUE" is returned, it means the Digitizer is ready to fetch new data
     digitizerHasNewData = ''                       
     while digitizerHasNewData != b'TRUE\n':                       
         log_all_events(tcp_socket)

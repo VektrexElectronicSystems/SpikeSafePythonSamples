@@ -25,6 +25,6 @@ In this sequence, it is assumed that the user has basic knowledge of the SpikeSa
 - **Switch State:** Primary initially. After running a Multi-Pulse sequence, it will be switched to Auxiliary. After the message box is closed, it will go back to Primary to once again run with SpikeSafe operation.
 
 ## Circuit Diagram
-The following circuit diagram shows illustrates the basic circuitry that makes up the Force Sense Selector Switch. It is a true hardware switch that isolates a one source when the other source is active.
+The following circuit diagram shows illustrates the basic circuitry that makes up the Force Sense Selector Switch. It is a true hardware switch that isolates one source when the other source is active.
 
 ![](Switch_Hardware_Setup_Diagram.png)

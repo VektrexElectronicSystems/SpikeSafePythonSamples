@@ -13,6 +13,8 @@ The Force Sense Selector Switch is an optional feature for the SpikeSafe that pr
 
 The Force Sense Selector Switch can switch from Primary to Auxiliary mode as long as current is not actively being outputted from the SpikeSafe. Vektrex strongly recommends turning off any auxiliary source output before changing the switch state from Auxiliary to Primary to avoid damaging the DUT.
 
+In this sequence, it is assumed that the user has basic knowledge of the SpikeSafe's DC mode. If you have not previously used DC mode, see [Run DC Mode](../../run_dc).
+
 ## Key Settings 
 - **Set Current:** 100mA
 - **Compliance Voltage:** 20V
@@ -20,7 +22,7 @@ The Force Sense Selector Switch can switch from Primary to Auxiliary mode as lon
 - **Switch State:** Primary initially. After running in the SpikeSafe's DC mode for 10 seconds, it will be switched to Auxiliary. After running any testing with an Auxiliary source, it will go back to Primary to once again run with SpikeSafe operation.
 
 ## Circuit Diagram
-The following circuit diagram shows illustrates the basic circuitry that makes up the Force Sense Selector Switch. It is a true hardware switch that isolates a one source when the other source is active.
+The following circuit diagram shows illustrates the basic circuitry that makes up the Force Sense Selector Switch. It is a true hardware switch that isolates one source when the other source is active.
 
 ![](Switch_Hardware_Setup_Diagram.png)
 
