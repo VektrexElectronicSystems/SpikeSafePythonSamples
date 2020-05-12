@@ -19,8 +19,8 @@ With default settings, a pulsed sweep is started when the "Output Trigger" SCPI 
 - **Stop Current:** 200mA
 - **Step Count:** 100
 - **Compliance Voltage:** 20V
-- **On Time:** 1µs
-- **Off Time:** 99µs
+- **On Time:** 100µs
+- **Off Time:** 9.9ms
 
 ### Current Output
 When running a pulsed sweep using this sequence, one can expect to see the following output. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
@@ -46,8 +46,8 @@ This mode is very similar to Pulsed Sweep mode, except that there is a user-spec
 - **Bias Current:** 10mA
 - **Step Count:** 100
 - **Compliance Voltage:** 20V
-- **On Time:** 1µs
-- **Off Time:** 99µs
+- **On Time:** 100µs
+- **Off Time:** 9.9ms
 
 ### Current Output
 When running this sequence, one can expect to see the following pulse output. Note the 10mA offset between the channel running Bias Pulsed Sweep (in yellow) and the channel running Pulsed Sweep without a Bias Current (in white). This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope

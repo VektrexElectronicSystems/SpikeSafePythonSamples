@@ -38,17 +38,17 @@ try:
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
     tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.0099')
-    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 2')
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 1')   
+    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
+    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
 
     # set Digitizer voltage range to 10V since we expect to measure voltages significantly less than 10V
     tcp_socket.send_scpi_command('VOLT:RANG 10')
 
     # set Digitizer aperture for 60µs. Aperture specifies the measurement time, and we want to measure a majority of the pulse's constant current output
-    tcp_socket.send_scpi_command('VOLT:APER 20')
+    tcp_socket.send_scpi_command('VOLT:APER 60')
 
     # set Digitizer trigger delay to 20µs. We want to give sufficient delay to omit any overshoot the current pulse may have
-    tcp_socket.send_scpi_command('VOLT:TRIG:DEL 78')
+    tcp_socket.send_scpi_command('VOLT:TRIG:DEL 20')
 
     # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
