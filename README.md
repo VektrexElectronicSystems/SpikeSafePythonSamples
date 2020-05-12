@@ -26,7 +26,7 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
 
 ## Where Do I Start?
 
-First start with [read_idn.py](/getting_started/read_idn) sample to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](/getting_started).
+First start with [TCP Socket Sample](/getting_started/tcp_socket_sample) to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](/getting_started).
 
 ## Built With
 
