@@ -23,7 +23,7 @@ In this sequence, it is assumed that the user has basic knowledge of the SpikeSa
 - **Ramp Rate:** Default. Voltage will ramp as fast as 10V/sec. Current will ramp as fast as 1A/sec.
 - **Switch State:** Primary initially. After running a Multi-Pulse sequence, it will be switched to Auxiliary. After the message box is closed, it will go back to Primary to once again run with SpikeSafe operation.
 
-## Circuit Diagram
+## Block Diagram
 The following block diagram illustrates the basic circuitry that makes up the Force Sense Selector Switch. It is a true hardware switch that isolates one source when the other source is active.
 
 ![](Switch_Block_Diagram.PNG)
