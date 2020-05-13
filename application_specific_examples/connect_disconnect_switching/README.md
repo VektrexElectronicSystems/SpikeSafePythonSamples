@@ -26,4 +26,4 @@ In this sequence, it is assumed that the user has basic knowledge of the SpikeSa
 ## Circuit Diagram
 The following block diagram illustrates the basic circuitry that makes up the Force Sense Selector Switch. It is a true hardware switch that isolates one source when the other source is active.
 
-![](Switch_Block_Diagram.png)
+![](Switch_Block_Diagram.PNG)
