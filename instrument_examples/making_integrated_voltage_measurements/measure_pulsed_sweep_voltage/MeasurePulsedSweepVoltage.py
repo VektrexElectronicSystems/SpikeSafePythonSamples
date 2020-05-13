@@ -103,7 +103,7 @@ try:
     for v in voltageReadingStrings:
         voltageReadings.append(float(v))
         currentSteps.append(stepCurrent)
-        stepCurrent += 1.82
+        stepCurrent += 1.82 # 1.82mA = Step Size = (StopCurrent - StartCurrent)/(StepCount - 1)
 
     # plot the pulse shape using the fetched voltage readings
     plotter.plot(currentSteps, voltageReadings)
