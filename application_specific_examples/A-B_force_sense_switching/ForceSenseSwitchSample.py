@@ -1,13 +1,17 @@
-# Goal: Demonstrate the A/B switch functionality of the SpikeSafe SMU while operating in DC mode
-# Expectation: Channel 1 will run in DC mode with the switch set to Primary. Afterward the Switch be set to Auxiliary mode, in which another source may operate connected to the SpikeSafe
-#               After the Auxiliary source has completed operation, the switch will be set to Primary to operate the SpikeSafe in DC mode again
+# Goal: 
+# Demonstrate the A/B switch functionality of the SpikeSafe SMU while operating in DC mode
+# 
+# Expectation: 
+# Channel 1 will run in DC mode with the switch set to Primary. 
+# Afterward the Switch be set to Auxiliary mode, in which another source may operate connected to the SpikeSafe
+# After the Auxiliary source has completed operation, the switch will be set to Primary to operate the SpikeSafe in DC mode again
 
 import sys
 import time
-from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
-from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import wait     
+from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.TcpSocket import TcpSocket
+from spikesafe_python.Threading import wait     
 from tkinter import messagebox
 
 ### set these before starting application

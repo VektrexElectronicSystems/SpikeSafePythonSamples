@@ -1,14 +1,17 @@
-# Goal: Connect to a SpikeSafe and run Bias Single Pulse mode on Channel 1 into a shorting plug
-# Expectation: All channels will output a 110mA pulse with a pulse width of 1ms and a Bias Current of 10mA. This will happen 3 times. 
-#               Expecting a low (<1V) forward voltage
+# Goal: 
+# Connect to a SpikeSafe and run Bias Single Pulse mode on Channel 1 into an LED, Laser, or electrical component
+# 
+# Expectation: 
+# All channels will output a 110mA pulse with a pulse width of 1ms and a Bias Current of 10mA. This will happen 3 times. 
+# Expecting a low (<1V) forward voltage
 
 import sys
 import time
-from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import read_until_event
-from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import wait     
+from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.TcpSocket import TcpSocket
+from spikesafe_python.Threading import wait     
 
 ### set these before starting application
 

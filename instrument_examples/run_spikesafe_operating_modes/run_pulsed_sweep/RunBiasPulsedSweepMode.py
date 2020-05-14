@@ -1,13 +1,17 @@
-# Goal: Connect to a SpikeSafe and run Bias Pulsed Sweep mode on Channel 1 into a shorting plug and run two complete Pulsed Sweeps with a non-zero bias current
-# Expectation: Channel 1 will run a sweep from 30mA to 210mA, which will take 100ms. A 10mA bias current will run while the channel is running.
-#               Expecting a low (<1V) forward voltage
+# Goal: 
+# Connect to a SpikeSafe and run Bias Pulsed Sweep mode on Channel 1 into an LED, Laser, or electrical component and run two complete Pulsed Sweeps with a non-zero bias current
+# 
+# Expectation: 
+# Channel 1 will run a sweep from 30mA to 210mA, which will take 100ms
+# A 10mA bias current will run while the channel is running
+# Expecting a low (<1V) forward voltage
 
 import sys
 import time
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import read_until_event
-from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import wait     
+from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.TcpSocket import TcpSocket
+from spikesafe_python.Threading import wait     
 
 ### set these before starting application
 

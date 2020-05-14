@@ -1,5 +1,8 @@
-# Goal: Connect to a SpikeSafe and run Single Pulse mode on all channels into a shorting plug and output to all channels
-# Expectation: All channels will output a 100mA pulse with a pulse width of 1ms. This will happen 3 times. Expecting a low (<1V) forward voltage
+# Goal: 
+# Connect to a SpikeSafe and run Single Pulse mode on all channels into an LED, Laser, or electrical component and output to all channels
+# 
+# Expectation: 
+# All channels will output a 100mA pulse with a pulse width of 1ms. This will happen 3 times. Expecting a low (<1V) forward voltage
 
 import sys
 import time

@@ -1,13 +1,16 @@
-# Goal: Connect to a SpikeSafe and run Modulated DC mode into a shorting plug with a custom pulse sequence
-# Expectation: Channel 1 will be driven with varying current levels up to 150mA, specified within SCPI commands
+# Goal: 
+# Connect to a SpikeSafe and run Modulated DC mode into an LED, Laser, or electrical component with a custom pulse sequence
+#
+# Expectation: 
+# Channel 1 will be driven with varying current levels up to 150mA, specified within SCPI commands
 
 import sys
 import time
-from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import read_until_event
-from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import wait     
+from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.spikesafe_utility.TcpSocket import TcpSocket
+from spikesafe_python.Threading import wait     
 
 ### set these before starting application
 

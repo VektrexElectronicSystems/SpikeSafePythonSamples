@@ -1,12 +1,12 @@
-# Goal: Connect to a SpikeSafe and run DC mode into a shorting plug for 60 seconds
-# Expectation: Channel 1 will be driven with 100mA with a forward voltage of ~100mV during this time
+# Goal: Connect to a SpikeSafe and run DC mode into an LED, Laser, or electrical component for 15 seconds
+# Expectation: Channel 1 will be driven with 100mA with a forward voltage of <1V during this time
 
 import sys
 import time
-from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
-from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import wait     
+from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.TcpSocket import TcpSocket
+from spikesafe_python.Threading import wait     
 
 ### set these before starting application
 
@@ -45,9 +45,9 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')               
     log_all_events(tcp_socket)                            
 
-    # check for all events and measure readings on Channel 1 once per second for 60 seconds,
+    # check for all events and measure readings on Channel 1 once per second for 15 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
-    time_end = time.time() + 60                         
+    time_end = time.time() + 15                         
     while time.time() < time_end:                       
         log_all_events(tcp_socket)
         log_memory_table_read(tcp_socket)

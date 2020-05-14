@@ -1,15 +1,18 @@
-# Goal: Connect to a SpikeSafe and run Bias Pulsed Dynamic mode into a shorting plug for over 15 seconds while obtaining readings
-#       Settings will be adjusted while running "dynamically" to demonstrate dynamic mode features
-# Expectation: Channel 1 will be driven constant with 20mA, and increase by 100mA during On Times
-#       While running, the On and Off Times will be adjusted to 100µs, and the pulsed Set Current will be adjusted to 200mA
-#       We expect a forward voltage of ~100mV while runing this sequence
+# Goal:
+# Connect to a SpikeSafe and run Bias Pulsed Dynamic mode into an LED, Laser, or electrical component for over 15 seconds while obtaining readings
+# Settings will be adjusted while running "dynamically" to demonstrate dynamic mode features
+#
+# Expectation: 
+# Channel 1 will be driven constant with 20mA, and increase by 100mA during On Times
+# While running, the On and Off Times will be adjusted to 100µs, and the pulsed Set Current will be adjusted to 200mA
+# We expect a forward voltage of ~100mV while runing this sequence
 
 import sys
 import time
-from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
-from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import wait     
+from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.TcpSocket import TcpSocket
+from spikesafe_python.Threading import wait     
 
 ### set these before starting application
 

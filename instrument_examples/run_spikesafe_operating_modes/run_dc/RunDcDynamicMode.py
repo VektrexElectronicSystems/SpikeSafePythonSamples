@@ -1,12 +1,16 @@
-# Goal: Connect to a SpikeSafe and run DC Dynamic mode into a shorting plug. Demonstrate the concept of changing current Set Point dynamically (while the channel is outputting)
-# Expectation: Channel 1 will initially be driven with 50mA with a forward voltage of < 1V during this time. While running change the current to 100mA, 150mA, 200mA, then 100mA again
+# Goal: 
+# Connect to a SpikeSafe and run DC Dynamic mode into an LED, Laser, or electrical component
+# Demonstrate the concept of changing current Set Point dynamically (while the channel is outputting)
+#
+# Expectation: 
+# Channel 1 will initially be driven with 50mA with a forward voltage of < 1V during this time. While running change the current to 100mA, 150mA, 200mA, then 100mA again
 
 import sys
 import time
-from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
-from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import wait     
+from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.TcpSocket import TcpSocket
+from spikesafe_python.Threading import wait     
 
 ### set these before starting application
 
@@ -45,7 +49,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')               
     log_all_events(tcp_socket)                            
 
-    # check for all events and measure readings on Channel 1 once per second for 5 seconds,
+    # check for all events and measure readings on Channel 1 once per second for 10 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
     time_end = time.time() + 10                         
     while time.time() < time_end:                       

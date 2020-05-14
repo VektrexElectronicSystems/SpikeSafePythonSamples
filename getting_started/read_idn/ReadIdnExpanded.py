@@ -1,14 +1,19 @@
-# Goal: Connect to a SpikeSafe and request module identification
-# SCPI Command: *IDN?
-# Example Result: Vektrex, SpikeSafe Mini, Rev 2.0.3.18; Ch 1: DSP 2.0.9, CPLD C.2, Last Cal Date: 17 FEB 2020, SN: 12006, HwRev: E1, Model: MINI-PRF-10-10US\n
+# Goal: 
+# Connect to a SpikeSafe and request module identification
+# 
+# SCPI Command: 
+# *IDN?
+# 
+# Example Result: 
+# Vektrex, SpikeSafe Mini, Rev 2.0.3.18; Ch 1: DSP 2.0.9, CPLD C.2, Last Cal Date: 17 FEB 2020, SN: 12006, HwRev: E1, Model: MINI-PRF-10-10US\n
 
 import sys
-from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
+from spikesafe_python.TcpSocket import TcpSocket
 
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.246'
+ip_address = '10.0.0.220'
 port_number = 8282          
 
 ### start of main program
@@ -17,16 +22,16 @@ try:
     tcp_socket = TcpSocket()
 
     # connect to SpikeSafe
-    tcp_socket.openSocket(ip_address, port_number)  
+    tcp_socket.open_socket(ip_address, port_number)  
     
     # request SpikeSafe information
-    tcp_socket.sendScpiCommand('*IDN?')             
+    tcp_socket.send_scpi_command('*IDN?')             
     
     # read SpikeSafe information
-    data = tcp_socket.readData()                    
+    data = tcp_socket.read_data()                    
     
     # disconnect from SpikeSafe
-    tcp_socket.closeSocket()                        
+    tcp_socket.close_socket()                        
 except Exception as err:
     # print any error to terminal and exit application
     print('Program error: {}'.format(err))          

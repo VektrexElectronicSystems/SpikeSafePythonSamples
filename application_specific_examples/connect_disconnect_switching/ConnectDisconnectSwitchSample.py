@@ -1,15 +1,18 @@
-# Goal: Demonstrate the connect/disconnect switch functionality of the SpikeSafe SMU while operating in Multi-Pulse mode
-# Expectation: Channel 1 will run in Multi-Pulse mode with the switch set to Primary
-#               While the channel is enabled but not outputting, the switch be set to Auxiliary mode to isolate the source from the DUT
-#               Once any modifications to the DUTs have completed in Auxiliary mode, the switch will be set to Primary in which the SpikeSafe will output another Multi-Pulse train
+# Goal: 
+# Demonstrate the connect/disconnect switch functionality of the SpikeSafe SMU while operating in Multi-Pulse mode
+# 
+# Expectation: 
+# Channel 1 will run in Multi-Pulse mode with the switch set to Primary
+# While the channel is enabled but not outputting, the switch be set to Auxiliary mode to isolate the source from the DUT
+# Once any modifications to the DUTs have completed in Auxiliary mode, the switch will be set to Primary in which the SpikeSafe will output another Multi-Pulse train
 
 import sys
 import time
-from spikesafe_python.data.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import log_all_events
-from spikesafe_python.utility.spikesafe_utility.ReadAllEvents import read_until_event
-from spikesafe_python.utility.spikesafe_utility.TcpSocket import TcpSocket
-from spikesafe_python.utility.Threading import wait
+from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.TcpSocket import TcpSocket
+from spikesafe_python.Threading import wait
 from tkinter import messagebox     
 
 ### set these before starting application
