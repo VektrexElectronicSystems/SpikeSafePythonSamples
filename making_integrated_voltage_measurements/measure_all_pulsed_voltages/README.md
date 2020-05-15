@@ -30,11 +30,11 @@ Note the use of the New Data query while the SpikeSafe is operating. While the D
 - **Reading Count:** 1 (per trigger)
 
 ## Considerations
-This sequence assumes the user has basic knowledge of SpikeSafe Pulsed Mode operation. To find more information on the basics of SpikeSafe pulsed current output, see [Run Pulsed Mode](../run_pulsed).
+This sequence assumes the user has basic knowledge of SpikeSafe Pulsed Mode operation. To find more information on the basics of SpikeSafe pulsed current output, see [Run Pulsed Mode](../../run_spikesafe_operating_modes/run_pulsed).
 
 ## Expected Results
 The SpikeSafe current output will look exactly as it does in the "Run Pulsed" example. The Digitizer voltage measurements will be returned as a string in byte format with comma-separated voltage measurements in scientific notation. See the format of the fetch response below, in which a DUT with a forward voltage of 1V was measured:
 
 `b'9.9962598e-01,1.0007857e+00,9.9950254e-01,[...],9.9971998e-01\n'`
 
-A full fetch response string resulting from this sequence can be observed in expected_fetch_response.txt.
+A full fetch response string resulting from this sequence can be observed in [expected_fetch_response.txt](expected_fetch_response.txt).

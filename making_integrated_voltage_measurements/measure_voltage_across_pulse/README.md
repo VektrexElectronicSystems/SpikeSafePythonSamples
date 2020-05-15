@@ -27,7 +27,7 @@ Note the use of the New Data query while the SpikeSafe is operating. While the D
 - **Reading Count:** 525 (max)
 
 ## Considerations
-- This sequence assumes the user has basic knowledge of SpikeSafe Single Pulse Mode operation. To find more information on the basics of SpikeSafe single pulse current output, see [Run Single Pulse](../run_single_pulse).
+- This sequence assumes the user has basic knowledge of SpikeSafe Single Pulse Mode operation. To find more information on the basics of SpikeSafe single pulse current output, see [Run Single Pulse](../../run_spikesafe_operating_modes/run_single_pulse).
 - To apply this principle to measure voltages across a pulse of different width, one should note the following parameter constraints:
     - Aperture must be set in increments of 2µs, with 2µs being the minimum value
     - The Digitizer is able to store a maximum of 525 readings
@@ -36,5 +36,5 @@ Note the use of the New Data query while the SpikeSafe is operating. While the D
 ## Expected Results
 The SpikeSafe current output will look exactly as it does in the "Run Single Pulse" example. The Digitizer voltage measurements will be returned as a string in byte format with comma-separated voltage measurements in scientific notation. In this example, a graph of the measured pulse will automatically be generated. See an example of pulse output into a 10Ω resistor shown below:
 
-![](Single_Pulse_Digitizer_Voltage.png)
+![](single_pulse_digitizer_voltage.png)
 

@@ -39,11 +39,11 @@ The SpikeSafe current output will look exactly as it does in the "Run Pulsed Swe
 
 **10Ω Resistor Sweep**
 
-![](Pulsed_Sweep_Voltages_Resistor.png)
+![](pulsed_sweep_voltages_resistor.png)
 
 **LED Sweep**
 
-![](Pulsed_Sweep_Voltages_LED.png)
+![](pulsed_sweep_voltages_LED.png)
 
 NOTE: for the LED sweep, the following settings needed to be modified to accomodate the DUT:
 - **Compliance Voltage:** 30V

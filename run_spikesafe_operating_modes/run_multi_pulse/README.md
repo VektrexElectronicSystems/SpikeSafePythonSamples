@@ -22,4 +22,4 @@ Note the use of the Pulse End Query in this sequence. The Pulse End Query is a u
 ### Current Output
 When running this sequence, one can expect to see the following pulse output from the first of the two Multi-Pulse trains. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
-![](Multi_Pulse_Output.png)
+![](multi_pulse_output.png)

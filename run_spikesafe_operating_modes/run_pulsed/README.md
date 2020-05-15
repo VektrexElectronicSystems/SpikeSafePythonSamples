@@ -20,19 +20,19 @@ Operates SpikeSafe as pulsed current source with single output current and user-
 - **Ramp Rate:** Default. Voltage will ramp as fast as 10V/sec. Current will ramp as fast as 1A/sec.
 
 ### Considerations
-- On Time and Off Time can be set using an alternative command set that consists of setting Duty Cycle, Period, and/or Pulse Width. A tutorial describing use of these alternative commands can be found in the [Using Pulse Holds](../application_specific_examples/using_pulse_holds) folder.
-- These sequences are run with the default compensation settings. This may not result in the ideal pulse shape for all test loads, in which case [Pulse Tuning](../application_specific_examples/pulse_tuning) may be required. Pulse tuning is especially applicable during shorter Pulse On Times in the microsecond scale.
+- On Time and Off Time can be set using an alternative command set that consists of setting Duty Cycle, Period, and/or Pulse Width. A tutorial describing use of these alternative commands can be found in the [Using Pulse Holds](../../application_specific_examples/using_pulse_holds) folder.
+- These sequences are run with the default compensation settings. This may not result in the ideal pulse shape for all test loads, in which case [Pulse Tuning](../../application_specific_examples/pulse_tuning) may be required. Pulse tuning is especially applicable during shorter Pulse On Times in the microsecond scale.
 
 ### Current Output
 When running either sequence, one can expect to see the following current output and pulse shape. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
 **Pulse Shape**
 
-![](Continuous_Pulse_Shape.png)
+![](continuous_pulse_shape.png)
 
 **Continuous Pulse Train**
 
-![](Continuous_Pulse_Train.png)
+![](continuous_pulse_train.png)
 
 
 ## **Run Pulsed Dynamic Mode**
@@ -52,4 +52,4 @@ Set the Maximum Compliance Voltage (MCV) to the expected load voltage +5V. Reduc
 ### Current Output
 One can expect to see the following current pulse train when running this Pulsed Dynamic sequence. Note the changes in Set Current, On Time, and Off Time. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
-![](Pulsed_Dynamic_Adjustments.png)
+![](pulsed_dynamic_adjustments.png)

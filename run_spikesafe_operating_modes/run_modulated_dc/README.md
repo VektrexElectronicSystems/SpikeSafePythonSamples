@@ -30,9 +30,9 @@ Set the Maximum Compliance Voltage (MCV) to the expected load voltage +5V. Reduc
 
 **DC Staircase (1(1@20,1@40,1@60,1@80,1@100))**
 
-![](DC_Staircase_Sequence.png)
+![](DC_staircase_sequence.png)
 
 **Infinite Pulsing Pattern (*(2(.25@0,.25@60),2(.5@0,.5@30),1@90)**
 
-![](Pulsing_Pattern_Sequence.png)
+![](pulsing_pattern_sequence.png)
 

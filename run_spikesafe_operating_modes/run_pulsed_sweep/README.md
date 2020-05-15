@@ -8,9 +8,9 @@ Demonstrate how to use a SpikeSafe PRF or SMU to deliver a pulsed current sweep 
 ### Overview 
 Operates SpikeSafe as pulsed current source outputting a current pulses from a specified Start Current to a specified Stop Current. Intermediate current step amplitudes are calculated using the user-specified Step Count:
 
-![](Step_Size_Calculation.png)
+![](step_size_calculation.png)
 
-For more advanced cases, a Pulse Count may be specified which sets the amount of pulses that are outputted per current step. See [Running LIV Sweeps](../application_specific_examples/running_liv_sweeps) for examples that implement the Pulse Count setting.
+For more advanced cases, a Pulse Count may be specified which sets the amount of pulses that are outputted per current step. See [Running LIV Sweeps](../../application_specific_examples/running_liv_sweeps) for examples that implement the Pulse Count setting.
 
 With default settings, a pulsed sweep is started when the "Output Trigger" SCPI command is received. A channel that is operating in Pulsed Sweep mode can output as many sweeps as specified while enabled. A new pulse sweep will only be started if the initialization trigger is received after the previous pulsed sweep is complete. The event queue will output a new "109, Pulsed Sweep Complete" message once a pulsed sweep completes.
 
@@ -27,11 +27,11 @@ When running a pulsed sweep using this sequence, one can expect to see the follo
 
 **Full Pulsed Sweep**
 
-![](Pulsed_Sweep_Output.png)
+![](pulsed_sweep_output.png)
 
 **Current Pulse Shape**
 
-![](Pulsed_Sweep_Pulse_Shape.png)
+![](pulsed_sweep_pulse_shape.png)
 
 ## **Run Bias Pulsed Mode**
 
@@ -52,4 +52,4 @@ This mode is very similar to Pulsed Sweep mode, except that there is a user-spec
 ### Current Output
 When running this sequence, one can expect to see the following pulse output. Note the 10mA offset between the channel running Bias Pulsed Sweep (in yellow) and the channel running Pulsed Sweep without a Bias Current (in white). This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
-![](BPS_vs_PS_Output.png)
+![](BPS_vs_PS_output.png)

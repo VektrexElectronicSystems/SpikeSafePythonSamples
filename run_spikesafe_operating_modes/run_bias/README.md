@@ -16,5 +16,5 @@ Operates SpikeSafe as low-amperage bias current source with single output curren
 ### Current Output
 - When running, one can expect to see the following current ramp and output. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
-![](Bias_Current_Output.png)
+![](bias_current_output.png)
 

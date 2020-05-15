@@ -1,6 +1,6 @@
 # Getting Started
 
-These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within SpikeSafePythonExamples/Instrument Examples.
+These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within SpikeSafePythonExamples/[Run SpikeSafe Operating Modes](../run_spikesafe_operating_modes).
 
 ## Directory
 
