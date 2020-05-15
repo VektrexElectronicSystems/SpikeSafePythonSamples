@@ -6,9 +6,10 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ## Directory
 
-- [Getting Started](/getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within the instrument_examples folder.
-- [Instrument Examples](/instrument_examples) - These folders contain examples to run specific SpikeSafe modes designed to test LEDs, Lasers, and electrical equipment. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
-- [Application Specific Examples](/application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output. These sequences explain how to make light measurements using a SpikeSafe and a spectrometer, how to make in-situ junction temperature measurements on LEDs, and how to take full advantage of all SpikeSafe features.
+- [Getting Started](getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within the instrument_examples folder.
+- [Run SpikeSafe Operating Modes](run_spikesafe_operating_modes) - These folders contain examples to run specific SpikeSafe modes designed to test LEDs, Lasers, and electrical equipment. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
+- [Making Integrated Voltage Measurements](making_integrated_voltage_measurements) - These folders contain examples to measure voltage using the SpikeSafe SMU's integrated voltage Digitizer. The SpikeSafe outputs current to an LED, Laser, or electrical equipment, and then voltage measurements are read and displayed onscreen.
+- [Application Specific Examples](application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output. These sequences explain how to make light measurements using a SpikeSafe and a spectrometer, how to make in-situ junction temperature measurements on LEDs, and how to take full advantage of all SpikeSafe features.
 
 ## Usage
 
@@ -26,7 +27,7 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
 
 ## Where Do I Start?
 
-First start with [read_idn.py](/getting_started/read_idn) sample to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](/getting_started).
+First start with [TCP Socket Sample](getting_started/tcp_socket_sample) to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](getting_started).
 
 ## Built With
 
@@ -41,7 +42,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 If any further assistance is needed beyond the information provided within this repository, email support@vektrex.com.
 
-Feature requests and bug reports can be submitted to the [Issues Page](/issues) of this repository. This page is regularly monitored and maintained by Vektrex engineers.
+Feature requests and bug reports can be submitted to the [Issues Page](issues) of this repository. This page is regularly monitored and maintained by Vektrex engineers.
 
 ## Authors
 
