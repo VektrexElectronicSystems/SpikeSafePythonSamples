@@ -3,9 +3,9 @@
 These folders contain examples to make voltage measurements using the SpikeSafe SMU's integrated Digitizer. Relevant settings will be sent to both the SpikeSafe and the Digitizer, and then voltage will be measured across the DUT and displayed onscreen. Each folder contains information on the relevant settings and expected output from the given mode(s). These examples are only applicable to the SpikeSafe SMU and assume some basic knowledge of [SpikeSafe Operating Modes](../run_spikesafe_operating_modes).
 
 ## Directory
-- [Measure All Pulsed Voltages](/measure_all_pulsed_voltages)
-- [Measure Pulsed Sweep Voltage](/measure_pulsed_sweep_voltage)
-- [Measure Voltage Across Pulse](/measure_voltage_across_pulse)
+- [Measure All Pulsed Voltages](measure_all_pulsed_voltages)
+- [Measure Pulsed Sweep Voltage](measure_pulsed_sweep_voltage)
+- [Measure Voltage Across Pulse](measure_voltage_across_pulse)
 
 ## Usage
 
