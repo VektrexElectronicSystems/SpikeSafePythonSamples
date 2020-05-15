@@ -1,4 +1,5 @@
-# Goal: Connect to a SpikeSafe and read memory table data
+# Goal: 
+# Connect to a SpikeSafe and read memory table data
 
 import sys
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
