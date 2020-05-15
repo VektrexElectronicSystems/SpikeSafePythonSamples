@@ -36,7 +36,7 @@ When running a pulsed sweep using this sequence, one can expect to see the follo
 ## **Run Bias Pulsed Sweep Mode**
 
 ### Overview
-Operates SpikeSafe as pulsed current source outputting a single pulse with user-specified output current and Pulse On Time. Pulses are outputted when the "Output Trigger" SCPI command is received. 
+Operates SpikeSafe as pulsed current source outputting a current pulses from a specified Start Current to a specified Stop Current. Pulses are outputted when the "Output Trigger" SCPI command is received. 
 
 This mode is very similar to Pulsed Sweep mode, except that there is a user-specified constant Bias Current being outputted on the milliAmp scale while the channel is enabled. When a pulse is outputted, the current amplitude will be equivalent to the Step Current plus the Bias Current.
 
