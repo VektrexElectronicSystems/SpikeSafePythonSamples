@@ -33,7 +33,7 @@ When running a pulsed sweep using this sequence, one can expect to see the follo
 
 ![](pulsed_sweep_pulse_shape.png)
 
-## **Run Bias Pulsed Mode**
+## **Run Bias Pulsed Sweep Mode**
 
 ### Overview
 Operates SpikeSafe as pulsed current source outputting a single pulse with user-specified output current and Pulse On Time. Pulses are outputted when the "Output Trigger" SCPI command is received. 

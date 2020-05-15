@@ -2,7 +2,7 @@
 # Connect to a SpikeSafe and run Bias Pulsed Sweep mode on Channel 1 into an LED, Laser, or electrical component and run two complete Pulsed Sweeps with a non-zero bias current
 # 
 # Expectation: 
-# Channel 1 will run a sweep from 30mA to 210mA, which will take 100ms
+# Channel 1 will run a sweep from 30mA to 210mA, which will take 1 second in total
 # A 10mA bias current will run while the channel is running
 # Expecting a low (<1V) forward voltage
 
