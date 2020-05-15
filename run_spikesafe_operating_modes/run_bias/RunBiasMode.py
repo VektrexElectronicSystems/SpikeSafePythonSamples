@@ -1,10 +1,15 @@
-# Goal: Connect to a SpikeSafe and run Bias mode into an LED, Laser, or electrical component for 15 seconds
-# Expectation: Channel 1 will be driven with 10mA with a forward voltage of <1V during this time
+# Goal: 
+# Connect to a SpikeSafe and run Bias mode into an LED, Laser, or electrical component
+
+# Expectation: 
+# Channel 1 will be driven with 10mA with a forward voltage of <1V during this time
+# Sequence will wait for the channel to be fully stable, and then power the DUT for 10 seconds
 
 import sys
 import time
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait     
 
@@ -45,9 +50,12 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')               
     log_all_events(tcp_socket)                            
 
+    # wait until the channel is fully ramped to 10mA
+    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+
     # check for all events and measure readings on Channel 1 once per second for 15 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
-    time_end = time.time() + 15                         
+    time_end = time.time() + 10                         
     while time.time() < time_end:                       
         log_all_events(tcp_socket)
         log_memory_table_read(tcp_socket)
