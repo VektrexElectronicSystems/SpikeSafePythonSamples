@@ -1,11 +1,11 @@
 # Examples for Operating a SpikeSafe PRF or SMU in DC modes
 
 ## **Purpose**
-Demonstrate how to use a SpikeSafe PRF or SMU to deliver high precision DC current to an LED or Laser.  These operation modes output constant current at the specified Set Current. The two modes differ in the way they start up, and the way they regulate current after startup.
+Demonstrate how to use a SpikeSafe PRF or SMU to deliver high precision DC current to an LED or Laser.  DC and DC Dynamic operation modes output constant current at the specified Set Current. These two modes differ in the way they start up, and the way they regulate current after startup.
 
-Vektrex recommends using DC Dynamic for testing low currents below a few amps.  DC Dynamic starts with no ramp, the current transitions from zero to the programmed value in microseconds. DC Dynamic does not make adjustement to decrease internal power disipation.
+Vektrex recommends using DC Dynamic for testing low currents below a few amps.  DC Dynamic starts with no ramp, the current transitions from zero to the programmed value in microseconds. DC Dynamic does not make adjustment to decrease internal power dissipation.
 
-For long term testing over a few amps DC mode is recommended.  DC Mode makes internal adjustment to decrease power dissipation.  For long term reliability testing the reduction is power can same energy and generate less heat.  The small adjustments can introduce a very small current variation, usually less than 0.1% of programmed setpoint.
+For long term testing over a few amps DC mode is recommended.  DC Mode makes internal adjustment to decrease power dissipation.  For long term reliability testing this reduction in power will save energy and generate less heat.  The small adjustments can introduce a very small current variation, usually less than 0.1% of programmed set current.
 
 ## **Run DC Mode**
 
