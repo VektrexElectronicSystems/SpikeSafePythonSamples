@@ -50,7 +50,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')               
     log_all_events(tcp_socket)                            
 
-    # wait until the channel is fully ramped to 10mA
+    # wait until the channel is fully ramped
     read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
 
     # check for all events and measure readings on Channel 1 once per second for 10 seconds,

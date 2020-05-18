@@ -1,7 +1,7 @@
 # Examples for Operating a SpikeSafe PRF or SMU in Multi Pulse mode
 
 ## **Purpose**
-Demonstrate how to use a SpikeSafe PRF or SMU to deliver a high precision current pulse train with a specified pulse count to an LED, Laser, or electrical component. This operation mode consists of a user-specified pulse settings to output a specified amount of pulses. A trigger command or signal is used to start current output.
+Demonstrate how to use a SpikeSafe PRF or SMU to deliver a high precision current pulse train with a specified pulse count to an LED, Laser, or electrical component. This operation mode consists of a user-specified pulse count to output a specified amount of pulses. A trigger command or signal is used to start current output.
 
 ## **Run Multi Pulse Mode**
 

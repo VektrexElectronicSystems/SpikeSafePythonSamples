@@ -1,5 +1,5 @@
 # Goal: 
-# Connect to a SpikeSafe and run Pulsed mode into a LED, Laser, or electrical component for 15 seconds while obtaining readings
+# Connect to a SpikeSafe and run Pulsed mode into a LED, Laser, or electrical component for 10 seconds while obtaining readings
 # 
 # Expectation:
 # Channel 1 will be driven with 100mA with a forward voltage of <1V during this time
@@ -8,6 +8,7 @@ import sys
 import time
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait     
 
@@ -62,9 +63,12 @@ try:
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')
 
-    # check for all events and measure readings on Channel 1 once per second for 15 seconds,
+    # wait until the channel is fully ramped
+    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+
+    # check for all events and measure readings on Channel 1 once per second for 10 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
-    time_end = time.time() + 15                        
+    time_end = time.time() + 10                        
     while time.time() < time_end:                       
         log_all_events(tcp_socket)
         log_memory_table_read(tcp_socket)
