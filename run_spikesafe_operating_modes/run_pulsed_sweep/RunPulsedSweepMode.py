@@ -44,10 +44,10 @@ try:
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
     tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.0099')
 
-    # set Channel 1's compensation settings to their default values
+    # set Channel 1's compensation settings to High/Fast
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
-    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
+    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 1')
+    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 1')   
 
     # Check for any errors with initializing commands
     log_all_events(tcp_socket)

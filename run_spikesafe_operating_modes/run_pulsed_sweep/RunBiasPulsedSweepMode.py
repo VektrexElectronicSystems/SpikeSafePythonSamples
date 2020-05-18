@@ -41,17 +41,17 @@ try:
     # set Channel 1's Bias Current to 10mA
     tcp_socket.send_scpi_command('SOUR1:CURR:BIAS 0.01')   
 
-    # set Channel 1's voltage to 10 V 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10')   
+    # set Channel 1's voltage to 20 V 
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
     # set Channel 1's pulse settings for a 1% duty cycle and 1ms Period using the Pulse On Time and Pulse Off Time commands
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
     tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.0099')
 
-    # set Channel 1's compensation settings to their default values
+    # set Channel 1's compensation settings to High/Fast
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
-    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
+    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 1')
+    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 1')   
 
     # Check for any errors with initializing commands
     log_all_events(tcp_socket)
