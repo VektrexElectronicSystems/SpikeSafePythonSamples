@@ -38,3 +38,7 @@ The SpikeSafe current output will look exactly as it does in the "Run Pulsed" ex
 `b'9.9962598e-01,1.0007857e+00,9.9950254e-01,[...],9.9971998e-01\n'`
 
 A full fetch response string resulting from this sequence can be observed in [expected_fetch_response.txt](expected_fetch_response.txt).
+
+When running the sequence, the 525 readings will be displayed in a graphical format, similar to the graph below.
+
+![](pulsed_voltage_readings.png)

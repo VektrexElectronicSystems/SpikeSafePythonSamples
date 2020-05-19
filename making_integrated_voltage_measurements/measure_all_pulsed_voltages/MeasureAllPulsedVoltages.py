@@ -3,11 +3,14 @@
 
 import sys
 import time
+from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
+from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait   
+from matplotlib import pyplot as plt  
 
 ### set these before starting application
 
@@ -73,24 +76,30 @@ try:
     # start Digitizer measurements
     tcp_socket.send_scpi_command('VOLT:INIT')
 
-    # wait for the Digitizer measurements to complete. 
-    # We need to wait for the data acquisition to complete before fetching the data. Once "TRUE" is returned, it means the Digitizer is ready to fetch new data
-    digitizerHasNewData = ''                       
-    while digitizerHasNewData != b'TRUE\n':                       
-        log_all_events(tcp_socket)
-        log_memory_table_read(tcp_socket)
+    # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
+    wait_for_new_voltage_data(tcp_socket, 0.5)
 
-        tcp_socket.send_scpi_command('VOLT:NDAT?')
-        digitizerHasNewData = tcp_socket.read_data()
-        wait(0.5)
-
-    # fetch and print the Digitizer voltage readings
-    tcp_socket.send_scpi_command('VOLT:FETC?')
-    digitizerData = tcp_socket.read_data()
-    print("Digitizer readings: {}".format(digitizerData))
+    # fetch the Digitizer voltage readings
+    digitizerData = fetch_voltage_data(tcp_socket)
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
+
+    # prepare digitizer voltage data to plot
+    samples = []
+    voltage_readings = []
+    for dd in digitizerData:
+        samples.append(dd.sample_number)
+        voltage_readings.append(dd.voltage_reading)
+
+    # plot the pulse shape using the fetched voltage readings
+    plt.plot(samples, voltage_readings)
+    plt.ylabel('Voltage (V)')
+    plt.xlabel('Sample Number')
+    plt.title('Digitizer Voltage Readings - 525 pulses (1ms & 100mA)')
+    plt.axis([-25, 550, min(voltage_readings) - 0.1, max(voltage_readings) + 0.1])
+    plt.grid()
+    plt.show()
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    

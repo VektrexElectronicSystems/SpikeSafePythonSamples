@@ -3,12 +3,14 @@
 
 import sys
 import time
+from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
+from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait
-from matplotlib import pyplot as plotter   
+from matplotlib import pyplot as plt   
 
 ### set these before starting application
 
@@ -77,41 +79,32 @@ try:
     # trigger Channel 1 to start the pulsed sweep output
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
-    # wait for the Digitizer measurements to complete. 
-    # We need to wait for the data acquisition to complete before fetching the data. Once "TRUE" is returned, it means the Digitizer is ready to fetch new data
-    digitizerHasNewData = ''                       
-    while digitizerHasNewData != b'TRUE\n':                       
-        log_all_events(tcp_socket)
-        log_memory_table_read(tcp_socket)
-
-        tcp_socket.send_scpi_command('VOLT:NDAT?')
-        digitizerHasNewData = tcp_socket.read_data()
-        wait(0.5)
+    # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
+    wait_for_new_voltage_data(tcp_socket, 0.5)
 
     # fetch and print the Digitizer voltage readings
-    tcp_socket.send_scpi_command('VOLT:FETC?')
-    digitizerData = tcp_socket.read_data()
+    digitizerData = fetch_voltage_data(tcp_socket)
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
 
     # put the fetched data in a plottable data format
-    voltageReadingStrings = digitizerData.decode(sys.stdout.encoding).split(",")
-    voltageReadings = []
-    currentSteps = []
-    stepCurrent = 20
-    for v in voltageReadingStrings:
-        voltageReadings.append(float(v))
-        currentSteps.append(stepCurrent)
-        stepCurrent += 1.82 # 1.82mA = Step Size = (StopCurrent - StartCurrent)/(StepCount - 1)
+    voltage_readings = []
+    current_steps = []
+    start_current_mA = 20
+    step_size_mA = 1.82 # 1.82mA = Step Size = (StopCurrent - StartCurrent)/(StepCount - 1)
+    for dd in digitizerData:
+        voltage_readings.append(dd.voltage_reading)
+        current_steps.append(start_current_mA + step_size_mA * (dd.sample_number - 1))
+
 
     # plot the pulse shape using the fetched voltage readings
-    plotter.plot(currentSteps, voltageReadings)
-    plotter.ylabel('Voltage (V)')
-    plotter.xlabel('Set Current (mA)')
-    plotter.title('Digitizer Voltage Readings - Pulsed Sweep (20mA to 200mA)')
-    plotter.grid()
-    plotter.show()
+    plt.plot(current_steps, voltage_readings)
+    plt.ylabel('Voltage (V)')
+    plt.xlabel('Set Current (mA)')
+    plt.title('Digitizer Voltage Readings - Pulsed Sweep (20mA to 200mA)')
+    plt.grid()
+    plt.show()
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    
