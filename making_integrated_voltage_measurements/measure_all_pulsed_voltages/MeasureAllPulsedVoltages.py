@@ -3,6 +3,7 @@
 
 import sys
 import time
+import logging
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
@@ -18,8 +19,14 @@ from matplotlib import pyplot as plt
 ip_address = '10.0.0.220'
 port_number = 8282          
 
+### setting up sequence log
+log = logging.getLogger(__name__)
+logging.basicConfig(filename='MeasureAllPulsedVoltages.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+
 ### start of main program
 try:
+    log.info("MeasureAllPulsedVoltages.py started.")
+
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
@@ -95,12 +102,13 @@ try:
     # plot the pulse shape using the fetched voltage readings
     plt.plot(samples, voltage_readings)
     plt.ylabel('Voltage (V)')
-    plt.xlabel('Sample Number')
+    plt.xlabel('Sample Number (#)')
     plt.title('Digitizer Voltage Readings - 525 pulses (1ms & 100mA)')
     plt.axis([-25, 550, min(voltage_readings) - 0.1, max(voltage_readings) + 0.1])
     plt.grid()
     plt.show()
 
+    log.info("MeasureAllPulsedVoltages.py complete.")
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    
 except Exception as err:
