@@ -3,6 +3,7 @@
 
 import sys
 import time
+import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
@@ -15,8 +16,14 @@ from spikesafe_python.Threading import wait
 ip_address = '10.0.0.220'
 port_number = 8282          
 
+### setting up sequence log
+log = logging.getLogger(__name__)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+
 ### start of main program
 try:
+    log.info("RunDcMode.py started.")
+    
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
@@ -65,8 +72,11 @@ try:
     log_memory_table_read(tcp_socket)
 
     # disconnect from SpikeSafe                      
-    tcp_socket.close_socket()                            
+    tcp_socket.close_socket()                  
+
+    log.info("RunDcMode.py started.")
+
 except Exception as err:
-    # print any error to terminal and exit application
-    print('Program error: {}'.format(err))          
+    # print any error to the log file and exit application
+    log.error('Program error: {}'.format(err))          
     sys.exit(1)

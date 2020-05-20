@@ -4,6 +4,7 @@
 
 import sys
 import time
+import logging
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
@@ -18,6 +19,10 @@ from matplotlib import pyplot as plt
 # SpikeSafe IP address and port number
 ip_address = '10.0.0.220'
 port_number = 8282          
+
+### setting up sequence log
+log = logging.getLogger(__name__)
+logging.basicConfig(filename='MeasurePulsedSweepVoltage.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
 
 ### start of main program
 try:
@@ -99,7 +104,7 @@ try:
     # plot the pulse shape using the fetched voltage readings
     plt.plot(samples, voltage_readings)
     plt.ylabel('Voltage (V)')
-    plt.xlabel('Sample Number')
+    plt.xlabel('Sample Number (#)')
     plt.title('Digitizer Voltage Readings - 1ms 100mA Pulse')
     plt.grid()
     plt.show()
@@ -107,8 +112,8 @@ try:
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    
 except Exception as err:
-    # print any error to terminal and exit application
-    print('Program error: {}'.format(err))          
+    # print any error to the log file and exit application
+    log.error('Program error: {}'.format(err))          
     sys.exit(1)
 
 
