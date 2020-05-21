@@ -41,7 +41,7 @@ try:
     # If switch related SCPI is sent and there is no switch configured, it will result in error "386, Output Switch is not installed"
     tcp_socket.send_scpi_command('OUTP1:CONN:AVAIL?')
     isSwitchAvailable = tcp_socket.read_data()
-    if isSwitchAvailable != b'Ch:1\n':
+    if isSwitchAvailable != 'Ch:1':
         raise Exception('Force Sense Selector Switch is not available, and is necessary to run this sequence.')
 
     # set the Force Sense Selector Switch state to Primary (A) so that the SpikeSafe can output to the DUT
@@ -80,7 +80,7 @@ try:
 
     # check that the Multi Pulse output has ended
     hasMultiPulseEndedString = ''
-    while hasMultiPulseEndedString != b'TRUE\n':
+    while hasMultiPulseEndedString != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
         wait(0.5)
@@ -108,7 +108,7 @@ try:
 
     # check that the Multi Pulse output has ended
     hasMultiPulseEndedString = ''
-    while hasMultiPulseEndedString != b'TRUE\n':
+    while hasMultiPulseEndedString != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
         wait(0.5)

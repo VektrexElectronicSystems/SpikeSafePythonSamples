@@ -81,7 +81,7 @@ try:
 
     # check that the Multi Pulse output has ended
     hasMultiPulseEndedString = ''
-    while hasMultiPulseEndedString != b'TRUE\n':
+    while hasMultiPulseEndedString != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
         wait(0.5)
@@ -101,7 +101,7 @@ try:
 
     # check that the Multi Pulse output has ended
     hasMultiPulseEndedString = ''
-    while hasMultiPulseEndedString != b'TRUE\n':
+    while hasMultiPulseEndedString != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
         wait(0.5)
