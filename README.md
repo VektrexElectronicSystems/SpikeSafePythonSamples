@@ -14,7 +14,9 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ## Usage
 
-Each script can be run independently as a standalone Python file. Run a file  in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
+To run these sequences, an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required. The [spikesafe-python](https://pypi.org/project/spikesafe-python/) repository will need to be installed as a package using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0. It may help to run these sequences in a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
+
+Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file  in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
 
 For most examples, you may need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address is set to 10.0.0.220 in the line `ip_address = '10.0.0.220'`.
 

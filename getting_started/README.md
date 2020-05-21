@@ -11,7 +11,7 @@ For first-time users, Vektrex recommends running the sequences in the order show
 4. [Read Memory Table Data](read_memory_table_data) - Reads the SpikeSafe status and obtains current operational information from the SpikeSafe
 
 ## Usage
-To run these sequences, an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required. The [spikesafe-python](https://pypi.org/project/spikesafe-python/) repository will need to be installed as a package using the command `python -m pip install spikesafe-python`. It may help to run these sequences in a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
+To run these sequences, an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required. The [spikesafe-python](https://pypi.org/project/spikesafe-python/) repository will need to be installed as a package using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0. It may help to run these sequences in a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
 
 
 Simply change the line `ip_address = '10.0.0.220'` to match the IP address of you connected SpikeSafe and run the sequence (generally by pressing F5). Observe the outputs that appear in the terminal window.
