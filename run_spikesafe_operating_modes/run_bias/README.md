@@ -6,7 +6,7 @@ Demonstrate how to use a SpikeSafe PRF or SMU to deliver a low-amperage DC curre
 ## **Run Bias Mode**
 
 ### Overview 
-Operates SpikeSafe as low-amperage bias current source with single output current.
+Operates SpikeSafe as a low-amperage bias current source with single output current.
 
 ### Key Settings 
 - **Bias Current:** 10mA

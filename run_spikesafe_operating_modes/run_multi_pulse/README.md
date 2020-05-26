@@ -6,7 +6,7 @@ Demonstrate how to use a SpikeSafe PRF or SMU to deliver a high precision curren
 ## **Run Multi Pulse Mode**
 
 ### Overview 
-Operates SpikeSafe as pulsed current source outputting a current pulse train with user-specified pulse count. Typical pulse settings such as Set Current, On Time, and Off Time also apply to this mode. When default trigger settings are used, pulses are outputted when the "Output Trigger" SCPI command is received. 
+Operates SpikeSafe as a pulsed current source outputting a current pulse train with user-specified pulse count. Typical pulse settings such as Set Current, On Time, and Off Time also apply to this mode. When default trigger settings are used, pulses are outputted when the "Output Trigger" SCPI command is received. 
 
 A channel that is operating in Multi Pulse mode can output as many pulses as specified while enabled. A pulse will only be outputted if the command is received after the previous pulse is complete. When a channel is enabled but no pulses are outputting, the user is able to change the Set Current.
 

@@ -3,14 +3,14 @@
 ## **Purpose**
 Demonstrate how to use a SpikeSafe PRF or SMU to deliver high precision pulsed current to an LED or Laser. Continuous and Continuous Dynamic operation modes output a continuous current pulse train at the specified Set Current, On Time, and Off Time. These two modes differ in the way they start up, and the way they regulate current after startup.
 
-Vektrex recommends using Continuous Dynamic for testing low currents below a few amps.  Continuous Dynamic starts with no ramp, the current transitions from zero to the programmed value in microseconds. Continuous Dynamic does not make adjustments to decrease internal power dissipation.
+Vektrex recommends using Continuous Dynamic for testing low currents below a few amps.  Continuous Dynamic starts with no ramp; the current transitions from zero to the programmed value in microseconds. Continuous Dynamic does not make adjustments to decrease internal power dissipation.
 
-For long term testing over a few amps Continuous mode is recommended. Continuous Mode makes internal adjustment to decrease power dissipation. For long term reliability testing this reduction in power will save energy and generate less heat. The small adjustments can introduce a very small current variation, usually less than 0.1% of programmed set current.
+For long term testing over a few amps Continuous mode is recommended. Continuous Mode makes internal adjustments to decrease power dissipation. For long term reliability testing this reduction in power will save energy and generate less heat. The small adjustments can introduce a very small current variation, usually less than 0.1% of programmed set current.
 
 ## **Run Pulsed Mode**
 
 ### Overview 
-Operates SpikeSafe as pulsed current source with single output current and user-specified Pulse On Time and Pulse Off Time.
+Operates SpikeSafe as a pulsed current source with single output current and user-specified Pulse On Time and Pulse Off Time.
 
 ### Key Settings 
 - **Set Current:** 100mA
@@ -38,7 +38,7 @@ When running either sequence, one can expect to see the following current output
 ## **Run Pulsed Dynamic Mode**
 
 ### Overview
-Operates SpikeSafe as pulsed current source with multiple output currents. In Continuous Dynamic mode, the Set Current, On Time, and Off Time can be modified while the SpikeSafe is outputting current.  
+Operates SpikeSafe as a pulsed current source with multiple output currents. In Continuous Dynamic mode, the Set Current, On Time, and Off Time can be modified while the SpikeSafe is outputting current.  
 
 Set the Maximum Compliance Voltage (MCV) to the expected load voltage +5V. Reduce MCV if an internal over power error occurs. 
 

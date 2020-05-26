@@ -6,13 +6,13 @@ Demonstrate how to use a SpikeSafe PRF or SMU to deliver a pulsed current sweep 
 ## **Run Pulsed Sweep Mode**
 
 ### Overview 
-Operates SpikeSafe as pulsed current source outputting a current pulses from a specified Start Current to a specified Stop Current. Intermediate current step amplitudes are calculated using the user-specified Step Count:
+Operates SpikeSafe as a pulsed current source outputting a pulsed current sweep from a specified Start Current to a specified Stop Current. Intermediate current step amplitudes are calculated using the user-specified Step Count:
 
 ![](step_size_calculation.png)
 
 For more advanced cases, a Pulse Count may be specified which sets the amount of pulses that are outputted per current step. See [Running LIV Sweeps](../../application_specific_examples/running_liv_sweeps) for examples that implement the Pulse Count setting.
 
-With default settings, a pulsed sweep is started when the "Output Trigger" SCPI command is received. A channel that is operating in Pulsed Sweep mode can output as many sweeps as specified while enabled. A new pulse sweep will only be started if the initialization trigger is received after the previous pulsed sweep is complete. The event queue will output a new "109, Pulsed Sweep Complete" message once a pulsed sweep completes.
+With default settings, a pulsed sweep is started when the "Output Trigger" SCPI command is received. A channel that is operating in Pulsed Sweep mode can output as many sweeps as specified while enabled. A new pulsed sweep will only be started if the initialization trigger is received after the previous pulsed sweep is complete. The event queue will output a new "109, Pulsed Sweep Complete" message once a pulsed sweep completes.
 
 ### Key Settings 
 - **Start Current:** 20mA
@@ -36,7 +36,7 @@ When running a pulsed sweep using this sequence, one can expect to see the follo
 ## **Run Bias Pulsed Sweep Mode**
 
 ### Overview
-Operates SpikeSafe as pulsed current source outputting a current pulses from a specified Start Current to a specified Stop Current. Pulses are outputted when the "Output Trigger" SCPI command is received. 
+Operates SpikeSafe as a pulsed current source outputting a pulsed current sweep from a specified Start Current to a specified Stop Current. Pulses are outputted when the "Output Trigger" SCPI command is received. 
 
 This mode is very similar to Pulsed Sweep mode, except that there is a user-specified constant Bias Current being outputted on the milliAmp scale while the channel is enabled. When a pulse is outputted, the current amplitude will be equivalent to the Step Current plus the Bias Current.
 

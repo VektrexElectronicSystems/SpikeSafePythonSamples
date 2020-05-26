@@ -8,7 +8,7 @@ The SpikeSafe SMU's integrated Digitizer is used to make high precision voltage 
 ## Overview 
 Operates SpikeSafe as both a pulsed current source and a high precision voltage measurement device. A Pulsed Sweep is outputted as demonstrated in [Run Pulsed Mode](../../run_spikesafe_operating_modes/run_pulsed_sweep). While current pulses are outputted, voltage measurements are being taken across the flattest portion of each current pulse. After all measurements are taken and read, the results are plotted in an I-V graph.
 
-The Digitizer is set to receive a hardware trigger, meaning that it will use the SpikeSafe's output trigger signal as it input trigger. The measurement is delayed slightly to avoid measuring any rise time or possible current overshoot on the DUT.
+The Digitizer is set to receive a hardware trigger, meaning that it will use the SpikeSafe's output trigger signal as its input trigger. The measurement is delayed slightly to avoid measuring any rise time or possible current overshoot on the DUT.
 
 Note the use of the New Data query while the SpikeSafe is operating. While the Digitizer is still acquiring voltage data, it can be unobtrusively queried to determine if the buffer is full yet. This information can be used to determine whether the user would ideally want to fetch data, as the data fetch will only return fresh data if the specified measurements have occurred.
 

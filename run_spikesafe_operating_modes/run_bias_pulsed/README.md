@@ -5,16 +5,16 @@ Demonstrate how to use a SpikeSafe PRF or SMU to deliver high precision pulsed c
 
 These modes are similar to their corresponding [Pulsed Mode](../run_pulsed) in every aspect except for the always-on bias current that is outputted while a channel running a Bias Pulsed mode is enabled.
 
-Vektrex recommends using Continuous Dynamic Bias Current (CDBC) for testing low currents below a few amps.  CDBC mode starts with no ramp, the current transitions from zero to the programmed value in microseconds. CDBC mode does not make adjustment to decrease internal power dissipation.
+Vektrex recommends using Continuous Dynamic Bias Current (CDBC) for testing low currents below a few amps.  CDBC mode starts with no ramp; the current transitions from zero to the programmed value in microseconds. CDBC mode does not make adjustments to decrease internal power dissipation.
 
-For long term testing over a few amps Continuous Bias Current (CBC) mode is recommended. CBC mode makes internal adjustments to decrease power dissipation. For long term reliability testing this reduction in power will save energy and generate less heat. The small adjustments can introduce a very small current variation, usually less than 0.1% of programmed set current.
+For long term testing over a few amps, Continuous Bias Current (CBC) mode is recommended. CBC mode makes internal adjustments to decrease power dissipation. For long term reliability testing this reduction in power will save energy and generate less heat. The small adjustments can introduce a very small current variation, usually less than 0.1% of programmed set current.
 
  When using these Bias modes for Tj measurements, CDBC mode is normally used and the bias source is programmed to a small fraction of the load device operating current. When the heating current then turns off (during the pulse off time) the small bias current continues to drive the load device. The load forward voltage can then be measured and compared with calibration voltage readings to determine the temperature of the load device. Bias Current only mode is normally used to generate the calibration voltage readings. More information about Tj measurement can be found at [JESD 51-51](https://www.jedec.org/sites/default/files/docs/JESD51-51.pdf) and [LEDs Magazine](https://www.ledsmagazine.com/manufacturing-services-testing/article/14173251/jedec-technique-simplifies-led-junction-temperature-measurement). 
 
 ## **Run Bias Pulsed Mode**
 
 ### Overview 
-Operates SpikeSafe as pulsed current source with a user-specified Pulse On Time and Pulse Off Time. During the On Times, the Set Current plus the Bias Current will be outputted. During the Off Times, only the Bias Current will be outputted
+Operates SpikeSafe as a pulsed current source with a user-specified Pulse On Time and Pulse Off Time. During the On Times, the Set Current plus the Bias Current will be outputted. During the Off Times, only the Bias Current will be outputted
 
 ### Key Settings 
 - **Set Current:** 100mA
@@ -43,7 +43,7 @@ When running either sequence, one can expect to see the following current output
 ## **Run Bias Pulsed Dynamic Mode**
 
 ### Overview
-Operates SpikeSafe as pulsed current source with multiple output currents. In Continuous Dynamic mode, the Set Current, On Time, and Off Time can be modified while the SpikeSafe is outputting current.  
+Operates SpikeSafe as a pulsed current source with multiple output currents. In Continuous Dynamic mode, the Set Current, On Time, and Off Time can be modified while the SpikeSafe is outputting current.  
 
 Set the Maximum Compliance Voltage (MCV) to the expected load voltage +5V. Reduce MCV if an internal over power error occurs. 
 
