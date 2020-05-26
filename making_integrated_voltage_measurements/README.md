@@ -9,6 +9,6 @@ These folders contain examples to make voltage measurements using the SpikeSafe 
 
 ## Usage
 
-To properly graph results, the [matplotlib](https://matplotlib.org/) library is required (version 3.2.1 or greater). Use the command `python -m pip install -U matplotlib` to install the latest version of matplotlib. You may want to perform this within a [virtual environment](https://docs.python.org/3/tutorial/venv.html). Once the matplotlib library is installed, each sequence can be run as a standalone Python file.
+These sequences involve graphing measurement results, and require the [matplotlib](https://matplotlib.org/) library. See intructions on installing this library under the "Usage" section in the [SpikeSafePythonSamples markdown file](/README.md#usage).
 
 Connect the SpikeSafe SMU's Force and Sense leads to the LED, Laser, or electrical equipment to be tested. Using the descriptions and screenshots provided, determine which mode fits your test scenario. Run the sequences provided and observe the outputted voltage measurement data onscreen. The code provided sends all the necessary commands to output current and measure voltage for a given test purpose, but sequences may be modified as necessary to fit your specific application.
