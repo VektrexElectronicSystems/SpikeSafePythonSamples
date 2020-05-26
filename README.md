@@ -54,4 +54,4 @@ Feature requests and bug reports can be submitted to the [Issues Page](https://g
 
 ## License
 
-Licensed under the Vektrex Sample License.
+SpikeSafePythonSamples is licensed under the MIT license, which allows for non-commercial and commercial use.
