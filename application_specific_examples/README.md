@@ -11,7 +11,7 @@ These sequences address specific scenarios in which SpikeSafe functionality is u
 
 Vektrex recommends getting acquainted with basic SpikeSafe features described in any of the other folders within [SpikeSafePythonSamples](/../../) before running these sequences. If any additional explanation or insight is necessary, contact support@vektrex.com. 
 
-Some of these sequences involve graphing measurement results, and require the [matplotlib](https://matplotlib.org/) library. See intructions on installing this library under the "Usage" section in the [SpikeSafePythonSamples markdown file](/README.md#usage).
+Some of these sequences involve graphing measurement results, and require the [matplotlib](https://matplotlib.org/) library. See instructions on installing this library under the "Usage" section in the [SpikeSafePythonSamples markdown file](/README.md#usage).
 
 For some of these sequences, some external instrumentation such as a spectrometer or a temperature-control device may be necessary. Read the individual sequence's description to see which settings and instrumentation need modification, and adjust settings based on your given test setup. For some of these sequences, some repetition is necessary as trial and error is the best method to achieve the desired outcome.
 
