@@ -74,7 +74,7 @@ try:
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()                  
 
-    log.info("RunDcMode.py started.")
+    log.info("RunDcMode.py completed.\n")
 
 except Exception as err:
     # print any error to the log file and exit application

@@ -36,7 +36,8 @@ try:
     
     # read SpikeSafe information
     data = tcp_socket.read_data()                    
-    
+    log.info("SpikeSafe *IDN? Response: {}".format(data))
+
     # disconnect from SpikeSafe
     tcp_socket.close_socket()  
 
