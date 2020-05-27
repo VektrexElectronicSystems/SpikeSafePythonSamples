@@ -52,7 +52,7 @@ try:
     # set Channel 1's settings to operate in Multi-Pulse mode
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP MULTIPULSE')
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1') 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 30')   
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 1')
     tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 1')
     tcp_socket.send_scpi_command('SOUR1:PULS:COUN 3')

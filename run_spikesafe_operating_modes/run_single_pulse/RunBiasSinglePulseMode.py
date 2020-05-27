@@ -47,7 +47,7 @@ try:
     # set Channel 1's bias current to 10 mA and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR:BIAS 0.01')     
 
-    # set Channel 1's voltage to 10 V 
+    # set Channel 1's voltage to 20 V 
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
     # set Channel 1's pulse width to 1ms. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode

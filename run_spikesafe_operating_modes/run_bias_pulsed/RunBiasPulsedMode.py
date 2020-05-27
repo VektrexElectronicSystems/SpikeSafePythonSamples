@@ -46,8 +46,8 @@ try:
     # set each channel's current to 100 mA
     tcp_socket.send_scpi_command('SOUR0:CURR 0.1')   
 
-    # set each channel's voltage to 10 V 
-    tcp_socket.send_scpi_command('SOUR0:VOLT 10') 
+    # set each channel's voltage to 20 V 
+    tcp_socket.send_scpi_command('SOUR0:VOLT 20') 
 
     # set each channel's bias current to 20 mA and check for all events
     tcp_socket.send_scpi_command('SOUR0:CURR:BIAS 0.02')   
