@@ -12,6 +12,7 @@ from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait     
+from spikesafe_python.SpikeSafeError import SpikeSafeError
 from matplotlib import pyplot as plt
 
 ### set these before starting application
@@ -22,10 +23,12 @@ port_number = 8282
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
-logging.basicConfig(filename='MeasurePulsedSweepVoltage.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
 
 ### start of main program
 try:
+    log.info("MeasureVoltageAcrossPulse.py started.")
+        
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
@@ -110,10 +113,21 @@ try:
     plt.show()
 
     # disconnect from SpikeSafe                      
-    tcp_socket.close_socket()    
+    tcp_socket.close_socket()
+
+    log.info("MeasureVoltageAcrossPulse.py completed.\n")
+
+except SpikeSafeError as ssErr:
+    # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
+    error_message = 'SpikeSafe error: {}\n'.format(ssErr)
+    log.error(error_message)
+    print(error_message)
+    sys.exit(1)
 except Exception as err:
-    # print any error to the log file and exit application
-    log.error('Program error: {}'.format(err))          
+    # print any general exception to both the terminal and the log file, then exit the application
+    error_message = 'Program error: {}\n'.format(err)
+    log.error(error_message)       
+    print(error_message)   
     sys.exit(1)
 
 

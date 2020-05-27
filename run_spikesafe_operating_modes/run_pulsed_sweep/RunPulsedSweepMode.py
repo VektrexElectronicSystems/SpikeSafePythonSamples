@@ -12,6 +12,7 @@ from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait     
+from spikesafe_python.SpikeSafeError import SpikeSafeError
 
 ### set these before starting application
 
@@ -45,7 +46,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR:STEP 100')   
 
     # set Channel 1's voltage to 20 V 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
+    tcp_socket.send_scpi_command('SOUR1:VOLT 3')   
 
     # set Channel 1's pulse settings for a 1% duty cycle and 1ms Period using the Pulse On Time and Pulse Off Time commands
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
@@ -85,7 +86,15 @@ try:
 
     log.info("RunPulsedSweepMode.py completed.\n")
 
+except SpikeSafeError as ssErr:
+    # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
+    error_message = 'SpikeSafe error: {}\n'.format(ssErr)
+    log.error(error_message)
+    print(error_message)
+    sys.exit(1)
 except Exception as err:
-    # print any error to the log file and exit application
-    log.error('Program error: {}'.format(err))          
+    # print any general exception to both the terminal and the log file, then exit the application
+    error_message = 'Program error: {}\n'.format(err)
+    log.error(error_message)       
+    print(error_message)   
     sys.exit(1)

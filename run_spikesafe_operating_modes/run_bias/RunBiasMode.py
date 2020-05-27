@@ -12,7 +12,8 @@ from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
-from spikesafe_python.Threading import wait     
+from spikesafe_python.Threading import wait  
+from spikesafe_python.SpikeSafeError import SpikeSafeError   
 
 ### set these before starting application
 
@@ -80,7 +81,15 @@ try:
 
     log.info("RunBiasMode.py completed.\n")
 
+except SpikeSafeError as ssErr:
+    # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
+    error_message = 'SpikeSafe error: {}\n'.format(ssErr)
+    log.error(error_message)
+    print(error_message)
+    sys.exit(1)
 except Exception as err:
-    # print any error to the log file and exit application
-    log.error('Program error: {}'.format(err))          
+    # print any general exception to both the terminal and the log file, then exit the application
+    error_message = 'Program error: {}\n'.format(err)
+    log.error(error_message)       
+    print(error_message)   
     sys.exit(1)
