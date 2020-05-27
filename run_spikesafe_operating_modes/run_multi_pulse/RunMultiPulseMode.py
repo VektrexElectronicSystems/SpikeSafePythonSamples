@@ -44,7 +44,7 @@ try:
     # set Channel 1's current to 100 mA
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1') 
 
-    # set Channel 1's voltage to 10 V 
+    # set Channel 1's voltage to 20 V 
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
     # set Channel 1's Pulse On Time and Pulse Off Time to 1s each
@@ -80,10 +80,10 @@ try:
         wait(1)        
 
     # check that the Multi Pulse output has ended
-    hasMultiPulseEndedString = ''
-    while hasMultiPulseEndedString != 'TRUE':
+    has_multi_pulse_ended = ''
+    while has_multi_pulse_ended != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
-        hasMultiPulseEndedString =  tcp_socket.read_data()
+        has_multi_pulse_ended =  tcp_socket.read_data()
         wait(0.5)
 
     # After the pulsing has ended, set Channel 1's current to 200 mA while the channel is enabled
