@@ -37,12 +37,12 @@ An ideal current pulse is generally one with a fast, vertical rising edge and mi
 
 **Unideal Pulse - Slow Rise Time**
 
-![]()
+![](slow_rise_time.png)
 
 **Unideal Pulse - Excessive Overshoot**
 
-![]()
+![](large_overshoot.png)
 
 **Ideal Pulse**
 
-![]()
+![](ideal_pulse.png)
