@@ -31,7 +31,7 @@ Note the use of the New Data query while the SpikeSafe is operating. While the D
 - To apply this principle to measure voltages across a pulse of different width, one should note the following parameter constraints:
     - Aperture must be set in increments of 2µs, with 2µs being the minimum value
     - The Digitizer is able to store a maximum of 525 readings
-    - It is often useful to observe the falling edge of a pulse. To perform this, optimize test parameters so that Pulse Width = 500 * Aperture. Set Reading Count to 525.
+    - It is often useful to observe the full pulse behavior, which includes the falling edge. To perform this, optimize test parameters so that Pulse Width = 500 * Aperture. Set Reading Count to 525.
 
 ## Expected Results
 The SpikeSafe current output will look exactly as it does in the "Run Single Pulse" example. The Digitizer voltage measurements will be returned as a string in byte format with comma-separated voltage measurements in scientific notation. In this example, a graph of the measured pulse will automatically be generated. See an example of pulse output into a 10Ω resistor shown below:

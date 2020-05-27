@@ -8,11 +8,13 @@
 
 import sys
 import time
+import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait
+from spikesafe_python.SpikeSafeError import SpikeSafeError
 from tkinter import messagebox     
 
 ### set these before starting application
@@ -21,8 +23,14 @@ from tkinter import messagebox
 ip_address = '10.0.0.220'
 port_number = 8282          
 
+### setting up sequence log
+log = logging.getLogger(__name__)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+
 ### start of main program
 try:
+    log.info("ConnectDisconnectSwitchSample.py started.")
+
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
@@ -34,7 +42,7 @@ try:
     # If switch related SCPI is sent and there is no switch configured, it will result in error "386, Output Switch is not installed"
     tcp_socket.send_scpi_command('OUTP1:CONN:AVAIL?')
     isSwitchAvailable = tcp_socket.read_data()
-    if isSwitchAvailable != b'Ch:1\n':
+    if isSwitchAvailable != 'Ch:1':
         raise Exception('Force Sense Selector Switch is not available, and is necessary to run this sequence.')
 
     # set the Force Sense Selector Switch state to Primary (A) so that the SpikeSafe can output to the DUT
@@ -44,7 +52,7 @@ try:
     # set Channel 1's settings to operate in Multi-Pulse mode
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP MULTIPULSE')
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1') 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 30')   
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 1')
     tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 1')
     tcp_socket.send_scpi_command('SOUR1:PULS:COUN 3')
@@ -73,7 +81,7 @@ try:
 
     # check that the Multi Pulse output has ended
     hasMultiPulseEndedString = ''
-    while hasMultiPulseEndedString != b'TRUE\n':
+    while hasMultiPulseEndedString != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
         wait(0.5)
@@ -101,7 +109,7 @@ try:
 
     # check that the Multi Pulse output has ended
     hasMultiPulseEndedString = ''
-    while hasMultiPulseEndedString != b'TRUE\n':
+    while hasMultiPulseEndedString != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
         wait(0.5)
@@ -111,7 +119,18 @@ try:
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    
+
+    log.info("ConnectDisconnectSwitchSample.py completed.\n")
+
+except SpikeSafeError as ssErr:
+    # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
+    error_message = 'SpikeSafe error: {}\n'.format(ssErr)
+    log.error(error_message)
+    print(error_message)
+    sys.exit(1)
 except Exception as err:
-    # print any error to terminal and exit application
-    print('Program error: {}'.format(err))          
+    # print any general exception to both the terminal and the log file, then exit the application
+    error_message = 'Program error: {}\n'.format(err)
+    log.error(error_message)       
+    print(error_message)   
     sys.exit(1)

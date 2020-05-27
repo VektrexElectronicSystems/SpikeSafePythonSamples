@@ -1,7 +1,7 @@
 # Example for Operating the SpikeSafe SMU's Force Sense Selector Switch as a Connect/Disconnect Switch
 
 ## **Purpose**
-Demonstrate how to use the SpikeSafe SMU's Force Sense Selector Switch to deliver power to an LED, Laser, or electrical component using both the SpikeSafe current output and an auxiliary source output.
+Demonstrate how to use the SpikeSafe SMU's Force Sense Selector Switch to deliver power to an LED, Laser, or electrical component using the Primary SpikeSafe current output and the Auxiliary mode of the switch as an open circuit disconnect.
 
 The Force Sense Selector Switch is a true mechanical switch integrated in the SpikeSafe SMU. It is a software-controlled switch that affects both the Force leads and the Sense leads.
 

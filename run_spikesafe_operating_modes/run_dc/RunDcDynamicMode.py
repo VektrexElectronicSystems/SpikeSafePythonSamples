@@ -7,10 +7,13 @@
 
 import sys
 import time
+import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
+from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait     
+from spikesafe_python.SpikeSafeError import SpikeSafeError
 
 ### set these before starting application
 
@@ -18,8 +21,14 @@ from spikesafe_python.Threading import wait
 ip_address = '10.0.0.220'
 port_number = 8282          
 
+### setting up sequence log
+log = logging.getLogger(__name__)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+
 ### start of main program
 try:
+    log.info("RunDcDynamicMode.py started.")
+    
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
@@ -48,6 +57,9 @@ try:
     # turn on Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 1')               
     log_all_events(tcp_socket)                            
+
+    # wait until the channel is fully ramped
+    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
 
     # check for all events and measure readings on Channel 1 once per second for 10 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
@@ -89,8 +101,19 @@ try:
     log_memory_table_read(tcp_socket)
 
     # disconnect from SpikeSafe                      
-    tcp_socket.close_socket()                            
+    tcp_socket.close_socket()     
+
+    log.info("RunDcDynamicMode.py completed.\n")
+
+except SpikeSafeError as ssErr:
+    # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
+    error_message = 'SpikeSafe error: {}\n'.format(ssErr)
+    log.error(error_message)
+    print(error_message)
+    sys.exit(1)
 except Exception as err:
-    # print any error to terminal and exit application
-    print('Program error: {}'.format(err))          
+    # print any general exception to both the terminal and the log file, then exit the application
+    error_message = 'Program error: {}\n'.format(err)
+    log.error(error_message)       
+    print(error_message)   
     sys.exit(1)

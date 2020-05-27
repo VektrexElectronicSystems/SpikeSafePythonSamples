@@ -8,7 +8,7 @@ Modulated DC mode can be thought of as a programmable version of DC Dynamic mode
 ## **Run Modulated DC Mode**
 
 ### Overview 
-Operates SpikeSafe as a programmable DC current source with variable DC output current specified by a seqeunce command. Sequences can either last indefinitely, or for a specified amount of time. If the channel is enabled and the modulated sequence completes, the event queue will output the message "105, Modulated SEQ is completed".
+Operates SpikeSafe as a programmable DC current source with variable DC output current specified by a sequence command. Sequences can either last indefinitely, or for a specified amount of time. If the channel is enabled and the modulated sequence completes, the event queue will output the message "105, Modulated SEQ is completed".
 
 Similar to Pulsed Sweep, Single Pulse, and Multi Pulse modes, Modulated DC mode requires a trigger command to be sent to output current. A trigger command will only be accepted if the channel is ready for a trigger, in which the SpikeSafe event queue will output a "100, Channel Ready" message.
 

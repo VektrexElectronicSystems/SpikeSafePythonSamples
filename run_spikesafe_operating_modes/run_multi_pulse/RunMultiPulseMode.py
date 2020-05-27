@@ -8,11 +8,13 @@
 
 import sys
 import time
+import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.TcpSocket import TcpSocket
-from spikesafe_python.Threading import wait     
+from spikesafe_python.Threading import wait  
+from spikesafe_python.SpikeSafeError import SpikeSafeError   
 
 ### set these before starting application
 
@@ -20,8 +22,14 @@ from spikesafe_python.Threading import wait
 ip_address = '10.0.0.220'
 port_number = 8282          
 
+### setting up sequence log
+log = logging.getLogger(__name__)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+
 ### start of main program
 try:
+    log.info("RunMultiPulseMode.py started.")
+        
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
@@ -37,7 +45,7 @@ try:
     # set Channel 1's current to 100 mA
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1') 
 
-    # set Channel 1's voltage to 10 V 
+    # set Channel 1's voltage to 20 V 
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
     # set Channel 1's Pulse On Time and Pulse Off Time to 1s each
@@ -73,10 +81,10 @@ try:
         wait(1)        
 
     # check that the Multi Pulse output has ended
-    hasMultiPulseEndedString = ''
-    while hasMultiPulseEndedString != b'TRUE\n':
+    has_multi_pulse_ended = ''
+    while has_multi_pulse_ended != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
-        hasMultiPulseEndedString =  tcp_socket.read_data()
+        has_multi_pulse_ended =  tcp_socket.read_data()
         wait(0.5)
 
     # After the pulsing has ended, set Channel 1's current to 200 mA while the channel is enabled
@@ -94,7 +102,7 @@ try:
 
     # check that the Multi Pulse output has ended
     hasMultiPulseEndedString = ''
-    while hasMultiPulseEndedString != b'TRUE\n':
+    while hasMultiPulseEndedString != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
         wait(0.5)
@@ -104,7 +112,18 @@ try:
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    
+
+    log.info("RunMultiPulseMode.py completed.\n")
+
+except SpikeSafeError as ssErr:
+    # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
+    error_message = 'SpikeSafe error: {}\n'.format(ssErr)
+    log.error(error_message)
+    print(error_message)
+    sys.exit(1)
 except Exception as err:
-    # print any error to terminal and exit application
-    print('Program error: {}'.format(err))          
+    # print any general exception to both the terminal and the log file, then exit the application
+    error_message = 'Program error: {}\n'.format(err)
+    log.error(error_message)       
+    print(error_message)   
     sys.exit(1)
