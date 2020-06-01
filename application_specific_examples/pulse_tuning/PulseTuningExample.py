@@ -25,11 +25,13 @@ log = logging.getLogger(__name__)
 logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
 
 ### defining the action to take per test session
-def run_single_pulse_tuning_test(load_impedance_int, rise_time_int):
+def run_single_pulse_tuning_test(load_impedance, rise_time):
     
+    log.info('Running single pulse tuning test iteration with {} and {}'.format(load_impedance, rise_time))
+
     # set the load impedance and rise time according to the input parameters
-    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM {}'.format(load_impedance_int))
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM {}'.format(rise_time_int)) 
+    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM {}'.format(LoadImpedance(load_impedance).value))
+    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM {}'.format(RiseTime(rise_time).value)) 
 
     # Check for any errors with initializing commands
     log_all_events(tcp_socket)
@@ -49,12 +51,14 @@ def run_single_pulse_tuning_test(load_impedance_int, rise_time_int):
         is_pulse_complete = tcp_socket.read_data()
         log_all_events(tcp_socket)
 
-    messagebox.showinfo("Single Pulse Outputted", "Observe the current pulse shape using an oscilloscope or DMM, and note the current compensation settings.\n\nPress \"OK\" to move to the next combination of Pulse Tuning settings.\n\nLoad Impedance: {}\nRise Time: {}".format(LoadImpedance(load_impedance_int).name, RiseTime(rise_time_int).name))
+    messagebox.showinfo("Single Pulse Outputted", "Observe the current pulse shape using an oscilloscope or DMM, and note the current compensation settings.\n\nPress \"OK\" to move to the next combination of Pulse Tuning settings.\n\nLoad Impedance: {}\nRise Time: {}".format(LoadImpedance(load_impedance).name, RiseTime(rise_time).name))
 
     tcp_socket.send_scpi_command('OUTP1 0')
 
     # wait one second to account for any electrical transients before starting the next session
     wait(1)
+
+    log.info('Single pulse tuning test iteration completed successfully.')
 
     return
 
@@ -84,16 +88,16 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
 
-    # set channel 1's  pulse mode to Single Pulse
+    # set channel 1's pulse mode to Single Pulse
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
 
-    # set channel 1's  current to 100 mA
+    # set channel 1's current to 100 mA
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1')     
 
-    # set channel 1's  voltage to 20 V 
+    # set channel 1's voltage to 20 V 
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
-    # set channel 1's  pulse width to 100µs. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
+    # set channel 1's pulse width to 100µs. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
 
     # set channel 1's output ramp to fast so that tests can be run in succession
@@ -105,25 +109,25 @@ try:
     # run each combination of Pulse Tuning settings to determine the settings that output the best pulse shape
     # per Vektrex recommendation, Load Impedance is tuned prior to Rise Time
     # once a pattern has been established, it may be useful to comment out ineffective or redundant test cases
-    run_single_pulse_tuning_test(4,4)    
-    run_single_pulse_tuning_test(3,4)    
-    run_single_pulse_tuning_test(2,4)    
-    run_single_pulse_tuning_test(1,4)    
+    run_single_pulse_tuning_test(LoadImpedance.VERY_LOW, RiseTime.VERY_SLOW)    
+    run_single_pulse_tuning_test(LoadImpedance.LOW, RiseTime.VERY_SLOW)    
+    run_single_pulse_tuning_test(LoadImpedance.MEDIUM, RiseTime.VERY_SLOW)    
+    run_single_pulse_tuning_test(LoadImpedance.HIGH, RiseTime.VERY_SLOW)    
 
-    run_single_pulse_tuning_test(4,3)    
-    run_single_pulse_tuning_test(3,3)    
-    run_single_pulse_tuning_test(2,3)    
-    run_single_pulse_tuning_test(1,3)    
+    run_single_pulse_tuning_test(LoadImpedance.VERY_LOW, RiseTime.SLOW)    
+    run_single_pulse_tuning_test(LoadImpedance.LOW, RiseTime.SLOW)    
+    run_single_pulse_tuning_test(LoadImpedance.MEDIUM, RiseTime.SLOW)    
+    run_single_pulse_tuning_test(LoadImpedance.HIGH, RiseTime.SLOW)    
 
-    run_single_pulse_tuning_test(4,2)    
-    run_single_pulse_tuning_test(3,2)    
-    run_single_pulse_tuning_test(2,2)    
-    run_single_pulse_tuning_test(1,2)    
+    run_single_pulse_tuning_test(LoadImpedance.VERY_LOW, RiseTime.MEDIUM)    
+    run_single_pulse_tuning_test(LoadImpedance.LOW, RiseTime.MEDIUM)    
+    run_single_pulse_tuning_test(LoadImpedance.MEDIUM, RiseTime.MEDIUM)    
+    run_single_pulse_tuning_test(LoadImpedance.HIGH, RiseTime.MEDIUM)    
 
-    run_single_pulse_tuning_test(4,1)    
-    run_single_pulse_tuning_test(3,1)    
-    run_single_pulse_tuning_test(2,1)    
-    run_single_pulse_tuning_test(1,1)    
+    run_single_pulse_tuning_test(LoadImpedance.VERY_LOW, RiseTime.FAST)    
+    run_single_pulse_tuning_test(LoadImpedance.LOW, RiseTime.FAST)    
+    run_single_pulse_tuning_test(LoadImpedance.MEDIUM, RiseTime.FAST)    
+    run_single_pulse_tuning_test(LoadImpedance.HIGH, RiseTime.FAST)    
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    

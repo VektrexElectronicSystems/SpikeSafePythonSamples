@@ -13,7 +13,7 @@ The Pulse Width, Duty Cycle, and Pulse Period settings are defined below. Since 
 - **Off Time:** The time per Pulse Period that the output current is equal to 0A
 - **Pulse Width:** Synonymous with On Time
 - **Duty Cycle:** The percentage of a Pulse Period that the output current is equal to the Set Current
--**Pulse Period:** The sum of the On Time and Off Time when outputting pulsed current
+- **Pulse Period:** The sum of the On Time and Off Time when outputting pulsed current
 
 ## Key Settings
 - **Pulse Mode:** Continuous Dyanmic
@@ -32,47 +32,82 @@ In this example, the Pulse Width, Duty Cycle, Period, and Pulse Hold will be mod
 ## Expected Results
 The On Time and Off Time will be dynamically modified while the channel is running. The actions taken within the sequence will be logged in the SpikeSafePythonSamples.log file as well as the terminal. This output should match the text below:
 
-`Held Pulse Period`
-`Set Pulse Width to 0.008s`
-`Updated Pulse Width: 0.008000s`
-`Updated Duty Cycle: 80.00001%`
-`Updated Pulse Period: 0.010000s`
+>Held Pulse Period
 
-`Set Duty Cycle to 50%`
-`Updated Pulse Width: 0.005000s`
-`Updated Duty Cycle: 50.00000%`
-`Updated Pulse Period: 0.010000s`
+>Set Pulse Width to 0.008s
 
-`Set Duty Cycle to 0%`
-`Updated Pulse Width: 0.000000s`
-`Updated Duty Cycle: 0.000000%`
-`Updated Pulse Period: 0.010000s`
+>Updated Pulse Width: 0.008000s
 
-`Set Duty Cycle to 100%`
-`Updated Pulse Width: 0.010000s`
-`Updated Duty Cycle: 100.0000%`
-`Updated Pulse Period: 0.010000s`
+>Updated Duty Cycle: 80.00001%
 
-`Held Pulse Width`
-`Set Pulse Period to 0.02s`
-`Updated Pulse Width: 0.010000s`
-`Updated Duty Cycle: 50.00000%`
-`Updated Pulse Period: 0.020000s`
+>Updated Pulse Period: 0.010000s
 
-`Set Duty Cycle to 25%`
-`Updated Pulse Width: 0.010000s`
-`Updated Duty Cycle: 25.00000%`
-`Updated Pulse Period: 0.040000s`
 
-`Held Duty Cycle`
-`Set Pulse Period to 0.2s`
-`Updated Pulse Width: 0.050000s`
-`Updated Duty Cycle: 25.00000%`
-`Updated Pulse Period: 0.200000s`
+>Set Duty Cycle to 50%
 
-`Set Pulse Width to 0.001s`
-`Updated Pulse Width: 0.001000s`
-`Updated Duty Cycle: 25.00000%`
-`Updated Pulse Period: 0.004000s`
+>Updated Pulse Width: 0.005000s
+
+>Updated Duty Cycle: 50.00000%
+
+>Updated Pulse Period: 0.010000s
+
+
+>Set Duty Cycle to 0%
+
+>Updated Pulse Width: 0.000000s
+
+>Updated Duty Cycle: 0.000000%
+
+>Updated Pulse Period: 0.010000s
+
+
+>Set Duty Cycle to 100%
+
+>Updated Pulse Width: 0.010000s
+
+>Updated Duty Cycle: 100.0000%
+
+>Updated Pulse Period: 0.010000s
+
+
+>Held Pulse Width
+
+>Set Pulse Period to 0.02s
+
+>Updated Pulse Width: 0.010000s
+
+>Updated Duty Cycle: 50.00000%
+
+>Updated Pulse Period: 0.020000s
+
+
+>Set Duty Cycle to 25%
+
+>Updated Pulse Width: 0.010000s
+
+>Updated Duty Cycle: 25.00000%
+
+>Updated Pulse Period: 0.040000s
+
+
+>Held Duty Cycle
+
+>Set Pulse Period to 0.2s
+
+>Updated Pulse Width: 0.050000s
+
+>Updated Duty Cycle: 25.00000%
+
+>Updated Pulse Period: 0.200000s
+
+
+>Set Pulse Width to 0.001s
+
+>Updated Pulse Width: 0.001000s
+
+>Updated Duty Cycle: 25.00000%
+
+>Updated Pulse Period: 0.004000s
+
 
 Most of these settings adjustments occur on a 2-second interval and can be observed using an oscilloscope or digital multi-meter.
