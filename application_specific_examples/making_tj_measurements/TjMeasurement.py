@@ -5,6 +5,7 @@
 # 1.) A K-factor will be measured by comparing voltages at two controlled temperatures
 # 2.) The LED will be heated using its operational current until it reaches a stable operating temperature
 # 3.) The SpikeSafe will be run in CDBC mode and the digitizer will make voltage readings at the beginning of an Off Time cycle
+# after step 3, readings will be graphed with a logarithmic x-axis
 
 import sys
 import time
@@ -20,15 +21,19 @@ from spikesafe_python.SpikeSafeError import SpikeSafeError
 from matplotlib import pyplot as plt
 from tkinter import messagebox 
 
-### set these before starting application
-
 def log_and_print(message_string):
     log.info(message_string)
     print(message_string)
 
+### set these before starting application
+
 # SpikeSafe IP address and port number
 ip_address = '10.0.0.220'
 port_number = 8282 
+
+# The graph zoom offset is used to zoom in or out to better visualize data in the final graph to make it easier to determine Vf(0). Value is in volts
+# A value of zero corresponds to a completely zoomed in graph. Increase the value to zoom out. Recommended values are between 0.001 and 0.100
+graph_zoom_offset = 0.005
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -69,7 +74,7 @@ try:
 
     wait(2)
 
-    messagebox.showinfo('Bias Current Output Started','Measurement Current is currently outputting to the DUT.\n\nChange the control temperature to T2.\n\nPress \'OK\' once temperature has been stabilized at T2, and both the V2 and T2 have been recorded')
+    messagebox.showinfo('Bias Current Outputting','Measurement Current is currently outputting to the DUT.\n\nChange the control temperature to T2.\n\nPress \'OK\' once temperature has been stabilized at T2, and both the V2 and T2 have been recorded')
 
     # turn off Channel 1 
     tcp_socket.send_scpi_command('OUTP1 0')
@@ -93,7 +98,7 @@ try:
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE FALLING')
     tcp_socket.send_scpi_command('VOLT:TRIG:COUN 1')
-    tcp_socket.send_scpi_command('VOLT:READ:COUN 50')
+    tcp_socket.send_scpi_command('VOLT:READ:COUN 500')
 
     # check all SpikeSafe event since all settings have been sent
     log_all_events(tcp_socket)
@@ -120,18 +125,23 @@ try:
     tcp_socket.send_scpi_command('OUTP1 0')
 
     # prepare digitizer voltage data to plot
-    samples = []
+    sample_times = []
     voltage_readings = []
     for dd in digitizerData:
-        samples.append(dd.sample_number)
+        sample_times.append(dd.sample_number * 2)
         voltage_readings.append(dd.voltage_reading)
 
     # plot the pulse shape using the fetched voltage readings
-    plt.plot(samples, voltage_readings)
+    plt.plot(sample_times, voltage_readings)
     plt.ylabel('Voltage (V)')
-    plt.xlabel('Logarithmic time since start of Heating Current (log s)')
+    plt.xlabel('Time since start of Heating Current output [logarithmic] (µs)')
     plt.xscale('log')
     plt.title('Digitizer Voltage Readings - Vf(0) Extrapolation')
+
+    # Setting the axes so all data can be effectively visualized. For the y-axis, graph_zoom_offset = 0.005 by default. 
+    # Modify as necessary at the top of this sequence so that Vf(0) can effectively be estimated using this graph
+    plt.axis([0, 1000, min(voltage_readings) - graph_zoom_offset, digitizerData[-1].voltage_reading + graph_zoom_offset]) 
+
     plt.grid()
     plt.show()
 
