@@ -1,6 +1,9 @@
-# Goal: Connect to a SpikeSafe and output a Single Pulse into a 10Ω resistor
-#       Take voltage measurements throughout that pulse using the SpikeSafe SMU's integrated Digitizer to determine the pulse shape
-# Expectation: Channel 1 will be driven with 100mA with a forward voltage of ~1V during this time
+# Goal: 
+# Connect to a SpikeSafe and output a Single Pulse into a 10Ω resistor
+# Take voltage measurements throughout that pulse using the SpikeSafe SMU's integrated Digitizer to determine the pulse shape
+# 
+# Expectation: 
+# Channel 1 will be driven with 100mA with a forward voltage of ~1V during this time
 
 import sys
 import time
