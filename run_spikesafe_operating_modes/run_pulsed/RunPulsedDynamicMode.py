@@ -45,7 +45,7 @@ try:
     # set Channel 1's current to 100 mA
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
 
-    # set Channel 1's voltage to 10 V 
+    # set Channel 1's voltage to 20 V 
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
     # set Channel 1's Pulse On Time to 1ms

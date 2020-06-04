@@ -1,5 +1,8 @@
-# Goal: Connect to a SpikeSafe and run a Pulsed Sweep into a 10Ω resistor. Take voltage measurements from the pulsed output using the SpikeSafe SMU's integrated Digitizer
-# Expectation: Channel 1 will be driven with 100mA with a forward voltage of ~1V during this time
+# Goal: 
+# Connect to a SpikeSafe and run a Pulsed Sweep into a 10Ω resistor. Take voltage measurements from the pulsed output using the SpikeSafe SMU's integrated Digitizer
+# 
+# Expectation: 
+# Channel 1 will be driven with 100mA with a forward voltage of ~1V during this time
 
 import sys
 import time

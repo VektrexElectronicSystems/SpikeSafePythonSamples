@@ -50,7 +50,7 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 If any further assistance is needed beyond the information provided within this repository, email support@vektrex.com.
 
-Feature requests and bug reports can be submitted to the [Issues Page](https://github.com/VektrexElectronicSystems/SpikeSafePythonSamples/issues) of this repository. This page is regularly monitored and maintained by Vektrex engineers.
+Feature requests and bug reports can be submitted to [the Vektrex website's support page](https://www.vektrex.com/request-support/). Select "Other" as the Product/System and enter "GitHub Repository" as the Subject.
 
 ## Contributors
 

@@ -1,0 +1,9 @@
+# Example for Measuring In-Situ LED Junction Temperature using the SpikeSafe SMU
+
+The sequence is in preparation to be released in SpikeSafePythonSamples version 1.2.0. In this sequence, we will address how to make in-situ junction temperature (Tj) measurements on an LED or luminaire using the SpikeSafe SMU and its integrated Voltage Digitizer.
+
+The junction temperature (Tj) of an LED is the temperature in the LED's active region, which is the point at which the diode connects to its base. Tj is a vital measurement in determining the efficiency of a part to remove heat, and therefore the expected lifetime of the part. A majority of the technology in the market limits the user to making Tj measurements after removing the part from its typical housing, which is both time-consuming and does not provide an accurate comparison to the part's typical operating Tj. The SpikeSafe SMU's Continuous Dynamic Bias Current (CDBC) mode along with its integrated Voltage Digitizer make it possible for users to measure an LED's Tj in its typical housing (i.e. "in-situ").
+
+More information on Tj measurement can be found at [JESD 51-51](https://www.jedec.org/sites/default/files/docs/JESD51-51.pdf), [LEDs Magazine](https://www.ledsmagazine.com/manufacturing-services-testing/article/14173251/jedec-technique-simplifies-led-junction-temperature-measurement), or [the Vektrex website](https://www.vektrex.com/news-articles/category/applications/junction-temperature-tj/).
+
+To stay updated on releases of the SpikeSafePythonSamples repository, press the "Watch" button at the top of the [root directory page](https://github.com/VektrexElectronicSystems/SpikeSafePythonSamples/tree/master) in GitHub.

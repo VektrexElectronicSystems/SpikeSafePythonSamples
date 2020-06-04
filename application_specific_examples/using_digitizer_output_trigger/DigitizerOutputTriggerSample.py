@@ -1,9 +1,8 @@
 # Goal: 
-# Connect to a SpikeSafe and output a Single Pulse into a 10Ω resistor
-# Take voltage measurements throughout that pulse using the SpikeSafe SMU's integrated Digitizer to determine the pulse shape
+# Demonstrate using the Digitizer Output Trigger as an input trigger to the SpikeSafe or an external instrument
 # 
 # Expectation: 
-# Channel 1 will be driven with 100mA with a forward voltage of ~1V during this time
+# The digitizer will output a trigger signal, the SpikeSafe will run a 3-pulse Multi Pulse sequence, and the voltages will be measured by the Digitizer and graphed
 
 import sys
 import time
@@ -30,7 +29,7 @@ logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %
 
 ### start of main program
 try:
-    log.info("MeasureVoltageAcrossPulse.py started.")
+    log.info("DigitizerOutputTriggerSample.py started.")
         
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
@@ -44,36 +43,38 @@ try:
     # abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe SMU
     tcp_socket.send_scpi_command('VOLT:ABOR')
 
-    # set up Channel 1 for single pulse output. To find more explanation, see run_spikesafe_operating_modes/run_single_pulse
-    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.001')
+    # set up Channel 1 for Multi Pulse output. To find more explanation, see run_spikesafe_operation_modes/run_multi_pulse
+    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP MULTIPULSE')
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
+    tcp_socket.send_scpi_command('SOUR1:VOLT 20')
+    tcp_socket.send_scpi_command('SOUR1:PULS:TON 1')
+    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 1')
+    tcp_socket.send_scpi_command('SOUR1:PULS:COUN 3')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
     tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20')
 
-    # set Digitizer voltage range to 10V since we expect to measure voltages significantly less than 10V
+    # set Channel 1's Input Trigger Source to External so an external trigger signal will start SpikeSafe current output
+    tcp_socket.send_scpi_command('OUTP1:TRIG:SOUR EXT')  
+
+    # set Channel 1's Input Trigger Delay to 10µs (the minimum value). The SpikeSafe will output current 10µs after receiving the input trigger signal
+    tcp_socket.send_scpi_command('OUTP1:TRIG:DEL 10')  
+
+    # set Channel 1's Input Trigger Polarity to rising. This should match the expected polarity of the trigger signal
+    tcp_socket.send_scpi_command('OUTP1:TRIG:POL RISING')   
+
+    # set typical Digitizer settings to match SpikeSafe settings. For more explanation, see making_integrated_voltage_measurements
     tcp_socket.send_scpi_command('VOLT:RANG 10')
-
-    # set Digitizer aperture for 2µs, the minimum value. Aperture specifies the measurement time, and we want to measure incrementally across the current pulse
-    tcp_socket.send_scpi_command('VOLT:APER 2')
-
-    # set Digitizer trigger delay to 0µs. We want to take measurements as fast as possible
-    tcp_socket.send_scpi_command('VOLT:TRIG:DEL 0')
-
-    # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
+    tcp_socket.send_scpi_command('VOLT:APER 400000')
+    tcp_socket.send_scpi_command('VOLT:TRIG:DEL 200000')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
-
-    # set Digitizer trigger edge to rising. The Digitizer will start a measurement after the SpikeSafe's rising pulse edge occurs
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
+    tcp_socket.send_scpi_command('VOLT:TRIG:COUN 6') # two 3-pulse Multi Pulse sequences will output
+    tcp_socket.send_scpi_command('VOLT:READ:COUN 1') 
 
-    # set Digitizer trigger count to 1. We are measuring the output of one current pulse
-    tcp_socket.send_scpi_command('VOLT:TRIG:COUN 1')
-
-    # set Digitizer reading count to 525, the maximum value. We are measuring a 1ms pulse, and will take 525 measurements 2µs apart from each other
-    tcp_socket.send_scpi_command('VOLT:READ:COUN 525')
+    # set the Digitizer Hardware Trigger polarity to rising
+    tcp_socket.send_scpi_command('VOLT:OUTP:TRIG:EDGE RISING')  
 
     # check all SpikeSafe event since all settings have been sent
     log_all_events(tcp_socket)
@@ -87,8 +88,25 @@ try:
     # wait until Channel 1 is ready to pulse
     read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
 
-    # output a current pulse for Channel 1
-    tcp_socket.send_scpi_command('OUTP1:TRIG')
+    # output the Digitizer hardware output trigger. 10µs after this signal is outputted, the Multi Pulse sequence will start
+    tcp_socket.send_scpi_command('VOLT:OUTP:TRIG')
+
+    # check that the Multi Pulse output has ended
+    has_multi_pulse_ended = ''
+    while has_multi_pulse_ended != 'TRUE':
+        tcp_socket.send_scpi_command('SOUR1:PULS:END?')
+        has_multi_pulse_ended =  tcp_socket.read_data()
+        wait(0.5)
+
+    # output the Digitizer hardware output trigger. As long as the SpikeSafe is ready to pulse, this can be done continuously
+    tcp_socket.send_scpi_command('VOLT:OUTP:TRIG')
+
+    # check that the Multi Pulse output has ended
+    has_multi_pulse_ended = ''
+    while has_multi_pulse_ended != 'TRUE':
+        tcp_socket.send_scpi_command('SOUR1:PULS:END?')
+        has_multi_pulse_ended =  tcp_socket.read_data()
+        wait(0.5)
 
     # wait for the Digitizer measurements to complete 
     wait_for_new_voltage_data(tcp_socket, 0.5)
@@ -111,14 +129,15 @@ try:
     plt.plot(samples, voltage_readings)
     plt.ylabel('Voltage (V)')
     plt.xlabel('Sample Number (#)')
-    plt.title('Digitizer Voltage Readings - 1ms 100mA Pulse')
+    plt.title('Digitizer Voltage Readings - two 3-pulse Multi-Pulse outputs')
+    plt.axis([0, 7, min(voltage_readings) - 0.1, max(voltage_readings) + 0.1])
     plt.grid()
     plt.show()
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()
 
-    log.info("MeasureVoltageAcrossPulse.py completed.\n")
+    log.info("DigitizerOutputTriggerSample.py completed.\n")
 
 except SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
