@@ -33,7 +33,7 @@ port_number = 8282
 
 # The graph zoom offset is used to zoom in or out to better visualize data in the final graph to make it easier to determine Vf(0). Value is in volts
 # A value of zero corresponds to a completely zoomed in graph. Increase the value to zoom out. Recommended values are between 0.001 and 0.100
-graph_zoom_offset = 0.005
+graph_zoom_offset = 0.01
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -138,9 +138,9 @@ try:
     plt.xscale('log')
     plt.title('Digitizer Voltage Readings - Vf(0) Extrapolation')
 
-    # Setting the axes so all data can be effectively visualized. For the y-axis, graph_zoom_offset = 0.005 by default. 
+    # Setting the axes so all data can be effectively visualized. For the y-axis, graph_zoom_offset = 0.01 by default. 
     # Modify as necessary at the top of this sequence so that Vf(0) can effectively be estimated using this graph
-    plt.axis([0, 1000, min(voltage_readings) - graph_zoom_offset, digitizerData[-1].voltage_reading + graph_zoom_offset]) 
+    plt.axis([1, 1000, min(voltage_readings) - graph_zoom_offset, digitizerData[-1].voltage_reading + graph_zoom_offset])  
 
     plt.grid()
     plt.show()

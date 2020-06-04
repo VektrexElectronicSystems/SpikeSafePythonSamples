@@ -44,7 +44,7 @@ try:
     # abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe SMU
     tcp_socket.send_scpi_command('VOLT:ABOR')
 
-    # set up Channel 1 for pulsed output. To find more explanation, see instrument_examples/run_pulsed
+    # set up Channel 1 for single pulse output. To find more explanation, see run_spikesafe_operating_modes/run_single_pulse
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.001')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
