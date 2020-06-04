@@ -6,4 +6,4 @@ The junction temperature (Tj) of an LED is the temperature in the LED's active r
 
 More information on Tj measurement can be found at [JESD 51-51](https://www.jedec.org/sites/default/files/docs/JESD51-51.pdf), [LEDs Magazine](https://www.ledsmagazine.com/manufacturing-services-testing/article/14173251/jedec-technique-simplifies-led-junction-temperature-measurement), or [the Vektrex website](https://www.vektrex.com/news-articles/category/applications/junction-temperature-tj/).
 
-To stay updated on releases of the SpikeSafePythonSamples repository, press the "Watch" button at the top of the [root directory page](../../) in GitHub.
+To stay updated on releases of the SpikeSafePythonSamples repository, press the "Watch" button at the top of the [root directory page](https://github.com/VektrexElectronicSystems/SpikeSafePythonSamples/tree/master) in GitHub.
