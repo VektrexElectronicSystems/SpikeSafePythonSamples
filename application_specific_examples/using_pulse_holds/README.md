@@ -28,6 +28,8 @@ In this example, the Pulse Width, Duty Cycle, Period, and Pulse Hold will be mod
 ## Considerations
 - This sequence assumes the user has basic knowledge of SpikeSafe Pulsed Dynamic Mode operation. To find more information on the basics of SpikeSafe Pulsed Dynamic current output, see [Run Pulsed Dynamic Mode](../../run_spikesafe_operating_modes/run_pulsed/README.md#run%20pulsed%20dynamic%20mode).
 - The command set demonstrated throughout this sequence was designed to be sent to the SpikeSafe one command at a time. If multiple pulse settings are sent simultaneously, there will be a span of a few microseconds per setting where pulse behavior is updating to match the specified setting.
+- Although it is possible to use the Pulse Width, Duty Cycle, Pulse Period, and Pulse Hold commands in conjunction with the On Time and Off Time commands, it is not recommended to do so. The alternate command set demonstrated in this sequence is designed for quick, on-the-fly changes which result in a recalculation of related settings. On and Off Time commands circumvent this recalculation.
+- Since using this command set results in recalculation of settings, it is recommended to re-query Pulse Width, Duty Cycle, and Pulse Period any time one of the three settings is configured.
 
 ## Expected Results
 The On Time and Off Time will be dynamically modified while the channel is running. The actions taken within the sequence will be logged in the SpikeSafePythonSamples.log file as well as the terminal. This output should match the text below:
