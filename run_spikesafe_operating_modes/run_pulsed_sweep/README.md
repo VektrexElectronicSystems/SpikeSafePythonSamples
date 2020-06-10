@@ -52,4 +52,4 @@ This mode is very similar to Pulsed Sweep mode, except that there is a user-spec
 ### Current Output
 When running this sequence, one can expect to see the following pulse output. Note the 10mA offset between the channel running Bias Pulsed Sweep (in yellow) and the channel running Pulsed Sweep without a Bias Current (in white). This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
-![](BPS_vs_PS_output.png)
+![](bps_vs_ps_output.png)

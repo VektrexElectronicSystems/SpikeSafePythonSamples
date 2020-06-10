@@ -20,7 +20,7 @@ Operates SpikeSafe as a DC current source with single output current.
 ### Current Output
 - When running either sequence, one can expect to see the following current ramp. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
-![](DC_ramp.png)
+![](dc_ramp.png)
 
 ## **Run DC Dynamic Mode**
 
@@ -37,4 +37,4 @@ Set the Maximum Compliance Voltage (MCV) to the expected load voltage +5V. Reduc
 ### Current Output
 - In addition to seeing the current ramp in the figure above, one can expect to see the following current modifications when running this DC Dynamic sequence. This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
-![](DC_dynamic_current_changes.png)
+![](dc_dynamic_current_changes.png)
