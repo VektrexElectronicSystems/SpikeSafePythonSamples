@@ -21,8 +21,6 @@ from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait     
 from spikesafe_python.SpikeSafeError import SpikeSafeError
 from matplotlib import pyplot as plt
-from tkinter import messagebox 
-from tkinter import Tk as root
 
 def log_and_print_to_console(message_string):
     log.info(message_string.replace('\n',''))
