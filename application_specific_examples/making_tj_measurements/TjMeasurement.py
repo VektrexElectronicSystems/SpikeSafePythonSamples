@@ -10,6 +10,8 @@
 import sys
 import time
 import logging
+import math
+import statistics
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
@@ -20,10 +22,45 @@ from spikesafe_python.Threading import wait
 from spikesafe_python.SpikeSafeError import SpikeSafeError
 from matplotlib import pyplot as plt
 from tkinter import messagebox 
+from tkinter import Tk as root
 
-def log_and_print(message_string):
-    log.info(message_string)
+def log_and_print_to_console(message_string):
+    log.info(message_string.replace('\n',''))
     print(message_string)
+
+def receive_user_input_and_log():
+    inputText = input()
+    log.info(inputText)
+    return inputText
+
+def calculate_Vf0(start_point, end_point, digitizer_data_list):
+    # only want to reference the data within the straight line
+    straight_line_digitizer_data = []
+    for index in range(start_point, end_point):
+        straight_line_digitizer_data.append(digitizer_data_list[index])
+
+    sample_list = []
+    sqrt_sample_list = []
+    voltage_list = []
+    for dd in straight_line_digitizer_data:
+        sample_list.append(dd.sample_number)
+        sqrt_sample_list.append(math.sqrt(dd.sample_number))
+        voltage_list.append(dd.voltage_reading)
+
+    # this method uses data from the time square root axis to extrapolate to T=0    
+    number_of_data_points = len(straight_line_digitizer_data)
+    sqrt_sample_average = statistics.mean(sqrt_sample_list)
+    voltage_average = statistics.mean(voltage_list)
+
+    sum_of_samples = sum(sample_list)
+    sum_of_point_products = 0.0
+    for index in range(0, number_of_data_points):
+        sum_of_point_products += sqrt_sample_list[index] * voltage_list[index]
+
+    # We extrapolate Vf0 by using a line-of-best fit 
+    line_of_best_fit_slope = (sum_of_point_products / number_of_data_points - sqrt_sample_average * voltage_average) / (sum_of_samples / number_of_data_points - sqrt_sample_average * sqrt_sample_average)
+    Vf0 = -1 * (line_of_best_fit_slope * sqrt_sample_average - voltage_average)
+    return Vf0
 
 ### set these before starting application
 
@@ -62,7 +99,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
-    log_and_print('Configured SpikeSafe to Bias Current mode to obtain K-factor. Starting current output.')
+    log_and_print_to_console('\nConfigured SpikeSafe to Bias Current mode to obtain K-factor. Starting current output.')
 
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')
@@ -70,16 +107,29 @@ try:
     # wait until Channel 1 is ready to pulse
     read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
 
-    messagebox.showinfo('Bias Current Output Started - Record T1 and V1','Measurement Current is currently outputting to the DUT.\n\nRecord V1 and T1 once temperature is stable.\n\nPress \'OK\' once temperature has been stabilized at T1, and both  V1 and T1 have been recorded.')
+    log_and_print_to_console('\nMeasurement Current is currently outputting to the DUT.\n\nPress \'Enter\' in the console once temperature has been stabilized at T1, then record V1 and T1.')
+    input()
+    log_and_print_to_console('Enter T1 (in °C):')
+    temperature_one = float(receive_user_input_and_log())
+    log_and_print_to_console('Enter V1 (in V):')
+    voltage_one = float(receive_user_input_and_log())
 
     wait(2)
 
-    messagebox.showinfo('Bias Current Outputting - Record T2 and V2','Measurement Current is currently outputting to the DUT.\n\nChange the control temperature to T2.\n\nRecord V2 and T2 once temperature is stable at T2.\n\nPress \'OK\' once temperature has been stabilized at T2, and both the V2 and T2 have been recorded')
+    log_and_print_to_console('\nMeasurement Current is currently outputting to the DUT.\n\nChange the control temperature to T2.\n\nPress \'Enter\' in the console once temperature has been stabilized at T2, then record V2 and T2.')
+    input()
+    log_and_print_to_console('Enter T2 (in °C):')
+    temperature_two = float(receive_user_input_and_log())
+    log_and_print_to_console('Enter V2 (in °C):')
+    voltage_two = float(receive_user_input_and_log())
+
+    k_factor = (voltage_two - voltage_one)/(temperature_two - temperature_one)
+    log_and_print_to_console('K-factor: {} V/°C'.format(k_factor))
 
     # turn off Channel 1 
     tcp_socket.send_scpi_command('OUTP1 0')
 
-    log_and_print('K-factor values obtained. Stopped bias current output. Configuring to take Electrical Test Method measurement.')
+    log_and_print_to_console('\nK-factor values obtained. Stopped bias current output. Configuring to perform Electrical Test Method measurement.')
 
     # set up Channel 1 for CDBC output to make the junction temperature measurement
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIASPULSEDDYNAMIC')
@@ -109,7 +159,8 @@ try:
     # wait until Channel 1 is ready to pulse
     read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
 
-    messagebox.showinfo('Continuous Pulse Train Outputting', 'Heating Current is being outputted.\n\nWait until temperature has stabilized, then press \'OK\' to take voltage measurements.')
+    log_and_print_to_console('\nHeating Current is being outputted.\n\nWait until temperature has stabilized, then press \'Enter\' in the console to take voltage measurements.')
+    input()
 
     # initialize the digitizer. Measurements will be taken once a current pulse is outputted
     tcp_socket.send_scpi_command('VOLT:INIT')
@@ -125,27 +176,38 @@ try:
     tcp_socket.send_scpi_command('OUTP1 0')
 
     # prepare digitizer voltage data to plot
-    sample_times = []
+    samples = []
     voltage_readings = []
     for dd in digitizerData:
-        sample_times.append(dd.sample_number * 2)
+        samples.append(dd.sample_number)
         voltage_readings.append(dd.voltage_reading)
 
-    messagebox.showinfo('Electrical Test Method Complete - Calculate Tj', 'Electrical Test Method is complete. Press "OK" to close this notification and open the voltage graph.\n\nUsing the graph, find Vf(0).\n\nUsing K, V1, and Vf(0), calculate Tj using the provided equation in this sequence\'s markdown description.')
+    log_and_print_to_console('Voltage readings are graphed above. Determine the x-values at which the graph is linear by hovering the mouse over graph and noting the \'x=\' in the bottom right.\n\nTake note of the starting x-value and the last x-value (maximum = 500) at which the graph is linear. Once these values are written down, close the graph and enter those values in the console.\n')
 
     # plot the pulse shape using the fetched voltage readings
-    plt.plot(sample_times, voltage_readings)
+    plt.plot(samples, voltage_readings)
     plt.ylabel('Voltage (V)')
-    plt.xlabel('Time since start of Heating Current output [logarithmic] (µs)')
+    plt.xlabel('Sample number after Heating Current output [logarithmic] (#)')
     plt.xscale('log')
     plt.title('Digitizer Voltage Readings - Vf(0) Extrapolation')
 
     # Setting the axes so all data can be effectively visualized. For the y-axis, graph_zoom_offset = 0.01 by default. 
     # Modify as necessary at the top of this sequence so that Vf(0) can effectively be estimated using this graph
-    plt.axis([1, 1000, min(voltage_readings) - graph_zoom_offset, digitizerData[-1].voltage_reading + graph_zoom_offset])  
+    plt.axis([1, 500, min(voltage_readings) - graph_zoom_offset, digitizerData[-1].voltage_reading + graph_zoom_offset])  
 
     plt.grid()
     plt.show()
+
+    log_and_print_to_console('Enter the Start sample (of the linear portion of the graph):')
+    first_linear_sample = int(float(receive_user_input_and_log()))
+    log_and_print_to_console('Enter the End sample (of the linear portion of the graph) [max=500]:')
+    last_linear_sample = int(float(receive_user_input_and_log()))
+
+    Vf0 = calculate_Vf0(first_linear_sample, last_linear_sample, digitizerData)
+    junction_temperature = temperature_one + ((Vf0 - voltage_one) / k_factor)
+
+    log_and_print_to_console('\nExtrapolated Vf0 value: {} V'.format(round(Vf0, 4)))
+    log_and_print_to_console('Calculated junction temperature (Tj): {} °C\n'.format(round(junction_temperature, 4)))
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()
