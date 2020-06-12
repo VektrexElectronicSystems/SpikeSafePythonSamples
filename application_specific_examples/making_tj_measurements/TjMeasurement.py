@@ -204,7 +204,7 @@ try:
     Vf0 = calculate_Vf0(first_linear_sample, last_linear_sample, digitizerData)
     junction_temperature = temperature_one + ((Vf0 - voltage_one) / k_factor)
 
-    log_and_print_to_console('\nExtrapolated Vf0 value: {} V'.format(round(Vf0, 4)))
+    log_and_print_to_console('\nExtrapolated Vf(0) value: {} V'.format(round(Vf0, 4)))
     log_and_print_to_console('Calculated junction temperature (Tj): {} °C\n'.format(round(junction_temperature, 4)))
 
     # disconnect from SpikeSafe                      

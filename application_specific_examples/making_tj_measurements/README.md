@@ -59,9 +59,9 @@ Once Vf(0) is obtained, we have all of the values necessary to calculate Tj. Jun
 
 ### SpikeSafe Current Output Settings
 - **Pulse Mode:** Bias Current, then Continuous Dynamic Bias Current
-- **Bias Current (Measurement Current):** 33mA
-- **Set Current (Heating Current):** 3.5A
-- **Compliance Voltage:** 40V
+- **Bias Current (Measurement Current):** 33mA (may modify according to DUT characteristics)
+- **Set Current (Heating Current):** 3.5A (may modify according to DUT characteristics)
+- **Compliance Voltage:** 40V (may modify according to DUT characteristics)
 - **On Time:** 1s
 - **Off Time:** 1ms
 - **Ramp Rate:** Fast. Voltage will ramp as fast as 1000V/sec. Current will ramp as fast as 50A/sec.
@@ -93,11 +93,11 @@ Once Vf(0) is obtained, we have all of the values necessary to calculate Tj. Jun
 - For best results, it is recommended to perform [Pulse Tuning](../pulse_tuning) prior to performing this test. It is better to have a fast rise time with some overshoot than a slower rise time.
 
 ## Expected Results
-Message boxes will appear at various portions of the test to wait for user input. Perform the specified test operations when these message boxes appear, and then press "OK" to continue with the test procedure. Once step three is reached, a graph will appear similar to below:
+Messages will appear in the console at various portions of the test and will prompt user input. Perform the specified test operations when these messages appear, and then press "Enter" to continue with the test procedure. Once step three is reached, a graph will appear similar to below:
 
 ![](vf0_extrapolation_graph.png)
 
-From this graph, the user will have to estimate the Vf(0) value by extrapolating the straight line towards the y-axis. After determining the Vf(0) value, the junction temperature can then be calculated using the following equation:
+From this graph, the user will have to determine the x-values at which the graph appears most linear. After entering the starting x-value and ending x-value into the console, the Vf(0) value will be calculated by extrapolating a straight line towards the y-axis. After determining the Vf(0) value, the junction temperature is then calculated using the following equation:
 
 ![](tj_equation.png)
 
