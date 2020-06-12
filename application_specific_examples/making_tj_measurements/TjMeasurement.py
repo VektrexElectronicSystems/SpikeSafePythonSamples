@@ -70,11 +70,11 @@ try:
     # wait until Channel 1 is ready to pulse
     read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
 
-    messagebox.showinfo('Bias Current Output Started','Measurement Current is currently outputting to the DUT.\n\nPress \'OK\' once temperature has been stabilized at T1, and both  V1 and T1 have been recorded')
+    messagebox.showinfo('Bias Current Output Started - Record T1 and V1','Measurement Current is currently outputting to the DUT.\n\nRecord V1 and T1 once temperature is stable.\n\nPress \'OK\' once temperature has been stabilized at T1, and both  V1 and T1 have been recorded.')
 
     wait(2)
 
-    messagebox.showinfo('Bias Current Outputting','Measurement Current is currently outputting to the DUT.\n\nChange the control temperature to T2.\n\nPress \'OK\' once temperature has been stabilized at T2, and both the V2 and T2 have been recorded')
+    messagebox.showinfo('Bias Current Outputting - Record T2 and V2','Measurement Current is currently outputting to the DUT.\n\nChange the control temperature to T2.\n\nRecord V2 and T2 once temperature is stable at T2.\n\nPress \'OK\' once temperature has been stabilized at T2, and both the V2 and T2 have been recorded')
 
     # turn off Channel 1 
     tcp_socket.send_scpi_command('OUTP1 0')
@@ -130,6 +130,8 @@ try:
     for dd in digitizerData:
         sample_times.append(dd.sample_number * 2)
         voltage_readings.append(dd.voltage_reading)
+
+    messagebox.showinfo('Electrical Test Method Complete - Calculate Tj', 'Electrical Test Method is complete. Press "OK" to close this notification and open the voltage graph.\n\nUsing the graph, find Vf(0).\n\nUsing K, V1, and Vf(0), calculate Tj using the provided equation in this sequence\'s markdown description.')
 
     # plot the pulse shape using the fetched voltage readings
     plt.plot(sample_times, voltage_readings)
