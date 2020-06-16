@@ -5,12 +5,13 @@
 #
 # Expectation: 
 # Channel 1 will run a sweep from 20mA to 200mA, which will take 100ms. Expecting a low (<1V) forward voltage
-# Using external
+# Using external CAS DLL, control the spectrometer to make light measurements throughout the Pulsed Sweep
 
 import os
 import sys
 import time
 import logging
+import ctypes
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
@@ -26,7 +27,18 @@ from matplotlib import pyplot as plt
 
 # SpikeSafe IP address and port number
 ip_address = '10.0.0.220'
-port_number = 8282        
+port_number = 8282      
+
+# CAS4 interface mode
+CAS4_interface_mode = 3
+"""
+    CAS4_interface_mode: int
+    - 1: PCI
+    - 3: Demo (No hardware)
+    - 5: USB
+    - 10: PCIe
+    - 11: Ethernet
+"""
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -44,30 +56,32 @@ try:
     cas_dll = CasDll()
 
     # creates a CAS4 device context to be used for all following configuration
-    deviceId = cas_dll.casCreateDeviceEx(cas_dll.InterfaceTest, 0).rval
+    deviceId = cas_dll.casCreateDeviceEx(CAS4_interface_mode, 0).rval
 
     # check for errors on the CAS4
     cas_dll.check_cas4_device_error(deviceId)
 
+    liv_sweeps_folder = "application_specific_examples\\running_liv_sweeps"
+
     # specify and configure the .INI configuration and .ISC calibration file to initialize the CAS4
-    print('Enter .INI configuration file (in current working directory) to be used for CAS operation:')
+    print('Enter .INI configuration file (must be located in SpikeSafePythonSamples\\application_specific_examples\\running_liv_sweeps) to be used for CAS operation:')
     ini_file_string = input()
     if ini_file_string.endswith(".ini") == False:
         ini_file_string += ".ini"
-    ini_file_path = os.path.join(os.getcwd(), ini_file_string)
+    ini_file_path = os.path.join(os.getcwd(), liv_sweeps_folder, ini_file_string)
 
-    print('Enter .ISC calibration file (in current working directory) to be used for CAS operation:')
+    print('Enter .ISC calibration file (must be located in SpikeSafePythonSamples\\application_specific_examples\\running_liv_sweeps) to be used for CAS operation:')
     isc_file_string = input()
     if isc_file_string.endswith(".isc") == False:
         isc_file_string += ".isc"
-    isc_file_path = os.path.join(os.getcwd(), isc_file_string)
+    isc_file_path = os.path.join(os.getcwd(), liv_sweeps_folder, isc_file_string)
 
     cas_dll.casSetDeviceParameterString(deviceId, cas_dll.dpidConfigFileName, ini_file_path.encode())
     cas_dll.casSetDeviceParameterString(deviceId, cas_dll.dpidCalibFileName, isc_file_path.encode())
 
     # initialize the CAS4 using the configuration and calibration files specified by the user
     # check if any error codes result from the initializiation
-    cas_dll.check_cas4_error_code(cas_dll.casInitialize(deviceId, cas_dll.InitOnce).rval)
+    cas_dll.check_cas4_error_code(cas_dll.casInitialize(deviceId, cas_dll.InitForced).rval)
 
     # set the CAS4 measurement integration time to 10ms to match the Pulsed Sweep parameters
     cas_dll.casSetMeasurementParameter(deviceId, cas_dll.mpidIntegrationTime, 10)
@@ -76,7 +90,7 @@ try:
     cas_dll.casSetMeasurementParameter(deviceId, cas_dll.mpidTriggerSource, cas_dll.trgFlipFlop)
 
     # set the CAS4 trigger delay time to 5ms to match the Pulsed Sweep parameters
-    cas_dll.casSetMeasurementParameter(deviceId, cas_dll.mpidDelayTime, 5)
+    cas_dll.casSetMeasurementParameter(deviceId, cas_dll.mpidTriggerDelayTime, 5)
 
     ### Start of typical sequence
 
@@ -86,7 +100,8 @@ try:
 
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
-    tcp_socket.send_scpi_command('*RST')                  
+    tcp_socket.send_scpi_command('*RST')  
+    tcp_socket.send_scpi_command('VOLT:ABOR')                
     log_all_events(tcp_socket)
 
     # set up Channel 1 for Pulsed Sweep output. To find more explanation, see instrument_examples/run_pulsed_sweep
@@ -130,13 +145,15 @@ try:
 
     # initialize the CAS Spectrometer for measurement - will need to perform this once per Pulsed Sweep pulse
     light_readings = []
-    light_reading = 0.0
-    light_unit = ''
-    for measurementNumber in range(1,25):
+    light_reading = ctypes.c_double()
+    light_unit = ctypes.create_string_buffer(256)
+    for measurementNumber in range(0,25):
         cas_dll.casMeasure(deviceId)
-        cas_dll.casColorMetric(deviceId)
-        cas_dll.casGetPhotInt(deviceId, light_reading, light_unit, 32) #arbitrarily picked 32 for AUnitMaxLen: the maximum number of characters light_unit can hold
-        light_readings.append(light_reading)
+        cas_dll.casColorMetric(deviceId) # in demo, casGetData is used instead. casColorMetric follows the .chm documentation
+        cas_dll.casGetPhotInt(deviceId, ctypes.byref(light_reading), light_unit, ctypes.sizeof(light_unit))
+        light_readings.append(light_reading.value)
+        cas_dll.check_cas4_device_error(deviceId)
+        wait(0.5)
 
     # Wait for the Pulsed Sweep to be complete
     read_until_event(tcp_socket, 109) # event 109 is "Pulsed Sweep Complete"
@@ -153,18 +170,6 @@ try:
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    
 
-    # # Display spectrum graphically with matplotlib - for verification test purposes, not related to LIV sweep
-    # plt.figure()
-    # plt.title("Spectrum")
-    # plt.plot([
-    #     cas_dll.casGetData(deviceId, i).rval for i in range(
-    #         0,
-    #         int(
-    #             cas_dll.casGetDeviceParameter(deviceId,
-    #                                           cas_dll.dpidPixels).rval - 1))
-    # ])
-    # plt.show()
-
     # put the fetched data in a plottable data format
     voltage_readings = []
     current_steps = []
@@ -178,14 +183,14 @@ try:
     graph, voltage_axis = plt.subplots()
 
     # configure the voltage data
-    voltage_axis.xlabel('Set Current (mA)')
-    voltage_axis.ylabel('Voltage (V)')    
-    voltage_axis.plot(current_steps, voltage_readings)
+    voltage_axis.set_xlabel('Set Current (mA)')
+    voltage_axis.set_ylabel('Voltage (V)', color='tab:red')    
+    voltage_axis.plot(current_steps, voltage_readings, color='tab:red')
     
     #configure the light measurement data
     light_axis = voltage_axis.twinx()
-    light_axis.ylabel('Photometric (lm)')
-    light_axis.plot(current_steps, light_readings)
+    light_axis.set_ylabel('Photometric (lm)', color='tab:blue')
+    light_axis.plot(current_steps, light_readings, color='tab:blue')
 
     plt.title('LIV Sweep (20mA to 200mA)')
     graph.tight_layout()
