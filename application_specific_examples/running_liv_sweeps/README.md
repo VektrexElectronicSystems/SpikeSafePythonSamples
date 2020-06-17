@@ -5,14 +5,14 @@ In this sequence, we will address how to integrate a SpikeSafe SMU into a light 
 ## **Purpose**
 Demonstrate how to integrate the SpikeSafe SMU into a light measurement system and how to implement Pulsed Sweep current operation to obtain an LIV sweep measurement. An LIV sweep is a series of light, current, and voltage (i.e. L, I, and V) measurements across the operating spectrum of an LED or laser. It is a fundamental measurement in determining the operating characteristics of an LED or laser. LIV sweeps are generally graphed as shown below:
 
-![](liv_sweep_graph_example.png)
+![](liv_sweep_graph_screenshot.png)
 
 ## Overview 
 Operates SpikeSafe as an SMU that outputs a pulsed current sweep and takes a series of voltage measurements throughout the current sweep. An Instrument Systems CAS4 spectrometer is implemented, which will take triggered light measurements. See the test diagram below:
 
-![](liv_sweep_test_diargram.png)
+![](liv_sweep_test_diagram.png)
 
-The SpikeSafe operates similarly to the [Measure Pulsed Sweep Voltage](../../making_integrated_voltage_measurements/measure_pulsed_sweep_voltage) sequence. 
+The SpikeSafe SMU operates similarly to the [Measure Pulsed Sweep Voltage](../../making_integrated_voltage_measurements/measure_pulsed_sweep_voltage) sequence. 
 
 The CAS4 spectrometer is operated using external resources provided by Instrument Systems. To obtain the necessary resources to run this sequence, please visit [the Instrument Systems website](https://www.instrumentsystems.com/en/products/software/sdk-spectrometer/). After installing these resources on your computer, install the libraries listed in the **Considerations** section of this document. More information on CAS spectrometers can be found [here](https://www.instrumentsystems.com/en/products/spectrometers/).
 
@@ -22,10 +22,10 @@ The CAS4 spectrometer is operated using external resources provided by Instrumen
 ### SpikeSafe Current Output Settings
 - **Start Current:** 20mA
 - **Stop Current:** 200mA
-- **Step Count:** 25
+- **Step Count:** 19
 - **Compliance Voltage:** 20V
 - **On Time:** 20ms
-- **Off Time:** 1s
+- **Off Time:** 50ms
 
 ### Digitizer Voltage Measurement Settings
 - **Voltage Range:** 100V
@@ -33,10 +33,11 @@ The CAS4 spectrometer is operated using external resources provided by Instrumen
 - **Trigger Delay:** 4ms
 - **Trigger Source:** Hardware
 - **Trigger Edge:** Rising
-- **Trigger Count:** 25 
+- **Trigger Count:** 19 
 - **Reading Count:** 1 (per trigger)
 
 ### CAS Spectrometer Light Measurement Settings
+- **Autoranging:** Off
 - **Integration Time:** 10ms
 - **Trigger Mode:** Hardware (i.e. Flip-Flop)
 - **Trigger Delay:** 5ms
@@ -56,7 +57,7 @@ The CAS4 spectrometer is operated using external resources provided by Instrumen
     - **11:** Ethernet
 
 ## Expected Results
-Upon starting the sequence, the user will be prompted to enter the names of the Instrument Systems configuration (.INI) file and calibration (.ISC) file that correspond to the test spectrometer. After initializing the spectrometer with the specified files, a Pulsed Sweep will be outputted and light measurements will be automatically taken. Upon completion of the sequence, a graph LIV sweep will appear onscreen. This graph will have a Voltage vs. Current plot overlaid with a Luminous Flux vs. Current plot generated using matplotlib. See the example below.
+Upon starting the sequence, the user will be prompted to enter the names of the Instrument Systems configuration (.INI) file and calibration (.ISC) file that correspond to the test spectrometer. After initializing the spectrometer with the specified files, a Pulsed Sweep will be outputted and light measurements will be automatically taken. Upon completion of the sequence, a graph of the LIV sweep will appear onscreen. This graph will have a Voltage vs. Current plot overlaid with a Luminous Flux vs. Current plot generated using matplotlib. See the example below.
 
 ![](liv_sweep_graph_screenshot.png)
 
