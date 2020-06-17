@@ -26,11 +26,14 @@ from matplotlib import pyplot as plt
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
+ip_address = '10.0.0.221'
 port_number = 8282      
 
+# number of steps in the LIV Sweep
+LIV_sweep_step_count = 4
+
 # CAS4 interface mode
-CAS4_interface_mode = 3
+CAS4_interface_mode = 5
 """
     CAS4_interface_mode: int
     - 1: PCI
@@ -48,7 +51,7 @@ logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %
 try:
     log.info("LIVSweepExample.py started.")
 
-    ### CAS4 Spectrometer Configuration
+    ### CAS4 Spectrometer Connection/Initialization
 
     # Implements the external CAS4x64.dll file provided by Instrument Systems to configure a spectrometer for LIV sweep operation
 
@@ -56,7 +59,9 @@ try:
     cas_dll = CasDll()
 
     # creates a CAS4 device context to be used for all following configuration
-    deviceId = cas_dll.casCreateDeviceEx(CAS4_interface_mode, 0).rval
+    deviceId = cas_dll.casCreateDeviceEx(cas_dll.InterfaceUSB, 0).rval
+    deviceInterface = cas_dll.casGetDeviceTypeOption(cas_dll.InterfaceUSB, deviceId)
+    deviceId = cas_dll.casCreateDeviceEx(cas_dll.InterfaceUSB, deviceInterface.rval).rval
 
     # check for errors on the CAS4
     cas_dll.check_cas4_device_error(deviceId)
@@ -79,9 +84,11 @@ try:
     cas_dll.casSetDeviceParameterString(deviceId, cas_dll.dpidConfigFileName, ini_file_path.encode())
     cas_dll.casSetDeviceParameterString(deviceId, cas_dll.dpidCalibFileName, isc_file_path.encode())
 
-    # initialize the CAS4 using the configuration and calibration files specified by the user
-    # check if any error codes result from the initializiation
+    # initialize the CAS4 using the configuration and calibration files specified by the user, and check if any errors occur
     cas_dll.check_cas4_error_code(cas_dll.casInitialize(deviceId, cas_dll.InitForced).rval)
+
+
+    ### CAS4 Configuration
 
     # set the CAS4 measurement integration time to 10ms to match the Pulsed Sweep parameters
     cas_dll.casSetMeasurementParameter(deviceId, cas_dll.mpidIntegrationTime, 10)
@@ -92,7 +99,27 @@ try:
     # set the CAS4 trigger delay time to 5ms to match the Pulsed Sweep parameters
     cas_dll.casSetMeasurementParameter(deviceId, cas_dll.mpidTriggerDelayTime, 5)
 
-    ### Start of typical sequence
+    # set the CAS4 trigger delay time to 10 seconds
+    cas_dll.casSetMeasurementParameter(deviceId, cas_dll.mpidTriggerTimeout, 10000)
+
+    # prepare the CAS Spectrometer for measurement
+    cas_dll.casSetOptionsOnOff(deviceId, cas_dll.coAutorangeMeasurement, 0)
+    
+    cas_needs_to_set_density_filter = cas_dll.casGetDeviceParameter(deviceId, cas_dll.dpidNeedDensityFilterChange).rval
+    if cas_needs_to_set_density_filter != 0:
+        cas_dll.casSetMeasurementParameter(deviceId, cas_dll.mpidDensityFilter, cas_dll.casGetMeasurementParameter(deviceId, cas_dll.mpidNewDensityFilter))
+
+    cas_needs_dark_current_measurement = cas_dll.casGetDeviceParameter(deviceId, cas_dll.dpidNeedDarkCurrent).rval
+    if cas_needs_dark_current_measurement != 0:
+        cas_dll.casSetShutter(deviceId, 1)
+        cas_dll.casMeasureDarkCurrent(deviceId)
+        cas_dll.casSetShutter(deviceId, 0)
+        cas_dll.check_cas4_device_error(deviceId)
+
+    cas_dll.check_cas4_error_code(cas_dll.casPerformAction(deviceId, cas_dll.paPrepareMeasurement).rval)
+
+
+    ### SpikeSafe Connection and Configuration (Start of typical sequence)
 
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
@@ -106,12 +133,12 @@ try:
 
     # set up Channel 1 for Pulsed Sweep output. To find more explanation, see instrument_examples/run_pulsed_sweep
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDSWEEP')
-    tcp_socket.send_scpi_command('SOUR1:CURR:STAR 0.02')
-    tcp_socket.send_scpi_command('SOUR1:CURR:STOP 0.2')   
-    tcp_socket.send_scpi_command('SOUR1:CURR:STEP 25')   
+    tcp_socket.send_scpi_command('SOUR1:CURR:STAR 0.01')
+    tcp_socket.send_scpi_command('SOUR1:CURR:STOP 0.1')   
+    tcp_socket.send_scpi_command('SOUR1:CURR:STEP {}'.format(LIV_sweep_step_count))   
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.02')
-    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 1') 
+    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 8') 
 
     # Check for any errors with SpikeSafe initialization commands
     log_all_events(tcp_socket)
@@ -122,11 +149,14 @@ try:
     tcp_socket.send_scpi_command('VOLT:TRIG:DEL 4000')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
-    tcp_socket.send_scpi_command('VOLT:TRIG:COUN 25')
+    tcp_socket.send_scpi_command('VOLT:TRIG:COUN {}'.format(LIV_sweep_step_count))
     tcp_socket.send_scpi_command('VOLT:READ:COUN 1')
 
     # Check for any errors with Digitizer initialization commands
     log_all_events(tcp_socket)
+
+
+    ### LIV Sweep Operation
 
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')
@@ -140,23 +170,33 @@ try:
     # Output pulsed sweep for Channel 1
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
-    # prepare the CAS Spectrometer for measurement
-    # may have to disable AutoRanging using casSetOptionsOnOff (coAutorangeMeasurement = false)
-
-    # initialize the CAS Spectrometer for measurement - will need to perform this once per Pulsed Sweep pulse
+    # prepare data objects for CAS Spectrometer measurement
     light_readings = []
     light_reading = ctypes.c_double()
     light_unit = ctypes.create_string_buffer(256)
-    for measurementNumber in range(0,25):
+
+    # obtain CAS Spectrometer measurements
+    for measurementNumber in range(0,LIV_sweep_step_count):
+        start_time = time.time()
+
+        # reset the CAS4 trigger signal in preparation for the next measurement 
+        cas_dll.casSetDeviceParameter(deviceId, cas_dll.dpidLine1FlipFlop, 0)
+
+        # perform the CAS4 measurement
         cas_dll.casMeasure(deviceId)
-        cas_dll.casColorMetric(deviceId) # in demo, casGetData is used instead. casColorMetric follows the .chm documentation
+        cas_dll.check_cas4_error_code(cas_dll.casColorMetric(deviceId).rval)
         cas_dll.casGetPhotInt(deviceId, ctypes.byref(light_reading), light_unit, ctypes.sizeof(light_unit))
         light_readings.append(light_reading.value)
         cas_dll.check_cas4_device_error(deviceId)
-        wait(0.5)
 
-    # Wait for the Pulsed Sweep to be complete
-    read_until_event(tcp_socket, 109) # event 109 is "Pulsed Sweep Complete"
+        # Check for any SpikeSafe errors while outputting the Pulsed Sweep
+        log_all_events(tcp_socket)
+
+        measurement_duration = time.time() - start_time
+        duration_string = "measurement time: {}".format(measurement_duration)
+        print(duration_string)
+        log.info(duration_string)
+        # wait(0.5)
 
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
     wait_for_new_voltage_data(tcp_socket, 0.5)
@@ -170,11 +210,17 @@ try:
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    
 
+    # disconnect from the CAS4
+    cas_dll.casDoneDevice(deviceId)
+
+
+    ### Data Graphing
+
     # put the fetched data in a plottable data format
     voltage_readings = []
     current_steps = []
     start_current_mA = 20
-    step_size_mA = 7.5 # 7.5mA = Step Size = (StopCurrent - StartCurrent)/(StepCount - 1)
+    step_size_mA = 180 / (LIV_sweep_step_count - 1) # Step Size [in mA] = (StopCurrent - StartCurrent)/(StepCount - 1)
     for dd in digitizerData:
         voltage_readings.append(dd.voltage_reading)
         current_steps.append(start_current_mA + step_size_mA * (dd.sample_number - 1))
