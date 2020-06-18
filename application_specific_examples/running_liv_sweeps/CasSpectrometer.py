@@ -1,9 +1,10 @@
-r"""Python interface to the CAS DLL
-
-v1.0
-
-Use at your own risk.
-"""
+# Goal: 
+# Vektrex interface to CAS4 Spectrometer
+# Version 1.0.0
+# 
+# Expectation: 
+# Uses the PyCLibrary to create a wrapper for the native C CAS4x64.dll
+# For more info, see the PyCLibrary website: https://pyclibrary.readthedocs.io/en/latest/
 
 from pyclibrary import CParser, CLibrary
 from pathlib import Path
@@ -28,17 +29,13 @@ class CasDll(object):
         self.parser = CParser(
             header_path,
             cache=cache_file_path,
-            # The handling of "__stdcall" is buggy in pyclibrary, here is a workaround.
-            # See also https://github.com/MatthieuDartiailh/pyclibrary/issues/38
             replace={"#define __callconv __stdcall": "#define __callconv"})
-        # To see what has been parsed, call:
-        #    parser.print_all()
 
         self.clib = CLibrary(lib_path, self.parser)
 
     def new_struct(self, name):
-        classs = getattr(self.clib, name)
-        return classs()
+        class_ = getattr(self.clib, name)
+        return class_()
 
     def has_function(self, name):
         try:
@@ -51,8 +48,7 @@ class CasDll(object):
         if (code < self.clib.ErrorNoError):
             p = create_string_buffer(255)
             self.clib.casGetErrorMessageA(code, p, 255)
-            raise Exception("CAS DLL reported error: code=" + str(code) +
-                            " message=" + p.value.decode())
+            raise Exception("CAS Spectrometer Error: {}, {}".format(str(code), p.value.decode()))
 
     def check_cas4_device_error(self, casid):
         self.check_cas4_error_code(self.clib.casGetError(casid).rval)

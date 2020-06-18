@@ -18,6 +18,7 @@ The CAS4 spectrometer is operated using external resources provided by Instrumen
 
 
 ## Key Settings 
+The following settings are configured by default. At the top of the sequence, there are multiple lines corresponding to individual test parameters. These lines may be modified to match the necessary parameters for your specific LED or Laser.
 
 ### SpikeSafe Current Output Settings
 - **Start Current:** 20mA
@@ -60,5 +61,7 @@ The CAS4 spectrometer is operated using external resources provided by Instrumen
 Upon starting the sequence, the user will be prompted to enter the names of the Instrument Systems configuration (.INI) file and calibration (.ISC) file that correspond to the test spectrometer. After initializing the spectrometer with the specified files, a Pulsed Sweep will be outputted and light measurements will be automatically taken. Upon completion of the sequence, a graph of the LIV sweep will appear onscreen. This graph will have a Voltage vs. Current plot overlaid with a Luminous Flux vs. Current plot generated using matplotlib. See the example below.
 
 ![](liv_sweep_graph_screenshot.png)
+
+The results above were obtained using a SpikeSafe SMU 5A in conjunction with a CAS 140D array spectroradiometer. The DUT was a standard orange LED with a forward current of 100mA. The Start Current and Stop Current were adjusted to 10mA and 100mA respectively to reflect DUT parameters.
 
 
