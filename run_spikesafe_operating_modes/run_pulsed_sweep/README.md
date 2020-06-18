@@ -55,9 +55,9 @@ When running this sequence, one can expect to see the following pulse output. No
 ![](bps_vs_ps_output.png)
 
 
-## Advanced Cases (applicable to both Pulsed Sweep mdoes)
-For more advanced cases, a Pulse Count may be specified which sets the amount of pulses that are outputted per current step in the Pulsed Sweep. This is especially useful when outputting to Lasers that require [Quasi-Continuous Wave](https://www.rp-photonics.com/quasi_continuous_wave_operation.html) (QCW) operation. QCW operation entails switching on the pump source of a laser for time intervals that are short enough to reduce thermal effects significantly, but still long enough that the laser behaves similar to steady state operation (i.e. [continuous wave operation](https://www.rp-photonics.com/continuous_wave_operation.html)).
+## Advanced Cases (applicable to both Pulsed Sweep modes)
+For more advanced cases, a Pulse Count may be specified that sets the amount of pulses that are outputted per current step in the Pulsed Sweep. This is especially useful when outputting to Lasers that require [Quasi-Continuous Wave](https://www.rp-photonics.com/quasi_continuous_wave_operation.html) (QCW) operation. QCW operation entails switching on the pump source of a laser for time intervals that are short enough to reduce thermal effects significantly, but still long enough that the laser behaves similar to steady state operation (i.e. [continuous wave operation](https://www.rp-photonics.com/continuous_wave_operation.html)).
 
-For most cases, the Pulse Count will be set to 1, but for advanced cases such as QCW this may be set greater than 1. In this sequence, Pulse Count is set in the line `tcp_socket.send_scpi_command('SOUR1:PULS:COUN 1')`. See the example below where a Pulsed Sweep is run with Pulse Count = 5 and Step Count = 3:
+For most cases, the Pulse Count will be set to 1, but for advanced cases such as QCW this may be set greater than 1. In this sequence, Pulse Count is set in the line `tcp_socket.send_scpi_command('SOUR1:PULS:COUN 1')`. This command line may be modified to run a Pulsed Sweep with multiple pulses per current step. See the example below where a Pulsed Sweep is run with Pulse Count = 5 and Step Count = 3:
 
 ![](qcw_example_screenshot.png)
