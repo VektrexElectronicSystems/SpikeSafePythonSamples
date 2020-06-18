@@ -41,10 +41,13 @@ try:
     # set Channel 1's pulse mode to Bias Pulsed Sweep and check for all events
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIASPULSEDSWEEP')
 
-    # set Channel 1's Pulsed Sweep parameter to match the test expectation
+    # set Channel 1's Pulsed Sweep parameters to match the test expectation
     tcp_socket.send_scpi_command('SOUR1:CURR:STAR 0.02')
     tcp_socket.send_scpi_command('SOUR1:CURR:STOP 0.2')   
     tcp_socket.send_scpi_command('SOUR1:CURR:STEP 100')   
+
+    # set Channel 1 to output one pulse per step
+    tcp_socket.send_scpi_command('SOUR1:PULS:COUN 1')
 
     # set Channel 1's Bias Current to 10mA
     tcp_socket.send_scpi_command('SOUR1:CURR:BIAS 0.01')   
