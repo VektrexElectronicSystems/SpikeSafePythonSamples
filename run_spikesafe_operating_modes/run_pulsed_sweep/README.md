@@ -12,14 +12,6 @@ Operates SpikeSafe as a pulsed current source outputting a pulsed current sweep 
 
 With default settings, a pulsed sweep is started when the "Output Trigger" SCPI command is received. A channel that is operating in Pulsed Sweep mode can output as many sweeps as specified while enabled. A new pulsed sweep will only be started if the initialization trigger is received after the previous pulsed sweep is complete. The event queue will output a new "109, Pulsed Sweep Complete" message once a pulsed sweep completes.
 
-### Quasi-Continuous Wave Laser Application
-For more advanced cases, a Pulse Count may be specified which sets the amount of pulses that are outputted per current step in the Pulsed Sweep. This is especially useful when outputting to Lasers that require [Quasi-Continuous Wave](https://www.rp-photonics.com/quasi_continuous_wave_operation.html) (QCW) operation. QCW operation entails switching on the pump source of a laser for time intervals that are short enough to reduce thermal effects significantly, but still long enough that the laser behaves similar to steady state operation (i.e. [continuous wave operation](https://www.rp-photonics.com/continuous_wave_operation.html)).
-
-For most cases, the Pulse Count will be set to 1, but for advanced cases such as QCW this may be set greater than 1. In this sequence, Pulse Count is set in the line `tcp_socket.send_scpi_command('SOUR1:PULS:COUN 1')`. See the example below where a Pulsed Sweep is run with Pulse Count = 5 and Step Count = 3:
-
-![](qcw_example_screenshot.png)
-
-
 ### Key Settings 
 - **Start Current:** 20mA
 - **Stop Current:** 200mA
@@ -61,3 +53,11 @@ This mode is very similar to Pulsed Sweep mode, except that there is a user-spec
 When running this sequence, one can expect to see the following pulse output. Note the 10mA offset between the channel running Bias Pulsed Sweep (in yellow) and the channel running Pulsed Sweep without a Bias Current (in white). This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
 
 ![](bps_vs_ps_output.png)
+
+
+## Advanced Cases (applicable to both Pulsed Sweep mdoes)
+For more advanced cases, a Pulse Count may be specified which sets the amount of pulses that are outputted per current step in the Pulsed Sweep. This is especially useful when outputting to Lasers that require [Quasi-Continuous Wave](https://www.rp-photonics.com/quasi_continuous_wave_operation.html) (QCW) operation. QCW operation entails switching on the pump source of a laser for time intervals that are short enough to reduce thermal effects significantly, but still long enough that the laser behaves similar to steady state operation (i.e. [continuous wave operation](https://www.rp-photonics.com/continuous_wave_operation.html)).
+
+For most cases, the Pulse Count will be set to 1, but for advanced cases such as QCW this may be set greater than 1. In this sequence, Pulse Count is set in the line `tcp_socket.send_scpi_command('SOUR1:PULS:COUN 1')`. See the example below where a Pulsed Sweep is run with Pulse Count = 5 and Step Count = 3:
+
+![](qcw_example_screenshot.png)
