@@ -23,15 +23,15 @@ from matplotlib import pyplot as plt
 
 # SpikeSafe IP address and port number
 ip_address = '10.0.0.220'
-port_number = 8282          
+port_number = 8282         
 
-# SpikeSafe DC current settings
+# SpikeSafe Single Pulse current settings
 set_current_amps = 0.1
 compliance_voltage_V = 20
 
 # CAS4 measurement settings
-CAS4_integration_time_ms = 10
-CAS4_trigger_delay_ms = 5
+CAS4_integration_time_ms = 20
+CAS4_trigger_delay_ms = 5 # needs to be set to a non-zero value for the spectrometer to correctly output data
 
 # CAS4 interface mode
 CAS4_interface_mode = 3
@@ -125,6 +125,8 @@ try:
     # prepare the CAS4 for measurement and verify that there are no resulting errorss
     cas_spectrometer.check_cas4_error_code(cas_spectrometer.casPerformAction(deviceId, cas_spectrometer.paPrepareMeasurement).rval)
 
+    # reset the CAS4 trigger signal in preparation for the measurement 
+    cas_spectrometer.casSetDeviceParameter(deviceId, cas_spectrometer.dpidLine1FlipFlop, 0)
 
     ### SpikeSafe Connection and Configuration (Start of typical sequence)
 
@@ -136,8 +138,9 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
 
-    # set SpikeSafe Channel 1's pulse mode to DC Dynamic and set all relevant settings. For more information, see run_spikesafe_operating_modes/run_dc
-    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')    
+    # set SpikeSafe Channel 1's pulse mode to Single Pulse and set all relevant settings. For more information, see run_spikesafe_operating_modes/run_dc
+    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
+    tcp_socket.send_scpi_command('SOUR1:PULS:TON 1')    
     tcp_socket.send_scpi_command('SOUR1:CURR {}'.format(set_current_amps))        
     tcp_socket.send_scpi_command('SOUR1:VOLT {}'.format(compliance_voltage_V))         
     log_all_events(tcp_socket) 
@@ -146,8 +149,13 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')               
     log_all_events(tcp_socket)                            
 
-    # wait until the channel is fully ramped
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"   
+    # wait until the channel is fully ramped and output a single pulse
+    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    tcp_socket.send_scpi_command('OUTP1:TRIG')   
+
+    # take a CAS4 measurement
+    cas_spectrometer.casMeasure(deviceId)
+    cas_spectrometer.check_cas4_device_error(deviceId)
 
     # determine the number of visible pixels to be measured by the CAS4
     visible_pixels = int(cas_spectrometer.casGetDeviceParameter(deviceId, cas_spectrometer.dpidVisiblePixels).rval)
@@ -178,13 +186,21 @@ try:
 
 
     ### Plot the wavelength spectrum
-    plt.plot(wavelengths, spectrum)
-    plt.ylabel('Intensity')
+    spectral_intensity = []
+    spectrum_max = max(spectrum)
+
+    if spectrum_max == 0:
+        raise Exception("Full spectrum was measured as 0.0 mW/nm")
+
+    for point in spectrum:
+        spectral_intensity.append((point/spectrum_max) * 100)
+    
+    plt.plot(wavelengths, spectral_intensity)
+    plt.ylabel('Spectral Intensity (%)')
     plt.xlabel('Wavelength (nm)')
-    plt.title('Spectrum')
+    plt.axis([min(wavelengths), max(wavelengths), min(spectral_intensity), 100])
     plt.grid()
     plt.show()
-
 
     log.info("WavelengthSpectrumExample.py completed.\n")
 
