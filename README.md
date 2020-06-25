@@ -15,10 +15,10 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 ## Usage
 
 ### IDE and Using a Virtual Environment
-To run these sequences, an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required. Optionally, using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) is recommended to successfully meet the installation requirements to run these sequences. After your virtual environment is setup, continue to install the remaining Python packages below.
+To run these sequences an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required, see [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial) to simply setup your IDE with Python. Optionally, using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) is recommended to successfully meet the installation requirements to run these sequences. Using the commands `py -3 -m venv .venv` followed by `.venv\scripts\activate` is a simple way to setup your virtual environment. After your IDE and virtual environment is setup, continue to install the remaining Python packages below.
 
 ### Installing spikesafe-python Package
-The [spikesafe-python](https://pypi.org/project/spikesafe-python/) repository will need to be installed as a package using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0.
+The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0.
 
 Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
 
