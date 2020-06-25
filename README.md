@@ -14,18 +14,26 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ## Usage
 
-### Installing spikesafe-python
-To run these sequences, an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required. The [spikesafe-python](https://pypi.org/project/spikesafe-python/) repository will need to be installed as a package using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0. It may help to run these sequences in a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
+### IDE and Using a Virtual Environment
+To run these sequences, an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required. Optionally, using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) is recommended to successfully meet the installation requirements to run these sequences. After your virtual environment is setup, continue to install the remaining Python packages below.
 
-Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file  in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
+### Installing spikesafe-python Package
+The [spikesafe-python](https://pypi.org/project/spikesafe-python/) repository will need to be installed as a package using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0.
 
-### Installing matplotlib
-Some sequences involve graphing measurement results. To properly graph results, the [matplotlib](https://matplotlib.org/) library is required (version 3.2.1 or greater). Use the command `python -m pip install -U matplotlib` to install the latest version of matplotlib. You may want to perform this within a [virtual environment](https://docs.python.org/3/tutorial/venv.html). Once the matplotlib library is installed, each sequence that involves graphing can be run as a standalone Python file.
+Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
+
+### Installing matplotlib Package
+Some sequences involve graphing measurement results. To properly graph results, the [matplotlib](https://matplotlib.org/) library is required (version 3.2.1 or greater). Use the command `python -m pip install matplotlib` to install the latest version of matplotlib. Once the matplotlib library is installed, each sequence that involves graphing can be run as a standalone Python file.
+
+### Installing PyCLibrary Package
+Some sequences require external C resources, and requires the [PyCLibrary](https://pyclibrary.readthedocs.io/en/latest/) library. To install this library, enter the command `python -m pip install pyclibrary`. Once the PyCLibrary library is installed, each sequence that involves external C resources can be run as a standalone Python file.
 
 ### General Usage
 For most examples, you may need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address = '10.0.0.220'`.
 
 Each file can be modified to include additional settings and commands to fit individual needs. Refer to SpikeSafe documentation for more information on the SpikeSafe API.
+
+Most examples will log messages to the SpikeSafePythonSamples.log file under your local SpikeSafePythonSamples\ directory. Please refer to this file to ensure your sequence is running correctly.
 
 ## Downloading Files
 
