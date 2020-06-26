@@ -40,10 +40,13 @@ try:
     # set Channel 1's pulse mode to Pulsed Sweep and check for all events
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDSWEEP')
 
-    # set Channel 1's Pulsed Sweep parameter to match the test expectation
+    # set Channel 1's Pulsed Sweep parameters to match the test expectation
     tcp_socket.send_scpi_command('SOUR1:CURR:STAR 0.02')
     tcp_socket.send_scpi_command('SOUR1:CURR:STOP 0.2')   
     tcp_socket.send_scpi_command('SOUR1:CURR:STEP 100')   
+
+    # set Channel 1 to output one pulse per step
+    tcp_socket.send_scpi_command('SOUR1:PULS:COUN 1')
 
     # set Channel 1's voltage to 20 V 
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   

@@ -1,19 +1,15 @@
 # Goal: 
-# Connect to a SpikeSafe and run Pulsed Sweep mode on Channel 1 into an LED
+# Connect to a SpikeSafe and run DC Dynamic mode on Channel 1 into an LED
 # Measure the emitted light using a Spectrometer
-# Graph the results of the light (L), current (I), and voltage (V) measurements
 #
 # Expectation: 
-# Channel 1 will run a sweep from 20mA to 200mA, which will take 100ms. Expecting a low (<1V) forward voltage
-# Using external CAS DLL, control the spectrometer to make light measurements throughout the Pulsed Sweep
+# Channel 1 will output 100mA DC current. Expecting a low (<1V) forward voltage
+# Using external CAS DLL, control the spectrometer to make light measurements and then graph the wavelength spectrum
 
-import os
 import sys
 import time
 import logging
-import ctypes
-from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
-from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
+import os
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
@@ -27,20 +23,15 @@ from matplotlib import pyplot as plt
 
 # SpikeSafe IP address and port number
 ip_address = '10.0.0.220'
-port_number = 8282      
+port_number = 8282         
 
-# LIV Sweep SpikeSafe parameters
-LIV_start_current_mA = 20
-LIV_stop_current_mA = 200
-LIV_sweep_step_count = 19
-
+# SpikeSafe Single Pulse current settings
+set_current_amps = 0.1
 compliance_voltage_V = 20
-pulse_on_time_seconds = 0.02
-pulse_off_time_seconds = 0.05 # setting too small of an off time may result in missed measurements by the CAS4
 
 # CAS4 measurement settings
-CAS4_integration_time_ms = 10
-CAS4_trigger_delay_ms = 5
+CAS4_integration_time_ms = 20
+CAS4_trigger_delay_ms = 5 # needs to be set to a non-zero value for the spectrometer to correctly output data
 
 # CAS4 interface mode
 CAS4_interface_mode = 3
@@ -59,9 +50,9 @@ logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %
 
 ### start of main program
 try:
-    log.info("LIVSweepExample.py started.")
-
-    ### CAS4 Spectrometer Connection/Initialization
+    log.info("WavelengthSpectrumExample.py started.")
+    
+ ### CAS4 Spectrometer Connection/Initialization
 
     # Implements the external CAS4x64.dll file provided by Instrument Systems to configure a spectrometer for LIV sweep operation
 
@@ -134,6 +125,8 @@ try:
     # prepare the CAS4 for measurement and verify that there are no resulting errorss
     cas_spectrometer.check_cas4_error_code(cas_spectrometer.casPerformAction(deviceId, cas_spectrometer.paPrepareMeasurement).rval)
 
+    # reset the CAS4 trigger signal in preparation for the measurement 
+    cas_spectrometer.casSetDeviceParameter(deviceId, cas_spectrometer.dpidLine1FlipFlop, 0)
 
     ### SpikeSafe Connection and Configuration (Start of typical sequence)
 
@@ -141,115 +134,75 @@ try:
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
 
-    # reset to default state and check for all events,    
-    tcp_socket.send_scpi_command('*RST')  
-    tcp_socket.send_scpi_command('VOLT:ABOR')                
+    # reset SpikeSafe to default state and check for all events    
+    tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
 
-    # set up SpikeSafe Channel 1 for Pulsed Sweep output. To find more explanation, see instrument_examples/run_pulsed_sweep
-    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDSWEEP')
-    tcp_socket.send_scpi_command('SOUR1:CURR:STAR {}'.format(float(LIV_start_current_mA) / 1000))
-    tcp_socket.send_scpi_command('SOUR1:CURR:STOP {}'.format(float(LIV_stop_current_mA) / 1000))   
-    tcp_socket.send_scpi_command('SOUR1:CURR:STEP {}'.format(LIV_sweep_step_count))   
-    tcp_socket.send_scpi_command('SOUR1:VOLT {}'.format(compliance_voltage_V))   
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON {}'.format(pulse_on_time_seconds))
-    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF {}'.format(pulse_off_time_seconds)) 
+    # set SpikeSafe Channel 1's pulse mode to Single Pulse and set all relevant settings. For more information, see run_spikesafe_operating_modes/run_dc
+    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
+    tcp_socket.send_scpi_command('SOUR1:PULS:TON 1')    
+    tcp_socket.send_scpi_command('SOUR1:CURR {}'.format(set_current_amps))        
+    tcp_socket.send_scpi_command('SOUR1:VOLT {}'.format(compliance_voltage_V))         
+    log_all_events(tcp_socket) 
 
-    # Check for any errors with SpikeSafe initialization commands
-    log_all_events(tcp_socket)
+    # turn on SpikeSafe Channel 1 and check for all events
+    tcp_socket.send_scpi_command('OUTP1 1')               
+    log_all_events(tcp_socket)                            
 
-    # set up SpikeSafe Digitizer to measure Pulsed Sweep output. To find more explanation, see making_integrated_voltage_measurements/measure_pulsed_sweep_voltage
-    tcp_socket.send_scpi_command('VOLT:RANG 100')
-    tcp_socket.send_scpi_command('VOLT:APER {}'.format(pulse_on_time_seconds * 600000)) # we want to measure 60% of the pulse
-    tcp_socket.send_scpi_command('VOLT:TRIG:DEL {}'.format(pulse_on_time_seconds * 200000)) # we want to skip the first 20% of the pulse
-    tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
-    tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
-    tcp_socket.send_scpi_command('VOLT:TRIG:COUN {}'.format(LIV_sweep_step_count))
-    tcp_socket.send_scpi_command('VOLT:READ:COUN 1')
-
-    # Check for any errors with Digitizer initialization commands
-    log_all_events(tcp_socket)
-
-
-    ### LIV Sweep Operation
-
-    # turn on SpikeSafe Channel 1 
-    tcp_socket.send_scpi_command('OUTP1 1')
-
-    # start SpikeSafe Digitizer measurements. We want the digitizer waiting for triggers before starting the pulsed sweep
-    tcp_socket.send_scpi_command('VOLT:INIT')
-
-    # Wait until SpikeSafe Channel 1 is ready for a trigger command
+    # wait until the channel is fully ramped and output a single pulse
     read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    tcp_socket.send_scpi_command('OUTP1:TRIG')   
 
-    # Output pulsed sweep for Channel 1
-    tcp_socket.send_scpi_command('OUTP1:TRIG')
+    # take a CAS4 measurement
+    cas_spectrometer.casMeasure(deviceId)
+    cas_spectrometer.check_cas4_device_error(deviceId)
+
+    # determine the number of visible pixels to be measured by the CAS4
+    visible_pixels = int(cas_spectrometer.casGetDeviceParameter(deviceId, cas_spectrometer.dpidVisiblePixels).rval)
+    cas_spectrometer.check_cas4_error_code(visible_pixels)
 
     # prepare data objects for CAS4 measurement
-    light_readings = []
-    light_reading = ctypes.c_double()
-    light_unit = ctypes.create_string_buffer(256)
+    spectrum = []
+    wavelengths = []
 
-    # obtain CAS4 measurements
-    for measurementNumber in range(0, LIV_sweep_step_count):
-        # reset the CAS4 trigger signal in preparation for the next measurement 
-        cas_spectrometer.casSetDeviceParameter(deviceId, cas_spectrometer.dpidLine1FlipFlop, 0)
+    # determine the number of dead pixels to be ignored by the CAS4
+    dead_pixels = int(cas_spectrometer.casGetDeviceParameter(deviceId, cas_spectrometer.dpidDeadPixels).rval)
+    cas_spectrometer.check_cas4_error_code(dead_pixels)
 
-        # perform the CAS4 measurement
-        cas_spectrometer.casMeasure(deviceId)
-        cas_spectrometer.check_cas4_error_code(cas_spectrometer.casColorMetric(deviceId).rval)
-        cas_spectrometer.casGetPhotInt(deviceId, ctypes.byref(light_reading), light_unit, ctypes.sizeof(light_unit))
-        light_readings.append(light_reading.value)
-        cas_spectrometer.check_cas4_device_error(deviceId)
+    # measure the spectrum and associate wavelengths using the CAS4. Ignore dead pixels
+    for pixel in range(0, visible_pixels):
+        spectrum.append(cas_spectrometer.casGetData(deviceId, pixel + dead_pixels).rval)
+        wavelengths.append(cas_spectrometer.casGetXArray(deviceId, pixel + dead_pixels).rval)
 
-        # Check for any SpikeSafe errors while outputting the Pulsed Sweep
-        log_all_events(tcp_socket)
-
-    # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    wait_for_new_voltage_data(tcp_socket, 0.5)
-
-    # fetch the SpikeSafe Digitizer voltage readings
-    digitizerData = fetch_voltage_data(tcp_socket)
-
-    # turn off SpikeSafe Channel 1 after routine is complete
-    tcp_socket.send_scpi_command('OUTP1 0')
+    # turn off SpikeSafe Channel 1 and check for all events
+    tcp_socket.send_scpi_command('OUTP1 0')               
+    log_all_events(tcp_socket)
 
     # disconnect from SpikeSafe                      
-    tcp_socket.close_socket()    
+    tcp_socket.close_socket()     
 
     # disconnect from the CAS4
     cas_spectrometer.casDoneDevice(deviceId)
 
 
-    ### Data Graphing
+    ### Plot the wavelength spectrum
+    spectral_intensity = []
+    spectrum_max = max(spectrum)
 
-    # put the fetched data in a plottable data format
-    voltage_readings = []
-    current_steps = []
-    step_size_mA = (LIV_stop_current_mA - LIV_start_current_mA) / (LIV_sweep_step_count - 1) # Step Size [in mA] = (StopCurrent - StartCurrent)/(StepCount - 1)
-    for dd in digitizerData:
-        voltage_readings.append(dd.voltage_reading)
-        current_steps.append(LIV_start_current_mA + step_size_mA * (dd.sample_number - 1))
+    if spectrum_max == 0:
+        raise Exception("Full spectrum was measured as 0.0 mW/nm")
 
-    # plot the pulse shape using the fetched voltage readings and the light measurement readings overlaid
-    graph, voltage_axis = plt.subplots()
-
-    # configure the voltage data
-    voltage_axis.set_xlabel('Set Current (mA)')
-    voltage_axis.set_ylabel('Voltage (V)', color='tab:red')    
-    voltage_axis.plot(current_steps, voltage_readings, color='tab:red')
+    for point in spectrum:
+        spectral_intensity.append((point/spectrum_max) * 100)
     
-    #configure the light measurement data
-    light_axis = voltage_axis.twinx()
-    light_axis.set_ylabel('Photometric (lm)', color='tab:blue')
-    light_axis.plot(current_steps, light_readings, color='tab:blue')
-
-    plt.title('LIV Sweep ({}mA to {}mA)'.format(LIV_start_current_mA, LIV_stop_current_mA))
-    graph.tight_layout()
+    plt.plot(wavelengths, spectral_intensity)
+    plt.ylabel('Spectral Intensity (%)')
+    plt.xlabel('Wavelength (nm)')
+    plt.axis([min(wavelengths), max(wavelengths), min(spectral_intensity), 100])
     plt.grid()
     plt.show()
 
-    log.info("LIVSweepExample.py completed.\n")
+    log.info("WavelengthSpectrumExample.py completed.\n")
 
 except SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
