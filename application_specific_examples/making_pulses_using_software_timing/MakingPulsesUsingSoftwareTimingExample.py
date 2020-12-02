@@ -12,7 +12,7 @@ from spikesafe_python.TcpSocket import TcpSocket
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.246'
+ip_address = '10.0.0.220'
 port_number = 8282 
 
 ### setting up sequence log
