@@ -75,7 +75,6 @@ try:
 
     # read Force Sense Selector Switch information
     data = tcp_socket.read_data()
-
     log.info("SpikeSafe OUTP1:CONN:AVAIL? Response: {}".format(data))
 
     # disconnect from SpikeSafe
