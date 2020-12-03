@@ -103,11 +103,12 @@ try:
     log_all_events(tcp_socket)
 
     # start DC staircase current supply and voltage measurement per step
+    set_current = start_current_A
     currentIncrementFloat = 0.0
     for step in range(0, step_count):
         # step up Channel 1 current to next step
-        setCurrentFloat = round(setCurrentFloat + currentIncrementFloat, 3)
-        cmdStr = "SOUR1:TRIG " + str(setCurrentFloat)
+        set_current = round(set_current + currentIncrementFloat, 3)
+        cmdStr = "SOUR1:TRIG " + str(set_current)
         # send Set Current command for next step and check for all events
         tcp_socket.send_scpi_command(cmdStr)
         log_all_events(tcp_socket)
