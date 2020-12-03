@@ -25,9 +25,9 @@ ip_address = '10.0.0.220'
 port_number = 8282
 
 # stair case parameters
-step_count = 151
+step_count = 10
 start_current_A = 0.010
-stop_current_A = 0.160
+stop_current_A = 0.100
 step_size_A = (stop_current_A - start_current_A) / (step_count - 1)
 load_ohm_value = 1
 
@@ -106,8 +106,7 @@ try:
     currentIncrementFloat = 0.0
     for step in range(0, step_count):
         # step up Channel 1 current to next step
-        setCurrentFloat = setCurrentFloat + currentIncrementFloat
-        setCurrentFloat = round(setCurrentFloat, 3)
+        setCurrentFloat = round(setCurrentFloat + currentIncrementFloat, 3)
         cmdStr = "SOUR1:TRIG " + str(setCurrentFloat)
         # send Set Current command for next step and check for all events
         tcp_socket.send_scpi_command(cmdStr)
