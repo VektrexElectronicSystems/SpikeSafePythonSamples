@@ -21,7 +21,7 @@ logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %
 
 ### start of main program
 try:
-    log.info("MakingPulsesUsingSoftwareTimingExample.py started.")
+    log.info("FixedPulseCountUsingSoftwareTimingExample.py started.")
         
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
@@ -96,7 +96,7 @@ try:
     # disconnect from SpikeSafe    
     tcp_socket.close_socket()      
 
-    log.info("MakingPulsesUsingSoftwareTimingExample.py completed.\n")
+    log.info("FixedPulseCountUsingSoftwareTimingExample.py completed.\n")
 
 except SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
