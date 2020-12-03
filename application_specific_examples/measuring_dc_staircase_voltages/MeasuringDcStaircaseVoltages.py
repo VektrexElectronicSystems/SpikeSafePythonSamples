@@ -60,7 +60,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')
     log_all_events(tcp_socket)
 
-    # set Channel 1's current to 10mA and check for all events
+    # set Channel 1's current to start current and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR {}'.format(start_current_A))
     log_all_events(tcp_socket)
 
@@ -82,7 +82,7 @@ try:
     tcp_socket.send_scpi_command('VOLT:APER 10')
     log_all_events(tcp_socket)
 
-    # set Digitizer Trigger Count to 151 and check for all events
+    # set Digitizer Trigger Count to step count and check for all events
     tcp_socket.send_scpi_command('VOLT:TRIG:COUN {}'.format(step_count))
     log_all_events(tcp_socket)
 
@@ -109,10 +109,13 @@ try:
         # step up Channel 1 current to next step
         set_current = round(set_current + currentIncrementFloat, 3)
         cmdStr = "SOUR1:TRIG " + str(set_current)
-        # send Set Current command for next step and check for all events
+        # send Set Current command for next step
         tcp_socket.send_scpi_command(cmdStr)
-        log_all_events(tcp_socket)
         currentIncrementFloat = step_size_A
+
+        
+    # check for all events
+    log_all_events(tcp_socket)
     
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
     wait_for_new_voltage_data(tcp_socket, 0.5)
