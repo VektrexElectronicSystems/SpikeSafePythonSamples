@@ -43,7 +43,7 @@ Once all 10 steps are measured, a graph will appear similar to below:
 
 The SpikeSafePythonSamples.log file under your local SpikeSafePythonSamples\ directory will provide a table showing the actual forward voltage and the calculated forward forward voltage.
 
-Sample Number  |   Current     |       Vf   |    Vf Calculated
+Sample Number  |   Current (A)     |       Vf (V)   |    Vf Calculated (V)
 -------------  | ------------- | ------------- | -------------
 1      |      0.010    |    0.0105269540   |   0.010
 2      |      0.020    |    0.0200568740   |   0.020
