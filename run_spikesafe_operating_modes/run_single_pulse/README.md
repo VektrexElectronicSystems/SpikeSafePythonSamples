@@ -1,7 +1,7 @@
-# Examples for Operating a SpikeSafe PRF or SMU in Single Pulse mode
+# Examples for Operating a SpikeSafe PRF or PSMU in Single Pulse mode
 
 ## **Purpose**
-Demonstrate how to use a SpikeSafe PRF or SMU to deliver a high precision single current pulse to an LED or Laser. This operation mode consists of a user-specified Set Current and On Time to produce one current pulse when a trigger command is sent to the SpikeSafe.
+Demonstrate how to use a SpikeSafe PRF or PSMU to deliver a high precision single current pulse to an LED or Laser. This operation mode consists of a user-specified Set Current and On Time to produce one current pulse when a trigger command is sent to the SpikeSafe.
 
 ## **Run Single Pulse Mode**
 

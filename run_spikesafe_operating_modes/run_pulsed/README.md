@@ -1,7 +1,7 @@
-# Examples for Operating a SpikeSafe PRF or SMU in Pulsed modes
+# Examples for Operating a SpikeSafe PRF or PSMU in Pulsed modes
 
 ## **Purpose**
-Demonstrate how to use a SpikeSafe PRF or SMU to deliver high precision pulsed current to an LED or Laser. Continuous and Continuous Dynamic operation modes output a continuous current pulse train at the specified Set Current, On Time, and Off Time. These two modes differ in the way they start up, and the way they regulate current after startup.
+Demonstrate how to use a SpikeSafe PRF or PSMU to deliver high precision pulsed current to an LED or Laser. Continuous and Continuous Dynamic operation modes output a continuous current pulse train at the specified Set Current, On Time, and Off Time. These two modes differ in the way they start up, and the way they regulate current after startup.
 
 Vektrex recommends using Continuous Dynamic for testing low currents below a few amps.  Continuous Dynamic starts with no ramp; the current transitions from zero to the programmed value in microseconds. Continuous Dynamic does not make adjustments to decrease internal power dissipation.
 

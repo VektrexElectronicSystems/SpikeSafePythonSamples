@@ -1,5 +1,5 @@
 # Goal:
-# Tune the pulse shape of a SpikeSafe SMU or PRF by varying the compensation settings (Load Impedance and Rise Time)
+# Tune the pulse shape of a SpikeSafe PSMU or PRF by varying the compensation settings (Load Impedance and Rise Time)
 #
 # Expectation:
 # A single 100µs pulse will be outputted sixteen separate times, demonstrating each combination of pulse tuning settings

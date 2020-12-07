@@ -87,7 +87,7 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
 
-    # abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe SMU
+    # abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     tcp_socket.send_scpi_command('VOLT:ABOR')
 
     # set up Channel 1 for Bias Current output to determine the K-factor

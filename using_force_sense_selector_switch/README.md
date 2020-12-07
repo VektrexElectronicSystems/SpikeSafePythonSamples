@@ -1,6 +1,6 @@
 # Using the Force Sense Selector Switch
 
-These folders contain examples to use the optional integrated switch in the SpikeSafe SMU. The Force Sense Selector Switch is a true mechanical switch that controls both the Force leads and the Sense leads from the SpikeSafe SMU. In these examples, the SpikeSafe outputs currents similar to the examples in [Run SpikeSafe Operating Modes](../run_spikesafe_operating_modes) and then the switch is implemented to either disconnect the SpikeSafe from the test circuit, or to implement an auxiliary power source into the test circuit. 
+These folders contain examples to use the optional integrated switch in the SpikeSafe PSMU. The Force Sense Selector Switch is a true mechanical switch that controls both the Force leads and the Sense leads from the SpikeSafe PSMU. In these examples, the SpikeSafe outputs currents similar to the examples in [Run SpikeSafe Operating Modes](../run_spikesafe_operating_modes) and then the switch is implemented to either disconnect the SpikeSafe from the test circuit, or to implement an auxiliary power source into the test circuit. 
 
 ## Directory
 - [A/B Force/Sense Switching](A-B_force_sense_switching)

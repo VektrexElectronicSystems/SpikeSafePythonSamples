@@ -1,7 +1,7 @@
-# Examples for Operating a SpikeSafe PRF or SMU in Pulsed Sweep mode
+# Examples for Operating a SpikeSafe PRF or PSMU in Pulsed Sweep mode
 
 ## **Purpose**
-Demonstrate how to use a SpikeSafe PRF or SMU to deliver a pulsed current sweep to an LED or Laser. This operation mode ignores the typical Set Current setting, and instead specifies a Start Current and Stop Current. This mode is akin to a pulsed stair case output with user-specified Step Count, On Time, and Off Time. Stair case can be upward facing (Start Current < Stop Current) or downward facing (Start Current > Stop Current).
+Demonstrate how to use a SpikeSafe PRF or PSMU to deliver a pulsed current sweep to an LED or Laser. This operation mode ignores the typical Set Current setting, and instead specifies a Start Current and Stop Current. This mode is akin to a pulsed stair case output with user-specified Step Count, On Time, and Off Time. Stair case can be upward facing (Start Current < Stop Current) or downward facing (Start Current > Stop Current).
 
 ## **Run Pulsed Sweep Mode**
 

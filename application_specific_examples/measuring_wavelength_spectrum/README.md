@@ -1,16 +1,16 @@
-# Example for Measuring a Wavelength Spectrum Using the SpikeSafe SMU and a Spectrometer
+# Example for Measuring a Wavelength Spectrum Using the SpikeSafe PSMU and a Spectrometer
 
-In this sequence, we will address how to integrate a SpikeSafe SMU into a light measurement system. From there, we will demonstrate how to easily perform wavelength spectrum light measurements using the SpikeSafe's Single Pulse operation mode. 
+In this sequence, we will address how to integrate a SpikeSafe PSMU into a light measurement system. From there, we will demonstrate how to easily perform wavelength spectrum light measurements using the SpikeSafe's Single Pulse operation mode. 
 
 ## **Purpose**
-Demonstrate how to integrate the SpikeSafe PRF or SMU into a light measurement system and how to implement Single Pulse current operation to obtain a wavelength spectrum light measurement. This measurement conveys the amount of radiant power generated from an LED or laser across the electromagnetic spectrum throughout the wavelengths of the visible spectrum, as well as some adjacent wavelengths. It is a fundamental measurement in determining the operating characteristics of an LED or laser.
+Demonstrate how to integrate the SpikeSafe PRF or PSMU into a light measurement system and how to implement Single Pulse current operation to obtain a wavelength spectrum light measurement. This measurement conveys the amount of radiant power generated from an LED or laser across the electromagnetic spectrum throughout the wavelengths of the visible spectrum, as well as some adjacent wavelengths. It is a fundamental measurement in determining the operating characteristics of an LED or laser.
 
 ## Overview 
 Operates SpikeSafe as a current source that outputs a single pulse. An Instrument Systems CAS4 spectrometer is implemented, which will take triggered light measurements synchronized with the SpikeSafe output trigger. See the test diagram below:
 
 ![](liv_sweep_test_diagram.png)
 
-The SpikeSafe SMU operates similarly to the [Run Single Pulse](../../run_spikesafe_operating_modes/run_single_pulse) sequence. 
+The SpikeSafe PSMU operates similarly to the [Run Single Pulse](../../run_spikesafe_operating_modes/run_single_pulse) sequence. 
 
 The CAS4 spectrometer is operated using external resources provided by Instrument Systems. To obtain the necessary resources to run this sequence, please visit [the Instrument Systems website](https://www.instrumentsystems.com/en/products/software/sdk-spectrometer/). After installing these resources on your computer, install the libraries listed in the **Considerations** section of this document. More information on CAS spectrometers can be found [here](https://www.instrumentsystems.com/en/products/spectrometers/).
 
@@ -48,6 +48,6 @@ Upon starting the sequence, the user will be prompted to enter the names of the 
 
 ![](spectrum_output.png)
 
-The results above were obtained using a SpikeSafe SMU 5A in conjunction with a CAS 140D array spectroradiometer. The DUT was a cool blue LED with a forward current of 750mA. The default sequence settings were used for this testing.
+The results above were obtained using a SpikeSafe PSMU 5A in conjunction with a CAS 140D array spectroradiometer. The DUT was a cool blue LED with a forward current of 750mA. The default sequence settings were used for this testing.
 
 

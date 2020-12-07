@@ -1,6 +1,6 @@
 # Application-Specific Examples
 
-These sequences address specific scenarios in which SpikeSafe functionality is used in an integrated test system, or scenarios where more advanced SpikeSafe settings need to be tuned to meet specific criteria. These sequences are for users that are comfortable with the basic functionality of the SpikeSafe PRF or SMU. See individual folders' descriptions for more information on each sequence.
+These sequences address specific scenarios in which SpikeSafe functionality is used in an integrated test system, or scenarios where more advanced SpikeSafe settings need to be tuned to meet specific criteria. These sequences are for users that are comfortable with the basic functionality of the SpikeSafe PRF or PSMU. See individual folders' descriptions for more information on each sequence.
 
 ## Directory
 - [Fixed Pulse Count Using Software Timing](fixed_pulse_count_using_software_timing)

@@ -1,10 +1,10 @@
-# Example for Obtaining Voltage Measurements Across a Single Pulse Using the SpikeSafe SMU Digitizer
+# Example for Obtaining Voltage Measurements Across a Single Pulse Using the SpikeSafe PSMU Digitizer
 
 ## Purpose
-Demonstrate how to use the SpikeSafe SMU's integrated Digitizer to make high precision voltage measurements to determine the pulse shape of a single current pulse supplied to an LED, Laser, or electrical component. In this example, the Digitizer is taking continuous small-aperture readings across a single pulse outputted from the SpikeSafe.
+Demonstrate how to use the SpikeSafe PSMU's integrated Digitizer to make high precision voltage measurements to determine the pulse shape of a single current pulse supplied to an LED, Laser, or electrical component. In this example, the Digitizer is taking continuous small-aperture readings across a single pulse outputted from the SpikeSafe.
 
 ## Overview 
-Operates SpikeSafe as both a pulsed current source and a high precision voltage measurement device. When the SpikeSafe outputs a current pulse, the Digitizer uses the rising edge of that pulse as a trigger to take a series of quick, sequential measurements. This happens until both the pulse is complete and the reading buffer of the SpikeSafe SMU Digitizer is full.  Voltage readings are then read and plotted.
+Operates SpikeSafe as both a pulsed current source and a high precision voltage measurement device. When the SpikeSafe outputs a current pulse, the Digitizer uses the rising edge of that pulse as a trigger to take a series of quick, sequential measurements. This happens until both the pulse is complete and the reading buffer of the SpikeSafe PSMU Digitizer is full.  Voltage readings are then read and plotted.
 
 Note the use of the New Data query while the SpikeSafe is operating. While the Digitizer is still acquiring voltage data, it can be unobtrusively queried to determine if the buffer is full yet. This information can be used to determine whether the user would ideally want to fetch data, as the data fetch will only return fresh data if the specified measurements have occurred.
 

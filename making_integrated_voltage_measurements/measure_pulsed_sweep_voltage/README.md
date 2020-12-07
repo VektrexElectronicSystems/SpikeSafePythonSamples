@@ -1,9 +1,9 @@
-# Example for Obtaining Voltage Measurements to Graph an I-V Curve Using the SpikeSafe SMU Digitizer in Pulsed Sweep Mode
+# Example for Obtaining Voltage Measurements to Graph an I-V Curve Using the SpikeSafe PSMU Digitizer in Pulsed Sweep Mode
 
 ## Purpose
-Demonstrate how to obtain the I-V curve of a given LED, Laser, or electrical component using the SpikeSafe SMU. Determining the actual I-V curve of a given DUT helps validate the part by comparing the measured results to the expected results provided within the part's documentation.
+Demonstrate how to obtain the I-V curve of a given LED, Laser, or electrical component using the SpikeSafe PSMU. Determining the actual I-V curve of a given DUT helps validate the part by comparing the measured results to the expected results provided within the part's documentation.
 
-The SpikeSafe SMU's integrated Digitizer is used to make high precision voltage measurements while outputting a pulsed current sweep to the DUT. The Digitizer is taking triggered readings on the rising edge of the SpikeSafe's pulsed current output.
+The SpikeSafe PSMU's integrated Digitizer is used to make high precision voltage measurements while outputting a pulsed current sweep to the DUT. The Digitizer is taking triggered readings on the rising edge of the SpikeSafe's pulsed current output.
 
 ## Overview 
 Operates SpikeSafe as both a pulsed current source and a high precision voltage measurement device. A Pulsed Sweep is outputted as demonstrated in [Run Pulsed Mode](../../run_spikesafe_operating_modes/run_pulsed_sweep). While current pulses are outputted, voltage measurements are being taken across the flattest portion of each current pulse. After all measurements are taken and read, the results are plotted in an I-V graph.
