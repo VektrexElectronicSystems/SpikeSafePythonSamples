@@ -23,11 +23,13 @@ Making fixed pulsed count using software based timing is simple when a rough num
 ## Considerations
 - See [Run Pulsed](../../run_spikesafe_operating_modes/run_pulsed) for further descriptions of when to Continuous and Continuous Dynamic operation modes.
 - SpikeSafe current pulse train starts when the SpikeSafe channel is turned on. To ensure expected current pulsing is supplied, the time to achieve pulse count is started after `Event 100, Channel Ready`, there's an expectation to in excess over the expected number of pulses.
+- `Event 100, Channel Ready` signals current pulses are outputting at the desired set current amperage. In this example prior to this event, the SpikeSafe current pulse train begins to ramp up from 0A to 100mA, once current stabilizes at 100mA the channel ready event is signaled. See the following timing diagram showing how the software timer, pulsed current output, and channel ready event are related:
+![](timing_diagram.png)
 - Due to software based timing there will be a difference between the number of actual pulses and the expected number of pulses.
 
 ## Expected Results
-Taking considerations into account, there's an expectation to see over 10,000 pulses due to channel ready time and software based timing.
+Taking [Considerations](#considerations) into account, there's an expectation to see over 10,000 pulses.
 
-A frequency counters to track the number of pulses showed an output of 12,810 pulses. This implies there were ~2,810 pulses outputted before the SpikeSafe provided current pulses at a full current of 100mA, and ~10,000 pulses during the time waited to achieve the desired pulse count.
+A frequency counter to track the number of pulses showed an output of 12,810 pulses. This indicates ~2,810 pulses were outputted before the SpikeSafe provided pulses at a full current of 100mA, and ~10,000 pulses during the time waited to achieve the desired pulse count.
 
 ![](pulse_counter.png)
