@@ -28,6 +28,9 @@ Some sequences involve graphing measurement results. To properly graph results, 
 ### Installing PyCLibrary Package
 Some sequences require external C resources, and requires the [PyCLibrary](https://pyclibrary.readthedocs.io/en/latest/) library. To install this library, enter the command `python -m pip install pyclibrary`. Once the PyCLibrary library is installed, each sequence that involves external C resources can be run as a standalone Python file.
 
+### Installing pyserial Package
+Some sequences involve connecting to a serial interface instrument and requires the [pyserial](https://pypi.org/project/pyserial/) library (version 3.5 or greater). Use the command `python -m pip install pyserial` to install the latest version of pyserial. Once the pyserial library is installed, each sequence that involves a serial interface can be run as a standalone Python file.
+
 ### General Usage
 For most examples, you may need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address = '10.0.0.220'`.
 
