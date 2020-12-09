@@ -35,7 +35,7 @@ When running a DC staircase using this sequence, one can expect to see the follo
 
 **I/V Graph**
 
-Once all 10 steps are measured, a graph will appear similar to below:
+Once all 10 steps are measured, a graph will appear like below:
 
 ![](dc_staircase_graph.png)
 
