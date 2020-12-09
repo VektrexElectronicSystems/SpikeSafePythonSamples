@@ -10,7 +10,7 @@ Digitizer is available on PSMU and PSMU HC select models. If the Digitizer is av
 Force Sense Selector Switch is available on select models. The `OUTP1:CONN:AVAIL?` query is used to determine if the Force Sense Selector Switch is available.
 
 ## Purpose
-Demonstrate proper usage of the "Identify SpikeSafe" queries on the SpikeSafe. During typical operation, the `*IDN?` and following queries should be sent upon connecting to determine vital information about the SpikeSafe. If a model does not configured with either a Digitizer or Force Sense Selector Switch, the queries for these can be omitted.
+Demonstrate proper usage of the "Identify SpikeSafe" queries on the SpikeSafe. During typical operation, the `*IDN?` and following queries should be sent upon connecting to determine vital information about the SpikeSafe. If a model is not configured with either a Digitizer or Force Sense Selector Switch, the queries for these can be omitted.
 
 ## Expected Output
 An Identify SpikeSafe query will be sent, and its response will be read. This typically looks similar to the text shown below. Individual versions, models, and dates will vary per SpikeSafe. This output assumes a PSMU model configured with a Digitizer and Force Sense Selector Switch.
