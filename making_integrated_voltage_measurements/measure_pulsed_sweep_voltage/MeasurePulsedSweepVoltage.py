@@ -1,5 +1,5 @@
 # Goal: 
-# Connect to a SpikeSafe and run a Pulsed Sweep into a 10Ω resistor. Take voltage measurements from the pulsed output using the SpikeSafe SMU's integrated Digitizer
+# Connect to a SpikeSafe and run a Pulsed Sweep into a 10Ω resistor. Take voltage measurements from the pulsed output using the SpikeSafe PSMU's integrated Digitizer
 # 
 # Expectation: 
 # Channel 1 will be driven with 100mA with a forward voltage of ~1V during this time
@@ -40,7 +40,7 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
 
-    # abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe SMU
+    # abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     tcp_socket.send_scpi_command('VOLT:ABOR')
 
     # set up Channel 1 for pulsed sweep output. To find more explanation, see instrument_examples/run_spikesafe_operating_modes/run_pulsed

@@ -1,18 +1,18 @@
-# Example for performing LIV Sweeps Using the SpikeSafe SMU and a Spectrometer
+# Example for performing LIV Sweeps Using the SpikeSafe PSMU and a Spectrometer
 
-In this sequence, we will address how to integrate a SpikeSafe SMU into a light measurement system. From there, we will demonstrate how to easily perform LIV Sweeps using the SpikeSafe's Pulsed Sweep operation mode in conjunction with its integrated Voltage Digitizer. 
+In this sequence, we will address how to integrate a SpikeSafe PSMU into a light measurement system. From there, we will demonstrate how to easily perform LIV Sweeps using the SpikeSafe's Pulsed Sweep operation mode in conjunction with its integrated Voltage Digitizer. 
 
 ## **Purpose**
-Demonstrate how to integrate the SpikeSafe SMU into a light measurement system and how to implement Pulsed Sweep current operation to obtain an LIV sweep measurement. An LIV sweep is a series of light, current, and voltage (i.e. L, I, and V) measurements across the operating spectrum of an LED or laser. It is a fundamental measurement in determining the operating characteristics of an LED or laser. LIV sweeps are generally graphed as shown below:
+Demonstrate how to integrate the SpikeSafe PSMU into a light measurement system and how to implement Pulsed Sweep current operation to obtain an LIV sweep measurement. An LIV sweep is a series of light, current, and voltage (i.e. L, I, and V) measurements across the operating spectrum of an LED or laser. It is a fundamental measurement in determining the operating characteristics of an LED or laser. LIV sweeps are generally graphed as shown below:
 
 ![](liv_sweep_graph_screenshot.png)
 
 ## Overview 
-Operates SpikeSafe as an SMU that outputs a pulsed current sweep and takes a series of voltage measurements throughout the current sweep. An Instrument Systems CAS4 spectrometer is implemented, which will take triggered light measurements. See the test diagram below:
+Operates SpikeSafe as an PSMU that outputs a pulsed current sweep and takes a series of voltage measurements throughout the current sweep. An Instrument Systems CAS4 spectrometer is implemented, which will take triggered light measurements. See the test diagram below:
 
 ![](liv_sweep_test_diagram.png)
 
-The SpikeSafe SMU operates similarly to the [Measure Pulsed Sweep Voltage](../../making_integrated_voltage_measurements/measure_pulsed_sweep_voltage) sequence. 
+The SpikeSafe PSMU operates similarly to the [Measure Pulsed Sweep Voltage](../../making_integrated_voltage_measurements/measure_pulsed_sweep_voltage) sequence. 
 
 The CAS4 spectrometer is operated using external resources provided by Instrument Systems. To obtain the necessary resources to run this sequence, please visit [the Instrument Systems website](https://www.instrumentsystems.com/en/products/software/sdk-spectrometer/). After installing these resources on your computer, install the libraries listed in the **Considerations** section of this document. More information on CAS spectrometers can be found [here](https://www.instrumentsystems.com/en/products/spectrometers/).
 
@@ -62,6 +62,6 @@ Upon starting the sequence, the user will be prompted to enter the names of the 
 
 ![](liv_sweep_graph_screenshot.png)
 
-The results above were obtained using a SpikeSafe SMU 5A in conjunction with a CAS 140D array spectroradiometer. The DUT was a standard orange LED with a forward current of 100mA. The Start Current and Stop Current were adjusted to 10mA and 100mA respectively to reflect DUT parameters.
+The results above were obtained using a SpikeSafe PSMU 5A in conjunction with a CAS 140D array spectroradiometer. The DUT was a standard orange LED with a forward current of 100mA. The Start Current and Stop Current were adjusted to 10mA and 100mA respectively to reflect DUT parameters.
 
 

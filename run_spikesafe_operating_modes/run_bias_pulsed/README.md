@@ -1,7 +1,7 @@
-# Examples for Operating a SpikeSafe PRF or SMU in Bias Pulsed modes
+# Examples for Operating a SpikeSafe PRF or PSMU in Bias Pulsed modes
 
 ## **Purpose**
-Demonstrate how to use a SpikeSafe PRF or SMU to deliver high precision pulsed current to an LED or Laser while also delivering a constant low-amperage DC bias current. Continuous Bias and Continuous Dynamic Bias operation modes output a continuous current pulse train at the specified Set Current, Bias Current, On Time, and Off Time. These bias current modes incorporate a secondary low-current DC source that is useful when making junction temperature (Tj) measurements. The two modes differ in the way they start up, and the way they regulate current after startup.
+Demonstrate how to use a SpikeSafe PRF or PSMU to deliver high precision pulsed current to an LED or Laser while also delivering a constant low-amperage DC bias current. Continuous Bias and Continuous Dynamic Bias operation modes output a continuous current pulse train at the specified Set Current, Bias Current, On Time, and Off Time. These bias current modes incorporate a secondary low-current DC source that is useful when making junction temperature (Tj) measurements. The two modes differ in the way they start up, and the way they regulate current after startup.
 
 These modes are similar to their corresponding [Pulsed Mode](../run_pulsed) in every aspect except for the always-on bias current that is outputted while a channel running a Bias Pulsed mode is enabled.
 

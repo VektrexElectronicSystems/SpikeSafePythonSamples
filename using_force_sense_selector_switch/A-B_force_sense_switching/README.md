@@ -1,9 +1,9 @@
-# Example for Operating the SpikeSafe SMU's Force Sense Selector Switch to Control Two SMUs
+# Example for Operating the SpikeSafe PSMU's Force Sense Selector Switch to Control Two SMUs
 
 ## **Purpose**
-Demonstrate how to use the SpikeSafe SMU's Force Sense Selector Switch to deliver power to an LED, Laser, or electrical component using both the SpikeSafe current output and an auxiliary source output.
+Demonstrate how to use the SpikeSafe PSMU's Force Sense Selector Switch to deliver power to an LED, Laser, or electrical component using both the SpikeSafe current output and an auxiliary source output.
 
-The Force Sense Selector Switch is a true mechanical switch integrated in the SpikeSafe SMU. It is a software-controlled switch that affects both the Force leads and the Sense leads.
+The Force Sense Selector Switch is a true mechanical switch integrated in the SpikeSafe PSMU. It is a software-controlled switch that affects both the Force leads and the Sense leads.
 
 ## Overview 
 In this sequence, the SpikeSafe initially operates in DC mode with the Force Sense Selector Switch set to Primary. Afterward, the switch is set to Auxiliary mode, in which the test circuit is routed from an Auxiliary source to the DUT. Once auxiliary testing is complete, the switch is set back to Primary and the SpikeSafe outputs DC current to the DUT once more.

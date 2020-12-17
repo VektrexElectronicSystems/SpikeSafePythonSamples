@@ -1,7 +1,7 @@
 # Example for TCP Socket
 
 ## **Purpose**
-Demonstrate how to use a light-weight TCP socket to communicate with a SpikeSafe PRF or SMU.
+Demonstrate how to use a light-weight TCP socket to communicate with a SpikeSafe PRF or PSMU.
 
 ### Overview 
 In this example we cover how to create a socket, how to send encoded SCPI commands to the SpikeSafe, and read data through the TCP buffer.

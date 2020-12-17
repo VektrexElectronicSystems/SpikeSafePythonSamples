@@ -1,5 +1,5 @@
 # Goal: 
-# Demonstrate the connect/disconnect switch functionality of the SpikeSafe SMU while operating in Multi-Pulse mode
+# Demonstrate the connect/disconnect switch functionality of the SpikeSafe PSMU while operating in Multi-Pulse mode
 # 
 # Expectation: 
 # Channel 1 will run in Multi-Pulse mode with the switch set to Primary

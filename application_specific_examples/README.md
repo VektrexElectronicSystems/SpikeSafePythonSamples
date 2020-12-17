@@ -1,9 +1,12 @@
 # Application-Specific Examples
 
-These sequences address specific scenarios in which SpikeSafe functionality is used in an integrated test system, or scenarios where more advanced SpikeSafe settings need to be tuned to meet specific criteria. These sequences are for users that are comfortable with the basic functionality of the SpikeSafe PRF or SMU. See individual folders' descriptions for more information on each sequence.
+These sequences address specific scenarios in which SpikeSafe functionality is used in an integrated test system, or scenarios where more advanced SpikeSafe settings need to be tuned to meet specific criteria. These sequences are for users that are comfortable with the basic functionality of the SpikeSafe PRF or PSMU. See individual folders' descriptions for more information on each sequence.
 
 ## Directory
+- [Controlling Thermal Platform Temperature](controlling_thermal_platform_temperature)
+- [Fixed Pulse Count Using Software Timing](fixed_pulse_count_using_software_timing)
 - [Making Tj Measurements](making_tj_measurements)
+- [Measuring DC Staircase Voltages](measuring_dc_staircase_voltages)
 - [Measuring Wavelength Spectrum](measuring_wavelength_spectrum)
 - [Pulse Tuning](pulse_tuning)
 - [Running LIV Sweeps](running_liv_sweeps)

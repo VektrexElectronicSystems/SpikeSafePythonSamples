@@ -1,15 +1,15 @@
 # SpikeSafe Python Samples
 
 Use these code samples to start learning how to communicate with your SpikeSafe via TCP/IP using Python. Sequences can be run with the following Vektrex products:
- - [SpikeSafe SMU](https://www.vektrex.com/products/spikesafe-source-measure-unit/)
+ - [SpikeSafe PSMU](https://www.vektrex.com/products/spikesafe-source-measure-unit/)
  - [SpikeSafe Performance Series ("PRF")](https://www.vektrex.com/products/spikesafe-performance-series-precision-pulsed-current-sources/)
 
 ## Directory
 
 - [Getting Started](getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within the run_spikesafe_operating_modes folder.
 - [Run SpikeSafe Operating Modes](run_spikesafe_operating_modes) - These folders contain examples to run specific SpikeSafe modes designed to test LEDs, Lasers, and electrical equipment. Basic settings will be sent to the SpikeSafe, and then one or more channels will be enabled to demonstrate the operation of each mode.
-- [Making Integrated Voltage Measurements](making_integrated_voltage_measurements) - These folders contain examples to measure voltage using the SpikeSafe SMU's integrated voltage Digitizer. The SpikeSafe outputs current to an LED, Laser, or electrical equipment, and then voltage measurements are read and displayed onscreen.
-- [Using the Force Sense Selector Switch](using_force_sense_selector_switch) - These folders contain examples to operate the optional integrated switch within the SpikeSafe SMU. The SpikeSafe outputs to an LED, Laser, or electrical equipment as in the previous examples, and the switch is used to either disconnect the SpikeSafe from the test circuit or to operate an auxiliary source to power the DUT.
+- [Making Integrated Voltage Measurements](making_integrated_voltage_measurements) - These folders contain examples to measure voltage using the SpikeSafe PSMU's integrated voltage Digitizer. The SpikeSafe outputs current to an LED, Laser, or electrical equipment, and then voltage measurements are read and displayed onscreen.
+- [Using the Force Sense Selector Switch](using_force_sense_selector_switch) - These folders contain examples to operate the optional integrated switch within the SpikeSafe PSMU. The SpikeSafe outputs to an LED, Laser, or electrical equipment as in the previous examples, and the switch is used to either disconnect the SpikeSafe from the test circuit or to operate an auxiliary source to power the DUT.
 - [Application-Specific Examples](application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output. These sequences explain how to make light measurements using a SpikeSafe and a spectrometer, how to make in-situ junction temperature measurements on LEDs, and how to take full advantage of all SpikeSafe features.
 
 ## Usage
@@ -27,6 +27,9 @@ Some sequences involve graphing measurement results. To properly graph results, 
 
 ### Installing PyCLibrary Package
 Some sequences require external C resources, and requires the [PyCLibrary](https://pyclibrary.readthedocs.io/en/latest/) library. To install this library, enter the command `python -m pip install pyclibrary`. Once the PyCLibrary library is installed, each sequence that involves external C resources can be run as a standalone Python file.
+
+### Installing pyserial Package
+Some sequences involve connecting to a serial interface instrument and requires the [pyserial](https://pypi.org/project/pyserial/) library (version 3.5 or greater). Use the command `python -m pip install pyserial` to install the latest version of pyserial. Once the pyserial library is installed, each sequence that involves a serial interface can be run as a standalone Python file.
 
 ### General Usage
 For most examples, you may need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address = '10.0.0.220'`.

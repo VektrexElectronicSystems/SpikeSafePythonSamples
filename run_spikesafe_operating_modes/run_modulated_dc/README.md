@@ -1,7 +1,7 @@
-# Examples for Operating a SpikeSafe PRF or SMU in Modulated DC modes
+# Examples for Operating a SpikeSafe PRF or PSMU in Modulated DC modes
 
 ## **Purpose**
-Demonstrate how to use a SpikeSafe PRF or SMU to deliver a customizable high precision DC current output sequence to an LED or Laser.  This operation mode outputs DC power in steps as specified by a sequence command. A Set Current is specified similar to other modes, and then the modulated sequence is specified through a series of steps, each consisting of a percentage of the specified set current for a given amount of time in seconds.
+Demonstrate how to use a SpikeSafe PRF or PSMU to deliver a customizable high precision DC current output sequence to an LED or Laser.  This operation mode outputs DC power in steps as specified by a sequence command. A Set Current is specified similar to other modes, and then the modulated sequence is specified through a series of steps, each consisting of a percentage of the specified set current for a given amount of time in seconds.
 
 Modulated DC mode can be thought of as a programmable version of DC Dynamic mode that requires a trigger command to output current.
 

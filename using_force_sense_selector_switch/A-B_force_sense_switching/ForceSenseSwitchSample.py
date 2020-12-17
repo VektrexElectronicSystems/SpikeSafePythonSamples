@@ -1,5 +1,5 @@
 # Goal: 
-# Demonstrate the A/B switch functionality of the SpikeSafe SMU while operating in DC mode
+# Demonstrate the A/B switch functionality of the SpikeSafe PSMU while operating in DC mode
 # 
 # Expectation: 
 # Channel 1 will run in DC mode with the switch set to Primary. 

@@ -1,10 +1,10 @@
-# Example for Obtaining Voltage Measurements Using the SpikeSafe SMU Digitizer in a Pulsed Mode
+# Example for Obtaining Voltage Measurements Using the SpikeSafe PSMU Digitizer in a Pulsed Mode
 
 ## Purpose
-Demonstrate how to use the SpikeSafe SMU's integrated Digitizer to make high precision voltage measurements while supplying pulsed current to an LED, Laser, or electrical component. In this example, the Digitizer is taking triggered readings on the rising edge of the SpikeSafe's pulsed current output.
+Demonstrate how to use the SpikeSafe PSMU's integrated Digitizer to make high precision voltage measurements while supplying pulsed current to an LED, Laser, or electrical component. In this example, the Digitizer is taking triggered readings on the rising edge of the SpikeSafe's pulsed current output.
 
 ## Overview 
-Operates SpikeSafe as both a pulsed current source and a high precision voltage measurement device. While current pulses are outputted, voltage measurements are being taken across the flattest portion of each current pulse. This happens until the reading buffer of the SpikeSafe SMU Digitizer is full, in which all voltage readings are read and printed to the console.
+Operates SpikeSafe as both a pulsed current source and a high precision voltage measurement device. While current pulses are outputted, voltage measurements are being taken across the flattest portion of each current pulse. This happens until the reading buffer of the SpikeSafe PSMU Digitizer is full, in which all voltage readings are read and printed to the console.
 
 The digitizer is set to receive a hardware trigger, meaning that it will use the SpikeSafe's output trigger signal as its input trigger. The measurement is delayed slightly to avoid measuring any rise time or possible current overshoot on the DUT.
 

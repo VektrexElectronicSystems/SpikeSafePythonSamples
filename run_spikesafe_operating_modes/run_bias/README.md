@@ -1,7 +1,7 @@
-# Examples for Operating a SpikeSafe PRF or SMU in Bias mode
+# Examples for Operating a SpikeSafe PRF or PSMU in Bias mode
 
 ## **Purpose**
-Demonstrate how to use a SpikeSafe PRF or SMU to deliver a low-amperage DC current to an LED or Laser.  This operation mode outputs constant current at the specified Bias Current between 0mA and 33mA. 
+Demonstrate how to use a SpikeSafe PRF or PSMU to deliver a low-amperage DC current to an LED or Laser.  This operation mode outputs constant current at the specified Bias Current between 0mA and 33mA. 
 
 ## **Run Bias Mode**
 

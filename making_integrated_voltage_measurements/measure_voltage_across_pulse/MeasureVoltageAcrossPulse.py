@@ -1,6 +1,6 @@
 # Goal: 
 # Connect to a SpikeSafe and output a Single Pulse into a 10Ω resistor
-# Take voltage measurements throughout that pulse using the SpikeSafe SMU's integrated Digitizer to determine the pulse shape
+# Take voltage measurements throughout that pulse using the SpikeSafe PSMU's integrated Digitizer to determine the pulse shape
 # 
 # Expectation: 
 # Channel 1 will be driven with 100mA with a forward voltage of ~1V during this time
@@ -41,7 +41,7 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
 
-    # abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe SMU
+    # abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     tcp_socket.send_scpi_command('VOLT:ABOR')
 
     # set up Channel 1 for single pulse output. To find more explanation, see run_spikesafe_operating_modes/run_single_pulse

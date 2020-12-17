@@ -1,9 +1,9 @@
-# Example for Operating the SpikeSafe SMU's Force Sense Selector Switch as a Connect/Disconnect Switch
+# Example for Operating the SpikeSafe PSMU's Force Sense Selector Switch as a Connect/Disconnect Switch
 
 ## **Purpose**
-Demonstrate how to use the SpikeSafe SMU's Force Sense Selector Switch to deliver power to an LED, Laser, or electrical component using the Primary SpikeSafe current output and the Auxiliary mode of the switch as an open circuit disconnect.
+Demonstrate how to use the SpikeSafe PSMU's Force Sense Selector Switch to deliver power to an LED, Laser, or electrical component using the Primary SpikeSafe current output and the Auxiliary mode of the switch as an open circuit disconnect.
 
-The Force Sense Selector Switch is a true mechanical switch integrated in the SpikeSafe SMU. It is a software-controlled switch that affects both the Force leads and the Sense leads.
+The Force Sense Selector Switch is a true mechanical switch integrated in the SpikeSafe PSMU. It is a software-controlled switch that affects both the Force leads and the Sense leads.
 
 ## Overview 
 In this sequence, the SpikeSafe initially operates in Multi-Pulse mode with the Force Sense Selector Switch set to Primary. Afterward, the switch is set to Auxiliary mode, in which SpikeSafe circuitry is completed disconnected from the DUT. Once any DUT modifications are complete, the switch is set back to Primary in which the SpikeSafe is connected, and the SpikeSafe outputs Multi-Pulse current to the DUT once more.
