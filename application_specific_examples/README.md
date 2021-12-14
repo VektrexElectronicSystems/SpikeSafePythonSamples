@@ -6,6 +6,7 @@ These sequences address specific scenarios in which SpikeSafe functionality is u
 - [Controlling Thermal Platform Temperature](controlling_thermal_platform_temperature)
 - [Fixed Pulse Count Using Software Timing](fixed_pulse_count_using_software_timing)
 - [Making Tj Measurements](making_tj_measurements)
+- [Making Transient Dual Interface Measurements (JESD51-14)](making_transient_dual_interface_measurement)
 - [Measuring DC Staircase Voltages](measuring_dc_staircase_voltages)
 - [Measuring Wavelength Spectrum](measuring_wavelength_spectrum)
 - [Pulse Tuning](pulse_tuning)
