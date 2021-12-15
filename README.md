@@ -65,6 +65,7 @@ Feature requests and bug reports can be submitted to [the Vektrex website's supp
 
 ## Contributors
 
+* **Andy Fung** - [andyfung](https://github.com/andyfung)
 * **Bill Thompson** - [BillThomp](https://github.com/BillThomp)
 * **Eljay Gemoto** - [eljayg](https://github.com/eljayg)
 
