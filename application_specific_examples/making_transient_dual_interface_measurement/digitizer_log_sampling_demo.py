@@ -166,16 +166,22 @@ try:
     for dd in digitizer_data:
         if sampling_mode_string == slow_sampling_string:
             # log time scale
-            if i > 0 and i <=99:
-                Time_us = Time_us + 1000
-            elif i > 99 and i <= 189:
-                Time_us = Time_us + 10000
-            elif i > 189 and i <= 279:
-                Time_us = Time_us + 100000
-            elif i > 279 and i <= 369:
-                Time_us = Time_us + 1000000       
-            elif i > 369 and i <= 459:
-                Time_us = Time_us + 10000000
+            if i > 0 and i <=49:
+                Time_us = Time_us + 2
+            elif i > 49 and i <= 139:
+                Time_us = Time_us + 10
+            elif i > 139 and i <= 229:
+                Time_us = Time_us + 100
+            elif i > 229 and i <= 319:
+                Time_us = Time_us + 1000       
+            elif i > 319 and i <= 364:
+                Time_us = Time_us + 20000
+            elif i > 364 and i <= 409:
+                Time_us = Time_us + 200000
+            elif i > 409 and i <= 454:
+                Time_us = Time_us + 2000000   
+            elif i > 454 and i <= 500:
+                Time_us = Time_us + 20000000                             
         elif sampling_mode_string == medium_sampling_string:    
             if i > 0 and i <=49:
                 Time_us = Time_us + 2
