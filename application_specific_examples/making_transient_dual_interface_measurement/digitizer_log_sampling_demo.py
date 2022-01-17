@@ -103,7 +103,7 @@ try:
     # set Auto Range
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')
 
-    # set current to 1A
+    # set current to 0.35A
     tcp_socket.send_scpi_command('SOUR1:CURR 0.35')
 
     # set Ramp mode to Fast
