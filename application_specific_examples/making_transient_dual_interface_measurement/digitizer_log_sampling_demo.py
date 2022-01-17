@@ -104,7 +104,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')
 
     # set current to 1A
-    tcp_socket.send_scpi_command('SOUR1:CURR 1')
+    tcp_socket.send_scpi_command('SOUR1:CURR 0.35')
 
     # set Ramp mode to Fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
