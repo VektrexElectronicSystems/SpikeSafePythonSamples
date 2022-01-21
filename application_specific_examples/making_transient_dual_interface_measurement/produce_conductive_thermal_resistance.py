@@ -9,9 +9,20 @@ from spikesafe_python.SpikeSafeError import SpikeSafeError
 from matplotlib import pyplot as plt 
 import numpy as np
 
+def log_and_print_to_console(message_string):
+    print(message_string)
+
+def receive_user_input_and_log():
+    inputText = input()
+    return inputText
+
 slow_sampling_string = "SLOWLOG"
 medium_sampling_string = "MEDIUMLOG"
 fast_sampling_string = "FASTLOG"
+slow_sampling_mode = 3
+medium_sampling_mode = 2
+fast_sampling_mode = 1
+
 # the number of samples
 # use for checking wheather the plot is fast or slow log sampling   
 num_of_data_fastLog = 525
@@ -20,6 +31,9 @@ num_of_data_slowLog = 460
 
 filename_grease_log = "digitizer_log_sampling_grease.log"
 filename_no_grease_log = "digitizer_log_sampling_noGrease.log"
+
+log_and_print_to_console('\nEnter the option # for sampling mode:\n1. FASTLOG.\n2. MEDIUMLOG\n3. SLOWLOG.\n')
+sampling_mode_input = float(receive_user_input_and_log())
 
 ### start of main program
 try:   
@@ -58,11 +72,11 @@ try:
     else:
         num_of_data = num_of_data_noGrease
 
-    if num_of_data == num_of_data_fastLog:
+    if sampling_mode_input == fast_sampling_mode:
         sampling_mode_string = fast_sampling_string
-    elif num_of_data == num_of_data_mediumLog:
+    elif sampling_mode_input == medium_sampling_mode:
         sampling_mode_string = medium_sampling_string
-    elif num_of_data == num_of_data_slowLog:
+    elif sampling_mode_input == slow_sampling_mode:
         sampling_mode_string = slow_sampling_string
 
     # plot graph
@@ -79,16 +93,22 @@ try:
         time_value.append(Time_us/1000000)
         if sampling_mode_string == slow_sampling_string:
             # log time scale
-            if i > 0 and i <=99:
-                Time_us = Time_us + 1000
-            elif i > 99 and i <= 189:
-                Time_us = Time_us + 10000
-            elif i > 189 and i <= 279:
-                Time_us = Time_us + 100000
-            elif i > 279 and i <= 369:
-                Time_us = Time_us + 1000000       
-            elif i > 369 and i <= 459:
-                Time_us = Time_us + 10000000
+            if i > 0 and i <=49:
+                Time_us = Time_us + 2
+            elif i > 49 and i <= 139:
+                Time_us = Time_us + 10
+            elif i > 139 and i <= 229:
+                Time_us = Time_us + 100
+            elif i > 229 and i <= 319:
+                Time_us = Time_us + 1000       
+            elif i > 319 and i <= 364:
+                Time_us = Time_us + 20000
+            elif i > 364 and i <= 409:
+                Time_us = Time_us + 200000
+            elif i > 409 and i <= 454:
+                Time_us = Time_us + 2000000   
+            elif i > 454 and i <= 500:
+                Time_us = Time_us + 20000000   
         elif sampling_mode_string == medium_sampling_string:    
             if i >= 0 and i <=49:
                 Time_us = Time_us + 2

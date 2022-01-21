@@ -37,14 +37,17 @@ Vektrex PSMU's Digitizer Medium Sampling algorithm provides sample data to 2 mic
 | 426-500 | 75 | 1.2 s |
 
 ### Slow Sampling
-Vektrex PSMU's Digitizer Slow Sampling algorithm provides sample data from 1 millisecond to 1000 seconds. It is recommended for DUTs with a larger package or a larger thermal mass. 460 individual voltage DUT measurements divided into the following samples at each aperture:
+Vektrex PSMU's Digitizer Slow Sampling algorithm provides sample data from 2 microseconds to 1000 seconds. It is recommended for DUTs with a larger package or a larger thermal mass. 500 individual voltage DUT measurements divided into the following samples at each aperture:
 | Sample Number | Sample Count | Aperture |
 | - | - | - |
-| 1-100 | 100 | 1 ms | 
-| 101-190 | 90 | 10 ms | 
-| 191-280 | 90 | 100 ms | 
-| 281-370 |  90 | 1 s | 
-| 371-460 | 90 | 10 s | 
+| 1-50 | 50 | 2 us | 
+| 51-140 | 90 | 10 us | 
+| 141-230 | 90 | 100 us | 
+| 231-320 |  90 | 1 ms | 
+| 321-365 | 45 | 20 ms |
+| 366-410 | 45 | 200 ms | 
+| 411-455 | 45 | 2 s |
+| 456-500 | 45 | 20 s |
 
 More information about the TDIM can be found at [JESD 51-14](https://www.jedec.org/standards-documents/docs/jesd51-14-0)
 
@@ -84,7 +87,7 @@ Messages will appear in the console at various portions of the test and will pro
 ## Key Settings
 ### SpikeSafe Current Output Settings
 - **Pulse Mode:** DC Dynamic
-- **Set Current:** 1A (may modify according to DUT characteristics)
+- **Set Current:** 0.35A (may modify according to DUT characteristics)
 - **Compliance Voltage:** 25V (may modify according to DUT characteristics)
 - **Ramp Rate:** Fast. Voltage will ramp as fast as 1000V/sec. Current will ramp as fast as 50A/sec.
 
@@ -106,8 +109,8 @@ Messages will appear in the console at various portions of the test and will pro
     - FASTLOG will take 10 seconds to complete, MEDIUMLOG takes 100 seconds, and SLOWLOG will take 1000 seconds to complete. Abort the Step if it takes longer to complete than the aforementioned times.
   - Recorded voltage measurements saved to data log files in Steps 1 and 3 will be overwritten when re-running that Step.
 - For your testing, you may have to modify settings as pointed out under Key Settings to obtain accurate voltage measurements. For this test, an Osram LED with the following characteristics was used:
-  - Forward current: 1A
-  - Forward voltage: ~5.5V
+  - Forward current: 0.35A
+  - Forward voltage: ~2.6V
   - Set Temperature: 25°C
   - Time to reach thermal equilibrium: <10 seconds
 - For your testing, you may need to select an appropriate thermal controller platform with enough cooling capacity for your device. For this test an Arroyo 5400 Series TECSource was used.
@@ -119,21 +122,21 @@ Messages will appear in the console at various portions of the test and will pro
 ## Expected Results
 
 ### Fast Log Results
-Voltage measurements taken with no grease and with grease are similar until roughly ~350ms when the voltages start to diverge. From ~750ms and above the no grease voltage measurements begin to exponentially decline due to an increase in the LED junction temperature, this conveys the LED's heat is not dissipating fast enough through the thermal platform.
+Voltage measurements taken with no grease and with grease are similar until roughly ~1s when the voltages start to diverge. From ~1.5s and above the no grease voltage measurements begin to  decline more quickly due to an increase in the LED junction temperature, this conveys the LED's heat is not dissipating fast enough through the thermal platform.
 
 ![Fast Log Sampling](fast_log_sampling.png)
 
 ![Fast Log Sampling Difference](fast_log_sampling_subtraction.png)
 
 ### Medium Log Results
-The Medium Log has the similar results as the Fast Log that the two voltages curves start to diverge at roughly ~350ms. The voltage measurement taken with no grease shows that the LED tends to reach the temperautre steady state from ~50s but still not stabilized yet. Therefore, a slower log sampling is required for showing voltages stablization. See the Slow Log Results in the next sub-section.
+The Medium Log has the similar results as the Fast Log that the two voltages curves start to diverge at roughly ~1s. The voltage measurement taken with no grease shows that the LED tends to reach the temperautre steady state from ~10s. A slower log sampling can be applied for clearly showing voltages stablization. See the Slow Log Results in the next sub-section.
 
 ![Medium Log Sampling](medium_log_sampling.png)
 
 ![Medium Log Sampling Difference](medium_log_sampling_subtraction.png)
 
 ### Slow Log Results
-Fast Log and Medium Log Results shows that the LED reaching temperature steady state should be reflected with a stable voltage reading over time. Here the voltage readings have not stabilized yet, so this test will be repeated using Slow Log. Slow Log shows the same result, from ~350ms and above, of an exponential decline in no grease voltage measurements due to an increase in LED junction temperature. Additionally, starting at ~200s and above shows the LED reaches temperature steady state with no grease, whereas at ~10s and above the LED reaches temperature steady state with grease.
+Fast Log and Medium Log Results shows that the LED reaching temperature steady state should be reflected with a stable voltage reading over time. Here if the voltage readings have not stabilized yet, this test will be repeated using Slow Log. Slow Log shows the same result, from ~1.5s and above, of an decline more quickly in no grease voltage measurements due to an increase in LED junction temperature. Additionally, starting at ~10s and above shows the LED reaches temperature steady state with no grease, whereas at ~700ms and above the LED reaches temperature steady state with grease.
 
 Using this information can help determine the optimal parameters and environments which are suitable for this LED's behavior. Thanks to Vektrex's PSMU and a stable thermal platform, JESD51-14 testing can be repeated easily and reliably to provide key performance metrics of any DUT.
 
