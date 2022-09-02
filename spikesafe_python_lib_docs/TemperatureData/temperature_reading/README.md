@@ -1,9 +1,9 @@
-# spikesafe-python API Overview | MemoryTableReadData | voltage_reading
+# spikesafe-python API Overview | MemoryTableReadData | temperature_reading
 
-## voltage_reading
+## temperature_reading
 
 ### Definition
-Channel voltage reading
+Channel current reading
 
 ### Attribute Value
 [float](https://docs.python.org/3/library/functions.html#float)   

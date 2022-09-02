@@ -1,12 +1,12 @@
-# spikesafe-python API Overview | MemoryTableReadData | voltage_reading
+# spikesafe-python API Overview | MemoryTableReadData | heat_sink_number
 
-## voltage_reading
+## heat_sink_number
 
 ### Definition
-Channel voltage reading
+Heat sink number
 
 ### Attribute Value
-[float](https://docs.python.org/3/library/functions.html#float)   
+[int](https://docs.python.org/3/library/functions.html#int)  
 
 ### Examples
 The following example demonstrates the parse_memory_table_read function. It initiates the request for SpikeSafe Memory Table Read and extracts bulk voltage, Channel 1's data, and Heat Sink 1's Temperature data from a MemoryTableReadData object.
@@ -33,6 +33,5 @@ voltage_reading = memory_table_read.channel_data[0].voltage_reading
 heat_sink_number = memory_table_read.temperature_data[0].heat_sink_number
 temperature_reading = memory_table_read.temperature_data[0].temperature_reading
 ```
-
 ### Examples In Action
 [/getting_started/read_memory_table_data/ReadMemoryTableData.py](/getting_started/read_memory_table_data/ReadMemoryTableData.py)

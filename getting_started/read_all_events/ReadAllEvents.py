@@ -31,6 +31,9 @@ try:
     event_data = read_all_events(tcp_socket)          
     for event in event_data:                        
         log.info(event.event)
+        log.info(event.code)
+        log.info(event.message)
+        log.info(','.join(map(str, event.channel_list)))
     
     # disconnect from SpikeSafe
     tcp_socket.close_socket()   
