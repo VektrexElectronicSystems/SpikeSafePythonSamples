@@ -29,11 +29,24 @@ try:
     tcp_socket.send_scpi_command('MEM:TABL:READ')
 
     # read SpikeSafe memory table and print SpikeSafe response to the log file
-    data = tcp_socket.read_data()                                            
+    data = tcp_socket.read_data()                                        
     log.info(data)
 
     # parse SpikeSafe memory table
     memory_table_read = MemoryTableReadData().parse_memory_table_read(data)
+
+    # extract Bulk Voltage data
+    bulk_voltage = memory_table_read.bulk_voltage
+
+    # extract Channel 1's data
+    channel_number = memory_table_read.channel_data[0].channel_number
+    current_reading = memory_table_read.channel_data[0].current_reading
+    is_on_state = memory_table_read.channel_data[0].is_on_state
+    voltage_reading = memory_table_read.channel_data[0].voltage_reading
+
+    # extract Heatsink 1's Temperature Data
+    heat_sink_number = memory_table_read.temperature_data[0].heat_sink_number
+    temperature_reading = memory_table_read.temperature_data[0].temperature_reading
 
     # disconnect from SpikeSafe    
     tcp_socket.close_socket()      

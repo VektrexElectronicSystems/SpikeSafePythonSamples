@@ -11,6 +11,7 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 - [Making Integrated Voltage Measurements](making_integrated_voltage_measurements) - These folders contain examples to measure voltage using the SpikeSafe PSMU's integrated voltage Digitizer. The SpikeSafe outputs current to an LED, Laser, or electrical equipment, and then voltage measurements are read and displayed onscreen.
 - [Using the Force Sense Selector Switch](using_force_sense_selector_switch) - These folders contain examples to operate the optional integrated switch within the SpikeSafe PSMU. The SpikeSafe outputs to an LED, Laser, or electrical equipment as in the previous examples, and the switch is used to either disconnect the SpikeSafe from the test circuit or to operate an auxiliary source to power the DUT.
 - [Application-Specific Examples](application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output. These sequences explain how to make light measurements using a SpikeSafe and a spectrometer, how to make in-situ junction temperature measurements on LEDs, and how to take full advantage of all SpikeSafe features.
+- [spikesafe-python API Overview](spikesafe_python_lib_docs). These folders contain complete class documentation for the spikesafe-python package used to power all of the aforementioned example directories.
 
 ## Usage
 
@@ -21,6 +22,8 @@ To run these sequences an IDE such as [Visual Studio Code](https://code.visualst
 The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0.
 
 Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
+
+Complete class documentation is available for spikesafe-python in [spikesafe-python API Overview](spikesafe_python_lib_docs).
 
 ### Installing matplotlib Package
 Some sequences involve graphing measurement results. To properly graph results, the [matplotlib](https://matplotlib.org/) library is required (version 3.2.1 or greater). Use the command `python -m pip install matplotlib` to install the latest version of matplotlib. Once the matplotlib library is installed, each sequence that involves graphing can be run as a standalone Python file.
