@@ -18,11 +18,11 @@ Instructions to download and setup **spikesafe-python** can be found [here](http
 | - | - |
 | [ChannelData](/spikesafe_python_lib_docs/ChannelData/README.md) | A class used to store data in a simple accessible object from a channel in SpikeSafe's event response. | 
 | [DigitizerData](/spikesafe_python_lib_docs/DigitizerData/README.md) | A class used to store data in a simple accessible object from a digitizer fetch response. |
-| DigitizerDataFetch | A helper class used to simplify collecting data from a PSMU Digitizer. |
+| [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | A helper class used to simplify collecting data from a PSMU Digitizer. |
 | [EventData](/spikesafe_python_lib_docs/EventData/README.md) | A class used to store data in a simple accessible object from a SpikeSafe's event response. |
 | [MemoryTableReadData](/spikesafe_python_lib_docs/MemoryTableReadData/README.md) | A class used to store data in a simple accessible object from a SpikeSafe's Memory Table Read response. |
-| ReadAllEvents | A helper class used to simplify reading events from a SpikeSafe. |
+| [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | A helper class used to simplify reading events from a SpikeSafe. |
 | [SpikeSafeError](/spikesafe_python_lib_docs/SpikeSafeError/README.md) | Exception raised for SpikeSafe errors returned by the System Error query. |
 | [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md) | A class used to represent a TCP socket for remote communication to a SpikeSafe. |
 | [TemperatureData](/spikesafe_python_lib_docs/TemperatureData/README.md) | A class used to store data in a simple accessible object from a heat sink in SpikeSafe's event response. |
-| Threading | A helper class used to simplify threading behavior. |
+| [Threading](/spikesafe_python_lib_docs/Threading/README.md) | A helper class used to simplify threading behavior. |

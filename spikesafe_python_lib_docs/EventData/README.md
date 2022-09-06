@@ -12,3 +12,8 @@ A class used to store data in a simple accessible object from a SpikeSafe's even
 | [code](/spikesafe_python_lib_docs/EventData/code/README.md) | Event code. |
 | [event](/spikesafe_python_lib_docs/EventData/event/README.md) | Event response. |
 | [message](/spikesafe_python_lib_docs/EventData/message/README.md) | Event message. |
+
+### Functions
+| Name | Description |
+| - | - |
+| [parse_event_data(self, event_data)](/spikesafe_python_lib_docs/EventData/parse_event_data/README.md) | Parses SpikeSafe's event response into a simple accessible object. |
