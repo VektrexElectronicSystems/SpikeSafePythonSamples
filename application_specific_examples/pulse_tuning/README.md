@@ -17,7 +17,7 @@ Current pulse shape should be measured using an oscilloscope in conjunction with
 - **Set Current:** 100mA
 - **Compliance Voltage:** 20V
 - **On Time:** 100µs
-- **Ramp Rate:** Fast. Voltage will ramp as fast as 1000V/sec. Current will ramp as fast as 50A/sec.
+- **Ramp Rate:** Fast. Voltage will ramp as fast as 1000V/sec. Current will ramp as fast as 50A/sec. Fast ramp is almost always recommended to make the current pulse appear sooner. There may be cases where Fast ramp results in a small current through the load capacitance at startup due to the high dV/dt, in these cases Slow ramp is useful for devices that require a gentler turn-on.
 - **Rise Time:** Very Slow, Slow, Medium, and Fast. This is one of two primary factors that affects pulse shape.
 - **Load Impedance:** Very Low, Low, Medium, and High. This is the other primary factor that affects pulse shape.
 
