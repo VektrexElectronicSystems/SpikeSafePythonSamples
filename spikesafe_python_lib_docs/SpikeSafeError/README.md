@@ -3,7 +3,7 @@
 ## SpikeSafeError
 
 ### Definition
-Exception raised for SpikeSafe errors returned by the `SYSTem:ERRor?` query
+Exception raised for SpikeSafe errors returned by the `SYST:ERR?` query
 
 Inheritance [Exception](https://docs.python.org/3/library/exceptions.html#Exception) -> SpikeSafeError
 

@@ -10,7 +10,7 @@ Refer to SS400 SCPI Programming Manual Appendix A for a full description of all 
 ## ReadAllEventsManual
 
 ### Overview
-Demonstrate proper usage of the "Check Event Queue" query on the SpikeSafe. During typical operation, the `SYSTem:ERRor?` query should be sent repeatedly until `0, OK` is received. It is good practice to send this query after any other SCPI command is sent to verify that the SpikeSafe is in the correct state. It is also recommended to send the query periodically while a SpikeSafe channel is running to determine if any events or errors occurs that require action.
+Demonstrate proper usage of the "Check Event Queue" query on the SpikeSafe. During typical operation, the `SYST:ERR?` query should be sent repeatedly until `0, OK` is received. It is good practice to send this query after any other SCPI command is sent to verify that the SpikeSafe is in the correct state. It is also recommended to send the query periodically while a SpikeSafe channel is running to determine if any events or errors occurs that require action.
 
 ### Expected Output
 The SpikeSafe will be repeatedly queried until a `0, OK` response is received. The amount of querying will vary based upon the state of the SpikeSafe prior to running this sequence. Sending `MEM:TABL:READ` will have `SYST:ERR?` respond with info event `102, External Paused Signal Stopped` meaning that the SpikeSafe External Pause signal input is not receiving a signal. Sending `SOUR1:VOLT 1` will have `SYST:ERR?` respond with error event `304, Invalid Voltage Setting; SOUR1:VOLT 1` meaning that the SpikeSafe has received an invalid voltage of 1V caused by the the specific SCPI command. 
