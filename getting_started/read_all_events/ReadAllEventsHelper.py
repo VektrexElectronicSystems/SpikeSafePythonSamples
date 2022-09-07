@@ -19,26 +19,44 @@ logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %
 
 ### start of main program
 try:
-    log.info("ReadAllEvents.py started.")
+    log.info("ReadAllEventsHelper.py started.")
     
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
 
-    # connect to SpikeSafe                        
-    tcp_socket.open_socket(ip_address, port_number)  
+    # connect to SpikeSafe
+    tcp_socket.open_socket(ip_address, port_number)
+
+    # reset to default state and check for all events,
+    # it is best practice to check for errors after sending each command      
+    tcp_socket.send_scpi_command('*RST')
+
+    # request SpikeSafe memory table
+    tcp_socket.send_scpi_command('MEM:TABL:READ')
+
+    # read SpikeSafe memory table and print SpikeSafe response to the log file
+    data = tcp_socket.read_data()   
     
     # read all events in SpikeSafe event queue, store in list, and print them to the log file
-    event_data = read_all_events(tcp_socket)          
-    for event in event_data:                        
+    # here it's expected to receive 1 event: 102, External Pause Signal Ended
+    event_data = read_all_events(tcp_socket)
+    for event in event_data:
         log.info(event.event)
         log.info(event.code)
         log.info(event.message)
         log.info(','.join(map(str, event.channel_list)))
+
+    # set Channel 1's voltage to an invalid 1 V and check for all events
+    tcp_socket.send_scpi_command('SOUR1:VOLT 1')
+
+    # read all events in SpikeSafe event queue, store in list, and print them to the log file
+    # here it's expected to raise a SpikeSafeError for event: SpikeSafe Error: 304, Invalid Voltage Setting; SOUR1:VOLT 1
+    event_data = read_all_events(tcp_socket)  
     
     # disconnect from SpikeSafe
-    tcp_socket.close_socket()   
+    tcp_socket.close_socket()
 
-    log.info("ReadAllEvents.py completed.\n")
+    log.info("ReadAllEventsHelper.py completed.\n")
     
 except SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application

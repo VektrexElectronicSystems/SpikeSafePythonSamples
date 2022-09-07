@@ -114,4 +114,4 @@ Defines the SpikeSafe events as enumerations.
 TODO.
 
 ### Remarks
-For a full description of all SpikeSafeEvents, refer to SS400 SCPI Programming Manual Appendix A.
+Refer to SS400 SCPI Programming Manual Appendix A for a full description of all SpikeSafe events and their expected formats.
