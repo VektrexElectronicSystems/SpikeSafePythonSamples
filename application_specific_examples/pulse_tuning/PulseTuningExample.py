@@ -100,7 +100,7 @@ try:
     # set channel 1's pulse width to 100µs. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
 
-    # set channel 1's output ramp to fast so that tests can be run in succession
+    # set channel 1's output ramp to fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
 
     # Check for any errors with initializing commands

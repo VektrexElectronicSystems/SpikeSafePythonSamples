@@ -57,6 +57,9 @@ try:
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
     tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
     tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
+    
+    # set Channel 1's Ramp mode to Fast
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
     # Check for any errors with initializing commands
     log_all_events(tcp_socket)

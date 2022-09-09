@@ -57,7 +57,8 @@ try:
     tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 1')
     tcp_socket.send_scpi_command('SOUR1:PULS:COUN 3')
     tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
+    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')  
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')   
 
     # Check for any errors with initializing commands
     log_all_events(tcp_socket)

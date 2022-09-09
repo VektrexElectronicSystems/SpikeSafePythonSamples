@@ -52,7 +52,8 @@ try:
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
     tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.0099')
     tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
+    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')  
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST') 
 
     # set Digitizer voltage range to 10V since we expect to measure voltages significantly less than 10V
     tcp_socket.send_scpi_command('VOLT:RANG 10')

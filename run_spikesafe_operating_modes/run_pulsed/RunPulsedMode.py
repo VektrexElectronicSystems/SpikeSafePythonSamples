@@ -60,6 +60,9 @@ try:
     tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
     log_all_events(tcp_socket)
 
+    # set Channel 1's Ramp mode to Fast and check for all events
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
+
     # set Channel 1's current to 100 mA and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
     log_all_events(tcp_socket)  

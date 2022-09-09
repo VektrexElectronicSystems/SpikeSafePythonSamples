@@ -62,6 +62,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
     tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
     tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
 
     # initially setting the On and Off Time to their default values using the standard commands 
     # Although not recommended, it is possible to use On Time, Off Time, Pulse Width, Period, and Duty Cycle commands in the same test session

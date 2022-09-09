@@ -64,6 +64,9 @@ try:
     tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 1')
     tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 1')   
 
+    # set Channel 1's Ramp mode to Fast
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
+
     # Check for any errors with initializing commands
     log_all_events(tcp_socket)
 
