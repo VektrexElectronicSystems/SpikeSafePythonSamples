@@ -9,7 +9,7 @@ All temperature data in list of TemperatureData objects
 [TemperatureData](/spikesafe_python_lib_docs/TemperatureData/README.md)  
 
 ### Examples
-The following example demonstrates the parse_memory_table_read function. It initiates the request for SpikeSafe Memory Table Read and extracts bulk voltage, Channel 1's data, and Heat Sink 1's Temperature data from a MemoryTableReadData object.
+The following example demonstrates the temperature_data attribute. It initiates the request for SpikeSafe Memory Table Read and extracts bulk voltage, Channel 1's data, and Heat Sink 1's Temperature data from a MemoryTableReadData object.
 ```
 # request SpikeSafe memory table
 tcp_socket.send_scpi_command('MEM:TABL:READ')

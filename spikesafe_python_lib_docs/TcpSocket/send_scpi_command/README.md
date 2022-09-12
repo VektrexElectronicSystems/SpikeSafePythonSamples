@@ -10,7 +10,7 @@ scpi_command [string](https://docs.python.org/3/library/string.html)
 SCPI command to send to SpikeSafe
 
 ### Examples
-The following example demonstrates the read_data function. It creates a new TcpSocket object, connects to a SpikeSafe, initiates the request for SpikeSafe information using the `*IDN?` SCPI command, reads the request response, and disconnects from a SpikeSafe.
+The following example demonstrates the send_scpi_command function. It creates a new TcpSocket object, connects to a SpikeSafe, initiates the request for SpikeSafe information using the `*IDN?` SCPI command, reads the request response, and disconnects from a SpikeSafe.
 ```
 # instantiate new TcpSocket to connect to SpikeSafe
 tcp_socket = TcpSocket()

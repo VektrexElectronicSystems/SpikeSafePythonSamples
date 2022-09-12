@@ -13,7 +13,7 @@ port_number [int](https://docs.python.org/3/library/functions.html#int)
 Port number of the SpikeSafe (8282 by default).
 
 ### Examples
-The following example demonstrates the read_data function. It creates a new TcpSocket object, connects to a SpikeSafe, initiates the request for SpikeSafe information using the `*IDN?` SCPI command, reads the request response, and disconnects from a SpikeSafe.
+The following example demonstrates the open_socket function. It creates a new TcpSocket object, connects to a SpikeSafe, initiates the request for SpikeSafe information using the `*IDN?` SCPI command, reads the request response, and disconnects from a SpikeSafe.
 ```
 # instantiate new TcpSocket to connect to SpikeSafe
 tcp_socket = TcpSocket()

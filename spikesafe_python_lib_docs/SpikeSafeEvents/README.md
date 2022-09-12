@@ -111,7 +111,9 @@ Defines the SpikeSafe events as enumerations.
 | CANNOT_CHANGE_PULSE_TIMES_DYNAMICALLY | 383 |
 
 ### Examples
-TODO.
+[/run_spikesafe_operating_modes/run_dc/RunDcMode.py](/run_spikesafe_operating_modes/run_dc/RunDcMode.py)
+[/run_spikesafe_operating_modes/run_modulated_dc/RunModulatedMode.py](/run_spikesafe_operating_modes/run_modulated_dc/RunModulatedMode.py)
+[/run_spikesafe_operating_modes/run_pulsed_sweep/RunPulsedSweepMode.py](/run_spikesafe_operating_modes/run_pulsed_sweep/RunPulsedSweepMode.py)
 
 ### Remarks
 Refer to SS400 SCPI Programming Manual Appendix A for a full description of all SpikeSafe events and their expected formats.

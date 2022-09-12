@@ -32,4 +32,4 @@ for event in event_data:
 ```
 
 ### Examples In Action
-[/getting_started/read_all_events/ReadAllEvents.py](/getting_started/read_all_events/ReadAllEvents.py)
+[/getting_started/read_all_events//ReadAllEventsHelper.py](/getting_started/read_all_events//ReadAllEventsHelper.py)

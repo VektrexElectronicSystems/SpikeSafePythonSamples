@@ -9,7 +9,7 @@ Heat sink number
 [int](https://docs.python.org/3/library/functions.html#int)  
 
 ### Examples
-The following example demonstrates the parse_memory_table_read function. It initiates the request for SpikeSafe Memory Table Read and extracts bulk voltage, Channel 1's data, and Heat Sink 1's Temperature data from a MemoryTableReadData object.
+The following example demonstrates the heat_sink_number attribute. It initiates the request for SpikeSafe Memory Table Read and extracts bulk voltage, Channel 1's data, and Heat Sink 1's Temperature data from a MemoryTableReadData object.
 ```
 # request SpikeSafe memory table
 tcp_socket.send_scpi_command('MEM:TABL:READ')

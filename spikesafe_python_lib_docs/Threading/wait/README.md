@@ -1,6 +1,6 @@
-# spikesafe-python API Overview | Threading | wait_time(wait_time)
+# spikesafe-python API Overview | Threading | wait(wait_time)
 
-## wait_time(wait_time)
+## wait(wait_time)
 
 ### Definition
 Suspends the current thread for a specified amount of time.
@@ -10,7 +10,7 @@ wait_time [float](https://docs.python.org/3/library/functions.html#float)
 Wait time in seconds to suspend the current thread.
 
 ### Examples
-The following example demonstrates the wait_time function. It setups up a SpikeSafe channel, starts it, waits until the event `100, Channel Ready` is returned from the SpikeSafe event queue, and monitors the event queue and readings once per second for 15 seconds.
+The following example demonstrates the wait function. It setups up a SpikeSafe channel, starts it, waits until the event `100, Channel Ready` is returned from the SpikeSafe event queue, and monitors the event queue and readings once per second for 15 seconds.
 ```
 # set Channel 1's pulse mode to DC and check for all events
 tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DC')    
