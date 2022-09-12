@@ -10,6 +10,7 @@ import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait
 from spikesafe_python.SpikeSafeError import SpikeSafeError     
@@ -76,7 +77,7 @@ try:
     tcp_socket.send_scpi_command('OUTP0 1')
 
     # wait until the channel is fully ramped
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # check for all events and measure readings for all channels once per second for 10 seconds,
     # it is best practice to do this to ensure each channel is on and does not have any errors

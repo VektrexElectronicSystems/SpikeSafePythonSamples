@@ -11,6 +11,7 @@ import time
 import logging
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait    
 from spikesafe_python.SpikeSafeError import SpikeSafeError 
@@ -74,19 +75,19 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # Wait until Channel 1 is ready for a trigger command
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # Output pulsed sweep for Channel 1
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
     # Wait for the Pulsed Sweep to be complete
-    read_until_event(tcp_socket, 109) # event 109 is "Pulsed Sweep Complete"
+    read_until_event(tcp_socket, SpikeSafeEvents.PULSED_SWEEP_COMPLETE) # event 109 is "Pulsed Sweep Complete"
 
     # Output pulsed sweep for Channel 1. Multiple sweeps can be run while the channel is enabled
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
     # Wait for the Pulsed Sweep to be complete
-    read_until_event(tcp_socket, 109) # event 109 is "Pulsed Sweep Complete"
+    read_until_event(tcp_socket, SpikeSafeEvents.PULSED_SWEEP_COMPLETE) # event 109 is "Pulsed Sweep Complete"
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')

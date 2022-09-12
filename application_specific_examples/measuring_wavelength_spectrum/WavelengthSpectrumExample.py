@@ -13,6 +13,7 @@ import os
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait     
 from spikesafe_python.SpikeSafeError import SpikeSafeError
@@ -150,7 +151,7 @@ try:
     log_all_events(tcp_socket)                            
 
     # wait until the channel is fully ramped and output a single pulse
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
     tcp_socket.send_scpi_command('OUTP1:TRIG')   
 
     # take a CAS4 measurement

@@ -6,6 +6,7 @@ import time
 import logging
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.SpikeSafeError import SpikeSafeError
 from spikesafe_python.TcpSocket import TcpSocket
 
@@ -84,7 +85,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 ON')
 
     # wait until Channel 1 is ready
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # pulsing starts before before getting Channel Ready message
     # wait 30ms for getting ~10000 pulses

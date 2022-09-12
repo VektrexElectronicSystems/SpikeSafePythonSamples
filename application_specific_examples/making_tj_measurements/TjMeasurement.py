@@ -17,6 +17,7 @@ from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait     
 from spikesafe_python.SpikeSafeError import SpikeSafeError
@@ -103,7 +104,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is ready to pulse
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     log_and_print_to_console('\nMeasurement Current is currently outputting to the DUT.\n\nPress \'Enter\' in the console once temperature has been stabilized at T1, then record V1 and T1.')
     input()
@@ -155,7 +156,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is ready to pulse
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     log_and_print_to_console('\nHeating Current is being outputted.\n\nWait until temperature has stabilized, then press \'Enter\' in the console to take voltage measurements.')
     input()

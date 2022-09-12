@@ -14,6 +14,7 @@ from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.SpikeSafeError import SpikeSafeError
 from spikesafe_python.TcpSocket import TcpSocket
 from matplotlib import pyplot as plt 
@@ -72,7 +73,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 ON')
 
     # wait until Channel 1 is ready
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
     
     # set Digitizer to abort any measurements
     tcp_socket.send_scpi_command('VOLT:ABOR')

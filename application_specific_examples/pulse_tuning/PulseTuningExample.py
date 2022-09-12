@@ -12,6 +12,7 @@ from matplotlib import pyplot as plt
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait 
 from tkinter import messagebox     
@@ -40,7 +41,7 @@ def run_single_pulse_tuning_test(load_impedance, rise_time):
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # Wait until channels are ready for a trigger command
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # Output 1ms pulse for all channels
     tcp_socket.send_scpi_command('OUTP1:TRIG')
