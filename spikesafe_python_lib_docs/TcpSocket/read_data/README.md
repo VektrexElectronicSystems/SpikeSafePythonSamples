@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | TcpSocket | read_data(self, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md) | read_data(self, enable_logging = None)
 
 ## read_data(self, enable_logging = None)
 

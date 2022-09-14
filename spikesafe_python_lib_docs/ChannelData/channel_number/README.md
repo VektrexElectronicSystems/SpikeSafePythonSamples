@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | MemoryTableReadData | channel_number
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ChannelData](/spikesafe_python_lib_docs/ChannelData/README.md) | channel_number
 
 ## channel_number
 

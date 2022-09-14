@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | SpikeSafeError | full_error
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeError](/spikesafe_python_lib_docs/SpikeSafeError/README.md) | full_error
 
 ## full_error
 

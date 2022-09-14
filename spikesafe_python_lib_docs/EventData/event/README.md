@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | EventData | event
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [EventData](/spikesafe_python_lib_docs/EventData/README.md) | event
 
 ## event
 

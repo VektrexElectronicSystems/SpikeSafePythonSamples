@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | ReadAllEvents | read_all_events(spike_safe_socket, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | read_all_events(spike_safe_socket, enable_logging = None)
 
 ## read_all_events(spike_safe_socket, enable_logging = None)
 

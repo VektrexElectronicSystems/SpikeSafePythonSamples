@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | DigitizerDataFetch | wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None)
 
 ## wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None)
 

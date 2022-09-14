@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | TcpSocket | default_log_level
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md) | default_log_level
 
 ## default_log_level
 

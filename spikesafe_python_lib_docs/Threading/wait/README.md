@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | Threading | wait(wait_time)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Threading](/spikesafe_python_lib_docs/Threading/README.md) | wait(wait_time)
 
 ## wait(wait_time)
 

@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | TcpSocket | send_scpi_command(self, scpi_command, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md) | send_scpi_command(self, scpi_command, enable_logging = None)
 
 ## send_scpi_command(self, scpi_command, enable_logging = None)
 

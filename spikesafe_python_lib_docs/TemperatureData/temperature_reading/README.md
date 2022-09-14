@@ -1,9 +1,9 @@
-# spikesafe-python API Overview | MemoryTableReadData | temperature_reading
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [TemperatureData](/spikesafe_python_lib_docs/TemperatureData/README.md) | temperature_reading
 
 ## temperature_reading
 
 ### Definition
-Channel current reading
+Heat sink temperature reading
 
 ### Attribute Value
 [float](https://docs.python.org/3/library/functions.html#float)   

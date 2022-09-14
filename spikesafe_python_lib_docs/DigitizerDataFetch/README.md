@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | DigitizerDataFetch
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md)
 
 ## DigitizerDataFetch
 

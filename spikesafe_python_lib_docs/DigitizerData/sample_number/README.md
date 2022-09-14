@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | DigitizerData | sample_number
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerData](/spikesafe_python_lib_docs/DigitizerData/README.md) | sample_number
 
 ## sample_number
 

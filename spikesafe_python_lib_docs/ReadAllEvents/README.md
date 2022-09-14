@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | ReadAllEvents
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md)
 
 ## ReadAllEvents
 

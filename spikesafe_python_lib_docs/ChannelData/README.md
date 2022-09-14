@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | ChannelData
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ChannelData](/spikesafe_python_lib_docs/ChannelData/README.md)
 
 ## ChannelData
 

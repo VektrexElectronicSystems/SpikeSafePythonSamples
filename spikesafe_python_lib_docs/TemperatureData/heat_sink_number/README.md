@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | MemoryTableReadData | heat_sink_number
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [TemperatureData](/spikesafe_python_lib_docs/TemperatureData/README.md) | heat_sink_number
 
 ## heat_sink_number
 

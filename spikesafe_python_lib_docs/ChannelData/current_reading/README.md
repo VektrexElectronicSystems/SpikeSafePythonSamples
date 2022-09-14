@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | MemoryTableReadData | current_reading
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ChannelData](/spikesafe_python_lib_docs/ChannelData/README.md) | current_reading
 
 ## current_reading
 

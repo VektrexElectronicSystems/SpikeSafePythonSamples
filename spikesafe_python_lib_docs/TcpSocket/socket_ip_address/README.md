@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | TcpSocket | socket_ip_address
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md) | socket_ip_address
 
 ## socket_ip_address
 

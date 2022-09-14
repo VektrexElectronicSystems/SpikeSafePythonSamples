@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | DigitizerDataFetch | fetch_voltage_data(spike_safe_socket, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | fetch_voltage_data(spike_safe_socket, enable_logging = None)
 
 ## fetch_voltage_data(spike_safe_socket, enable_logging = None)
 

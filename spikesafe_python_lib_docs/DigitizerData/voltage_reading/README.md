@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | DigitizerData | voltage_reading
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerData](/spikesafe_python_lib_docs/DigitizerData/README.md) | voltage_reading
 
 ## voltage_reading
 

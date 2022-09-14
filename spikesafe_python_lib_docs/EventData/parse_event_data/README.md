@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | EventData | parse_event_data(self, event_data)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [EventData](/spikesafe_python_lib_docs/EventData/README.md) | parse_event_data(self, event_data)
 
 ## parse_event_data(self, event_data)
 

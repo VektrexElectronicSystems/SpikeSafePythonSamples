@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | TcpSocket | open_socket
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md) | open_socket(self, ip_address, port_number)
 
 ## open_socket(self, ip_address, port_number)
 

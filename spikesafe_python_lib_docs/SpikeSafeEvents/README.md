@@ -1,4 +1,4 @@
-# spikesafe-python API Overview | SpikeSafeEvents Enum
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeEvents Enum](/spikesafe_python_lib_docs/SpikeSafeEvents/README.md)
 
 ## SpikeSafeEvents Enum
 
@@ -111,9 +111,9 @@ Defines the SpikeSafe events as enumerations.
 | CANNOT_CHANGE_PULSE_TIMES_DYNAMICALLY | 383 |
 
 ### Examples
-[/run_spikesafe_operating_modes/run_dc/RunDcMode.py](/run_spikesafe_operating_modes/run_dc/RunDcMode.py)
-[/run_spikesafe_operating_modes/run_modulated_dc/RunModulatedMode.py](/run_spikesafe_operating_modes/run_modulated_dc/RunModulatedMode.py)
-[/run_spikesafe_operating_modes/run_pulsed_sweep/RunPulsedSweepMode.py](/run_spikesafe_operating_modes/run_pulsed_sweep/RunPulsedSweepMode.py)
+[/run_spikesafe_operating_modes/run_dc/RunDcMode.py](/run_spikesafe_operating_modes/run_dc/RunDcMode.py)  
+[/run_spikesafe_operating_modes/run_modulated_dc/RunModulatedMode.py](/run_spikesafe_operating_modes/run_modulated_dc/RunModulatedMode.py)  
+[/run_spikesafe_operating_modes/run_pulsed_sweep/RunPulsedSweepMode.py](/run_spikesafe_operating_modes/run_pulsed_sweep/RunPulsedSweepMode.py)  
 
 ### Remarks
 Refer to SS400 SCPI Programming Manual Appendix A for a full description of all SpikeSafe events and their expected formats.
