@@ -1,9 +1,13 @@
-# spikesafe-python API Overview | TcpSocket | read_data
+# spikesafe-python API Overview | TcpSocket | read_data(self, enable_logging = None)
 
-## read_data(self)
+## read_data(self, enable_logging = None)
 
 ### Definition
 Reads data reply via TCP/IP socket from a SpikeSafe.
+
+### Parameters
+enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) (Optional)  
+Overrides spike_safe_socket.enable_logging attribute (None by default, will use spike_safe_socket.enable_logging value).
 
 ### Returns
 [string](https://docs.python.org/3/library/string.html)  

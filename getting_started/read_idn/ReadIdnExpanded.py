@@ -44,6 +44,7 @@ try:
 
     # connect to SpikeSafe
     tcp_socket.open_socket(ip_address, port_number)  
+    log.info(tcp_socket.socket_ip_address)
     
     # request SpikeSafe information
     tcp_socket.send_scpi_command('*IDN?')             
