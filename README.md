@@ -26,7 +26,7 @@ To run these sequences in a more feature rich IDE, use the free [Visual Studio C
 ### Packages
 
 #### Installing spikesafe-python Package
-The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0.
+The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.2.3.
 
 Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
 
