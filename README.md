@@ -15,23 +15,30 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ## Usage
 
-### IDE and Using a Virtual Environment
-To run these sequences an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required, see [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial) to simply setup your IDE with Python. Optionally, using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) is recommended to successfully meet the installation requirements to run these sequences. Using the commands `py -3 -m venv .venv` followed by `.venv\scripts\activate` is a simple way to setup your virtual environment. After your IDE and virtual environment is setup, continue to install the remaining Python packages below.
+### IDEs
 
-### Installing spikesafe-python Package
+#### Visual Studio Code and Using a Virtual Environment
+To run these sequences a light-weight IDE, or to target cross-platform development, use the free [Visual Studio Code](https://code.visualstudio.com/). See [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial) to simply setup your IDE with Python. Optionally, using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) is recommended to successfully meet the installation requirements to run these sequences. Using the commands `py -3 -m venv .venv` followed by `.venv\scripts\activate` is a simple way to setup your virtual environment. After your IDE and virtual environment is setup, continue to install the remaining Python packages below.
+
+#### Visual Studio Community
+To run these sequences in a more feature rich IDE, use the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/). See [Python In Visual Studio](https://docs.microsoft.com/en-us/visualstudio/python/tutorial-working-with-python-in-visual-studio-step-00-installation?view=vs-2022) to simply setup your IDE with Python. Optionall, using a [virtual environment](https://docs.microsoft.com/en-us/visualstudio/python/managing-python-environments-in-visual-studio?view=vs-2022) is recommended to successfully meet the installation requirements to run these sequences.
+
+### Packages
+
+#### Installing spikesafe-python Package
 The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0.
 
 Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
 
 Complete class documentation is available for spikesafe-python in [spikesafe-python API Overview](spikesafe_python_lib_docs).
 
-### Installing matplotlib Package
+#### Installing matplotlib Package
 Some sequences involve graphing measurement results. To properly graph results, the [matplotlib](https://matplotlib.org/) library is required (version 3.2.1 or greater). Use the command `python -m pip install matplotlib` to install the latest version of matplotlib. Once the matplotlib library is installed, each sequence that involves graphing can be run as a standalone Python file.
 
-### Installing PyCLibrary Package
+#### Installing PyCLibrary Package
 Some sequences require external C resources, and requires the [PyCLibrary](https://pyclibrary.readthedocs.io/en/latest/) library. To install this library, enter the command `python -m pip install pyclibrary`. Once the PyCLibrary library is installed, each sequence that involves external C resources can be run as a standalone Python file.
 
-### Installing pyserial Package
+#### Installing pyserial Package
 Some sequences involve connecting to a serial interface instrument and requires the [pyserial](https://pypi.org/project/pyserial/) library (version 3.5 or greater). Use the command `python -m pip install pyserial` to install the latest version of pyserial. Once the pyserial library is installed, each sequence that involves a serial interface can be run as a standalone Python file.
 
 ### General Usage
