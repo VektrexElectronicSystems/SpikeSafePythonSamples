@@ -10,6 +10,7 @@ import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait    
 from spikesafe_python.SpikeSafeError import SpikeSafeError 
@@ -22,7 +23,7 @@ port_number = 8282
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
-logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
 
 ### start of main program
 try:
@@ -60,6 +61,9 @@ try:
     tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
     log_all_events(tcp_socket)
 
+    # set Channel 1's Ramp mode to Fast and check for all events
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
+
     # set Channel 1's current to 100 mA and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
     log_all_events(tcp_socket)  
@@ -72,7 +76,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until the channel is fully ramped
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # check for all events and measure readings on Channel 1 once per second for 10 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors

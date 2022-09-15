@@ -13,6 +13,7 @@ import os
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait     
 from spikesafe_python.SpikeSafeError import SpikeSafeError
@@ -46,7 +47,7 @@ CAS4_interface_mode = 3
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
-logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
 
 ### start of main program
 try:
@@ -150,7 +151,7 @@ try:
     log_all_events(tcp_socket)                            
 
     # wait until the channel is fully ramped and output a single pulse
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
     tcp_socket.send_scpi_command('OUTP1:TRIG')   
 
     # take a CAS4 measurement
