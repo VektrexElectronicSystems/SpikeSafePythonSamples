@@ -12,6 +12,7 @@ from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait   
 from spikesafe_python.SpikeSafeError import SpikeSafeError
@@ -25,7 +26,7 @@ port_number = 8282
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
-logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
 
 ### start of main program
 try:
@@ -82,7 +83,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is fully ramped before we take any digitizer measurements. We are looking to measure consistent voltage values
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # start Digitizer measurements
     tcp_socket.send_scpi_command('VOLT:INIT')

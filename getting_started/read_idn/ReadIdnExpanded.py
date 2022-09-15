@@ -27,7 +27,7 @@ from spikesafe_python.SpikeSafeError import SpikeSafeError
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
-logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
 
 ### set these before starting application
 
@@ -44,6 +44,7 @@ try:
 
     # connect to SpikeSafe
     tcp_socket.open_socket(ip_address, port_number)  
+    log.info(tcp_socket.socket_ip_address)
     
     # request SpikeSafe information
     tcp_socket.send_scpi_command('*IDN?')             

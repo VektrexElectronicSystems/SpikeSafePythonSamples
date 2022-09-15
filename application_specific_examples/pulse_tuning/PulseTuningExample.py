@@ -12,6 +12,7 @@ from matplotlib import pyplot as plt
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait 
 from tkinter import messagebox     
@@ -22,7 +23,7 @@ port_number = 8282
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
-logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
 
 ### defining the action to take per test session
 def run_single_pulse_tuning_test(load_impedance, rise_time):
@@ -40,7 +41,7 @@ def run_single_pulse_tuning_test(load_impedance, rise_time):
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # Wait until channels are ready for a trigger command
-    read_until_event(tcp_socket, 100) # event 100 is "Channel Ready"
+    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # Output 1ms pulse for all channels
     tcp_socket.send_scpi_command('OUTP1:TRIG')
@@ -100,7 +101,7 @@ try:
     # set channel 1's pulse width to 100µs. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
 
-    # set channel 1's output ramp to fast so that tests can be run in succession
+    # set channel 1's output ramp to fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
 
     # Check for any errors with initializing commands
