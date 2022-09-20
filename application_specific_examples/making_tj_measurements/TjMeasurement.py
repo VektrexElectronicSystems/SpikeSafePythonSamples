@@ -119,7 +119,7 @@ try:
     input()
     log_and_print_to_console('Enter T2 (in °C):')
     temperature_two = float(receive_user_input_and_log())
-    log_and_print_to_console('Enter V2 (in °C):')
+    log_and_print_to_console('Enter V2 (in V):')
     voltage_two = float(receive_user_input_and_log())
 
     k_factor = (voltage_two - voltage_one)/(temperature_two - temperature_one)
