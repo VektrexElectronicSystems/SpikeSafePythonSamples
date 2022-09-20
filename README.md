@@ -67,11 +67,16 @@ First start with [TCP Socket Sample](getting_started/tcp_socket_sample) to learn
 
 We use [SemVer](http://semver.org/) for versioning. For the versions available, see the [tags on this repository](https://github.com/VektrexElectronicSystems/SpikeSafePythonSamples/tags). 
 
+## FAQ
+
+I'm developing an application using NI-VISA, what is the recommended practice for handling termination characters?<br />
+See [Termination Characters in NI-VISA](https://www.ni.com/en-us/support/documentation/supplemental/06/termination-characters-in-ni-visa.html)
+
 ## Support/Feedback
 
 If any further assistance is needed beyond the information provided within this repository, email support@vektrex.com.
 
-Feature requests and bug reports can be submitted to [the Vektrex website's support page](https://www.vektrex.com/request-support/). Select "Other" as the Product/System and enter "GitHub Repository" as the Subject.
+Feature requests and bug reports can be submitted to [the Vektrex website's support page](https://www.vektrex.com/request-support/). Select "Other" as the Product/System and enter "SpikeSafePythonSamples GitHub Repository" as the Subject.
 
 ## Contributors
 
