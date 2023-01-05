@@ -26,13 +26,13 @@ For Mac it is recommend that the path of Python Interpreter is added for easy te
 The path for Python interpreter can be found by opening Python Launcher appliacation.  Copy path for Interpreter “/usr/local/bin/python3”
 
 Using terminal the path can be added to the paths file.
-Type `sudo nano /etc/paths`
-Enter path for Python Launcher `/usr/local/bin/python3`
-Press `Control + X` to exit
-Press `Y` to save
-Press `Enter`
+Type `sudo nano /etc/paths`  
+Enter path from Python Launcher `/usr/local/bin/python3`  
+Press `Control + X` to exit  
+Press `Y` to save  
+Press `Enter`  
 
-When using a MAC the Terminal applications is used for entering commands.
+When using a MAC the Terminal application is used for entering commands.
 
 ### IDEs
 
