@@ -13,7 +13,15 @@ The following example demonstrates the enable_logging attribute. It creates a ne
 ```
 ### setting up sequence log
 log = logging.getLogger(__name__)
-logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',
+    datefmt='%m/%d/%Y %I:%M:%S',
+    handlers=[
+        logging.FileHandler("SpikeSafePythonSamples.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
 
 ### start of main program
 try:
