@@ -93,7 +93,7 @@ try:
     tcp_socket.send_scpi_command('SYST:ERR?')
     syst_err_string = tcp_socket.read_data()  
 
-    # SMU setting
+    # PSMU setting
     # set DC Dynamic mode
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')
     
