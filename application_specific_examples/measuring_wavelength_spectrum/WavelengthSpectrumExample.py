@@ -47,7 +47,15 @@ CAS4_interface_mode = 3
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
-logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',
+    datefmt='%m/%d/%Y %I:%M:%S',
+    handlers=[
+        logging.FileHandler("SpikeSafePythonSamples.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
 
 ### start of main program
 try:
@@ -71,20 +79,20 @@ try:
     # check for errors on the CAS4
     cas_spectrometer.check_cas4_device_error(deviceId)
 
-    liv_sweeps_folder = "application_specific_examples\\running_liv_sweeps"
+    measuring_wavelength_spectrum = "application_specific_examples\\measuring_wavelength_spectrum"
 
     # specify and configure the .INI configuration and .ISC calibration file to initialize the CAS4
-    print('Enter .INI configuration file (must be located in SpikeSafePythonSamples\\application_specific_examples\\running_liv_sweeps) to be used for CAS operation:')
+    print('Enter .INI configuration file (must be located in SpikeSafePythonSamples\\application_specific_examples\\measuring_wavelength_spectrum) to be used for CAS operation:')
     ini_file_string = input()
     if ini_file_string.endswith(".ini") == False:
         ini_file_string += ".ini"
-    ini_file_path = os.path.join(os.getcwd(), liv_sweeps_folder, ini_file_string)
+    ini_file_path = os.path.join(os.getcwd(), measuring_wavelength_spectrum, ini_file_string)
 
-    print('Enter .ISC calibration file (must be located in SpikeSafePythonSamples\\application_specific_examples\\running_liv_sweeps) to be used for CAS operation:')
+    print('Enter .ISC calibration file (must be located in SpikeSafePythonSamples\\application_specific_examples\\measuring_wavelength_spectrum) to be used for CAS operation:')
     isc_file_string = input()
     if isc_file_string.endswith(".isc") == False:
         isc_file_string += ".isc"
-    isc_file_path = os.path.join(os.getcwd(), liv_sweeps_folder, isc_file_string)
+    isc_file_path = os.path.join(os.getcwd(), measuring_wavelength_spectrum, isc_file_string)
 
     cas_spectrometer.casSetDeviceParameterString(deviceId, cas_spectrometer.dpidConfigFileName, ini_file_path.encode())
     cas_spectrometer.casSetDeviceParameterString(deviceId, cas_spectrometer.dpidCalibFileName, isc_file_path.encode())

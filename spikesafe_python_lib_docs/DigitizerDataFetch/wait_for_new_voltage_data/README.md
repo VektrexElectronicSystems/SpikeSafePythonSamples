@@ -3,7 +3,7 @@
 ## wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None)
 
 ### Definition
-Queries the SpikeSafe SMU digitizer until it responds that it has acquired new data.
+Queries the SpikeSafe PSMU digitizer until it responds that it has acquired new data.
 
 ### Parameters
 spike_safe_socket [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md)  
