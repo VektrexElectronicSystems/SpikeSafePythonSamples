@@ -30,21 +30,21 @@ To open Command Prompt press the key combination Windows + R to open a Run dialo
 It is recommended that the path of Python Interpreter is added for easy usage. There are two ways to add Python to Windows PATH.
 
 1. During Python installation check the box Add Python to PATH when prompted.
-  - Confirm Python PATH is set in **Command Prompt** by typing `python3 --version` to verify the Python version
+   - Confirm Python PATH is set in **Command Prompt** by typing `python3 --version` to verify the Python version
 
 2. Manually add Python to Windows Path:
-  - Press the key combination **Windows + R** to open a Run dialog
-  - Type `sysdm.cpl` to open the System Properties
-  - Press **Advanced** tab and then press on **Environment Variables…** to open Environment Variables dialog
-  - Under the **User variables** box, press on **New…** to add the `Path` variable (if your **Path** variable already exists, then press on **Edit…** instead):
-  - Set the Path **Variable value** to the 1) `Python application path` and 2) `Python Scripts path`. To find these paths and set the value:
-    - Type `Python` in the Windows Search Bar
-    - Right-click on the **Python App**, and then press **Open file location**
-    - Right-click on the **Python shortcut**, and then press **Open file location** (this is the `Python application path`)
-    - Navigate to the **scripts** folder (this is the `Python Scripts path`)
-    - Set the Path **Variable value** to `Python application path;Python Scripts path` (paths are separated by a semicolon)
-  - Press **OK**
-  - Confirm Python PATH is set in **Command Prompt** by typing `python3 --version` to verify the Python version
+   - Press the key combination **Windows + R** to open a Run dialog
+   - Type `sysdm.cpl` to open the System Properties
+   - Press **Advanced** tab and then press on **Environment Variables…** to open Environment Variables dialog
+   - Under the **User variables** box, press on **New…** to add the `Path` variable (if your **Path** variable already exists, then press on **Edit…** instead):
+   - Set the Path **Variable value** to the 1) `Python application path` and 2) `Python Scripts path`. To find these paths and set the value:
+     - Type `Python` in the Windows Search Bar
+     - Right-click on the **Python App**, and then press **Open file location**
+     - Right-click on the **Python shortcut**, and then press **Open file location** (this is the `Python application path`)
+     - Navigate to the **scripts** folder (this is the `Python Scripts path`)
+     - Set the Path **Variable value** to `Python application path;Python Scripts path` (paths are separated by a semicolon)
+   - Press **OK**
+   - Confirm Python PATH is set in **Command Prompt** by typing `python3 --version` to verify the Python version
 
 #### Mac OS X Setup
 
