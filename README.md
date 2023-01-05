@@ -71,15 +71,20 @@ To run these sequences a light-weight IDE, or to target cross-platform developme
 To run these sequences in a more feature rich IDE, use the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/). See [Python In Visual Studio](https://docs.microsoft.com/en-us/visualstudio/python/tutorial-working-with-python-in-visual-studio-step-00-installation?view=vs-2022) to simply setup your IDE with Python. Optionall, using a [virtual environment](https://docs.microsoft.com/en-us/visualstudio/python/managing-python-environments-in-visual-studio?view=vs-2022) is recommended to successfully meet the installation requirements to run these sequences.
 
 ### Packages
-Installing packages use pip.  It is recommended that pip be updated to latest version `python3 -m pip install --upgrade pip`
+
+#### Managing Packages
+##### How to Install/Upgraded Packages
+Installing packages use pip. It is recommended that pip be updated to latest version `python3 -m pip install --upgrade pip`
 
 The version of pip can be displayed with the following command `pip3 -V`
 
+##### How to View All Installed Packages
 A list of all installed packages can be found with `pip3 freeze` command
 
-After a package is installed the details of a package can be displayed with the following command `pip3 show spikesafe-python`
+##### How to View Details of an Installed Package
+After a package is installed the details of a package can be displayed with the following command `pip3 show <package name>` (e.g. `pip3 show spikesafe-python`)
 
-#### Installing spikesafe-python Package
+##### Installing spikesafe-python Package
 The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed using the command `python3 -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.2.3.
 
 Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
