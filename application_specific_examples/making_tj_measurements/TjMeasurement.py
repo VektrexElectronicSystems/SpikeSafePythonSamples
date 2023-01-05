@@ -73,7 +73,15 @@ graph_zoom_offset = 0.01
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
-logging.basicConfig(filename='SpikeSafePythonSamples.log',format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',datefmt='%m/%d/%Y %I:%M:%S',level=logging.INFO)
+logging.basicConfig(
+    level=logging.INFO,
+    format='%(asctime)s.%(msecs)03d, %(levelname)s, %(message)s',
+    datefmt='%m/%d/%Y %I:%M:%S',
+    handlers=[
+        logging.FileHandler("SpikeSafePythonSamples.log"),
+        logging.StreamHandler(sys.stdout)
+    ]
+)
 
 ### start of main program
 try:
@@ -119,7 +127,7 @@ try:
     input()
     log_and_print_to_console('Enter T2 (in °C):')
     temperature_two = float(receive_user_input_and_log())
-    log_and_print_to_console('Enter V2 (in °C):')
+    log_and_print_to_console('Enter V2 (in V):')
     voltage_two = float(receive_user_input_and_log())
 
     k_factor = (voltage_two - voltage_one)/(temperature_two - temperature_one)

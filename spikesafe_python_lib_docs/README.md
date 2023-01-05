@@ -3,7 +3,7 @@
 ## Introduction
 
 The official Python driver supporting Vektrex SpikeSafe products:
-- [SpikeSafe SMU](https://www.vektrex.com/products/spikesafe-source-measure-unit/)
+- [SpikeSafe PSMU](https://www.vektrex.com/products/spikesafe-source-measure-unit/)
 - [SpikeSafe Performance Series ("PRF")](https://www.vektrex.com/products/spikesafe-performance-series-precision-pulsed-current-sources/)
 
 Vektrex SpikeSafe Python API used for automation of custom instrument control sequences for testing LED, laser, and electronic equipment.
