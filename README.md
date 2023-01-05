@@ -16,7 +16,7 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 ## Usage
 
 ### Python
-Download and install [Python](https://www.python.org/downloads/)).
+Download and install [Python](https://www.python.org/downloads/)).  
 Installs  
 -IDLE  
 -Python Launcher  
