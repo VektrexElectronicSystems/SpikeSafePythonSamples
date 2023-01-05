@@ -17,10 +17,10 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 
 ### Python
 Download and install [Python](https://www.python.org/downloads/)).
-Installs
--IDLE
--Python Launcher
--Python3 Interpreter
+Installs  
+-IDLE  
+-Python Launcher  
+-Python3 Interpreter  
 
 For Mac it is recommend that the path of Python Interpreter is added for easy terminal usage.
 The path for Python interpreter can be found by opening Python Launcher appliacation.  Copy path for Interpreter “/usr/local/bin/python3”
