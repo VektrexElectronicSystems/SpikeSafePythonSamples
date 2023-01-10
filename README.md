@@ -133,6 +133,9 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 I'm developing an application using NI-VISA, what is the recommended practice for handling termination characters?<br />
 See [Termination Characters in NI-VISA](https://www.ni.com/en-us/support/documentation/supplemental/06/termination-characters-in-ni-visa.html)
 
+I'm developing an application using MATLAB, how do I get started?<br />
+See [System Requirements for MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab_external/system-requirements-for-matlab-engine-for-python.html) to ensure your system can support Python. Then see [Call Python from MATLAB](https://www.mathworks.com/help/matlab/call-python-libraries.html) on how to access Python libraries in MATLAB.
+
 ## Support/Feedback
 
 If any further assistance is needed beyond the information provided within this repository, email support@vektrex.com.
