@@ -21,6 +21,8 @@ Download and install [Python](https://www.python.org/downloads/), which will ins
 - Python Launcher  
 - Python3 Interpreter
 
+It is recommended to use a version of Python with the status key of bugfix or higher, see [Python Release Cycle](https://devguide.python.org/versions/#versions).
+
 #### Windows Setup
 
 ##### Use the Standard Console Command Prompt
