@@ -116,13 +116,13 @@ try:
     cas_spectrometer.casSetOptionsOnOff(deviceId, cas_spectrometer.coAutorangeMeasurement, 0)
     
     # set the CAS4 measurement integration time to 10ms to match the Pulsed Sweep parameters
-    cas_spectrometer.casSetMeasurementParameter(deviceId, cas_spectrometer.mpidIntegrationTime, CAS4_trigger_delay_ms)
+    cas_spectrometer.casSetMeasurementParameter(deviceId, cas_spectrometer.mpidIntegrationTime, CAS4_integration_time_ms)
 
     # set the CAS4 trigger mode to a hardware (i.e. flip-flop) trigger
     cas_spectrometer.casSetMeasurementParameter(deviceId, cas_spectrometer.mpidTriggerSource, cas_spectrometer.trgFlipFlop)
 
     # set the CAS4 trigger delay time to 5ms to match the Pulsed Sweep parameters
-    cas_spectrometer.casSetMeasurementParameter(deviceId, cas_spectrometer.mpidTriggerDelayTime, CAS4_integration_time_ms)
+    cas_spectrometer.casSetMeasurementParameter(deviceId, cas_spectrometer.mpidTriggerDelayTime, CAS4_trigger_delay_ms)
 
     # set the CAS4 trigger delay time to 10 seconds
     cas_spectrometer.casSetMeasurementParameter(deviceId, cas_spectrometer.mpidTriggerTimeout, 10000)
