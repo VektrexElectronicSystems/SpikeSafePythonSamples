@@ -114,7 +114,7 @@ To view details of a package, run command:
 | macOS | `pip3 show <package name>` |
 
 ##### Installing spikesafe-python Package
-The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.3.0.
+The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.4.5.
 
 To install this package, run command:
 | OS | Command |
