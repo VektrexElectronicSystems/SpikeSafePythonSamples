@@ -59,6 +59,8 @@ def verify_current_pulse_settings(spike_safe_socket):
 ### start of main program
 try:
     log.info("UsingPulseHolds.py started.")
+
+    log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()

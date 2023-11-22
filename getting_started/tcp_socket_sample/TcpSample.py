@@ -38,6 +38,8 @@ tcp_socket.settimeout(2)
 
 try:
     log.info("TcpSample.py started.")
+
+    log.info("Python version: {}".format(sys.version))
     
     # connect to SpikeSafe
     tcp_socket.connect((ip_address, port_number))

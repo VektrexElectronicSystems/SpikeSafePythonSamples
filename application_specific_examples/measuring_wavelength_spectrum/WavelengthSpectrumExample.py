@@ -60,6 +60,8 @@ logging.basicConfig(
 ### start of main program
 try:
     log.info("WavelengthSpectrumExample.py started.")
+
+    log.info("Python version: {}".format(sys.version))
     
  ### CAS4 Spectrometer Connection/Initialization
 

@@ -70,6 +70,8 @@ logging.basicConfig(
 try:
     log.info("LIVSweepExample.py started.")
 
+    log.info("Python version: {}".format(sys.version))
+
     ### CAS4 Spectrometer Connection/Initialization
 
     # Implements the external CAS4x64.dll file provided by Instrument Systems to configure a spectrometer for LIV sweep operation

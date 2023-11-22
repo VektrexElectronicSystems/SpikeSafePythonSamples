@@ -38,6 +38,8 @@ logging.basicConfig(
 ### start of main program
 try:
     log.info("RunPulsedDynamicMode.py started.")
+
+    log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()

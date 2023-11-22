@@ -40,6 +40,8 @@ logging.basicConfig(
 try:
     log.info("MeasureAllPulsedVoltages.py started.")
 
+    log.info("Python version: {}".format(sys.version))
+
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)

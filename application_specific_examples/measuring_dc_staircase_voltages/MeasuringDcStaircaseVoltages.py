@@ -47,6 +47,8 @@ logging.basicConfig(
 ### start of main program
 try:
     log.info("MeasuringDcStaircaseVoltages.py started.")
+
+    log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to PSMU
     tcp_socket = TcpSocket()
