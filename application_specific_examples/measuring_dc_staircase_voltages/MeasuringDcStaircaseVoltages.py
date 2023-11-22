@@ -110,7 +110,7 @@ try:
     log_all_events(tcp_socket)
 
     # start Digitizer software triggered measurements
-    tcp_socket.send_scpi_command('VOLT:INIT:SENDMSG')
+    tcp_socket.send_scpi_command('VOLT:INIT:SEND')
     log_all_events(tcp_socket)
 
     # start DC staircase current supply and voltage measurement per step
