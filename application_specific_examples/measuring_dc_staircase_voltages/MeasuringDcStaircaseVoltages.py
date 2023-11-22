@@ -54,7 +54,7 @@ try:
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
 
-    # reset to default state and check for all events,
+    # reset to default state and check for all events, this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
@@ -84,10 +84,6 @@ try:
 
     # wait until Channel 1 is ready
     read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
-    
-    # set Digitizer to abort any measurements
-    tcp_socket.send_scpi_command('VOLT:ABOR')
-    log_all_events(tcp_socket)
 
     # set Digitizer Aperture to 10us and check for all events
     tcp_socket.send_scpi_command('VOLT:APER 10')

@@ -57,8 +57,8 @@ try:
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
 
-    # digitizer set up
-    tcp_socket.send_scpi_command('VOLT:ABOR')
+    # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU  
+    tcp_socket.send_scpi_command('*RST')    
 
     # Set digitizer range to 10V
     tcp_socket.send_scpi_command('VOLT:RANG 10')

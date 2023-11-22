@@ -46,13 +46,10 @@ try:
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
 
-    # reset to default state and check for all events,
+    # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
-
-    # abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
-    tcp_socket.send_scpi_command('VOLT:ABOR')
 
     # set up Channel 1 for Multi Pulse output. To find more explanation, see run_spikesafe_operation_modes/run_multi_pulse
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP MULTIPULSE')
