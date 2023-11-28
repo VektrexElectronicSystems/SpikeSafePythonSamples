@@ -1,4 +1,4 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/Compensation/README.md) | def get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps)
 
 ## get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps)
 
