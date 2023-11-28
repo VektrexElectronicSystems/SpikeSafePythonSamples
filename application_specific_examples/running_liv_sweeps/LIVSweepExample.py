@@ -15,6 +15,7 @@ import ctypes
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -158,8 +159,8 @@ try:
 
     # set up SpikeSafe Channel 1 for Pulsed Sweep output. To find more explanation, see instrument_examples/run_pulsed_sweep
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDSWEEP')
-    tcp_socket.send_scpi_command('SOUR1:CURR:STAR {}'.format(float(LIV_start_current_mA) / 1000))
-    tcp_socket.send_scpi_command('SOUR1:CURR:STOP {}'.format(float(LIV_stop_current_mA) / 1000))   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STAR {get_precise_current_command_argument(float(LIV_start_current_mA) / 1000)}')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STOP {get_precise_current_command_argument(float(LIV_stop_current_mA) / 1000)}')   
     tcp_socket.send_scpi_command('SOUR1:CURR:STEP {}'.format(LIV_sweep_step_count))   
     tcp_socket.send_scpi_command('SOUR1:VOLT {}'.format(compliance_voltage_V))   
     tcp_socket.send_scpi_command('SOUR1:PULS:TON {}'.format(pulse_on_time_seconds))
