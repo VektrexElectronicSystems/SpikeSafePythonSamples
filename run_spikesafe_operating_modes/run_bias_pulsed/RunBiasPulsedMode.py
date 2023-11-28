@@ -8,6 +8,7 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -55,13 +56,13 @@ try:
     tcp_socket.send_scpi_command('SOUR0:FUNC:SHAP BIASPULSED')
 
     # set each channel's current to 100 mA
-    tcp_socket.send_scpi_command('SOUR0:CURR 0.1')   
+    tcp_socket.send_scpi_command(f'SOUR0:CURR {get_precise_current_command_argument(0.1)}')   
 
     # set each channel's voltage to 20 V 
     tcp_socket.send_scpi_command('SOUR0:VOLT 20') 
 
     # set each channel's bias current to 20 mA and check for all events
-    tcp_socket.send_scpi_command('SOUR0:CURR:BIAS 0.02')   
+    tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {get_precise_current_command_argument(0.02)}')   
 
     # In this example, we specify pulse settings using Pulse Width and Period Commands
     # Unless specifying On Time and Off Time, set pulse HOLD before any other pulse settings

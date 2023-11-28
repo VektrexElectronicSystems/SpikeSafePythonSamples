@@ -10,6 +10,7 @@ import logging
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -59,7 +60,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
     tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')   
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')
 
     # set Digitizer voltage range to 10V since we expect to measure voltages significantly less than 10V

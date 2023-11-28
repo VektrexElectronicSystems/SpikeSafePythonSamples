@@ -10,6 +10,7 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait
@@ -62,7 +63,7 @@ try:
     # set Channel 1 settings to operate in DC mode
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DC')    
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')        
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')       
 
     # log all SpikeSafe event after settings are adjusted  

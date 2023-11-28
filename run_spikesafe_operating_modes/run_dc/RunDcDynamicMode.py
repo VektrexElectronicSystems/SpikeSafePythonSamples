@@ -9,6 +9,7 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -58,7 +59,7 @@ try:
     log_all_events(tcp_socket) 
 
     # set Channel 1's current to 50 mA and check for all events
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.05')        
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.5)}')      
     log_all_events(tcp_socket)  
 
     # set Channel 1's voltage to 10 V and check for all events
@@ -81,25 +82,25 @@ try:
         wait(1)    
 
     # While the channel is running, dynamically change the Set Current to 100mA. Check events and measure readings afterward
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')        
     log_all_events(tcp_socket)
     log_memory_table_read(tcp_socket)
     wait(1)
 
     # While the channel is running, dynamically change the Set Current to 150mA. Check events and measure readings afterward
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.15')        
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.15)}')     
     log_all_events(tcp_socket)
     log_memory_table_read(tcp_socket)
     wait(1)
 
     # While the channel is running, dynamically change the Set Current to 200mA. Check events and measure readings afterward
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.2')        
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.2)}')       
     log_all_events(tcp_socket)
     log_memory_table_read(tcp_socket)
     wait(1)
 
     # While the channel is running, dynamically change the Set Current to 100mA. Check events and measure readings afterward
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')        
     log_all_events(tcp_socket)
     log_memory_table_read(tcp_socket)
     wait(1)

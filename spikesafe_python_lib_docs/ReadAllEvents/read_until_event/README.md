@@ -31,7 +31,7 @@ tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')
 log_all_events(tcp_socket) 
 
 # set Channel 1's current to 100 mA and check for all events
-tcp_socket.send_scpi_command('SOUR1:CURR 0.01')        
+tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')         
 log_all_events(tcp_socket)  
 
 # set Channel 1's voltage to 10 V and check for all events

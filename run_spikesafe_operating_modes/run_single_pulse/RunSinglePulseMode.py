@@ -8,6 +8,7 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -52,7 +53,7 @@ try:
     tcp_socket.send_scpi_command('SOUR0:FUNC:SHAP SINGLEPULSE')
 
     # set each channel's current to 100 mA
-    tcp_socket.send_scpi_command('SOUR0:CURR 0.1')     
+    tcp_socket.send_scpi_command(f'SOUR0:CURR {get_precise_current_command_argument(0.1)}')     
 
     # set each channel's voltage to 20 V 
     tcp_socket.send_scpi_command('SOUR0:VOLT 20')   
@@ -99,7 +100,7 @@ try:
         wait(1) 
 
     # After the pulse is complete, set each channel's current to 200 mA while the channels are enabled
-    tcp_socket.send_scpi_command('SOUR0:CURR 0.2')  
+    tcp_socket.send_scpi_command(f'SOUR0:CURR {get_precise_current_command_argument(0.2)}')  
 
     # Output 1ms pulse for all channels
     tcp_socket.send_scpi_command('OUTP0:TRIG')

@@ -8,6 +8,7 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -52,9 +53,9 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDSWEEP')
 
     # set Channel 1's Pulsed Sweep parameters to match the test expectation
-    tcp_socket.send_scpi_command('SOUR1:CURR:STAR 0.02')
-    tcp_socket.send_scpi_command('SOUR1:CURR:STOP 0.2')   
-    tcp_socket.send_scpi_command('SOUR1:CURR:STEP 100')   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STAR {get_precise_current_command_argument(0.02)}')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STOP {get_precise_current_command_argument(0.2)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STEP 100')   
 
     # set Channel 1 to output one pulse per step
     tcp_socket.send_scpi_command('SOUR1:PULS:COUN 1')

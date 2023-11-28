@@ -12,6 +12,7 @@ from decimal import Decimal
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -72,7 +73,7 @@ try:
     log_all_events(tcp_socket)
 
     # set Channel 1's current to start current and check for all events
-    tcp_socket.send_scpi_command('SOUR1:CURR {}'.format(start_current_A))
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(start_current_A)}')
     log_all_events(tcp_socket)
 
     # set Channel 1's Ramp mode to Fast and check for all events

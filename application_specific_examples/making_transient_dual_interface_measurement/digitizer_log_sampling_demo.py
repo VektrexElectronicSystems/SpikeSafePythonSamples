@@ -7,6 +7,7 @@ import os
 
 from decimal import Decimal
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.SpikeSafeError import SpikeSafeError
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data, wait_for_new_voltage_data
@@ -104,7 +105,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')
 
     # set current to 1A
-    tcp_socket.send_scpi_command('SOUR1:CURR 1')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(1)}')   
 
     # set Ramp mode to Fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')

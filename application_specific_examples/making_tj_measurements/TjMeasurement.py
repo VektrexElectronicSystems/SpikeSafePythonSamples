@@ -15,6 +15,7 @@ import statistics
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -100,7 +101,7 @@ try:
     
     # set up Channel 1 for Bias Current output to determine the K-factor
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIAS')
-    tcp_socket.send_scpi_command('SOUR0:CURR:BIAS 0.033')
+    tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {get_precise_current_command_argument(0.033)}')
     tcp_socket.send_scpi_command('SOUR1:VOLT 40')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
@@ -139,8 +140,8 @@ try:
 
     # set up Channel 1 for CDBC output to make the junction temperature measurement
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIASPULSEDDYNAMIC')
-    tcp_socket.send_scpi_command('SOUR1:CURR 3.5')
-    tcp_socket.send_scpi_command('SOUR0:CURR:BIAS 0.033')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(3.5)}')
+    tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {get_precise_current_command_argument(0.033)}')
     tcp_socket.send_scpi_command('SOUR1:VOLT 40')
     tcp_socket.send_scpi_command('SOUR1:PULS:TON 1')
     tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.001')

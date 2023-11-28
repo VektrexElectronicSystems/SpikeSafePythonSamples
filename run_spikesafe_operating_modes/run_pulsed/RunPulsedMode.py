@@ -8,6 +8,7 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -75,7 +76,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
     # set Channel 1's current to 100 mA and check for all events
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')   
     log_all_events(tcp_socket)  
 
     # set Channel 1's voltage to 20 V and check for all events
