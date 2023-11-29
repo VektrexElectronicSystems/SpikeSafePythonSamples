@@ -21,7 +21,7 @@ event_queue = []
 is_event_queue_empty = False                                                                                                                      
 
 # set Channel 1's voltage to an invalid 1 V and check for all events
-tcp_socket.send_scpi_command('SOUR1:VOLT 1')
+tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
 
 # initialize flag to check if event queue is empty 
 is_event_queue_empty = False                                                                                                                      

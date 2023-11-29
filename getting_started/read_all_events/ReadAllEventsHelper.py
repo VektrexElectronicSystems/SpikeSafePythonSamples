@@ -3,6 +3,7 @@
 
 import sys
 import logging
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.ReadAllEvents import read_all_events
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.SpikeSafeError import SpikeSafeError
@@ -57,7 +58,7 @@ try:
         log.info(','.join(map(str, event.channel_list)))
 
     # set Channel 1's voltage to an invalid 1 V and check for all events
-    tcp_socket.send_scpi_command('SOUR1:VOLT 1')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
 
     # read all events in SpikeSafe event queue, store in list, and print them to the log file
     # here it's expected to raise a SpikeSafeError for event: SpikeSafe Error: 304, Invalid Voltage Setting; SOUR1:VOLT 1

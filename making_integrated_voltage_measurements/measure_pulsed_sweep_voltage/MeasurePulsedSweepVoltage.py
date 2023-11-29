@@ -10,6 +10,7 @@ import logging
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
@@ -58,7 +59,7 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:CURR:STAR {get_precise_current_command_argument(0.02)}')
     tcp_socket.send_scpi_command(f'SOUR1:CURR:STOP {get_precise_current_command_argument(0.2)}')   
     tcp_socket.send_scpi_command(f'SOUR1:CURR:STEP 100')    
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')   
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.0001)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.0099)}')
     tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')

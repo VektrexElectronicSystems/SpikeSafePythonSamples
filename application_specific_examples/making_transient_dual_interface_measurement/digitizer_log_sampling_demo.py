@@ -7,6 +7,7 @@ import os
 
 from decimal import Decimal
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.SpikeSafeError import SpikeSafeError
@@ -99,7 +100,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')
     
     # set MCV to 25
-    tcp_socket.send_scpi_command('SOUR1:VOLT 25')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
 
     # set Auto Range
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')

@@ -4,6 +4,7 @@
 import sys
 import logging
 from spikesafe_python.EventData import EventData
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.SpikeSafeError import SpikeSafeError
 
@@ -79,7 +80,7 @@ try:
         log.info(','.join(map(str, event_data_response.channel_list)))
 
     # set Channel 1's voltage to an invalid 1 V and check for all events
-    tcp_socket.send_scpi_command('SOUR1:VOLT 1')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
 
     # clear event queue list
     event_queue.clear()

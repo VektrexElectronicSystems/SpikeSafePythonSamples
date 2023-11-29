@@ -11,6 +11,7 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
@@ -63,7 +64,7 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')   
 
     # set Channel 1's voltage to 10 V 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20') 
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}') 
 
     # set Channel 1's bias current to 20 mA and check for all events
     tcp_socket.send_scpi_command(f'SOUR1:CURR:BIAS {get_precise_current_command_argument(0.02)}')   

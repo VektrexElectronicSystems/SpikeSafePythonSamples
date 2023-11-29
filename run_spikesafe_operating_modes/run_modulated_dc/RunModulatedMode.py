@@ -8,6 +8,7 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
@@ -56,7 +57,7 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.2)}')       
 
     # set Channel 1's voltage to 20 V
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20') 
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}') 
 
     # set Channel 1's modulated sequence to a DC staircase with 5 steps
     # There are 5 current steps that each last for 1 second: 40mA, 80mA, 120mA, 160mA, and 200mA

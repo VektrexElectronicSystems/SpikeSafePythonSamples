@@ -15,6 +15,7 @@ import statistics
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
@@ -103,7 +104,7 @@ try:
     # set up Channel 1 for Bias Current output to determine the K-factor
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIAS')
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {get_precise_current_command_argument(0.033)}')
-    tcp_socket.send_scpi_command('SOUR1:VOLT 40')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
@@ -143,7 +144,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIASPULSEDDYNAMIC')
     tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(3.5)}')
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {get_precise_current_command_argument(0.033)}')
-    tcp_socket.send_scpi_command('SOUR1:VOLT 40')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(1)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.001)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    

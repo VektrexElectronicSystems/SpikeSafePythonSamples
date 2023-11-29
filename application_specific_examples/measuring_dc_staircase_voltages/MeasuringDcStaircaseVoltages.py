@@ -12,6 +12,7 @@ from decimal import Decimal
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
@@ -65,7 +66,7 @@ try:
     log_all_events(tcp_socket)
 
     # set Channel 1's voltage to 10 and check for all events
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
     log_all_events(tcp_socket)
 
     # set Channel 1's Auto Range to On and check for all events

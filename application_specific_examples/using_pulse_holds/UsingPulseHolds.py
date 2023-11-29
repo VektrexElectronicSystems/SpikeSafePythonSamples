@@ -9,6 +9,7 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.Precision import get_precise_duty_cycle_command_argument
 from spikesafe_python.Precision import get_precise_time_command_argument
@@ -73,7 +74,7 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDDYNAMIC')
     tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')   
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')   
     tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
     tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
