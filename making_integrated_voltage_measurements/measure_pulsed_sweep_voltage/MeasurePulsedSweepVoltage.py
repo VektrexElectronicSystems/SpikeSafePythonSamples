@@ -7,6 +7,7 @@
 import sys
 import time
 import logging
+from spikesafe_python.DigitizerDataFetch import get_new_voltage_data_estimated_complete_time
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
@@ -70,10 +71,12 @@ try:
     tcp_socket.send_scpi_command('VOLT:RANG 10')
 
     # set Digitizer aperture for 60µs. Aperture specifies the measurement time, and we want to measure a majority of the pulse's constant current output
-    tcp_socket.send_scpi_command('VOLT:APER 60')
+    aperture = 60
+    tcp_socket.send_scpi_command(f'VOLT:APER {aperture}')
 
     # set Digitizer trigger delay to 20µs. We want to give sufficient delay to omit any overshoot the current pulse may have
-    tcp_socket.send_scpi_command('VOLT:TRIG:DEL 20')
+    hardware_trigger_delay = 20
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {hardware_trigger_delay}')
 
     # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
@@ -82,10 +85,12 @@ try:
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
 
     # set Digitizer trigger count to 100. We want to take one voltage reading for every step in the pulsed sweep
-    tcp_socket.send_scpi_command('VOLT:TRIG:COUN 100')
+    hardware_trigger_count = 100
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}')
 
     # set Digitizer reading count to 1. This is the amount of readings that will be taken when the Digitizer receives its specified trigger signal
-    tcp_socket.send_scpi_command('VOLT:READ:COUN 1')
+    reading_count = 1
+    tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # check all SpikeSafe event since all settings have been sent
     log_all_events(tcp_socket)
@@ -103,7 +108,8 @@ try:
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    wait_for_new_voltage_data(tcp_socket, 0.5)
+    wait_time = get_new_voltage_data_estimated_complete_time(reading_count, aperture, hardware_trigger_count, hardware_trigger_delay)
+    wait_for_new_voltage_data(tcp_socket, wait_time)
 
     # fetch the Digitizer voltage readings
     digitizerData = fetch_voltage_data(tcp_socket)

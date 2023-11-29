@@ -7,6 +7,7 @@
 import sys
 import time
 import logging
+from spikesafe_python.DigitizerDataFetch import get_new_voltage_data_estimated_complete_time
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
@@ -77,12 +78,16 @@ try:
 
     # set typical Digitizer settings to match SpikeSafe settings. For more explanation, see making_integrated_voltage_measurements
     tcp_socket.send_scpi_command('VOLT:RANG 10')
-    tcp_socket.send_scpi_command('VOLT:APER 400000')
-    tcp_socket.send_scpi_command('VOLT:TRIG:DEL 200000')
+    aperture = 400000
+    tcp_socket.send_scpi_command(f'VOLT:APER {aperture}')
+    hardware_trigger_delay = 200000
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {hardware_trigger_delay}')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
-    tcp_socket.send_scpi_command('VOLT:TRIG:COUN 6') # two 3-pulse Multi Pulse sequences will output
-    tcp_socket.send_scpi_command('VOLT:READ:COUN 1') 
+    hardware_trigger_count = 6
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}') # two 3-pulse Multi Pulse sequences will output
+    reading_count = 1
+    tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}') 
 
     # set the Digitizer Hardware Trigger polarity to rising
     tcp_socket.send_scpi_command('VOLT:OUTP:TRIG:EDGE RISING')  
@@ -120,7 +125,8 @@ try:
         wait(0.5)
 
     # wait for the Digitizer measurements to complete 
-    wait_for_new_voltage_data(tcp_socket, 0.5)
+    wait_time = get_new_voltage_data_estimated_complete_time(reading_count, aperture, hardware_trigger_count, hardware_trigger_delay)
+    wait_for_new_voltage_data(tcp_socket, wait_time)
 
     # fetch the Digitizer voltage readings using VOLT:FETC? query
     digitizerData = []

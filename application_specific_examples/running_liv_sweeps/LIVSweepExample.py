@@ -12,6 +12,7 @@ import sys
 import time
 import logging
 import ctypes
+from spikesafe_python.DigitizerDataFetch import get_new_voltage_data_estimated_complete_time
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
@@ -173,12 +174,16 @@ try:
 
     # set up SpikeSafe Digitizer to measure Pulsed Sweep output. To find more explanation, see making_integrated_voltage_measurements/measure_pulsed_sweep_voltage
     tcp_socket.send_scpi_command('VOLT:RANG 100')
-    tcp_socket.send_scpi_command('VOLT:APER {}'.format(pulse_on_time_seconds * 600000)) # we want to measure 60% of the pulse
-    tcp_socket.send_scpi_command('VOLT:TRIG:DEL {}'.format(pulse_on_time_seconds * 200000)) # we want to skip the first 20% of the pulse
+    aperture = pulse_on_time_seconds * 600000 # we want to measure 60% of the pulse
+    tcp_socket.send_scpi_command(f'VOLT:APER {aperture}')
+    hardware_trigger_delay = pulse_on_time_seconds * 200000 # we want to skip the first 20% of the pulse
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {hardware_trigger_delay}')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
-    tcp_socket.send_scpi_command('VOLT:TRIG:COUN {}'.format(LIV_sweep_step_count))
-    tcp_socket.send_scpi_command('VOLT:READ:COUN 1')
+    hardware_trigger_count = LIV_sweep_step_count
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}')
+    reading_count = 1
+    tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # Check for any errors with Digitizer initialization commands
     log_all_events(tcp_socket)
@@ -219,7 +224,8 @@ try:
         log_all_events(tcp_socket)
 
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    wait_for_new_voltage_data(tcp_socket, 0.5)
+    wait_time = get_new_voltage_data_estimated_complete_time(reading_count, aperture, hardware_trigger_count, hardware_trigger_delay)
+    wait_for_new_voltage_data(tcp_socket, wait_time)
 
     # fetch the SpikeSafe Digitizer voltage readings
     digitizerData = fetch_voltage_data(tcp_socket)

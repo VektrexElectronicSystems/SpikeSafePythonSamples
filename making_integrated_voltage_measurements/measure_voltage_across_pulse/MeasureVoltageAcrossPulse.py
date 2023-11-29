@@ -8,6 +8,7 @@
 import sys
 import time
 import logging
+from spikesafe_python.DigitizerDataFetch import get_new_voltage_data_estimated_complete_time
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
@@ -69,10 +70,12 @@ try:
     tcp_socket.send_scpi_command('VOLT:RANG 10')
 
     # set Digitizer aperture for 2µs, the minimum value. Aperture specifies the measurement time, and we want to measure incrementally across the current pulse
-    tcp_socket.send_scpi_command('VOLT:APER 2')
+    aperture = 2
+    tcp_socket.send_scpi_command(f'VOLT:APER {aperture}')
 
     # set Digitizer trigger delay to 0µs. We want to take measurements as fast as possible
-    tcp_socket.send_scpi_command('VOLT:TRIG:DEL 0')
+    hardware_trigger_delay = 0
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {hardware_trigger_delay}')
 
     # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
@@ -81,10 +84,12 @@ try:
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
 
     # set Digitizer trigger count to 1. We are measuring the output of one current pulse
-    tcp_socket.send_scpi_command('VOLT:TRIG:COUN 1')
+    hardware_trigger_count = 1
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}')
 
     # set Digitizer reading count to 525, the maximum value. We are measuring a 1ms pulse, and will take 525 measurements 2µs apart from each other
-    tcp_socket.send_scpi_command('VOLT:READ:COUN 525')
+    reading_count = 525
+    tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # check all SpikeSafe event since all settings have been sent
     log_all_events(tcp_socket)
@@ -102,7 +107,8 @@ try:
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
     # wait for the Digitizer measurements to complete 
-    wait_for_new_voltage_data(tcp_socket, 0.5)
+    wait_time = get_new_voltage_data_estimated_complete_time(reading_count, aperture, hardware_trigger_count, hardware_trigger_delay)
+    wait_for_new_voltage_data(tcp_socket, wait_time)
 
     # fetch the Digitizer voltage readings using VOLT:FETC? query
     digitizerData = []

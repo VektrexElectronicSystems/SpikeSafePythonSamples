@@ -9,6 +9,7 @@ import logging
 import numpy as np
 
 from decimal import Decimal
+from spikesafe_python.DigitizerDataFetch import get_new_voltage_data_estimated_complete_time
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
@@ -88,7 +89,8 @@ try:
     read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # set Digitizer Aperture to 10us and check for all events
-    tcp_socket.send_scpi_command('VOLT:APER 10')
+    aperture = 10
+    tcp_socket.send_scpi_command(f'VOLT:APER {aperture}')
     log_all_events(tcp_socket)
 
     # set Digitizer Trigger Count to step count and check for all events
@@ -96,7 +98,8 @@ try:
     log_all_events(tcp_socket)
 
     # set Digitizer Read Count to 1 and check for all events
-    tcp_socket.send_scpi_command('VOLT:READ:COUN 1')
+    reading_count = 1
+    tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
     log_all_events(tcp_socket)
 
     # set Digitizer Range to 10V and check for all events
@@ -127,7 +130,8 @@ try:
     log_all_events(tcp_socket)
     
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    wait_for_new_voltage_data(tcp_socket, 0.5)
+    wait_time = get_new_voltage_data_estimated_complete_time(reading_count, aperture)
+    wait_for_new_voltage_data(tcp_socket, wait_time)
 
     # Fetch Data and check for all events
     digitizer_data = fetch_voltage_data(tcp_socket)
