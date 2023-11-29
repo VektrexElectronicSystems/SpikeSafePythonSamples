@@ -10,6 +10,7 @@ import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_duty_cycle_command_argument
 from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
@@ -117,8 +118,8 @@ try:
 
     # set Channel 1's Duty Cycle to 50%. Since Period is being held, the Period will remain at 10ms
     duty_cycle = 50
-    tcp_socket.send_scpi_command('SOUR1:PULS:DCYC {}'.format(duty_cycle))
-    log_and_print('Set Duty Cycle to {}%'.format(duty_cycle))
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {get_precise_duty_cycle_command_argument(duty_cycle)}')
+    log_and_print(f'Set Duty Cycle to {get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
@@ -129,8 +130,8 @@ try:
     # set Channel 1's Duty Cycle to 0%. Using this alternate command set, the Duty Cycle is able to be set to 0% and 100%
     # Duty Cycle of 0% corresponds to an always-off output, similar to a disabled channel
     duty_cycle = 0
-    tcp_socket.send_scpi_command('SOUR1:PULS:DCYC {}'.format(duty_cycle))
-    log_and_print('Set Duty Cycle to {}%'.format(duty_cycle))
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {get_precise_duty_cycle_command_argument(duty_cycle)}')
+    log_and_print(f'Set Duty Cycle to {get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
@@ -141,8 +142,8 @@ try:
     # set Channel 1's Duty Cycle to 100%. Using this alternate command set, the Duty Cycle is able to be set to 0% and 100%
     # Duty Cycle of 100% corresponds to an always-on output, similar to a DC mode
     duty_cycle = 100
-    tcp_socket.send_scpi_command('SOUR1:PULS:DCYC {}'.format(duty_cycle))
-    log_and_print('Set Duty Cycle to {}%'.format(duty_cycle))
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {get_precise_duty_cycle_command_argument(duty_cycle)}')
+    log_and_print(f'Set Duty Cycle to {get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
@@ -167,8 +168,8 @@ try:
 
     # set Channel 1's Duty Cycle to 25%. Since Pulse Width is being held, the Pulse Width will remain at 10ms
     duty_cycle = 25
-    tcp_socket.send_scpi_command('SOUR1:PULS:DCYC {}'.format(duty_cycle))
-    log_and_print('Set Duty Cycle to {}%'.format(duty_cycle))
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {get_precise_duty_cycle_command_argument(duty_cycle)}')
+    log_and_print(f'Set Duty Cycle to {get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
