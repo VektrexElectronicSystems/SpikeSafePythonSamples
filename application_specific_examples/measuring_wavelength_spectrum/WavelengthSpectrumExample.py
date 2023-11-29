@@ -12,6 +12,7 @@ import logging
 import os
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -152,7 +153,7 @@ try:
 
     # set SpikeSafe Channel 1's pulse mode to Single Pulse and set all relevant settings. For more information, see run_spikesafe_operating_modes/run_dc
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON 1')    
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(1)}')    
     tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current_amps)}')         
     tcp_socket.send_scpi_command('SOUR1:VOLT {}'.format(compliance_voltage_V))         
     log_all_events(tcp_socket) 

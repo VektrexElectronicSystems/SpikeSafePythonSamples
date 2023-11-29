@@ -11,6 +11,7 @@ import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -61,10 +62,10 @@ try:
     tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
 
     # set Channel 1's Pulse On Time to 1ms
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.001')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.001)}')
 
     # set Channel 1's Pulse Off Time to 9ms
-    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.009')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.009)}')
 
     # set Channel 1's compensation settings to their default values
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
@@ -98,13 +99,13 @@ try:
     wait(1)
 
     # set Channel 1's Pulse On Time to 100µs dynamically while channel is operating. Check events and measure readings
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.0001)}')
     log_all_events(tcp_socket)
     log_memory_table_read(tcp_socket)
     wait(1)
 
     # set Channel 1's Pulse Off Time to 100µs dynamically while channel is operating. Check events and measure readings
-    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.0001')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.0001)}')
 
     # after dynamically applying all new settings, check for all events and measure readings on Channel 1 once per second for 5 seconds
     time_end = time.time() + 5                         

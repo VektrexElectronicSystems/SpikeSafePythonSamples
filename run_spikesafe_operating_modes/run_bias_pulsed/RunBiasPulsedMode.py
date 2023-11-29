@@ -9,6 +9,7 @@ import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -68,10 +69,10 @@ try:
     # Unless specifying On Time and Off Time, set pulse HOLD before any other pulse settings
     tcp_socket.send_scpi_command('SOUR0:PULS:HOLD PERIOD')   
 
-    tcp_socket.send_scpi_command('SOUR0:PULS:PER 0.01')
+    tcp_socket.send_scpi_command(f'SOUR0:PULS:PER {get_precise_time_command_argument(0.01)}')
 
     # When Pulse Width is set, Period will not be adjusted at all because we are holding period. Duty Cycle will be adjusted as a result
-    tcp_socket.send_scpi_command('SOUR0:PULS:WIDT 0.001')
+    tcp_socket.send_scpi_command(f'SOUR0:PULS:WIDT {get_precise_time_command_argument(0.001)}')
 
     # set each channel's compensation settings to their default values
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape

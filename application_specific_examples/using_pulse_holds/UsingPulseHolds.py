@@ -10,6 +10,7 @@ import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -79,8 +80,8 @@ try:
     # initially setting the On and Off Time to their default values using the standard commands 
     # Although not recommended, it is possible to use On Time, Off Time, Pulse Width, Period, and Duty Cycle commands in the same test session
     # If On or Off Time is specified using these standard commands, the Pulse Hold will be ignored
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.001')
-    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.009')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.001)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.009)}')
 
     # Check for any errors with initializing commands
     log_all_events(tcp_socket)
@@ -105,8 +106,8 @@ try:
 
     # set Channel 1's Pulse Width to 8ms. Since Period is being held, the Period will remain at 10ms
     pulse_width_seconds = 0.008
-    tcp_socket.send_scpi_command('SOUR1:PULS:WIDT {}'.format(pulse_width_seconds))
-    log_and_print('Set Pulse Width to {}s'.format(pulse_width_seconds))
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:WIDT {get_precise_time_command_argument(pulse_width_seconds)}')
+    log_and_print(f'Set Pulse Width to {get_precise_time_command_argument(pulse_width_seconds)}s')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
@@ -155,8 +156,8 @@ try:
 
     # set Channel 1's Pulse Period to 20ms. Since Pulse Width is being held, the Pulse Width will remain at 10ms
     pulse_period_seconds = 0.02
-    tcp_socket.send_scpi_command('SOUR1:PULS:PER {}'.format(pulse_period_seconds))
-    log_and_print('Set Pulse Period to {}s'.format(pulse_period_seconds))
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:PER {get_precise_time_command_argument(pulse_period_seconds)}')
+    log_and_print(f'Set Pulse Period to {get_precise_time_command_argument(pulse_period_seconds)}s')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
@@ -192,8 +193,8 @@ try:
 
     # set Channel 1's Pulse Width to 1ms. Since Duty Cycle is being held, the Duty Cycle will remain at 25%
     pulse_width_seconds = 0.001
-    tcp_socket.send_scpi_command('SOUR1:PULS:WIDT {}'.format(pulse_width_seconds))
-    log_and_print('Set Pulse Width to {}s'.format(pulse_width_seconds))
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:WIDT {get_precise_time_command_argument(pulse_width_seconds)}')
+    log_and_print(f'Set Pulse Width to {get_precise_time_command_argument(pulse_width_seconds)}s')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)

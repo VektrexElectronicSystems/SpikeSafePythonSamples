@@ -5,6 +5,7 @@ import sys
 import time
 import logging
 from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -57,11 +58,11 @@ try:
     log_all_events(tcp_socket)
 
     # set Channel 1's Pulse On Time to 1us and check for all events
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.000001')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.000001)}')
     log_all_events(tcp_socket)
 
     # set Channel 1's Pulse Off Time 9us and check for all events
-    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.000009')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.000009)}')
     log_all_events(tcp_socket)
 
     # set Channel 1's Pulse Width adjustment to disabled and check for all events
