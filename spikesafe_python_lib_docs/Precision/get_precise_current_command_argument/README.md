@@ -12,3 +12,13 @@ Current in amps to be sent to SpikeSafe
 ### Returns
 [float](https://docs.python.org/3/library/functions.html#float)  
 Current in amps command argument with optimal precision
+
+### Examples
+The following example demonstrates the `get_precise_current_command_argument()` function. It sends the SpikeSafe set current SCPI command with the optimum precision for 100mA.
+```
+# set Channel 1's current to 100 mA
+tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')
+```
+
+### Examples In Action
+[/run_spikesafe_operating_modes/run_dc/RunDcMode.py](/run_spikesafe_operating_modes/run_dc/RunDcMode.py)
