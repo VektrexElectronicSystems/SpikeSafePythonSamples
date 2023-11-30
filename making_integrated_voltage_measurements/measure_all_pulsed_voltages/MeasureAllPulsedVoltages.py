@@ -7,6 +7,7 @@
 import sys
 import time
 import logging
+from spikesafe_python.Compensation import get_optimum_compensation
 from spikesafe_python.DigitizerDataFetch import get_new_voltage_data_estimated_complete_time
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
@@ -59,12 +60,16 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSED')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.001)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.009)}')
-    tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
-    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')
-    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')   
+    set_current = 0.1
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current)}')   
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')
+    tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
+    tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
+    spikesafe_model_max_current = float(tcp_socket.read_data())
+    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current)
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
     # set Digitizer voltage range to 10V since we expect to measure voltages significantly less than 10V
     tcp_socket.send_scpi_command('VOLT:RANG 10')
