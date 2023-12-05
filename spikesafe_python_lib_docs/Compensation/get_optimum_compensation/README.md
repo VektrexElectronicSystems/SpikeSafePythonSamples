@@ -43,5 +43,5 @@ log_all_events(tcp_socket)
 ```
 
 ### Examples In Action
-[/run_spikesafe_operating_modes/run_pulsed/RunPulsedMode.py](/run_spikesafe_operating_modes/run_pulsed/RunPulsedMode.py)
+[/run_spikesafe_operating_modes/run_pulsed/RunPulsedMode.py](/run_spikesafe_operating_modes/run_pulsed/RunPulsedMode.py)  
 [/making_integrated_voltage_measurements/measure_voltage_across_pulse/MeasureVoltageAcrossPulse.py](/making_integrated_voltage_measurements/measure_voltage_across_pulse/MeasureVoltageAcrossPulse.py)
