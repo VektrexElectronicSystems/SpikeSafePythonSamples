@@ -5,7 +5,7 @@
 ### Definition
 Defines the Load Impedance acceptable values as enumerations.
 
-### Fields
+### Enumerations
 | Name | Code |
 | - | - |
 | VERY_LOW | 4

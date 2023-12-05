@@ -5,7 +5,7 @@
 ### Definition
 Defines the Rise Time acceptable values as enumerations.
 
-### Fields
+### Enumerations
 | Name | Code |
 | - | - |
 | VERY_SLOW | 4
