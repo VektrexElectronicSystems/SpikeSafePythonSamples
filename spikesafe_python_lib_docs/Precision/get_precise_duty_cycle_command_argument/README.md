@@ -14,11 +14,11 @@ Duty cycle to be sent to SpikeSafe
 Duty cycle command argument with optimal precision
 
 ### Examples
-The following example demonstrates the `get_precise_duty_cycle_command_argument()` function. It sends the SpikeSafe set current SCPI command with the optimum precision for 100mA.
+The following example demonstrates the `get_precise_duty_cycle_command_argument()` function. It sends the SpikeSafe duty cycle SCPI command with the optimum precision for 50%.
 ```
-# set Channel 1's current to 100 mA
-tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')
+# set Channel 1's Duty Cycle to 50%.
+tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {get_precise_duty_cycle_command_argument(50)}')
 ```
 
 ### Examples In Action
-[/run_spikesafe_operating_modes/run_dc/RunDcMode.py](/run_spikesafe_operating_modes/run_dc/RunDcMode.py)
+[/application_specific_examples/using_pulse_holds/UsingPulseHolds.py](/application_specific_examples/using_pulse_holds/UsingPulseHolds.py)
