@@ -9,7 +9,7 @@ Suspends the current thread for a specified amount of time.
 wait_time [float](https://docs.python.org/3/library/functions.html#float)  
 Wait time in seconds to suspend the current thread.
 
-current_time [float](https://docs.python.org/3/library/functions.html#float)
+current_time [float](https://docs.python.org/3/library/functions.html#float)  
 Current time in seconds (time.perf_counter by default).
 
 ### Examples
