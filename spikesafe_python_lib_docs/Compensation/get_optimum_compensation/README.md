@@ -23,6 +23,16 @@ Rise time command argument with optimum compensation
 [ValueError](https://docs.python.org/3/library/exceptions.html#ValueError)  
 If set_current_amps is greater than spikesafe_model_max_current_amps
 
+### Remarks
+This function assumes the set current is operating on the optimized current range. If operating on the high range with a set current normally programmed on the low range, the compensation values will not be optimal. See online specifications.
+- [Source Measure Unit Precision Pulsed Current Performance Series Specifications](https://www.vektrex.com/downloads/vektrex-spikesafe-smu-specifications.pdf)
+- [High Current Performance Series Precision Pulsed Current Source Measure Unit Specifications](https://www.vektrex.com/downloads/High-Current-SpikeSafe-Performance-Series-Precision-Pulsed-Source-Measure-Unit-Specifications.pdf)
+- [SpikeSafe™ Performance Series Precision Pulsed Current Source Specifications](https://www.vektrex.com/downloads/vektrex-spikesafe-performance-series-precision-pulsed-current-source-specifications.pdf)
+
+If Load Impedance is returned as Medium or High, it is best practice to increase the Compliance Voltage setting by 5V to 30V. This helps the current amplifier to overcome inductance. If Compliance Voltage is not increased, then a Low Side Over Current or an Unstable Waveform error may occur.
+
+If an Operating Mode is used to sweep through steps of currents where the compensation settings are the same across the sweep, such as Pulse Sweep or Multiple Pulse Burst, it is recommended use the optimum compensation settings targeting the Stop Current.
+
 ### Examples
 The following example demonstrates the `get_optimum_compensation()` function. It determines the optimum compensation settings to use based off the SpikeSafe's set current setting and maximum settable current.
 ```
