@@ -16,6 +16,7 @@ from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.Precision import get_precise_time_command_argument
+from spikesafe_python.Precision import get_precise_time_microseconds_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -76,11 +77,11 @@ try:
 
     # set Digitizer aperture for 2µs, the minimum value. Aperture specifies the measurement time, and we want to measure incrementally across the current pulse
     aperture = 2
-    tcp_socket.send_scpi_command(f'VOLT:APER {aperture}')
+    tcp_socket.send_scpi_command(f'VOLT:APER {get_precise_time_microseconds_command_argument(aperture)}')
 
     # set Digitizer trigger delay to 0µs. We want to take measurements as fast as possible
     hardware_trigger_delay = 0
-    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {hardware_trigger_delay}')
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
 
     # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')

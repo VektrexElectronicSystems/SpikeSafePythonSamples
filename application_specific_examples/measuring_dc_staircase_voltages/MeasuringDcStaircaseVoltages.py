@@ -15,6 +15,7 @@ from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
 from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_microseconds_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -90,7 +91,7 @@ try:
 
     # set Digitizer Aperture to 10us and check for all events
     aperture = 10
-    tcp_socket.send_scpi_command(f'VOLT:APER {aperture}')
+    tcp_socket.send_scpi_command(f'VOLT:APER {get_precise_time_microseconds_command_argument(aperture)}')
     log_all_events(tcp_socket)
 
     # set Digitizer Trigger Count to step count and check for all events

@@ -15,6 +15,7 @@ from spikesafe_python.MemoryTableReadData import log_memory_table_read
 from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.Precision import get_precise_time_command_argument
+from spikesafe_python.Precision import get_precise_time_microseconds_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -84,9 +85,9 @@ try:
     # set typical Digitizer settings to match SpikeSafe settings. For more explanation, see making_integrated_voltage_measurements
     tcp_socket.send_scpi_command('VOLT:RANG 10')
     aperture = 400000
-    tcp_socket.send_scpi_command(f'VOLT:APER {aperture}')
+    tcp_socket.send_scpi_command(f'VOLT:APER {get_precise_time_microseconds_command_argument(aperture)}')
     hardware_trigger_delay = 200000
-    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {hardware_trigger_delay}')
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
     hardware_trigger_count = 6

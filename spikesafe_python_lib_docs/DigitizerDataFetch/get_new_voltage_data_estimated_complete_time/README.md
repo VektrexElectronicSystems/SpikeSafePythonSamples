@@ -27,11 +27,11 @@ The following example demonstrates the `get_new_voltage_data_estimated_complete_
 ```
 # set Digitizer aperture for 600µs. Aperture specifies the measurement time, and we want to measure a majority of the pulse's constant current output
 aperture = 600
-tcp_socket.send_scpi_command(f'VOLT:APER {aperture}')
+tcp_socket.send_scpi_command(f'VOLT:APER {get_precise_time_microseconds_command_argument(aperture)}')
 
 # set Digitizer trigger delay to 200µs. We want to give sufficient delay to omit any overshoot the current pulse may have
 hardware_trigger_delay = 200
-tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {hardware_trigger_delay}')
+tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
 
 # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
 tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
