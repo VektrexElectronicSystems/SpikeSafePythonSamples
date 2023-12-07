@@ -77,18 +77,20 @@ try:
     set_current = 0.1
     tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current)}')   
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')   
-    tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
-    spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current)
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')   
-    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
 
     # initially setting the On and Off Time to their default values using the standard commands 
     # Although not recommended, it is possible to use On Time, Off Time, Pulse Width, Period, and Duty Cycle commands in the same test session
     # If On or Off Time is specified using these standard commands, the Pulse Hold will be ignored
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.001)}')
+    pulse_on_time = 0.001
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.009)}')
+
+    tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
+    spikesafe_model_max_current = float(tcp_socket.read_data())
+    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')   
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
 
     # Check for any errors with initializing commands
     log_all_events(tcp_socket)

@@ -60,7 +60,8 @@ try:
     log_all_events(tcp_socket)
 
     # set Channel 1's Pulse On Time to 1us and check for all events
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.000001)}')
+    pulse_on_time = 0.000001
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
     log_all_events(tcp_socket)
 
     # set Channel 1's Pulse Off Time 9us and check for all events
@@ -87,7 +88,7 @@ try:
     # set Channel 1's Load Impedance and Rise Time, and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current)
+    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
     log_all_events(tcp_socket)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')

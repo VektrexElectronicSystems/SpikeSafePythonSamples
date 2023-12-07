@@ -9,6 +9,7 @@
 import sys
 import time
 import logging
+from spikesafe_python.Compensation import get_optimum_compensation
 from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
 from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.Precision import get_precise_time_command_argument
@@ -57,7 +58,8 @@ try:
 
     # set Channel 1's Pulsed Sweep parameters to match the test expectation
     tcp_socket.send_scpi_command(f'SOUR1:CURR:STAR {get_precise_current_command_argument(0.02)}')
-    tcp_socket.send_scpi_command(f'SOUR1:CURR:STOP {get_precise_current_command_argument(0.2)}')   
+    stop_current = 0.2
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STOP {get_precise_current_command_argument(stop_current)}')   
     tcp_socket.send_scpi_command('SOUR1:CURR:STEP 100')   
 
     # set Channel 1 to output one pulse per step
@@ -70,13 +72,17 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')   
 
     # set Channel 1's pulse settings for a 1% duty cycle and 1ms Period using the Pulse On Time and Pulse Off Time commands
+    pulse_on_time = 0.0001
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.0001)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.0099)}')
 
-    # set Channel 1's compensation settings to High/Fast
+    # set Channel 1's compensation settings
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
-    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 1')
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 1')   
+    tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
+    spikesafe_model_max_current = float(tcp_socket.read_data())
+    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, stop_current, pulse_on_time)
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')   
 
     # set Channel 1's Ramp mode to Fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  

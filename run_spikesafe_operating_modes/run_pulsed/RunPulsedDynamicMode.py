@@ -65,7 +65,8 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')   
 
     # set Channel 1's Pulse On Time to 1ms
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.001)}')
+    pulse_on_time = 0.001
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
 
     # set Channel 1's Pulse Off Time to 9ms
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.009)}')
@@ -74,7 +75,7 @@ try:
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current)
+    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}') 
     

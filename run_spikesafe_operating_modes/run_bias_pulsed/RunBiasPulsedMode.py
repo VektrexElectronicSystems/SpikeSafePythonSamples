@@ -74,13 +74,14 @@ try:
     tcp_socket.send_scpi_command(f'SOUR0:PULS:PER {get_precise_time_command_argument(0.01)}')
 
     # When Pulse Width is set, Period will not be adjusted at all because we are holding period. Duty Cycle will be adjusted as a result
-    tcp_socket.send_scpi_command(f'SOUR0:PULS:WIDT {get_precise_time_command_argument(0.001)}')
+    pulse_width = 0.001
+    tcp_socket.send_scpi_command(f'SOUR0:PULS:WIDT {get_precise_time_command_argument(pulse_width)}')
 
     # set each channel's compensation settings to their default values
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
     tcp_socket.send_scpi_command('SOUR0:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current)
+    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_width)
     tcp_socket.send_scpi_command(f'SOUR0:PULS:CCOM {load_impedance}')
     tcp_socket.send_scpi_command(f'SOUR0:PULS:RCOM {rise_time}')
     

@@ -170,6 +170,10 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time_seconds)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(pulse_off_time_seconds)}')
 
+    # call getoptimum with start current, and then with stop current, and check the return values
+    # if same, use values
+    # if different, use the stop current values. However, consider breaking sweep into multiple segments 
+
     # Check for any errors with SpikeSafe initialization commands
     log_all_events(tcp_socket)
 
