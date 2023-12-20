@@ -17,11 +17,10 @@ Overrides spike_safe_socket.enable_logging attribute (None by default, will use 
 Contains an array of DigitizerData objects which each have a Sample Number and Voltage Reading.
 
 ### Examples
-The following example demonstrates the fetch_voltage_data function. It checks if the PSMU Digitizer has finished measuring voltage data every `wait_time` in milliseconds, fetches its measuremments, and store thems in sample and voltage arrays to be used for plotting in a graph.
+The following example demonstrates the fetch_voltage_data function. It checks if the PSMU Digitizer has finished measuring voltage data every 500 milliseconds, fetches its measuremments, and store thems in sample and voltage arrays to be used for plotting in a graph.
 ```
 # wait for the Digitizer measurements to complete 
-wait_time = get_new_voltage_data_estimated_complete_time(reading_count, aperture, hardware_trigger_count, hardware_trigger_delay)
-wait_for_new_voltage_data(tcp_socket, wait_time)
+wait_for_new_voltage_data(tcp_socket, 0.5)
 
 # fetch the Digitizer voltage readings using VOLT:FETC? query
 digitizerData = []

@@ -8,7 +8,6 @@ import sys
 import time
 import logging
 from spikesafe_python.Compensation import get_optimum_compensation
-from spikesafe_python.DigitizerDataFetch import get_new_voltage_data_estimated_complete_time
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
@@ -115,8 +114,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    wait_time = get_new_voltage_data_estimated_complete_time(reading_count, aperture, hardware_trigger_count, hardware_trigger_delay)
-    wait_for_new_voltage_data(tcp_socket, wait_time)
+    wait_for_new_voltage_data(tcp_socket, 0.5)
 
     # fetch the Digitizer voltage readings
     digitizerData = fetch_voltage_data(tcp_socket)

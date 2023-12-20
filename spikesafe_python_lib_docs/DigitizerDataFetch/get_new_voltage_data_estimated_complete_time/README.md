@@ -66,7 +66,3 @@ wait_for_new_voltage_data(tcp_socket, wait_time)
 # fetch the Digitizer voltage readings
 digitizerData = fetch_voltage_data(tcp_socket)
 ```
-
-### Examples In Action
-[/making_integrated_voltage_measurements/measure_voltage_across_pulse/MeasureVoltageAcrossPulse.py](/making_integrated_voltage_measurements/measure_voltage_across_pulse/MeasureVoltageAcrossPulse.py)
-[/application_specific_examples//measuring_dc_staircase_voltages//MeasuringDcStaircaseVoltages.py](/application_specific_examples//measuring_dc_staircase_voltages//MeasuringDcStaircaseVoltages.py)
