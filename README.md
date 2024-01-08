@@ -28,7 +28,7 @@ Installing Python will install:
 
 After Python installation is complete, restart the computer to ensure packages under the [Packages](#packages) Section can be successfully installed.
 
-It is recommended to use a version of Python with the status key of bugfix or higher, see [Python Release Cycle](https://devguide.python.org/versions/#versions).
+Vektrex targets working support for versions of Python with the status key of bugfix or higher, see [Python Release Cycle](https://devguide.python.org/versions/#versions).
 
 #### Windows Setup
 
