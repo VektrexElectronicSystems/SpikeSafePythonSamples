@@ -6,7 +6,7 @@
 Reads data reply via TCP/IP socket from a SpikeSafe.
 
 ### Parameters
-enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) (Optional)  
+enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Overrides spike_safe_socket.enable_logging attribute (None by default, will use spike_safe_socket.enable_logging value).
 
 ### Returns

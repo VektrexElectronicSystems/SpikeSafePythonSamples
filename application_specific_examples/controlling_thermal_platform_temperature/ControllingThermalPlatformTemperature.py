@@ -30,6 +30,8 @@ logging.basicConfig(
 try:
     log.info("ControllingThermalPlatformTemperature.py started.")
 
+    log.info("Python version: {}".format(sys.version))
+
     TEC_controller = SerialInterfaceDll()
 
     # Set the beep enable sound

@@ -12,7 +12,7 @@ Socket object used to communicate with SpikeSafe.
 code [int](https://docs.python.org/3/library/functions.html#int)  
 Event code for desired event
 
-enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) (Optional)  
+enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Overrides spike_safe_socket.enable_logging attribute (None by default, will use spike_safe_socket.enable_logging value).
 
 ### Returns
@@ -31,11 +31,11 @@ tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')
 log_all_events(tcp_socket) 
 
 # set Channel 1's current to 100 mA and check for all events
-tcp_socket.send_scpi_command('SOUR1:CURR 0.01')        
+tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')         
 log_all_events(tcp_socket)  
 
 # set Channel 1's voltage to 10 V and check for all events
-tcp_socket.send_scpi_command('SOUR1:VOLT 20')         
+tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')         
 log_all_events(tcp_socket) 
 
 # turn on Channel 1 and check for all events

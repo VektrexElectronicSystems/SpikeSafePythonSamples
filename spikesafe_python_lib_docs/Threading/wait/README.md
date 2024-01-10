@@ -9,7 +9,7 @@ Suspends the current thread for a specified amount of time.
 wait_time [float](https://docs.python.org/3/library/functions.html#float)  
 Wait time in seconds to suspend the current thread.
 
-current_time [float](https://docs.python.org/3/library/functions.html#float)
+current_time [float](https://docs.python.org/3/library/functions.html#float)  
 Current time in seconds (time.perf_counter by default).
 
 ### Examples
@@ -24,11 +24,11 @@ tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')
 log_all_events(tcp_socket) 
 
 # set Channel 1's current to 100 mA and check for all events
-tcp_socket.send_scpi_command('SOUR1:CURR 0.01')        
+tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')         
 log_all_events(tcp_socket)  
 
 # set Channel 1's voltage to 10 V and check for all events
-tcp_socket.send_scpi_command('SOUR1:VOLT 20')         
+tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')         
 log_all_events(tcp_socket) 
 
 # turn on Channel 1 and check for all events

@@ -7,7 +7,11 @@
 import sys
 import time
 import logging
+from spikesafe_python.Compensation import get_optimum_compensation
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
+from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -36,6 +40,8 @@ logging.basicConfig(
 ### start of main program
 try:
     log.info("RunPulsedMode.py started.")
+
+    log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
@@ -51,12 +57,22 @@ try:
     log_all_events(tcp_socket) 
 
     # set Channel 1's Pulse On Time to 1ms and check for all events
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.001')
+    pulse_on_time = 0.001
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
     log_all_events(tcp_socket) 
 
     # set Channel 1's Pulse Off Time to 9ms and check for all events
-    tcp_socket.send_scpi_command('SOUR1:PULS:TOFF 0.009')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.009)}')
     log_all_events(tcp_socket) 
+
+    # set Channel 1's current to 100 mA and check for all events
+    set_current = 0.1
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current)}')   
+    log_all_events(tcp_socket)  
+
+    # set Channel 1's voltage to 20 V and check for all events
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')
+    log_all_events(tcp_socket)
 
     # set Channel 1's safety threshold for over current protection to 50% and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
@@ -64,21 +80,16 @@ try:
 
     # set Channel 1's compensation settings to their default values and check for all events
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
-    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
-    log_all_events(tcp_socket)
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
-    log_all_events(tcp_socket)
+    tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
+    spikesafe_model_max_current = float(tcp_socket.read_data())
+    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
+    log_all_events(tcp_socket) 
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
+    log_all_events(tcp_socket) 
 
     # set Channel 1's Ramp mode to Fast and check for all events
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
-
-    # set Channel 1's current to 100 mA and check for all events
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')   
-    log_all_events(tcp_socket)  
-
-    # set Channel 1's voltage to 20 V and check for all events
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20')
-    log_all_events(tcp_socket)
 
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')

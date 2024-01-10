@@ -9,10 +9,10 @@ Queries the SpikeSafe PSMU digitizer until it responds that it has acquired new 
 spike_safe_socket [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md)  
 Socket object used to communicate with SpikeSafe.
 
-wait_time [float](https://docs.python.org/3/library/functions.html#float)
+wait_time [float](https://docs.python.org/3/library/functions.html#float) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Wait time in between each set of queries, in seconds (0 by default).
 
-enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) (Optional)  
+enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Overrides spike_safe_socket.enable_logging attribute (None by default, will use spike_safe_socket.enable_logging value).
 
 ### Examples

@@ -8,7 +8,11 @@
 import sys
 import time
 import logging
+from spikesafe_python.Compensation import get_optimum_compensation
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
+from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -37,6 +41,8 @@ logging.basicConfig(
 ### start of main program
 try:
     log.info("RunBiasSinglePulseMode.py started.")
+
+    log.info("Python version: {}".format(sys.version))
     
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
@@ -51,21 +57,26 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIASSINGLEPULSE')
 
     # set Channel 1's current to 100 mA
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')
+    set_current = 0.1
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current)}')
 
     # set Channel 1's bias current to 10 mA and check for all events
-    tcp_socket.send_scpi_command('SOUR1:CURR:BIAS 0.01')     
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:BIAS {get_precise_current_command_argument(0.01)}')     
 
     # set Channel 1's voltage to 20 V 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')   
 
     # set Channel 1's pulse width to 1ms. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.001')
+    pulse_on_time = 0.001
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
 
     # set Channel 1's compensation settings to their default values
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
-    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM 4')
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM 4')   
+    tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
+    spikesafe_model_max_current = float(tcp_socket.read_data())
+    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
     
     # set Channel 1's Ramp mode to Fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  

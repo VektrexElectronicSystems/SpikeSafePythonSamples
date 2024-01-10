@@ -9,7 +9,7 @@ Sends a SCPI command via TCP/IP socket to a SpikeSafe.
 scpi_command [string](https://docs.python.org/3/library/string.html)  
 SCPI command to send to SpikeSafe
 
-enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) (Optional)  
+enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Overrides spike_safe_socket.enable_logging attribute (None by default, will use spike_safe_socket.enable_logging value).
 
 ### Examples

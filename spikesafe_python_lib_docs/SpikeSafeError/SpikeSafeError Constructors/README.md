@@ -1,19 +1,11 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeError](/spikesafe_python_lib_docs/SpikeSafeError/README.md) | SpikeSafeError Constructors
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeError](/spikesafe_python_lib_docs/SpikeSafeError/README.md) | SpikeSafeError(self, code, message, channel_list, full_error)
 
-## SpikeSafeError Constructors
+## SpikeSafeError(self, code, message, channel_list, full_error)
 
 ### Definition
 Initializes a new instance of the SpikeSafeError class.
 
-### Overloads
-| Name | Description |
-| - | - |
-| [SpikeSafeError](/spikesafe_python_lib_docs/SpikeSafeError/README.md)(self, code, message, channel_list, full_error) | Initializes a new instance of the SpikeSafeError class with a specified code, message, channel list, and full error that causes this exception. |
-
-### SpikeSafeError(self, code, message, channel_list, full_error)
-
-#### Remarks
-This constructor initializes SpikeSafeError exception.
+### Parameters
 
 The following table shows the initial property values for an instance of SpikeSafeError.
 
@@ -34,7 +26,7 @@ event_queue = []
 is_event_queue_empty = False                                                                                                                      
 
 # set Channel 1's voltage to an invalid 1 V and check for all events
-tcp_socket.send_scpi_command('SOUR1:VOLT 1')
+tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
 
 # initialize flag to check if event queue is empty 
 is_event_queue_empty = False                                                                                                                      
