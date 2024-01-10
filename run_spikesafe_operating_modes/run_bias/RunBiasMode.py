@@ -9,6 +9,8 @@ import sys
 import time
 import logging
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -37,6 +39,8 @@ logging.basicConfig(
 ### start of main program
 try:
     log.info("RunBiasMode.py started.")
+
+    log.info("Python version: {}".format(sys.version))
     
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
@@ -56,11 +60,11 @@ try:
     log_all_events(tcp_socket) 
 
     # set Channel 1's bias current to 10 mA and check for all events
-    tcp_socket.send_scpi_command('SOUR1:CURR:BIAS 0.01')        
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:BIAS {get_precise_current_command_argument(0.01)}')        
     log_all_events(tcp_socket)  
 
     # set Channel 1's voltage to 10 V and check for all events
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10')         
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')         
     log_all_events(tcp_socket) 
 
     # turn on Channel 1 and check for all events

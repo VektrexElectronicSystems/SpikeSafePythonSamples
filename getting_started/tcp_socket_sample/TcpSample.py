@@ -7,6 +7,7 @@
 # Example Result: 
 # Vektrex, SpikeSafe Mini, Rev 2.0.3.18; Ch 1: DSP 2.0.9, CPLD C.2, Last Cal Date: 17 FEB 2020, SN: 12006, HwRev: E1, Model: MINI-PRF-10-10US\n
 
+import sys
 import socket
 import logging
 
@@ -37,6 +38,8 @@ tcp_socket.settimeout(2)
 
 try:
     log.info("TcpSample.py started.")
+
+    log.info("Python version: {}".format(sys.version))
     
     # connect to SpikeSafe
     tcp_socket.connect((ip_address, port_number))

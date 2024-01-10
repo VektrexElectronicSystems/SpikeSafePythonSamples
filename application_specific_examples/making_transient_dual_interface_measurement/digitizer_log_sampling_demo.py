@@ -7,6 +7,8 @@ import os
 
 from decimal import Decimal
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.SpikeSafeError import SpikeSafeError
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data, wait_for_new_voltage_data
@@ -57,8 +59,8 @@ try:
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
 
-    # digitizer set up
-    tcp_socket.send_scpi_command('VOLT:ABOR')
+    # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU  
+    tcp_socket.send_scpi_command('*RST')    
 
     # Set digitizer range to 10V
     tcp_socket.send_scpi_command('VOLT:RANG 10')
@@ -98,13 +100,13 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')
     
     # set MCV to 25
-    tcp_socket.send_scpi_command('SOUR1:VOLT 25')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
 
     # set Auto Range
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')
 
-    # set current to 0.35A
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.35')
+    # set current to 1A
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(1)}')   
 
     # set Ramp mode to Fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')

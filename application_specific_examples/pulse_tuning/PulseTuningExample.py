@@ -10,8 +10,12 @@ import logging
 from enum import Enum
 from matplotlib import pyplot as plt
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
+from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
+from spikesafe_python.SpikeSafeEnums import LoadImpedance, RiseTime
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait 
@@ -39,8 +43,8 @@ def run_single_pulse_tuning_test(load_impedance, rise_time):
     log.info('Running single pulse tuning test iteration with {} and {}'.format(load_impedance, rise_time))
 
     # set the load impedance and rise time according to the input parameters
-    tcp_socket.send_scpi_command('SOUR1:PULS:CCOM {}'.format(LoadImpedance(load_impedance).value))
-    tcp_socket.send_scpi_command('SOUR1:PULS:RCOM {}'.format(RiseTime(rise_time).value)) 
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}') 
 
     # Check for any errors with initializing commands
     log_all_events(tcp_socket)
@@ -60,7 +64,7 @@ def run_single_pulse_tuning_test(load_impedance, rise_time):
         is_pulse_complete = tcp_socket.read_data()
         log_all_events(tcp_socket)
 
-    messagebox.showinfo("Single Pulse Outputted", "Observe the current pulse shape using an oscilloscope or DMM, and note the current compensation settings.\n\nPress \"OK\" to move to the next combination of Pulse Tuning settings.\n\nLoad Impedance: {}\nRise Time: {}".format(LoadImpedance(load_impedance).name, RiseTime(rise_time).name))
+    messagebox.showinfo("Single Pulse Outputted", f"Observe the current pulse shape using an oscilloscope or DMM, and note the current compensation settings.\n\nPress \"OK\" to move to the next combination of Pulse Tuning settings.\n\nLoad Impedance: {load_impedance.name}\nRise Time: {rise_time.name}")
 
     tcp_socket.send_scpi_command('OUTP1 0')
 
@@ -71,22 +75,11 @@ def run_single_pulse_tuning_test(load_impedance, rise_time):
 
     return
 
-### classes to express the compensation settings being tested
-class LoadImpedance(Enum):
-    VERY_LOW = 4
-    LOW = 3
-    MEDIUM = 2
-    HIGH = 1
-
-class RiseTime(Enum):
-    VERY_SLOW = 4
-    SLOW = 3
-    MEDIUM = 2
-    FAST = 1
-
 ### start of main program
 try:
     log.info("PulseTuningExample.py started.")
+
+    log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
@@ -101,13 +94,13 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
 
     # set channel 1's current to 100 mA
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')     
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')     
 
     # set channel 1's voltage to 20 V 
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20')   
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')   
 
     # set channel 1's pulse width to 100µs. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
-    tcp_socket.send_scpi_command('SOUR1:PULS:TON 0.0001')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(0.0001)}')
 
     # set channel 1's output ramp to fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')

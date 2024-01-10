@@ -12,6 +12,9 @@ from decimal import Decimal
 from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
 from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
 from spikesafe_python.MemoryTableReadData import MemoryTableReadData
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
+from spikesafe_python.Precision import get_precise_current_command_argument
+from spikesafe_python.Precision import get_precise_time_microseconds_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.ReadAllEvents import read_until_event
 from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
@@ -47,12 +50,14 @@ logging.basicConfig(
 ### start of main program
 try:
     log.info("MeasuringDcStaircaseVoltages.py started.")
+
+    log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to PSMU
     tcp_socket = TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
 
-    # reset to default state and check for all events,
+    # reset to default state and check for all events, this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     log_all_events(tcp_socket)
@@ -62,7 +67,7 @@ try:
     log_all_events(tcp_socket)
 
     # set Channel 1's voltage to 10 and check for all events
-    tcp_socket.send_scpi_command('SOUR1:VOLT 10')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
     log_all_events(tcp_socket)
 
     # set Channel 1's Auto Range to On and check for all events
@@ -70,7 +75,7 @@ try:
     log_all_events(tcp_socket)
 
     # set Channel 1's current to start current and check for all events
-    tcp_socket.send_scpi_command('SOUR1:CURR {}'.format(start_current_A))
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(start_current_A)}')
     log_all_events(tcp_socket)
 
     # set Channel 1's Ramp mode to Fast and check for all events
@@ -82,13 +87,10 @@ try:
 
     # wait until Channel 1 is ready
     read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
-    
-    # set Digitizer to abort any measurements
-    tcp_socket.send_scpi_command('VOLT:ABOR')
-    log_all_events(tcp_socket)
 
     # set Digitizer Aperture to 10us and check for all events
-    tcp_socket.send_scpi_command('VOLT:APER 10')
+    aperture = 10
+    tcp_socket.send_scpi_command(f'VOLT:APER {get_precise_time_microseconds_command_argument(aperture)}')
     log_all_events(tcp_socket)
 
     # set Digitizer Trigger Count to step count and check for all events
@@ -96,7 +98,8 @@ try:
     log_all_events(tcp_socket)
 
     # set Digitizer Read Count to 1 and check for all events
-    tcp_socket.send_scpi_command('VOLT:READ:COUN 1')
+    reading_count = 1
+    tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
     log_all_events(tcp_socket)
 
     # set Digitizer Range to 10V and check for all events
@@ -108,7 +111,7 @@ try:
     log_all_events(tcp_socket)
 
     # start Digitizer software triggered measurements
-    tcp_socket.send_scpi_command('VOLT:INIT:SENDMSG')
+    tcp_socket.send_scpi_command('VOLT:INIT:SEND')
     log_all_events(tcp_socket)
 
     # start DC staircase current supply and voltage measurement per step

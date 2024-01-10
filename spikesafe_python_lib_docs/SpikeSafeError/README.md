@@ -15,7 +15,7 @@ Inheritance [Exception](https://docs.python.org/3/library/exceptions.html#Except
 | [message](/spikesafe_python_lib_docs/SpikeSafeError/message/README.md) | Explanation of the SpikeSafe error. |
 | [full_error](/spikesafe_python_lib_docs/SpikeSafeError/full_error/README.md) | The full error query response text. |
 
-### Constructors
+### Constructor
 | Name | Description |
 | - | - |
 | [SpikeSafeError(self, code, message, channel_list, full_error)](/spikesafe_python_lib_docs/SpikeSafeError/SpikeSafeError%20Constructors/README.md) | Initializes a new instance of the SpikeSafeError class with a specified code, message, channel list, and full error that causes this exception. |

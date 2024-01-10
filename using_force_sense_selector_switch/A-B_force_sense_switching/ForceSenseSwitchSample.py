@@ -9,7 +9,10 @@
 import sys
 import time
 import logging
+from spikesafe_python.Discharge import get_spikesafe_channel_discharge_time
 from spikesafe_python.MemoryTableReadData import log_memory_table_read
+from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
+from spikesafe_python.Precision import get_precise_current_command_argument
 from spikesafe_python.ReadAllEvents import log_all_events
 from spikesafe_python.TcpSocket import TcpSocket
 from spikesafe_python.Threading import wait
@@ -37,6 +40,8 @@ logging.basicConfig(
 ### start of main program
 try:
     log.info("ForceSenseSwitchSample.py started.")
+
+    log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to SpikeSafe
     tcp_socket = TcpSocket()
@@ -60,8 +65,9 @@ try:
     # set Channel 1 settings to operate in DC mode
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DC')    
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
-    tcp_socket.send_scpi_command('SOUR1:CURR 0.1')        
-    tcp_socket.send_scpi_command('SOUR1:VOLT 20')       
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(0.1)}')
+    compliance_voltage = 20        
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(compliance_voltage)}')       
 
     # log all SpikeSafe event after settings are adjusted  
     log_all_events(tcp_socket) 
@@ -78,7 +84,9 @@ try:
     
     # turn off Channel 1 and check for all events
     # When operating in DC mode, the channel must be turned off before adjusting the switch state
-    tcp_socket.send_scpi_command('OUTP1 0')               
+    tcp_socket.send_scpi_command('OUTP1 0')
+    wait_time = get_spikesafe_channel_discharge_time(compliance_voltage)
+    wait(wait_time)               
     log_all_events(tcp_socket)
 
     # set the Force Sense Selector Switch state to Auxiliary (B) so that the Auxiliary Source will be routed to the DUT and the SpikeSafe will be disconnected
