@@ -205,11 +205,14 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## FAQ
 
-I'm developing an application using NI-VISA, what is the recommended practice for handling termination characters?<br />
+I'm developing an application using NI-VISA, what is the recommended practice for handling termination characters?  
 See [Termination Characters in NI-VISA](https://www.ni.com/en-us/support/documentation/supplemental/06/termination-characters-in-ni-visa.html)
 
-I'm developing an application using MATLAB, how do I get started?<br />
+I'm developing an application using MATLAB, how do I get started?  
 See [System Requirements for MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab_external/system-requirements-for-matlab-engine-for-python.html) to ensure your system can support Python. Then see [Call Python from MATLAB](https://www.mathworks.com/help/matlab/call-python-libraries.html) on how to access Python libraries in MATLAB.
+
+Why does my script's performance vary between different operating systems and machines?  
+See [Remarks](/spikesafe_python_lib_docs/Threading/wait/README.md#remarks) describing resolution of system timers between operating systems.
 
 ## Support/Feedback
 
