@@ -118,7 +118,7 @@ To install/upgrade pip, run command:
 | macOS | `python3 -m pip install --upgrade pip` |
 
 ##### Installing spikesafe-python Package
-The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.5.15.
+The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.5.16.
 
 To install this package, run command:
 | OS | Command |
