@@ -165,8 +165,8 @@ A list of all installed packages can be displayed.
 To view all installed packages, run command:
 | OS | Command |
 | - | - |
-| Windows | `pip freeze` |
-| macOS | `pip3 freeze` |
+| Windows | `py -m pip freeze` |
+| macOS | `python3 -m pip freeze` |
 
 ##### How to View Details of an Installed Package
 After a package is installed the details of a package can be displayed.
@@ -174,8 +174,8 @@ After a package is installed the details of a package can be displayed.
 To view details of a package, run command: 
 | OS | Command |
 | - | - |
-| Windows | `pip show <package name>` |
-| macOS | `pip3 show <package name>` |
+| Windows | `py -m pip show <package name>` |
+| macOS | `python3 -m pip <package name>` |
 
 ### General Usage
 For most examples, you may need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address = '10.0.0.220'`.
