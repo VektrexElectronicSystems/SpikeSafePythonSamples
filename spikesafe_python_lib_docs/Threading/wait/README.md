@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Threading](/spikesafe_python_lib_docs/Threading/README.md) | wait(wait_time)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Threading](/spikesafe_python_lib_docs/Threading/README.md) | wait(wait_time, os_timer_resolution_offset_time=0, current_time=time.perf_counter)
 
-## wait(wait_time, current_time=time.perf_counter)
+## wait(wait_time, os_timer_resolution_offset_time=0, current_time=time.perf_counter)
 
 ### Definition
 Suspends the current thread for a specified amount of time.
@@ -9,8 +9,20 @@ Suspends the current thread for a specified amount of time.
 wait_time [float](https://docs.python.org/3/library/functions.html#float)  
 Wait time in seconds to suspend the current thread.
 
-current_time [float](https://docs.python.org/3/library/functions.html#float)  
+os_timer_resolution_offset_time [float](https://docs.python.org/3/library/functions.html#float) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
+The offset time in seconds to add to wait_time due to the operating system timer resolution limit. Default is 0.
+
+current_time [float](https://docs.python.org/3/library/functions.html#float) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)    
 Current time in seconds (time.perf_counter by default).
+
+### Remarks
+The resolution of system timers between operating systems refers to the precision with which a system can measure and manage time. Different operating systems may have varying timer resolutions, which can impact tasks like scheduling, synchronization, and overall system performance.
+
+Windows operating systems use the concept of a system timer tick, whose default timer resolution is typically in the range of 10 milliseconds to 16 milliseconds (see [GetTickCount64 function](https://learn.microsoft.com/en-us/windows/win32/api/sysinfoapi/nf-sysinfoapi-gettickcount64)).
+
+macOS is similar to Linux (see [mach_absolute_time function](https://developer.apple.com/documentation/kernel/1462446-mach_absolute_time)).
+
+Linux operating systems use the kernel based High-Resolution Timer (HRT) framework to provide more accurate timing, whose default timer resolution can be as low as 1 nanosecond in recent Linux kernels (see [hrtimers - subsystem for high-resolution kernel timers](https://docs.kernel.org/timers/hrtimers.html) and [High Resolution Timers](https://elinux.org/High_Resolution_Timers#:~:text=Currently%2C%20timers%20in%20Linux%20are,milliseconds%20on%20most%20embedded%20platforms.)).
 
 ### Examples
 The following example demonstrates the wait function. It setups up a SpikeSafe channel, starts it, waits until the event `100, Channel Ready` is returned from the SpikeSafe event queue, and monitors the event queue and readings once per second for 15 seconds.

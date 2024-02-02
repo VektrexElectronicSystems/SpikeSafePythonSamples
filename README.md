@@ -118,7 +118,7 @@ To install/upgrade pip, run command:
 | macOS | `python3 -m pip install --upgrade pip` |
 
 ##### Installing spikesafe-python Package
-The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.5.15.
+The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.5.17.
 
 To install this package, run command:
 | OS | Command |
@@ -165,8 +165,8 @@ A list of all installed packages can be displayed.
 To view all installed packages, run command:
 | OS | Command |
 | - | - |
-| Windows | `pip freeze` |
-| macOS | `pip3 freeze` |
+| Windows | `py -m pip freeze` |
+| macOS | `python3 -m pip freeze` |
 
 ##### How to View Details of an Installed Package
 After a package is installed the details of a package can be displayed.
@@ -174,8 +174,8 @@ After a package is installed the details of a package can be displayed.
 To view details of a package, run command: 
 | OS | Command |
 | - | - |
-| Windows | `pip show <package name>` |
-| macOS | `pip3 show <package name>` |
+| Windows | `py -m pip show <package name>` |
+| macOS | `python3 -m pip <package name>` |
 
 ### General Usage
 For most examples, you may need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address = '10.0.0.220'`.
@@ -205,11 +205,14 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## FAQ
 
-I'm developing an application using NI-VISA, what is the recommended practice for handling termination characters?<br />
+I'm developing an application using NI-VISA, what is the recommended practice for handling termination characters?  
 See [Termination Characters in NI-VISA](https://www.ni.com/en-us/support/documentation/supplemental/06/termination-characters-in-ni-visa.html)
 
-I'm developing an application using MATLAB, how do I get started?<br />
+I'm developing an application using MATLAB, how do I get started?  
 See [System Requirements for MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab_external/system-requirements-for-matlab-engine-for-python.html) to ensure your system can support Python. Then see [Call Python from MATLAB](https://www.mathworks.com/help/matlab/call-python-libraries.html) on how to access Python libraries in MATLAB.
+
+Why does my script's performance vary between different operating systems and machines?  
+See [Remarks](/spikesafe_python_lib_docs/Threading/wait/README.md#remarks) describing resolution of system timers between operating systems.
 
 ## Support/Feedback
 
