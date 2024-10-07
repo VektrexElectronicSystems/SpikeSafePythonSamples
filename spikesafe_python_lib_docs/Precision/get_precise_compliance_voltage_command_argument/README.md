@@ -10,7 +10,7 @@ compliance_voltage [float](https://docs.python.org/3/library/functions.html#floa
 Compliance voltage to be sent to SpikeSafe
     
 ### Returns
-[float](https://docs.python.org/3/library/functions.html#float)  
+[string](https://docs.python.org/3/library/string.html)  
 Compliance voltage command argument with optimal precision
 
 ### Examples

@@ -10,7 +10,7 @@ time_seconds [float](https://docs.python.org/3/library/functions.html#float)
 Time in seconds to be sent to SpikeSafe
 
 ### Returns
-[float](https://docs.python.org/3/library/functions.html#float)  
+[string](https://docs.python.org/3/library/string.html)  
 Time in seconds command argument with optimal precision
 
 ### Examples
