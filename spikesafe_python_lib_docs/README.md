@@ -20,6 +20,7 @@ Instructions to download and setup **spikesafe-python** can be found [here](http
 | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | A helper class that provides a collection of helper functions you can use to help with SpikeSafe compensation settings. 
 | [DigitizerData](/spikesafe_python_lib_docs/DigitizerData/README.md) | A class used to store data in a simple accessible object from a digitizer fetch response. |
 | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | A helper class used to simplify collecting data from a PSMU Digitizer. |
+| [DigitizerEnums](/spikesafe_python_lib_docs/DigitizerEnums/README.md) | Defines the Digitizer acceptable values as enumerations. |
 | [Discharge](/spikesafe_python_lib_docs/Discharge/README.md) | A helper class that provides a collection of helper functions you can use to properly discharge the SpikeSafe channel. |
 | [EventData](/spikesafe_python_lib_docs/EventData/README.md) | A class used to store data in a simple accessible object from a SpikeSafe's event response. |
 | [MemoryTableReadData](/spikesafe_python_lib_docs/MemoryTableReadData/README.md) | A class used to store data in a simple accessible object from a SpikeSafe's Memory Table Read response. |
