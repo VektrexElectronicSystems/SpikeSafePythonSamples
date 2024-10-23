@@ -12,7 +12,7 @@ Socket object used to communicate with SpikeSafe.
 time_sampling_mode : [TimeSamplingMode](/spikesafe_python_lib_docs/DigitizerEnums/TimeSamplingMode/README.md)  
 The time sampling mode to use for the voltage data. This should be an instance of the TimeSamplingMode enum from DigitizerEnums.
 
-sampling_mode : [SamplingMode](/spikesafe_python_lib_docs/DigitizerEnums/SamplingMode//README.md)  
+sampling_mode : [SamplingMode](/spikesafe_python_lib_docs/DigitizerEnums/SamplingMode/README.md)  
 The sampling mode to use for the voltage data. This should be an instance of the SamplingMode enum from DigitizerEnums.
 
 hardware_trigger_delay_microseconds : [int](https://docs.python.org/3/library/functions.html#int) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
