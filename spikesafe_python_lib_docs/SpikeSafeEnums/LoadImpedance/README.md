@@ -1,6 +1,6 @@
 # [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeEnums](/spikesafe_python_lib_docs/SpikeSafeEnums/README.md) | [LoadImpedance](/spikesafe_python_lib_docs/SpikeSafeEnums/LoadImpedance/README.md)
 
-## LoadImpedance IntEnum
+## LoadImpedance [IntEnum](https://docs.python.org/3/library/enum.html#enum.IntEnum)
 
 ### Definition
 Defines the Load Impedance acceptable values as enumerations.
