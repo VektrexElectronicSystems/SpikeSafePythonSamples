@@ -10,7 +10,7 @@ current_amps [float](https://docs.python.org/3/library/functions.html#float)
 Current in amps to be sent to SpikeSafe
     
 ### Returns
-[float](https://docs.python.org/3/library/functions.html#float)  
+[string](https://docs.python.org/3/library/string.html)  
 Current in amps command argument with optimal precision
 
 ### Examples

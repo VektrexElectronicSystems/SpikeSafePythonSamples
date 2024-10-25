@@ -1,6 +1,6 @@
 # [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeEnums](/spikesafe_python_lib_docs/SpikeSafeEnums/README.md) | [RiseTime](/spikesafe_python_lib_docs/SpikeSafeEnums/RiseTime/README.md)
 
-## RiseTime IntEnum
+## RiseTime [IntEnum](https://docs.python.org/3/library/enum.html#enum.IntEnum)
 
 ### Definition
 Defines the Rise Time acceptable values as enumerations.
