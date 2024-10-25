@@ -10,5 +10,5 @@ voltage_protection_ramp_dv [float](https://docs.python.org/3/library/functions.h
 Voltage ramp detection dV to be sent to SpikeSafe
 
 ### Returns
-[float](https://docs.python.org/3/library/functions.html#float)  
+[string](https://docs.python.org/3/library/string.html)  
 Voltage ramp detection dV command argument with optimal precision

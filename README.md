@@ -214,6 +214,12 @@ See [System Requirements for MATLAB Engine API for Python](https://www.mathworks
 Why does my script's performance vary between different operating systems and machines?  
 See [Remarks](/spikesafe_python_lib_docs/Threading/wait/README.md#remarks) describing resolution of system timers between operating systems.
 
+How does Python handle locale?  
+The [locale](https://docs.python.org/3/library/locale.html#module-locale) module is implemented on top of the _locale module, which in turn uses an ANSI [C locale](https://docs.oracle.com/cd/E19253-01/817-2521/overview-1002/index.html) (also called the "POSIX locale") implementation if available. The C locale is often described as "culture-neutral" because it doesn't apply any regional or language-specific rules for formatting data. It is a basic, system-independent locale that follows standardized rules for formatting data such as numbers, dates, and currency. The C locale uses U.S.-style conventions by default, such as:
+- Period (.) as the decimal point for numbers
+- Simple ASCII character classification and sorting
+- English-style date and time formats
+
 ## Support/Feedback
 
 If any further assistance is needed beyond the information provided within this repository, email support@vektrex.com.
