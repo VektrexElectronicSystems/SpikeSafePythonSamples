@@ -15,4 +15,5 @@ A class used to store data in a simple accessible object from a SpikeSafe's Memo
 ### Functions
 | Name | Description |
 | - | - |
+| [bulk_voltage_volts_formatted](/spikesafe_python_lib_docs/MemoryTableReadData/bulk_voltage_volts_formatted/README.md) | Parses SpikeSafe's Memory Table Read response into a simple accessible object. |
 | [parse_memory_table_read](/spikesafe_python_lib_docs/MemoryTableReadData/parse_memory_table_read/README.md) | Parses SpikeSafe's Memory Table Read response into a simple accessible object. |
