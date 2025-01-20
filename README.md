@@ -84,13 +84,33 @@ To run these sequences in a more feature rich IDE, use the free [Visual Studio C
 ### Packages
 SpikeSafePythonSamples requires packages to run all scripts.
 
-There are two ways to install these packages:
-1. See Section [Automatically Install Packages](#automatically-install-packages)
-2. See Section [Manually Install Packages](#manually-install-packages)
+There are three ways to install these packages:
+1. See Section [Automatically Install Packages with Requirements Text file](#automatically-install-packages-with-python-script)
+1. See Section [Automatically Install Packages with Python Script](#automatically-install-packages-with-python-script)
+1. See Section [Manually Install Packages](#manually-install-packages)
 
 After all packages are installed, refer to section [Package Helpers](#package-helpers) to verify package details.
 
-#### Automatically Install Packages
+#### Automatically Install Packages with Requirements Text file
+All necessary SpikeSafePythonSamples packages may be installed automatically using the `requirements.txt` file. Follow these steps:ff
+
+1. Ensure you have `pip` installed and updated. You can check and install `pip` using the following commands:
+   | OS | Command |
+   | - | - |
+   | Windows | `py -m pip install --upgrade pip` |
+   | macOS | `python3 -m pip install --upgrade pip` |
+
+2. Navigate to the root directory of the SpikeSafePythonSamples project where the `requirements.txt` file is located.
+
+3. Run the following command to install all required packages:
+   | OS | Command |
+   | - | - |
+   | Windows | `py -m pip install -r requirements.txt` |
+   | macOS | `python3 -m pip install -r requirements.txt` |
+
+After running these commands, all necessary packages will be installed, and you can proceed with running the SpikeSafePythonSamples scripts.
+
+#### Automatically Install Packages with Python Script
 All necessary SpikeSafePythonSamples packages may be installed automatically. See [Install SpikeSafePythonSamples Packages](/getting_started/install_spikesafe_python_samples_packages/) and run the python .py script in this directory.
 
 #### Manually Install Packages
@@ -99,19 +119,7 @@ All necessary SpikeSafePythonSamples packages may be installed manually. Perform
 ##### Installing pip Package
 Installing packages use [pip](https://pypi.org/project/pip/). It is recommended that pip be updated to latest version.
 
-First, check if your environment has pip installed, run command:
-| OS | Command |
-| - | - |
-| Windows | `py -m pip --version` |
-| macOS | `python3 -m pip --version` |
-
-If your environment does not have pip installed, run command:
-| OS | Command |
-| - | - |
-| Windows | `py -m ensurepip --upgrade` |
-| macOS | `python3 -m ensurepip --upgrade` |
-
-To install/upgrade pip, run command: 
+Ensure you have `pip` installed and updated. You can check and install `pip` using the following commands:
 | OS | Command |
 | - | - |
 | Windows | `py -m pip install --upgrade pip` |
@@ -123,8 +131,8 @@ The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will 
 To install this package, run command:
 | OS | Command |
 | - | - |
-| Windows | `py -m pip install spikesafe-python` |
-| macOS | `python3 -m pip install spikesafe-python` |
+| Windows | `py -m pip install --upgrade spikesafe-python` |
+| macOS | `python3 -m pip install --upgrade spikesafe-python` |
 
 Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
 
@@ -136,8 +144,8 @@ Some sequences involve graphing measurement results. To properly graph results, 
 To install this package, run command:
 | OS | Command |
 | - | - |
-| Windows | `py -m pip install matplotlib` |
-| macOS | `python3 -m pip install matplotlib` |
+| Windows | `py -m pip install --upgrade matplotlib` |
+| macOS | `python3 -m pip install --upgrade matplotlib` |
 
 ##### Installing PyCLibrary Package
 Some sequences require external C resources, and requires the [PyCLibrary](https://pyclibrary.readthedocs.io/en/latest/) library. Once the PyCLibrary library is installed, each sequence that involves external C resources can be run as a standalone Python file.
@@ -145,8 +153,8 @@ Some sequences require external C resources, and requires the [PyCLibrary](https
 To install this package, run command:
 | OS | Command |
 | - | - |
-| Windows | `py -m pip install pyclibrary` |
-| macOS | `python3 -m pip install pyclibrary` |
+| Windows | `py -m pip install --upgrade pyclibrary` |
+| macOS | `python3 -m pip install --upgrade pyclibrary` |
 
 ##### Installing pyserial Package
 Some sequences involve connecting to a serial interface instrument and requires the [pyserial](https://pypi.org/project/pyserial/) library (version 3.5 or greater). Once the pyserial library is installed, each sequence that involves a serial interface can be run as a standalone Python file.
@@ -154,8 +162,8 @@ Some sequences involve connecting to a serial interface instrument and requires 
 To install this package, run command:
 | OS | Command |
 | - | - |
-| Windows | `py -m pip install pyserial` |
-| macOS | `python3 -m pip install pyserial` |
+| Windows | `py -m pip install --upgrade pyserial` |
+| macOS | `python3 -m pip install --upgrade pyserial` |
 
 #### Package Helpers
 
