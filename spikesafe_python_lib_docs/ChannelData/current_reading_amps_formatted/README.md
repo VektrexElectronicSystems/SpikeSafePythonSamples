@@ -6,7 +6,7 @@
 Return the current reading formatted to matching hardware decimal places.
 
 ### Returns
-[string](https://docs.python.org/3/library/string.html)  
+[float](https://docs.python.org/3/library/functions.html#float)  
 Return the current reading formatted to matching hardware decimal places.
 
 ### Examples
