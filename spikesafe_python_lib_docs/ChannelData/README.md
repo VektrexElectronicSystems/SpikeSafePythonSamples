@@ -16,5 +16,7 @@ A class used to store data in a simple accessible object from a SpikeSafe's Memo
 ### Methods
 | Name | Description |
 | - | - |
-| [current_reading_amps_formatted(self)](/spikesafe_python_lib_docs/ChannelData/current_reading_amps_formatted/README.md) | Return the current reading formatted to matching hardware decimal places. |
-| [voltage_reading_volts_formatted(self)](/spikesafe_python_lib_docs/ChannelData/voltage_reading_volts_formatted/README.md) | Return the voltage reading formatted to matching hardware decimal places. |
+| [current_reading_amps_formatted_float(self)](/spikesafe_python_lib_docs/ChannelData/current_reading_amps_formatted_float/README.md) | Return the current reading formatted to matching hardware decimal places. |
+| [current_reading_amps_formatted_string(self)](/spikesafe_python_lib_docs/ChannelData/current_reading_amps_formatted_string/README.md) | Return the current reading formatted to matching hardware decimal places. |
+| [voltage_reading_volts_formatted_float(self)](/spikesafe_python_lib_docs/ChannelData/voltage_reading_volts_formatted_float/README.md) | Return the voltage reading formatted to matching hardware decimal places. |
+| [voltage_reading_volts_formatted_string(self)](/spikesafe_python_lib_docs/ChannelData/voltage_reading_volts_formatted_string/README.md) | Return the voltage reading formatted to matching hardware decimal places. |
