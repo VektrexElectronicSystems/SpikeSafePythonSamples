@@ -12,7 +12,7 @@ Event response.
 The following example demonstrates the event attribute. It connects to a recently power-cycled SpikeSafe, initiates the request for SpikeSafe Memory Table Read to induce the event `102, External Pause Signal Ended`, sends `SYST:ERR?` to empty the SpikeSafe event queue, and extracts the event info from a EventData object.
 ```
 # instantiate new TcpSocket to connect to SpikeSafe
-tcp_socket = TcpSocket()
+tcp_socket = TcpSocket(enable_logging=False)
 
 # connect to SpikeSafe                        
 tcp_socket.open_socket(ip_address, port_number)  

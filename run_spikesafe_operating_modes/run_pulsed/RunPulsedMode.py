@@ -22,7 +22,7 @@ from spikesafe_python.SpikeSafeError import SpikeSafeError
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
+ip_address = '10.0.0.231'
 port_number = 8282          
 
 ### setting up sequence log
@@ -44,7 +44,7 @@ try:
     log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket()
+    tcp_socket = TcpSocket(enable_logging=False)
     tcp_socket.open_socket(ip_address, port_number)
 
     # reset to default state and check for all events,

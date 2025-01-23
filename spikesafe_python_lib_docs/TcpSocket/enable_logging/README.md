@@ -28,7 +28,7 @@ try:
     log.info("LogAllTcpSocketScpi.py started.")
     
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket()
+    tcp_socket = TcpSocket(enable_logging=False)
 
     # set TcpSocket to log all SCPI
     tcp_socket.enable_logging = True
