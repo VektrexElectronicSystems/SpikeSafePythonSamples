@@ -14,4 +14,12 @@ Defines the Load Impedance acceptable values as enumerations.
 | HIGH | 1
 
 ### Examples
+The following example demonstrates the `LoadImpedance` IntEnum. It sets the compensation settings on the SpikeSafe.
+```
+# set the load impedance and rise time
+tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {LoadImpedance.MEDIUM}')
+tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {RiseTime.FAST}') 
+```
+
+### Examples In Action
 [/application_specific_examples/pulse_tuning/PulseTuningExample.py](/application_specific_examples/pulse_tuning/PulseTuningExample.py)

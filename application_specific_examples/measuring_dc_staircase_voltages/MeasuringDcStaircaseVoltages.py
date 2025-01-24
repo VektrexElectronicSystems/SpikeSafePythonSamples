@@ -54,7 +54,7 @@ try:
     log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to PSMU
-    tcp_socket = TcpSocket()
+    tcp_socket = TcpSocket(enable_logging=False)
     tcp_socket.open_socket(ip_address, port_number)
 
     # reset to default state and check for all events, this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU

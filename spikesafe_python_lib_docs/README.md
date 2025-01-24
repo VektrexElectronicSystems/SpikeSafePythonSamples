@@ -26,6 +26,7 @@ Instructions to download and setup **spikesafe-python** can be found [here](http
 | [MemoryTableReadData](/spikesafe_python_lib_docs/MemoryTableReadData/README.md) | A class used to store data in a simple accessible object from a SpikeSafe's Memory Table Read response. |
 | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | A helper class that provides a collection of helper functions to get the precise number of decimal places for a SpikeSafe SCPI command argument. |
 | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | A helper class used to simplify reading events from a SpikeSafe. |
+| [ScpiFormatter](/spikesafe_python_lib_docs/ScpiFormatter/README.md) | A helper class that provides a collection of helper functions to get the SCPI Format of an argument for a SpikeSafe SCPI command argument. |
 | [SpikeSafeEnums](/spikesafe_python_lib_docs/SpikeSafeEnums/README.md) | Defines the SpikeSafe acceptable values as enumerations. |
 | [SpikeSafeError](/spikesafe_python_lib_docs/SpikeSafeError/README.md) | Exception raised for SpikeSafe errors returned by the System Error query. |
 | [SpikeSafeEvents](/spikesafe_python_lib_docs/SpikeSafeEvents/README.md) | Defines the SpikeSafe events as enumerations. |
