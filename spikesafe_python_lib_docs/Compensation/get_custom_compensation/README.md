@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=True)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=False)
 
-## get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=True)
+## get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=False)
 
 ### Definition
 Returns the custom compensation values for a given set_current_amps and device_type based on a custom_compensation_table, and optionally a given pulse on time.
@@ -22,7 +22,7 @@ pulse_on_time_seconds [float](https://docs.python.org/3/library/functions.html#f
 Pulse On Time to be set on SpikeSafe
 
 enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
-Enables logging (default is True)
+Enables logging (default is False)
 
 ### Returns
 LoadImpedance [LoadImpedance](/spikesafe_python_lib_docs/SpikeSafeEnums/LoadImpedance/README.md)  
