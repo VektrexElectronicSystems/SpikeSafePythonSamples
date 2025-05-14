@@ -1,7 +1,7 @@
 # Reading SpikeSafe Information
 
 ## **Read SpikeSafe Information Manually with Queries**
-Corresponds to running [ReadIdnExpanded.py](/ReadIdnExpanded.py).
+Corresponds to running [ReadIdnExpanded.py](./ReadIdnExpanded.py).
 
 ### *IDN? Query
 The `*IDN?` query is a SCPI standard query to determine the identity of a given instrument. It generally provides information such as the instrument's model, serial number, and firmware version. For the SpikeSafe, the `*IDN?` query also provides the hardware version, number of channels, and most recent calibration date.
@@ -47,7 +47,7 @@ An Identify SpikeSafe query will be sent, and its response will be read. This ty
 `ALL`
 
 ## **Read SpikeSafe Information using SpikeSafeInfoParser**
-Corresponds to running [ReadSpikeSafeInfo.py](/ReadSpikeSafeInfo.py).
+Corresponds to running [ReadSpikeSafeInfo.py](./ReadSpikeSafeInfo.py).
 
 ### Purpose
 Demonstrate using [SpikeSafeInfoParser](/spikesafe_python_lib_docs/SpikeSafeInfoParser/README.md) to seamlessly gather all important SpikeSafe Information with a single function call. This parser automatically handles sending all of the necessary SCPI queries so that you can keep your python script clean.
