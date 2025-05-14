@@ -15,6 +15,7 @@ A class to hold the information of a SpikeSafe.
 | [hardware_version](/spikesafe_python_lib_docs/SpikeSafeInfo/hardware_version/README.md) | Hardware version of the SpikeSafe. |
 | [has_digitizer](/spikesafe_python_lib_docs/SpikeSafeInfo/has_digitizer/README.md) | Whether the SpikeSafe has a digitizer. |
 | [has_switch](/spikesafe_python_lib_docs/SpikeSafeInfo/has_switch/README.md) | Whether the SpikeSafe has a switch. |
+| [idn](/spikesafe_python_lib_docs/SpikeSafeInfo/idn/README.md) | Identification string of the SpikeSafe. |
 | [ip_address](/spikesafe_python_lib_docs/SpikeSafeInfo/ip_address/README.md) | IP address of the SpikeSafe. |
 | [last_calibration_date](/spikesafe_python_lib_docs/SpikeSafeInfo/last_calibration_date/README.md) | Last calibration date of the SpikeSafe. |
 | [maximum_compliance_voltage](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_compliance_voltage/README.md) | Maximum compliance voltage of the SpikeSafe. |
