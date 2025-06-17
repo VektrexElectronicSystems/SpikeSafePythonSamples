@@ -12,7 +12,7 @@ IP address of for the TCP/IP socket.
 The following example demonstrates the socket_ip_address attribute. It creates a new TcpSocket object, connects to a SpikeSafe, and logs its IP address to a file.
 ```
 # instantiate new TcpSocket to connect to SpikeSafe
-tcp_socket = TcpSocket()
+tcp_socket = TcpSocket(enable_logging=False)
 
 # connect to SpikeSafe
 tcp_socket.open_socket(ip_address, port_number)  

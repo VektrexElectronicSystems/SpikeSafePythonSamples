@@ -32,7 +32,7 @@ try:
     log.info("Python version: {}".format(sys.version))
     
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket()
+    tcp_socket = TcpSocket(enable_logging=False)
 
     # set TcpSocket to log no SCPI
     tcp_socket.enable_logging = False

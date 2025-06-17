@@ -1,0 +1,4 @@
+spikesafe-python>=1.7.17
+matplotlib>=3.9.3
+PyCLibrary>=0.2.2
+pyserial>=3.5

@@ -20,7 +20,7 @@ All events from SpikeSafe in a list of EventData objects.
 The following example demonstrates the read_all_events function. It connects to a SpikeSafe and reads all events to empty the SpikeSafe event queue.
 ```
 # instantiate new TcpSocket to connect to SpikeSafe
-tcp_socket = TcpSocket()
+tcp_socket = TcpSocket(enable_logging=False)
 
 # connect to SpikeSafe                        
 tcp_socket.open_socket(ip_address, port_number)  
