@@ -13,194 +13,62 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 - [Application-Specific Examples](application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output. These sequences explain how to make light measurements using a SpikeSafe and a spectrometer, how to make in-situ junction temperature measurements on LEDs, and how to take full advantage of all SpikeSafe features.
 - [spikesafe-python API Overview](spikesafe_python_lib_docs). These folders contain complete class documentation for the spikesafe-python package used to power all of the aforementioned example directories.
 
-## Usage
+## Downloading Files
 
-### Python
-Download from the official [Python](https://www.python.org/downloads/) website.
+On this page, press **Clone or download** to download all files in this repository. We recommend saving this repository to your working directory with all other GitHub repositories.
 
-During Python installation check the box Add Python to PATH when prompted.
-- Confirm Python PATH is set in **Command Prompt** by typing `py --version` to verify the Python version
+If only a specific sequence or folder is needed, right-click the desired file/folder and select **Save link as...**.
 
-Installing Python will install:
-- IDLE  
-- Python Launcher  
-- Python3 Interpreter
+## Project Setup
 
-After Python installation is complete, restart the computer to ensure packages under the [Packages](#packages) Section can be successfully installed.
+### Setup Steps
 
-Vektrex targets working support for versions of Python with the status key of bugfix or higher, see [Python Release Cycle](https://devguide.python.org/versions/#versions).
+1. **Install Python 3.10+**
+   - Download Python from [python.org](https://www.python.org/downloads/).
+   - During installation check **Add Python to PATH**.
 
-#### Windows Setup
+2. **Verify Python**
+   - Open a terminal and run:
+      | OS | Command |
+      | - | - |
+      | Windows | `py --version` |
+      | macOS | `python3 --version` |
 
-##### Use the Standard Console Command Prompt
-To open Command Prompt press the key combination Windows + R to open a Run dialog, and then type cmd and hit Enter or click Ok.
+3. **Install [pip](https://pypi.org/project/pip/)**
+   - Run:
+      | OS | Command |
+      | - | - |
+      | Windows | `py -m pip install --upgrade pip` |
+      | macOS | `python3 -m pip install --upgrade pip` |
 
-##### Add Python to PATH
-It is recommended that the path of Python Interpreter is added for easy usage. If this was not done in as part of the [Python](#python) section, it can be manually done afterwards.
-
-Manually add Python to Windows Path:
-- Press the key combination **Windows + R** to open a Run dialog
-- Type `sysdm.cpl` to open the System Properties
-- Press **Advanced** tab and then press on **Environment Variables…** to open Environment Variables dialog
-- Under the **User variables** box, press on **New…** to add the `Path` variable (if your **Path** variable already exists, then press on **Edit…** instead):
-- Set the Path **Variable value** to the 1) `Python application path` and 2) `Python Scripts path`. To find these paths and set the value:
-   - Type `Python` in the Windows Search Bar
-   - Right-click on the **Python App**, and then press **Open file location**
-   - Right-click on the **Python shortcut**, and then press **Open file location** (this is the `Python application path`)
-   - Navigate to the **scripts** folder (this is the `Python Scripts path`)
-   - Set the Path **Variable value** to `Python application path;Python Scripts path` (paths are separated by a semicolon)
-- Press **OK**
-- Confirm Python PATH is set in **Command Prompt** by typing `py --version` to verify the Python version
-
-#### Mac OS X Setup
-
-##### Use the Standard Console Terminal
-To open Terminal navigate to Applications, then Utilities, then double-click the Terminal program.
-
-##### Add Python to PATH 
-It is recommended that the path of Python Interpreter is added for easy usage. To do this:
-
-- The path for Python interpreter can be found by opening **Python Launcher application** (this is the `Python install directory`)
-- Open **Terminal**
-- Type `sudo nano /etc/paths`  
-- Enter path of the `Python install directory` here  
-- Press `Control + X` to exit  
-- Press `Y` to save  
-- Confirm Python PATH is set in **Terminal** by typing `python3 --version` to verify the Python version
+4. **Install Dependencies**
+   - Set terminal to the directory containing `requirements.txt`, run:
+     ```bash
+     cd <path to directory containing requirements.txt>
+     ```
+   - Run:
+      | OS | Command |
+      | - | - |
+      | Windows | `py -m pip install -r requirements.txt` |
+      | macOS | `python3 -m pip install -r requirements.txt` |
 
 ### IDEs
 
-#### Visual Studio Code and Using a Virtual Environment
-To run these sequences a light-weight IDE, or to target cross-platform development, use the free [Visual Studio Code](https://code.visualstudio.com/). See [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial) to simply setup your IDE with Python. Optionally, using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) is recommended to successfully meet the installation requirements to run these sequences. To setup your virtual environment run the follow commands and then continue to install the remaining Python packages later in this document:
-
-| OS | Command |
-| - | - |
-| Windows | `py -m venv .venv` followed by `.venv\scripts\activate` |
-| macOS | `python3 -m venv .venv` followed by `.venv\scripts\activate` |
+#### Visual Studio Code
+To run these sequences a light-weight IDE, or to target cross-platform development, use the free [Visual Studio Code](https://code.visualstudio.com/). See [Getting Started with Python in VS Code](https://code.visualstudio.com/docs/python/python-tutorial) to simply setup your IDE with Python. Optionally, using a [virtual environment](https://docs.python.org/3/tutorial/venv.html) is recommended to successfully meet the installation requirements to run these sequences.
 
 #### Visual Studio Community
-To run these sequences in a more feature rich IDE, use the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/). See [Python In Visual Studio](https://docs.microsoft.com/en-us/visualstudio/python/tutorial-working-with-python-in-visual-studio-step-00-installation?view=vs-2022) to simply setup your IDE with Python. Optionall, using a [virtual environment](https://docs.microsoft.com/en-us/visualstudio/python/managing-python-environments-in-visual-studio?view=vs-2022) is recommended to successfully meet the installation requirements to run these sequences.
-
-### Packages
-SpikeSafePythonSamples requires packages to run all scripts.
-
-There are three ways to install these packages:
-1. See Section [Automatically Install Packages with Requirements Text file](#automatically-install-packages-with-python-script)
-1. See Section [Automatically Install Packages with Python Script](#automatically-install-packages-with-python-script)
-1. See Section [Manually Install Packages](#manually-install-packages)
-
-After all packages are installed, refer to section [Package Helpers](#package-helpers) to verify package details.
-
-#### Automatically Install Packages with Requirements Text file
-All necessary SpikeSafePythonSamples packages may be installed automatically using the `requirements.txt` file. Follow these steps:ff
-
-1. Ensure you have `pip` installed and updated. You can check and install `pip` using the following commands:
-   | OS | Command |
-   | - | - |
-   | Windows | `py -m pip install --upgrade pip` |
-   | macOS | `python3 -m pip install --upgrade pip` |
-
-2. Navigate to the root directory of the SpikeSafePythonSamples project where the `requirements.txt` file is located.
-
-3. Run the following command to install all required packages:
-   | OS | Command |
-   | - | - |
-   | Windows | `py -m pip install -r requirements.txt` |
-   | macOS | `python3 -m pip install -r requirements.txt` |
-
-After running these commands, all necessary packages will be installed, and you can proceed with running the SpikeSafePythonSamples scripts.
-
-#### Automatically Install Packages with Python Script
-All necessary SpikeSafePythonSamples packages may be installed automatically. See [Install SpikeSafePythonSamples Packages](/getting_started/install_spikesafe_python_samples_packages/) and run the python .py script in this directory.
-
-#### Manually Install Packages
-All necessary SpikeSafePythonSamples packages may be installed manually. Perform all of the subsections below.
-
-##### Installing pip Package
-Installing packages use [pip](https://pypi.org/project/pip/). It is recommended that pip be updated to latest version.
-
-Ensure you have `pip` installed and updated. You can check and install `pip` using the following commands:
-| OS | Command |
-| - | - |
-| Windows | `py -m pip install --upgrade pip` |
-| macOS | `python3 -m pip install --upgrade pip` |
-
-##### Installing spikesafe-python Package
-The [spikesafe-python](https://pypi.org/project/spikesafe-python/) library will need to be installed. Vektrex recommends always having the latest version of spikesafe-python when running these sequences.
-
-To install this package, run command:
-| OS | Command |
-| - | - |
-| Windows | `py -m pip install --upgrade spikesafe-python` |
-| macOS | `python3 -m pip install --upgrade spikesafe-python` |
-
-Once the spikesafe-python package is installed, each script in this repository can be run independently as a standalone Python file. Run a file in its current state and verify that the expected outputs are obtained, as specified by the file's markdown description.
-
-Complete class documentation is available for spikesafe-python in [spikesafe-python API Overview](spikesafe_python_lib_docs).
-
-##### Installing matplotlib Package
-Some sequences involve graphing measurement results. To properly graph results, the [matplotlib](https://matplotlib.org/) library is required (version 3.2.1 or greater). Once the matplotlib library is installed, each sequence that involves graphing can be run as a standalone Python file.
-
-To install this package, run command:
-| OS | Command |
-| - | - |
-| Windows | `py -m pip install --upgrade matplotlib` |
-| macOS | `python3 -m pip install --upgrade matplotlib` |
-
-##### Installing PyCLibrary Package
-Some sequences require external C resources, and requires the [PyCLibrary](https://pyclibrary.readthedocs.io/en/latest/) library. Once the PyCLibrary library is installed, each sequence that involves external C resources can be run as a standalone Python file.
-
-To install this package, run command:
-| OS | Command |
-| - | - |
-| Windows | `py -m pip install --upgrade pyclibrary` |
-| macOS | `python3 -m pip install --upgrade pyclibrary` |
-
-##### Installing pyserial Package
-Some sequences involve connecting to a serial interface instrument and requires the [pyserial](https://pypi.org/project/pyserial/) library (version 3.5 or greater). Once the pyserial library is installed, each sequence that involves a serial interface can be run as a standalone Python file.
-
-To install this package, run command:
-| OS | Command |
-| - | - |
-| Windows | `py -m pip install --upgrade pyserial` |
-| macOS | `python3 -m pip install --upgrade pyserial` |
-
-#### Package Helpers
-
-##### How to View All Installed Packages
-A list of all installed packages can be displayed.
-
-To view all installed packages, run command:
-| OS | Command |
-| - | - |
-| Windows | `py -m pip freeze` |
-| macOS | `python3 -m pip freeze` |
-
-##### How to View Details of an Installed Package
-After a package is installed the details of a package can be displayed.
-
-To view details of a package, run command: 
-| OS | Command |
-| - | - |
-| Windows | `py -m pip show <package name>` |
-| macOS | `python3 -m pip <package name>` |
-
-### General Usage
-For most examples, you may need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address = '10.0.0.220'`.
-
-Each file can be modified to include additional settings and commands to fit individual needs. Refer to SpikeSafe documentation for more information on the SpikeSafe API.
-
-Most examples will log messages to the SpikeSafePythonSamples.log file under your local SpikeSafePythonSamples\ directory. Please refer to this file to ensure your sequence is running correctly.
-
-## Downloading Files
-
-On this page, press "Clone or download" to download all files in this repository. We recommend saving this repository to your working directory for all other GitHub repositories.
-
-If only a specific sequence or folder is needed, right-click the desired file/folder and select "Save link as...".
+To run these sequences in a more feature rich IDE, use the free [Visual Studio Community](https://visualstudio.microsoft.com/vs/community/). See [Python In Visual Studio](https://docs.microsoft.com/en-us/visualstudio/python/tutorial-working-with-python-in-visual-studio-step-00-installation?view=vs-2022) to simply setup your IDE with Python. Optionally, using a [virtual environment](https://docs.microsoft.com/en-us/visualstudio/python/managing-python-environments-in-visual-studio?view=vs-2022) is recommended.
 
 ## Where Do I Start?
 
-First start with [TCP Socket Sample](getting_started/tcp_socket_sample) to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](getting_started).
+Start with [TCP Socket Sample](getting_started/tcp_socket_sample) to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](getting_started).
+
+You will need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address = '10.0.0.220'`.
+
+Each file can be modified to include additional settings and commands to fit individual needs. Complete class documentation is available in [spikesafe-python API Overview](spikesafe_python_lib_docs).
+
+Most examples will log messages to the SpikeSafePythonSamples.log file under your local SpikeSafePythonSamples\ directory. Please refer to this file to ensure your sequence is running correctly.
 
 ## Built With
 
@@ -232,7 +100,7 @@ The [locale](https://docs.python.org/3/library/locale.html#module-locale) module
 
 If any further assistance is needed beyond the information provided within this repository, email support@vektrex.com.
 
-Feature requests and bug reports can be submitted to [the Vektrex website's support page](https://www.vektrex.com/request-support/). Select "Other" as the Product/System and enter "SpikeSafePythonSamples GitHub Repository" as the Subject.
+Feature requests and bug reports can be submitted to [the Vektrex website's support page](https://www.vektrex.com/request-support/). Select **Other** as the Product/System and enter **SpikeSafePythonSamples GitHub Repository** as the Subject.
 
 ## Contributors
 
