@@ -49,8 +49,8 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
    - Run:
       | OS | Command |
       | - | - |
-      | Windows | `py -m pip install -r requirements.txt` |
-      | macOS | `python3 -m pip install -r requirements.txt` |
+      | Windows | `py -m pip install --force-reinstall -r requirements.txt` |
+      | macOS | `python3 -m pip install --force-reinstall -r requirements.txt` |
 
 ### IDEs
 
