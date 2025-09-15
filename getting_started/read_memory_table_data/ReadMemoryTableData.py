@@ -3,9 +3,7 @@
 
 import sys
 import logging
-from spikesafe_python.MemoryTableReadData import MemoryTableReadData
-from spikesafe_python.TcpSocket import TcpSocket
-from spikesafe_python.SpikeSafeError import SpikeSafeError
+import spikesafe_python
 
 ### set these before starting application
 
@@ -32,7 +30,7 @@ try:
     log.info("Python version: {}".format(sys.version))
     
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket(enable_logging=False)
+    tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
     tcp_socket.open_socket(ip_address, port_number)
 
     # request SpikeSafe memory table
@@ -43,7 +41,7 @@ try:
     log.info(data)
 
     # parse SpikeSafe memory table
-    memory_table_read = MemoryTableReadData().parse_memory_table_read(data)
+    memory_table_read = spikesafe_python.MemoryTableReadData().parse_memory_table_read(data)
 
     # extract Bulk Voltage data
     bulk_voltage = memory_table_read.bulk_voltage
@@ -63,7 +61,7 @@ try:
 
     log.info("ReadMemoryTableData.py completed.\n")
 
-except SpikeSafeError as ssErr:
+except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
     error_message = 'SpikeSafe error: {}\n'.format(ssErr)
     log.error(error_message)

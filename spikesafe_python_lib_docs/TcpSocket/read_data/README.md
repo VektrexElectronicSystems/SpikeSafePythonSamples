@@ -17,7 +17,7 @@ A string that represents the data reply from a SpikeSafe.
 The following example demonstrates the read_data function. It creates a new TcpSocket object, connects to a SpikeSafe, initiates the request for SpikeSafe information using the `*IDN?` SCPI command, reads the request response, and disconnects from a SpikeSafe.
 ```
 # instantiate new TcpSocket to connect to SpikeSafe
-tcp_socket = TcpSocket(enable_logging=False)
+tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
 
 # connect to SpikeSafe
 tcp_socket.open_socket(ip_address, port_number)  

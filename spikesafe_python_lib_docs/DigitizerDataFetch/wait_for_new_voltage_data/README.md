@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | spikesafe_python.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None)
 
-## wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None, timeout = None)
+## spikesafe_python.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None, timeout = None)
 
 ### Definition
 Queries the SpikeSafe PSMU digitizer until it responds that it has acquired new data.
@@ -19,14 +19,14 @@ timeout [float](https://docs.python.org/3/library/functions.html#float) [optiona
 Timeout in seconds for waiting for new data. If None, wait indefinitely.
 
 ### Examples
-The following example demonstrates the wait_for_new_voltage_data function. It checks if the PSMU Digitizer has finished measuring voltage data every 500 milliseconds, fetches its measuremments, and store thems in sample and voltage arrays to be used for plotting in a graph.
+The following example demonstrates the spikesafe_python.wait_for_new_voltage_data function. It checks if the PSMU Digitizer has finished measuring voltage data every 500 milliseconds, fetches its measuremments, and store thems in sample and voltage arrays to be used for plotting in a graph.
 ```
 # wait for the Digitizer measurements to complete 
-wait_for_new_voltage_data(tcp_socket, 0.5)
+spikesafe_python.wait_for_new_voltage_data(tcp_socket, 0.5)
 
 # fetch the Digitizer voltage readings using VOLT:FETC? query
 digitizerData = []
-digitizerData = fetch_voltage_data(tcp_socket)
+digitizerData = spikesafe_python.fetch_voltage_data(tcp_socket)
 
 # prepare digitizer voltage data to plot
 samples = []

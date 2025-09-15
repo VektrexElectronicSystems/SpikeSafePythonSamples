@@ -26,17 +26,17 @@ Overrides spike_safe_socket.enable_logging attribute (None by default, will use 
 Contains an array of DigitizerData objects which have a defined voltage_reading, sample_number, and time_since_start_seconds attribute.
 
 ### Examples
-The following example demonstrates the fetch_voltage_data function. It checks if the PSMU Digitizer has finished measuring voltage data every 500 milliseconds, fetches its measuremments, and store thems in sample and voltage arrays to be used for plotting in a graph.
+The following example demonstrates the spikesafe_python.fetch_voltage_data function. It checks if the PSMU Digitizer has finished measuring voltage data every 500 milliseconds, fetches its measuremments, and store thems in sample and voltage arrays to be used for plotting in a graph.
 ```
 # wait for the Digitizer measurements to complete 
-wait_for_new_voltage_data(tcp_socket, 0.5)
+spikesafe_python.wait_for_new_voltage_data(tcp_socket, 0.5)
 
 # fetch the Digitizer voltage readings using VOLT:FETC? query
 digitizerData = []
-digitizerData = fetch_voltage_data_sampling_mode_logarithmic(
+digitizerData = spikesafe_python.fetch_voltage_data_sampling_mode_logarithmic(
         spike_safe_socket=tcp_socket,
-        time_sampling_mode=TimeSamplingMode.MIDDLE_OF_TIME,
-        sampling_mode=SamplingMode.FAST_LOG
+        time_sampling_mode=spikesafe_python.TimeSamplingMode.MIDDLE_OF_TIME,
+        sampling_mode=spikesafe_python.SamplingMode.FAST_LOG
     )
 
 # prepare digitizer voltage data to plot

@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | get_precise_compliance_voltage_command_argument(compliance_voltage)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | spikesafe_python.get_precise_compliance_voltage_command_argument(compliance_voltage)
 
-## get_precise_compliance_voltage_command_argument(compliance_voltage)
+## spikesafe_python.get_precise_compliance_voltage_command_argument(compliance_voltage)
 
 ### Definition
 Returns the optimal precision for a compliance voltage command argument.
@@ -14,10 +14,10 @@ Compliance voltage to be sent to SpikeSafe
 Compliance voltage command argument with optimal precision
 
 ### Examples
-The following example demonstrates the `get_precise_compliance_voltage_command_argument()` function. It sends the SpikeSafe compliance voltage SCPI command with the optimum precision for 20V.
+The following example demonstrates the `spikesafe_python.get_precise_compliance_voltage_command_argument()` function. It sends the SpikeSafe compliance voltage SCPI command with the optimum precision for 20V.
 ```
 # set Channel 1's voltage to 10 V and check for all events
-tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}') 
+tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(20)}') 
 ```
 
 ### Examples In Action

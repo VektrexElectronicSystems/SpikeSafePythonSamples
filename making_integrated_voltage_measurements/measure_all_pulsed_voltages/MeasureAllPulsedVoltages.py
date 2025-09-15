@@ -7,20 +7,7 @@
 import sys
 import time
 import logging
-from spikesafe_python.Compensation import get_optimum_compensation
-from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
-from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
-from spikesafe_python.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
-from spikesafe_python.Precision import get_precise_current_command_argument
-from spikesafe_python.Precision import get_precise_time_command_argument
-from spikesafe_python.Precision import get_precise_time_microseconds_command_argument
-from spikesafe_python.ReadAllEvents import log_all_events
-from spikesafe_python.ReadAllEvents import read_until_event
-from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
-from spikesafe_python.TcpSocket import TcpSocket
-from spikesafe_python.Threading import wait   
-from spikesafe_python.SpikeSafeError import SpikeSafeError
+import spikesafe_python
 from matplotlib import pyplot as plt  
 
 ### set these before starting application
@@ -48,26 +35,26 @@ try:
     log.info("Python version: {}".format(sys.version))
 
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket(enable_logging=False)
+    tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
     tcp_socket.open_socket(ip_address, port_number)
 
     # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    log_all_events(tcp_socket)
+    spikesafe_python.log_all_events(tcp_socket)
 
     # set up Channel 1 for pulsed output. To find more explanation, see instrument_examples/run_pulsed
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSED')
     pulse_on_time = 0.001
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.009)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.get_precise_time_command_argument(pulse_on_time)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.get_precise_time_command_argument(0.009)}')
     set_current = 0.1
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current)}')   
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.get_precise_current_command_argument(set_current)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(20)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+    load_impedance, rise_time = spikesafe_python.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
@@ -77,11 +64,11 @@ try:
 
     # set Digitizer aperture for 600µs. Aperture specifies the measurement time, and we want to measure a majority of the pulse's constant current output
     aperture = 600
-    tcp_socket.send_scpi_command(f'VOLT:APER {get_precise_time_microseconds_command_argument(aperture)}')
+    tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.get_precise_time_microseconds_command_argument(aperture)}')
 
     # set Digitizer trigger delay to 200µs. We want to give sufficient delay to omit any overshoot the current pulse may have
     hardware_trigger_delay = 200
-    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
 
     # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
@@ -98,22 +85,22 @@ try:
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # check all SpikeSafe event since all settings have been sent
-    log_all_events(tcp_socket)
+    spikesafe_python.log_all_events(tcp_socket)
 
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is fully ramped before we take any digitizer measurements. We are looking to measure consistent voltage values
-    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # start Digitizer measurements
     tcp_socket.send_scpi_command('VOLT:INIT')
 
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    wait_for_new_voltage_data(tcp_socket, 0.5)
+    spikesafe_python.wait_for_new_voltage_data(tcp_socket, 0.5)
 
     # fetch the Digitizer voltage readings
-    digitizerData = fetch_voltage_data(tcp_socket)
+    digitizerData = spikesafe_python.fetch_voltage_data(tcp_socket)
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
@@ -139,7 +126,7 @@ try:
 
     log.info("MeasureAllPulsedVoltages.py completed.\n")   
 
-except SpikeSafeError as ssErr:
+except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
     error_message = 'SpikeSafe error: {}\n'.format(ssErr)
     log.error(error_message)

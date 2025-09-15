@@ -1,12 +1,10 @@
 import sys
 import logging
 
-from spikesafe_python.SpikeSafeError import SpikeSafeError
-from spikesafe_python.SpikeSafeInfoParser import parse_spikesafe_info
-from spikesafe_python.TcpSocket import TcpSocket
+import spikesafe_python
 
 ### set these before starting application
-ip_address = '10.0.0.231'
+ip_address = '10.0.0.220'
 port_number = 8282 
 
 ### setting up sequence log
@@ -26,11 +24,12 @@ logging.basicConfig(
 try:
     log.info("ReadSpikeSafeInfo.py started.")
         
-    tcp_socket = TcpSocket()
+    # import spikesafe_python
+    tcp_socket = spikesafe_python.TcpSocket()
     tcp_socket.open_socket(ip_address, port_number)
 
     tcp_socket.send_scpi_command('*RST') # "*RST" - reset to a known state (does not affect "VOLT" commands)
-    spikesafe_info = parse_spikesafe_info(tcp_socket) # parse the SpikeSafe information and print it to the log file
+    spikesafe_info = spikesafe_python.parse_spikesafe_info(tcp_socket) # parse the SpikeSafe information and print it to the log file
     
     # log the SpikeSafe information. To access an attribute, use the dot operator (e.g., spikesafe_info.idn)
     log.info(vars(spikesafe_info))
@@ -41,7 +40,7 @@ try:
 
     log.info("ReadSpikeSafeInfo.py completed.") 
 
-except SpikeSafeError as ssErr:
+except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
     error_message = 'SpikeSafe error: {}\n'.format(ssErr)
     log.error(error_message)

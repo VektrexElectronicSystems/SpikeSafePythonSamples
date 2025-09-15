@@ -17,8 +17,8 @@ Defines the Rise Time acceptable values as enumerations.
 The following example demonstrates the `RiseTime` IntEnum. It sets the compensation settings on the SpikeSafe.
 ```
 # set the load impedance and rise time
-tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {LoadImpedance.MEDIUM}')
-tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {RiseTime.FAST}') 
+tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {spikesafe_python.LoadImpedance.MEDIUM}')
+tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {spikesafe_python.RiseTime.FAST}') 
 ```
 
 ### Examples In Action

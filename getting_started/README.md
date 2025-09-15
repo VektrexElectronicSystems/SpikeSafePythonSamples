@@ -9,7 +9,7 @@ For first-time users, Vektrex recommends running the sequences in the order show
 1. [TCP Sample](tcp_socket_sample) - A more in depth example that connects to the SpikeSafe using a TCP socket. An *IDN? query is sent with more verbose Python commands
 1. [Importing spikesafe-python package](importing_spikesafe_python_package) - Shows how to properly import [spikesafe-python](https://pypi.org/project/spikesafe-python/) package for a smooth development experience
 1. [Read *IDN?](read_idn) - Uses the SCPI Standard "*IDN?" query and following information queries to obtain the model of your SpikeSafe
-1. [Read All Events](read_all_events) - Reads all events from the SpikeSafe event queue 
+1. [Read All Events](spikesafe_python.read_all_events) - Reads all events from the SpikeSafe event queue 
 1. [Read Memory Table Data](read_memory_table_data) - Reads the SpikeSafe status and obtains current operational information from the SpikeSafe
 1. [Discharge Channel](discharge_channel) - Shows how to properly shut down the SpikeSafe channel and wait for the load voltage to discharge before taking further action
 1. [SCPI Logging](scpi_logging) - Shows how to log SpikeSafe SCPI messages sent over the TCP socket to a file

@@ -17,7 +17,7 @@ SpikeSafe's event response in a simple accessible object.
 The following example demonstrates the parse_event_data function. It connects to a recently power-cycled SpikeSafe, initiates the request for SpikeSafe Memory Table Read to induce the event `102, External Pause Signal Ended`, sends `SYST:ERR?` to empty the SpikeSafe event queue, and extracts the event info from a EventData object.
 ```
 # instantiate new TcpSocket to connect to SpikeSafe
-tcp_socket = TcpSocket(enable_logging=False)
+tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
 
 # connect to SpikeSafe                        
 tcp_socket.open_socket(ip_address, port_number)  
@@ -56,7 +56,7 @@ event_data = []
 
 # convert all events in the SpikeSafe event queue to EventData objects in a new list and print them to the log file
 for event in event_queue:
-    event_data_response = EventData().parse_event_data(event)
+    event_data_response = spikesafe_python.EventData().parse_event_data(event)
     event_data.append(event_data_response)
     log.info(event_data_response.event)
     log.info(event_data_response.code)
@@ -65,4 +65,4 @@ for event in event_queue:
 ```
 
 ### Examples In Action
-[/getting_started/read_all_events/ReadAllEventsManual.py](/getting_started/read_all_events/ReadAllEventsManual.py)
+[/getting_started/spikesafe_python.read_all_events/ReadAllEventsManual.py](/getting_started/spikesafe_python.read_all_events/ReadAllEventsManual.py)

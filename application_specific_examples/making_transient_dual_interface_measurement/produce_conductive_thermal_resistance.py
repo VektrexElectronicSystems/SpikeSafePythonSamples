@@ -5,7 +5,7 @@ import sys
 import os
 
 from decimal import Decimal
-from spikesafe_python.SpikeSafeError import SpikeSafeError
+import spikesafe_python
 from matplotlib import pyplot as plt 
 import numpy as np
 
@@ -175,7 +175,7 @@ try:
     # hold to show graph
     input("Press [enter] to end.")
 
-except SpikeSafeError as ssErr:
+except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
     error_message = 'SpikeSafe error: {}\n'.format(ssErr)
     print(error_message)

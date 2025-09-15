@@ -9,17 +9,7 @@
 import sys
 import time
 import logging
-from spikesafe_python.Compensation import get_optimum_compensation
-from spikesafe_python.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
-from spikesafe_python.Precision import get_precise_current_command_argument
-from spikesafe_python.Precision import get_precise_time_command_argument
-from spikesafe_python.ReadAllEvents import log_all_events
-from spikesafe_python.ReadAllEvents import read_until_event
-from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
-from spikesafe_python.TcpSocket import TcpSocket
-from spikesafe_python.Threading import wait
-from spikesafe_python.SpikeSafeError import SpikeSafeError
+import spikesafe_python
 from tkinter import messagebox     
 
 ### set these before starting application
@@ -47,7 +37,7 @@ try:
     log.info("Python version: {}".format(sys.version))
 
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket(enable_logging=False)
+    tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
     tcp_socket.open_socket(ip_address, port_number)
 
     # reset to default state    
@@ -67,27 +57,27 @@ try:
     # set Channel 1's settings to operate in Multi-Pulse mode
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP MULTIPULSE')
     set_current = 0.1
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current)}')   
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.get_precise_current_command_argument(set_current)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(20)}')
     pulse_on_time = 1   
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(1)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.get_precise_time_command_argument(pulse_on_time)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.get_precise_time_command_argument(1)}')
     tcp_socket.send_scpi_command('SOUR1:PULS:COUN 3')
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+    load_impedance, rise_time = spikesafe_python.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')   
 
     # Check for any errors with initializing commands
-    log_all_events(tcp_socket)
+    spikesafe_python.log_all_events(tcp_socket)
 
     # turn on Channel 1
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # Wait until channel is ready for a trigger command
-    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # Output 1ms pulse for Channel 1
     tcp_socket.send_scpi_command('OUTP1:TRIG')
@@ -96,16 +86,16 @@ try:
     # it is best practice to do this to ensure the channel is on and does not have any errors
     time_end = time.time() + 2                         
     while time.time() < time_end:                       
-        log_all_events(tcp_socket)
-        log_memory_table_read(tcp_socket)
-        wait(1)        
+        spikesafe_python.log_all_events(tcp_socket)
+        spikesafe_python.log_memory_table_read(tcp_socket)
+        spikesafe_python.wait(1)        
 
     # check that the Multi Pulse output has ended
     hasMultiPulseEndedString = ''
     while hasMultiPulseEndedString != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
-        wait(0.5)
+        spikesafe_python.wait(0.5)
 
     # set the Force Sense Selector Switch state to Auxiliary to disconnect the SpikeSafe output from the DUT
     # this action can be performed as long as no pulses are actively being outputted from the SpikeSafe. The channel may be enabled
@@ -124,16 +114,16 @@ try:
     # check for all events and measure readings after the second pulse output
     time_end = time.time() + 2                         
     while time.time() < time_end:                       
-        log_all_events(tcp_socket)
-        log_memory_table_read(tcp_socket)
-        wait(1) 
+        spikesafe_python.log_all_events(tcp_socket)
+        spikesafe_python.log_memory_table_read(tcp_socket)
+        spikesafe_python.wait(1) 
 
     # check that the Multi Pulse output has ended
     hasMultiPulseEndedString = ''
     while hasMultiPulseEndedString != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         hasMultiPulseEndedString =  tcp_socket.read_data()
-        wait(0.5)
+        spikesafe_python.wait(0.5)
 
     # turn off all Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
@@ -143,7 +133,7 @@ try:
 
     log.info("ConnectDisconnectSwitchSample.py completed.\n")
 
-except SpikeSafeError as ssErr:
+except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
     error_message = 'SpikeSafe error: {}\n'.format(ssErr)
     log.error(error_message)
