@@ -13,6 +13,6 @@ For first-time users, Vektrex recommends running the sequences in the order show
 1. [SCPI Logging](scpi_logging) - Shows how to log SpikeSafe SCPI messages sent over the TCP socket to a file
 
 ## Usage
-To run these sequences, an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required. The [spikesafe-python](https://pypi.org/project/spikesafe-python/) repository will need to be installed as a package using the command `python -m pip install spikesafe-python`. Vektrex recommends always having the latest version of spikesafe-python when running these sequences; the current version is 1.1.0. It may help to run these sequences in a [virtual environment](https://docs.python.org/3/tutorial/venv.html).
+To run these sequences, an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required. The [spikesafe-python](https://pypi.org/project/spikesafe-python/) repository will need to be installed. See [Project Setup](/README.md#project-setup) for install instructions.
 
 Simply change the line `ip_address = '10.0.0.220'` to match the IP address of you connected SpikeSafe and run the sequence (generally by pressing F5). Observe the outputs that appear in both the terminal window and SpikeSafePythonSamples.log, which will output wherever you have saved the SpikeSafePythonSamples repository.
