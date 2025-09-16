@@ -53,7 +53,7 @@ try:
     
     # read all events in SpikeSafe event queue, store in list, and print them to the log file
     # here it's expected to receive 1 event: 102, External Pause Signal Ended
-    event_data = spikesafe_python.read_all_events(tcp_socket, True)
+    event_data = spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, True)
     
     # disconnect from SpikeSafe
     tcp_socket.close_socket()

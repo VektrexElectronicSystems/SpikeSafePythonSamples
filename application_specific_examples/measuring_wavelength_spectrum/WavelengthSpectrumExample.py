@@ -141,21 +141,21 @@ try:
 
     # reset SpikeSafe to default state and check for all events    
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set SpikeSafe Channel 1's pulse mode to Single Pulse and set all relevant settings. For more information, see run_spikesafe_operating_modes/run_dc
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.get_precise_time_command_argument(1)}')    
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.get_precise_current_command_argument(set_current_amps)}')
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(compliance_voltage_V)}')         
-    spikesafe_python.log_all_events(tcp_socket) 
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(1)}')    
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current_amps)}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage_V)}')         
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # turn on SpikeSafe Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 1')               
-    spikesafe_python.log_all_events(tcp_socket)                            
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)                            
 
     # wait until the channel is fully ramped and output a single pulse
-    spikesafe_python.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
     tcp_socket.send_scpi_command('OUTP1:TRIG')   
 
     # take a CAS4 measurement
@@ -181,7 +181,7 @@ try:
 
     # turn off SpikeSafe Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 0')               
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()     

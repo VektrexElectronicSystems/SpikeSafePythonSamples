@@ -42,7 +42,7 @@ try:
 
     # reset to default state
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # check that the Force Sense Selector Switch is available for this SpikeSafe. We need the switch to run this sequence
     # If switch related SCPI is sent and there is no switch configured, it will result in error "386, Output Switch is not installed"
@@ -58,12 +58,12 @@ try:
     # set Channel 1 settings to operate in DC mode
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DC')    
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.get_precise_current_command_argument(0.1)}')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(0.1)}')
     compliance_voltage = 20        
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(compliance_voltage)}')       
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')       
 
     # log all SpikeSafe event after settings are adjusted  
-    spikesafe_python.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # turn on Channel 1
     tcp_socket.send_scpi_command('OUTP1 1')                                        
@@ -71,16 +71,16 @@ try:
     # check for all events and measure readings on Channel 1 once per second for 10 seconds
     time_end = time.time() + 10                         
     while time.time() < time_end:                       
-        spikesafe_python.log_all_events(tcp_socket)
-        spikesafe_python.log_memory_table_read(tcp_socket)
-        spikesafe_python.wait(1)                            
+        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
+        spikesafe_python.Threading.wait(1)                            
     
     # turn off Channel 1 and check for all events
     # When operating in DC mode, the channel must be turned off before adjusting the switch state
     tcp_socket.send_scpi_command('OUTP1 0')
-    wait_time = spikesafe_python.get_spikesafe_channel_discharge_time(compliance_voltage)
-    spikesafe_python.wait(wait_time)               
-    spikesafe_python.log_all_events(tcp_socket)
+    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+    spikesafe_python.Threading.wait(wait_time)               
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set the Force Sense Selector Switch state to Auxiliary (B) so that the Auxiliary Source will be routed to the DUT and the SpikeSafe will be disconnected
     tcp_socket.send_scpi_command('OUTP1:CONN AUX')
@@ -98,13 +98,13 @@ try:
     # check for all events and measure readings on Channel 1 once per second for 10 seconds
     time_end = time.time() + 10                         
     while time.time() < time_end:                       
-        spikesafe_python.log_all_events(tcp_socket)
-        spikesafe_python.log_memory_table_read(tcp_socket)
-        spikesafe_python.wait(1)                            
+        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
+        spikesafe_python.Threading.wait(1)                            
     
     # turn off Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 0')               
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()                 

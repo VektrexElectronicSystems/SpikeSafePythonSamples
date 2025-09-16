@@ -38,13 +38,13 @@ def run_single_pulse_tuning_test(load_impedance, rise_time):
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}') 
 
     # Check for any errors with initializing commands
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # turn on all channels
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # Wait until channels are ready for a trigger command
-    spikesafe_python.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # Output 1ms pulse for all channels
     tcp_socket.send_scpi_command('OUTP1:TRIG')
@@ -53,14 +53,14 @@ def run_single_pulse_tuning_test(load_impedance, rise_time):
     while is_pulse_complete != 'TRUE':                       
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         is_pulse_complete = tcp_socket.read_data()
-        spikesafe_python.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     messagebox.showinfo("Single Pulse Outputted", f"Observe the current pulse shape using an oscilloscope or DMM, and note the current compensation settings.\n\nPress \"OK\" to move to the next combination of Pulse Tuning settings.\n\nLoad Impedance: {load_impedance.name}\nRise Time: {rise_time.name}")
 
     tcp_socket.send_scpi_command('OUTP1 0')
 
     # wait one second to account for any electrical transients before starting the next session
-    spikesafe_python.wait(1)
+    spikesafe_python.Threading.wait(1)
 
     log.info('Single pulse tuning test iteration completed successfully.')
 
@@ -79,48 +79,48 @@ try:
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set channel 1's pulse mode to Single Pulse
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
 
     # set channel 1's current to 100 mA
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.get_precise_current_command_argument(0.1)}')     
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(0.1)}')     
 
     # set channel 1's voltage to 20 V 
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(20)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(20)}')   
 
     # set channel 1's pulse width to 100µs. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.get_precise_time_command_argument(0.0001)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(0.0001)}')
 
     # set channel 1's output ramp to fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
 
     # Check for any errors with initializing commands
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # run each combination of Pulse Tuning settings to determine the settings that output the best pulse shape
     # per Vektrex recommendation, Load Impedance is tuned prior to Rise Time
     # once a pattern has been established, it may be useful to comment out ineffective or redundant test cases
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.VERY_LOW, spikesafe_python.RiseTime.VERY_SLOW)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.LOW, spikesafe_python.RiseTime.VERY_SLOW)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.MEDIUM, spikesafe_python.RiseTime.VERY_SLOW)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.HIGH, spikesafe_python.RiseTime.VERY_SLOW)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.VERY_LOW, spikesafe_python.SpikeSafeEnums.RiseTime.VERY_SLOW)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.LOW, spikesafe_python.SpikeSafeEnums.RiseTime.VERY_SLOW)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.MEDIUM, spikesafe_python.SpikeSafeEnums.RiseTime.VERY_SLOW)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.HIGH, spikesafe_python.SpikeSafeEnums.RiseTime.VERY_SLOW)    
 
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.VERY_LOW, spikesafe_python.RiseTime.SLOW)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.LOW, spikesafe_python.RiseTime.SLOW)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.MEDIUM, spikesafe_python.RiseTime.SLOW)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.HIGH, spikesafe_python.RiseTime.SLOW)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.VERY_LOW, spikesafe_python.SpikeSafeEnums.RiseTime.SLOW)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.LOW, spikesafe_python.SpikeSafeEnums.RiseTime.SLOW)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.MEDIUM, spikesafe_python.SpikeSafeEnums.RiseTime.SLOW)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.HIGH, spikesafe_python.SpikeSafeEnums.RiseTime.SLOW)    
 
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.VERY_LOW, spikesafe_python.RiseTime.MEDIUM)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.LOW, spikesafe_python.RiseTime.MEDIUM)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.MEDIUM, spikesafe_python.RiseTime.MEDIUM)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.HIGH, spikesafe_python.RiseTime.MEDIUM)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.VERY_LOW, spikesafe_python.SpikeSafeEnums.RiseTime.MEDIUM)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.LOW, spikesafe_python.SpikeSafeEnums.RiseTime.MEDIUM)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.MEDIUM, spikesafe_python.SpikeSafeEnums.RiseTime.MEDIUM)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.HIGH, spikesafe_python.SpikeSafeEnums.RiseTime.MEDIUM)    
 
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.VERY_LOW, spikesafe_python.RiseTime.FAST)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.LOW, spikesafe_python.RiseTime.FAST)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.MEDIUM, spikesafe_python.RiseTime.FAST)    
-    run_single_pulse_tuning_test(spikesafe_python.LoadImpedance.HIGH, spikesafe_python.RiseTime.FAST)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.VERY_LOW, spikesafe_python.SpikeSafeEnums.RiseTime.FAST)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.LOW, spikesafe_python.SpikeSafeEnums.RiseTime.FAST)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.MEDIUM, spikesafe_python.SpikeSafeEnums.RiseTime.FAST)    
+    run_single_pulse_tuning_test(spikesafe_python.SpikeSafeEnums.LoadImpedance.HIGH, spikesafe_python.SpikeSafeEnums.RiseTime.FAST)    
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    

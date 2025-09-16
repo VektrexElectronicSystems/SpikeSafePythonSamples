@@ -14,7 +14,7 @@ The following example demonstrates the `get_scpi_format_on_state_for_bool()` fun
 ```
 # set the SpikeSafe Pulse Width Adjustment to on
 pulse_width_adjustment = True
-tcp_socket.send_scpi_command(f'SOUR1:PULS:AADJ {spikesafe_python.get_scpi_format_on_state_for_bool(pulse_width_adjustment)}') 
+tcp_socket.send_scpi_command(f'SOUR1:PULS:AADJ {spikesafe_python.ScpiFormatter.get_scpi_format_on_state_for_bool(pulse_width_adjustment)}') 
 
 ```
 

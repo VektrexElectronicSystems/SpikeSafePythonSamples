@@ -29,7 +29,7 @@ try:
     tcp_socket.open_socket(ip_address, port_number)
 
     tcp_socket.send_scpi_command('*RST') # "*RST" - reset to a known state (does not affect "VOLT" commands)
-    spikesafe_info = spikesafe_python.parse_spikesafe_info(tcp_socket) # parse the SpikeSafe information and print it to the log file
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket) # parse the SpikeSafe information and print it to the log file
     
     # log the SpikeSafe information. To access an attribute, use the dot operator (e.g., spikesafe_info.idn)
     log.info(vars(spikesafe_info))

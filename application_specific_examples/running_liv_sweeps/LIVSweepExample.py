@@ -146,30 +146,30 @@ try:
 
     # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU   
     tcp_socket.send_scpi_command('*RST')     
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set up SpikeSafe Channel 1 for Pulsed Sweep output. To find more explanation, see instrument_examples/run_pulsed_sweep
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDSWEEP')
-    tcp_socket.send_scpi_command(f'SOUR1:CURR:STAR {spikesafe_python.get_precise_current_command_argument(float(LIV_start_current_mA) / 1000)}')
-    tcp_socket.send_scpi_command(f'SOUR1:CURR:STOP {spikesafe_python.get_precise_current_command_argument(float(LIV_stop_current_mA) / 1000)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STAR {spikesafe_python.Precision.get_precise_current_command_argument(float(LIV_start_current_mA) / 1000)}')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STOP {spikesafe_python.Precision.get_precise_current_command_argument(float(LIV_stop_current_mA) / 1000)}')   
     tcp_socket.send_scpi_command('SOUR1:CURR:STEP {}'.format(LIV_sweep_step_count))   
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(compliance_voltage_V)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.get_precise_time_command_argument(pulse_on_time_seconds)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.get_precise_time_command_argument(pulse_off_time_seconds)}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage_V)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time_seconds)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(pulse_off_time_seconds)}')
 
     # call getoptimum with start current, and then with stop current, and check the return values
     # if same, use values
     # if different, use the stop current values. However, consider breaking sweep into multiple segments 
 
     # Check for any errors with SpikeSafe initialization commands
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set up SpikeSafe Digitizer to measure Pulsed Sweep output. To find more explanation, see making_integrated_voltage_measurements/measure_pulsed_sweep_voltage
     tcp_socket.send_scpi_command('VOLT:RANG 100')
     aperture = pulse_on_time_seconds * 600000 # we want to measure 60% of the pulse
-    tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.get_precise_time_microseconds_command_argument(aperture)}')
+    tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
     hardware_trigger_delay = pulse_on_time_seconds * 200000 # we want to skip the first 20% of the pulse
-    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
     hardware_trigger_count = LIV_sweep_step_count
@@ -178,7 +178,7 @@ try:
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # Check for any errors with Digitizer initialization commands
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
 
     ### LIV Sweep Operation
@@ -190,7 +190,7 @@ try:
     tcp_socket.send_scpi_command('VOLT:INIT')
 
     # Wait until SpikeSafe Channel 1 is ready for a trigger command
-    spikesafe_python.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # Output pulsed sweep for Channel 1
     tcp_socket.send_scpi_command('OUTP1:TRIG')
@@ -213,13 +213,13 @@ try:
         cas_spectrometer.check_cas4_device_error(deviceId)
 
         # Check for any SpikeSafe errors while outputting the Pulsed Sweep
-        spikesafe_python.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    spikesafe_python.wait_for_new_voltage_data(tcp_socket, 0.5)
+    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
 
     # fetch the SpikeSafe Digitizer voltage readings
-    digitizerData = spikesafe_python.fetch_voltage_data(tcp_socket)
+    digitizerData = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
 
     # turn off SpikeSafe Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')

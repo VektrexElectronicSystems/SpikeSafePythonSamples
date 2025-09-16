@@ -40,43 +40,43 @@ try:
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set Channel 1's pulse mode to Pulsed and check for all events
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSED')
-    spikesafe_python.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # set Channel 1's Pulse On Time to 1ms and check for all events
     pulse_on_time = 0.001
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.get_precise_time_command_argument(pulse_on_time)}')
-    spikesafe_python.log_all_events(tcp_socket) 
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # set Channel 1's Pulse Off Time to 9ms and check for all events
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.get_precise_time_command_argument(0.009)}')
-    spikesafe_python.log_all_events(tcp_socket) 
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.009)}')
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # set Channel 1's current to 100 mA and check for all events
     set_current = 0.1
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.get_precise_current_command_argument(set_current)}')   
-    spikesafe_python.log_all_events(tcp_socket)  
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)  
 
     # set Channel 1's voltage to 20 V and check for all events
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(20)}')
-    spikesafe_python.log_all_events(tcp_socket)
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(20)}')
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set Channel 1's safety threshold for over current protection to 50% and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
-    spikesafe_python.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # set Channel 1's compensation settings to their default values and check for all events
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = spikesafe_python.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+    load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
-    spikesafe_python.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
-    spikesafe_python.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # set Channel 1's Ramp mode to Fast and check for all events
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
@@ -85,15 +85,15 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until the channel is fully ramped
-    spikesafe_python.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # check for all events and measure readings on Channel 1 once per second for 10 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
     time_end = time.time() + 10                        
     while time.time() < time_end:                       
-        spikesafe_python.log_all_events(tcp_socket)
-        spikesafe_python.log_memory_table_read(tcp_socket)
-        spikesafe_python.wait(1)
+        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
+        spikesafe_python.Threading.wait(1)
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')

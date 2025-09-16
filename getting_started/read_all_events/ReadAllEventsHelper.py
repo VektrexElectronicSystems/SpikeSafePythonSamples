@@ -47,7 +47,7 @@ try:
     
     # read all events in SpikeSafe event queue, store in list, and print them to the log file
     # here it's expected to receive 1 event: 102, External Pause Signal Ended
-    event_data = spikesafe_python.read_all_events(tcp_socket)
+    event_data = spikesafe_python.ReadAllEvents.read_all_events(tcp_socket)
     for event in event_data:
         log.info(event.event)
         log.info(event.code)
@@ -55,11 +55,11 @@ try:
         log.info(','.join(map(str, event.channel_list)))
 
     # set Channel 1's voltage to an invalid 1 V and check for all events
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(40)}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
 
     # read all events in SpikeSafe event queue, store in list, and print them to the log file
     # here it's expected to raise a SpikeSafeError for event: SpikeSafe Error: 304, Invalid Voltage Setting; SOUR1:VOLT 1
-    event_data = spikesafe_python.read_all_events(tcp_socket)  
+    event_data = spikesafe_python.ReadAllEvents.read_all_events(tcp_socket)  
     
     # disconnect from SpikeSafe
     tcp_socket.close_socket()

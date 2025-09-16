@@ -12,11 +12,11 @@ Time since the start of the sampling in seconds.
 The following example demonstrates the voltage_reading attribute. It checks if the PSMU Digitizer has finished measuring voltage data every 500 milliseconds, fetches its measuremments, and store thems in sample and voltage arrays to be used for plotting in a graph.
 ```
 # wait for the Digitizer measurements to complete 
-spikesafe_python.wait_for_new_voltage_data(tcp_socket, 0.5)
+spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
 
 # fetch the Digitizer voltage readings using VOLT:FETC? query
 digitizerData = []
-digitizerData = spikesafe_python.fetch_voltage_data_sampling_mode_linear(
+digitizerData = spikesafe_python.DigitizerDataFetch.fetch_voltage_data_sampling_mode_linear(
         spike_safe_socket=tcp_socket,
         time_sampling_mode=spikesafe_python.DigitizerEnums.TimeSamplingMode.MIDDLE_OF_TIME,
         aperture_microseconds=2,

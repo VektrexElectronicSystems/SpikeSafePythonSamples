@@ -41,21 +41,21 @@ try:
     # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set up Channel 1 for Multi Pulse output. To find more explanation, see run_spikesafe_operation_modes/run_multi_pulse
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP MULTIPULSE')
     set_current = 0.1
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.get_precise_current_command_argument(set_current)}')   
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(20)}')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(20)}')
     pulse_on_time = 1
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.get_precise_time_command_argument(pulse_on_time)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.get_precise_time_command_argument(1)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(1)}')
     tcp_socket.send_scpi_command('SOUR1:PULS:COUN 3')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = spikesafe_python.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+    load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
@@ -72,9 +72,9 @@ try:
     # set typical Digitizer settings to match SpikeSafe settings. For more explanation, see making_integrated_voltage_measurements
     tcp_socket.send_scpi_command('VOLT:RANG 10')
     aperture = 400000
-    tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.get_precise_time_microseconds_command_argument(aperture)}')
+    tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
     hardware_trigger_delay = 200000
-    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
     hardware_trigger_count = 6
@@ -86,7 +86,7 @@ try:
     tcp_socket.send_scpi_command('VOLT:OUTP:TRIG:EDGE RISING')  
 
     # check all SpikeSafe event since all settings have been sent
-    spikesafe_python.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # initialize the digitizer. Measurements will be taken once a current pulse is outputted
     tcp_socket.send_scpi_command('VOLT:INIT')
@@ -95,7 +95,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is ready to pulse
-    spikesafe_python.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # output the Digitizer hardware output trigger. 10µs after this signal is outputted, the Multi Pulse sequence will start
     tcp_socket.send_scpi_command('VOLT:OUTP:TRIG')
@@ -105,7 +105,7 @@ try:
     while has_multi_pulse_ended != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         has_multi_pulse_ended =  tcp_socket.read_data()
-        spikesafe_python.wait(0.5)
+        spikesafe_python.Threading.wait(0.5)
 
     # output the Digitizer hardware output trigger. As long as the SpikeSafe is ready to pulse, this can be done continuously
     tcp_socket.send_scpi_command('VOLT:OUTP:TRIG')
@@ -115,14 +115,14 @@ try:
     while has_multi_pulse_ended != 'TRUE':
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         has_multi_pulse_ended =  tcp_socket.read_data()
-        spikesafe_python.wait(0.5)
+        spikesafe_python.Threading.wait(0.5)
 
     # wait for the Digitizer measurements to complete 
-    spikesafe_python.wait_for_new_voltage_data(tcp_socket, 0.5)
+    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
 
     # fetch the Digitizer voltage readings using VOLT:FETC? query
     digitizerData = []
-    digitizerData = spikesafe_python.fetch_voltage_data(tcp_socket)
+    digitizerData = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')

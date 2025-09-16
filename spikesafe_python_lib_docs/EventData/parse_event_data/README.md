@@ -65,4 +65,4 @@ for event in event_queue:
 ```
 
 ### Examples In Action
-[/getting_started/spikesafe_python.read_all_events/ReadAllEventsManual.py](/getting_started/spikesafe_python.read_all_events/ReadAllEventsManual.py)
+[/getting_started/spikesafe_python.ReadAllEvents.read_all_events/ReadAllEventsManual.py](/getting_started/spikesafe_python.ReadAllEvents.read_all_events/ReadAllEventsManual.py)

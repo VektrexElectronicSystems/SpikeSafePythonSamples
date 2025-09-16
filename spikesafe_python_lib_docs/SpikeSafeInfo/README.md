@@ -18,14 +18,14 @@ A class to hold the information of a SpikeSafe.
 | [idn](/spikesafe_python_lib_docs/SpikeSafeInfo/idn/README.md) | Identification string of the SpikeSafe. |
 | [ip_address](/spikesafe_python_lib_docs/SpikeSafeInfo/ip_address/README.md) | IP address of the SpikeSafe. |
 | [last_calibration_date](/spikesafe_python_lib_docs/SpikeSafeInfo/last_calibration_date/README.md) | Last calibration date of the SpikeSafe. |
-| [maximum_compliance_voltage](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_compliance_voltage/README.md) | Maximum compliance voltage of the SpikeSafe. |
-| [maximum_pulse_width](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_pulse_width/README.md) |Maximum pulse width of the SpikeSafe.  |
-| [maximum_pulse_width_offset](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_pulse_width_offset/README.md) |Maximum pulse width offset of the SpikeSafe.  |
-| [maximum_set_current](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_set_current/README.md) | Maximum current of the SpikeSafe. |
-| [minimum_compliance_voltage](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_compliance_voltage/README.md) | Minimum compliance voltage of the SpikeSafe. |
-| [minimum_pulse_width](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_pulse_width/README.md) |Minimum pulse width of the SpikeSafe.  |
-| [minimum_pulse_width_offset](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_pulse_width_offset/README.md) |Minimum pulse width offset of the SpikeSafe.  |
-| [minimum_set_current](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_set_current/README.md) | Minimum current of the SpikeSafe. |
+| [maximum_compliance_voltage](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_compliance_voltage/README.md) | Maximum compliance voltage of the SpikeSafe in volts. |
+| [maximum_pulse_width](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_pulse_width/README.md) | Maximum pulse width of the SpikeSafe in seconds.  |
+| [maximum_pulse_width_offset](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_pulse_width_offset/README.md) | Maximum pulse width offset of the SpikeSafe in microseconds.  |
+| [maximum_set_current](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_set_current/README.md) | Maximum current of the SpikeSafe in amps. |
+| [minimum_compliance_voltage](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_compliance_voltage/README.md) | Minimum compliance voltage of the SpikeSafe in volts. |
+| [minimum_pulse_width](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_pulse_width/README.md) |Minimum pulse width of the SpikeSafe in seconds.  |
+| [minimum_pulse_width_offset](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_pulse_width_offset/README.md) |Minimum pulse width offset of the SpikeSafe in microseconds.  |
+| [minimum_set_current](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_set_current/README.md) | Minimum current of the SpikeSafe in amps. |
 | [serial_number](/spikesafe_python_lib_docs/SpikeSafeInfo/serial_number/README.md) | Serial number of the SpikeSafe. |
 | [spikesafe_type](/spikesafe_python_lib_docs/SpikeSafeInfo/spikesafe_type/README.md) | Type of the SpikeSafe. |
 | [supports_discharge_query](/spikesafe_python_lib_docs/SpikeSafeInfo/supports_discharge_query/README.md) | Whether the SpikeSafe supports discharge query. |

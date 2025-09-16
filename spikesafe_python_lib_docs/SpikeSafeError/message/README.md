@@ -18,7 +18,7 @@ event_queue = []
 is_event_queue_empty = False                                                                                                                      
 
 # set Channel 1's voltage to an invalid 1 V and check for all events
-tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(40)}')
+tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
 
 # initialize flag to check if event queue is empty 
 is_event_queue_empty = False                                                                                                                      
@@ -48,4 +48,4 @@ for event in event_queue:
 ```
 
 ### Examples In Action
-[/getting_started/spikesafe_python.read_all_events/ReadAllEventsManual.py](/getting_started/spikesafe_python.read_all_events/ReadAllEventsManual.py)
+[/getting_started/spikesafe_python.ReadAllEvents.read_all_events/ReadAllEventsManual.py](/getting_started/spikesafe_python.ReadAllEvents.read_all_events/ReadAllEventsManual.py)

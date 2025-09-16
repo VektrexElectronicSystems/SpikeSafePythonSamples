@@ -14,7 +14,7 @@ The following example demonstrates the `get_scpi_format_integer_for_bool()` func
 ```
 # set the SpikeSafe Current Range to Auto
 set_current_range_auto = True
-tcp_socket.send_scpi_command(f'SOUR1:CURR:RANG:AUTO {spikesafe_python.get_scpi_format_integer_for_bool(set_current_range_auto)}') 
+tcp_socket.send_scpi_command(f'SOUR1:CURR:RANG:AUTO {spikesafe_python.ScpiFormatter.get_scpi_format_integer_for_bool(set_current_range_auto)}') 
 
 ```
 

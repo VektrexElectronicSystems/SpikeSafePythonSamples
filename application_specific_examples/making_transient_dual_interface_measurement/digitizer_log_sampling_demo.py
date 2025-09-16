@@ -95,13 +95,13 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')
     
     # set MCV to 25
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(40)}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
 
     # set Auto Range
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')
 
     # set current to 1A
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.get_precise_current_command_argument(1)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(1)}')   
 
     # set Ramp mode to Fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
@@ -134,7 +134,7 @@ try:
             break  
 
     # Fetch Data    
-    digitizer_data = spikesafe_python.fetch_voltage_data(tcp_socket)
+    digitizer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
 
     # time stamp record the approximate timing between the trigger signal and the data output 
     end_data_ready_time = time.time()

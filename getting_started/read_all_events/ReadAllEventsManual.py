@@ -77,7 +77,7 @@ try:
         log.info(','.join(map(str, event_data_response.channel_list)))
 
     # set Channel 1's voltage to an invalid 1 V and check for all events
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.get_precise_compliance_voltage_command_argument(40)}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
 
     # clear event queue list
     event_queue.clear()
