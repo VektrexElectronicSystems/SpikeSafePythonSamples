@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps, pulse_on_time_seconds=None, enable_logging=True)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | Compensation.get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps, pulse_on_time_seconds=None, enable_logging=False)
 
-## get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps, pulse_on_time_seconds=None, enable_logging=True)
+## Compensation.get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps, pulse_on_time_seconds=None, enable_logging=False)
 
 ### Definition
 Returns the optimum compensation for a given set current, and optionally a given pulse on time.
@@ -16,7 +16,7 @@ pulse_on_time_seconds [float](https://docs.python.org/3/library/functions.html#f
 Pulse On Time to be set on SpikeSafe
 
 enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
-Enables logging (default is True)
+Enables logging (default is False)
 
 ### Returns
 LoadImpedance [LoadImpedance](/spikesafe_python_lib_docs/SpikeSafeEnums/LoadImpedance/README.md)  
@@ -40,27 +40,27 @@ If Load Impedance is returned as Medium or High, it is best practice to increase
 If an Operating Mode is used to sweep through steps of currents where the compensation settings are the same across the sweep, such as Pulse Sweep or Multiple Pulse Burst, it is recommended use the optimum compensation settings targeting the Stop Current.
 
 ### Examples
-The following example demonstrates the `get_optimum_compensation()` function. It determines the optimum compensation settings to use based off the SpikeSafe's set current setting, maximum settable current, and pulse on time.
+The following example demonstrates the `spikesafe_python.Compensation.get_optimum_compensation()` function. It determines the optimum compensation settings to use based off the SpikeSafe's set current setting, maximum settable current, and pulse on time.
 ```
 # set Channel 1's Pulse On Time to 1ms and check for all events
 pulse_on_time = 0.001
-tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
-log_all_events(tcp_socket) 
+tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
 # set Channel 1's current to 100 mA and check for all events
 set_current = 0.1
-tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current)}')   
-log_all_events(tcp_socket)  
+tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)  
 
 # set Channel 1's compensation settings to their default values and check for all events
 # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
 tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
 spikesafe_model_max_current = float(tcp_socket.read_data())
-load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
 tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
-log_all_events(tcp_socket) 
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
-log_all_events(tcp_socket) 
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 ```
 
 ### Examples In Action

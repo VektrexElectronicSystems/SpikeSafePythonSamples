@@ -1,4 +1,4 @@
-spikesafe-python>=1.7.17
-matplotlib>=3.9.3
-PyCLibrary>=0.2.2
-pyserial>=3.5
+spikesafe-python>=1.8.3 # SpikeSafe Python library
+matplotlib>=3.9.3 # Plotting library
+PyCLibrary>=0.2.2 # C library wrapper
+pyserial>=3.5 # Serial communication library

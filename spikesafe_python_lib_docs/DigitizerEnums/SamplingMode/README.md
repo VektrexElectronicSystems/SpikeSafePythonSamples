@@ -1,4 +1,4 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerEnums](/spikesafe_python_lib_docs/DigitizerEnums/README.md) | [TimeSamplingMode](/spikesafe_python_lib_docs/DigitizerEnums/TimeSamplingMode/README.md)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerEnums](/spikesafe_python_lib_docs/DigitizerEnums/README.md) | TimeSamplingMode
 
 ## TimeSamplingMode IntEnum
 

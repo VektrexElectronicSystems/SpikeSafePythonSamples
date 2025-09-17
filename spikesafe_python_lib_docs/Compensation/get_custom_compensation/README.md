@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=True)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | Compensation.get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=False)
 
-## get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=True)
+## Compensation.get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=False)
 
 ### Definition
 Returns the custom compensation values for a given set_current_amps and device_type based on a custom_compensation_table, and optionally a given pulse on time.
@@ -22,7 +22,7 @@ pulse_on_time_seconds [float](https://docs.python.org/3/library/functions.html#f
 Pulse On Time to be set on SpikeSafe
 
 enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
-Enables logging (default is True)
+Enables logging (default is False)
 
 ### Returns
 LoadImpedance [LoadImpedance](/spikesafe_python_lib_docs/SpikeSafeEnums/LoadImpedance/README.md)  
@@ -50,13 +50,13 @@ The following example demonstrates the `get_custom_compensation()` function. It 
 ```
 # set Channel 1's Pulse On Time to 1ms and check for all events
 pulse_on_time = 0.001
-tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
-log_all_events(tcp_socket) 
+tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
 # set Channel 1's current to 100 mA and check for all events
 set_current = 0.1
-tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current)}')   
-log_all_events(tcp_socket)  
+tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)  
 
 # set Channel 1's compensation settings to their default values and check for all events
 # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
@@ -64,13 +64,13 @@ tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
 spikesafe_model_max_current = float(tcp_socket.read_data())
 
 # load custom_compensation_table from /test_compensation_files/valid.json
-custom_compensation_table = load_custom_compensation_table(os.path.join(os.path.dirname(__file__), 'test_compensation_files', 'valid.json')
-device_types = load_custom_compensation_unique_device_types(custom_compensation_table)
-load_impedance, rise_time = get_custom_compensation(spikesafe_model_max_current, set_current, device_types[0], pulse_on_time)
+custom_compensation_table = spikesafe_python.Compensation.load_custom_compensation_table(os.path.join(os.path.dirname(__file__), 'test_compensation_files', 'valid.json')
+device_types = spikesafe_python.Compensation.load_custom_compensation_unique_device_types(custom_compensation_table)
+load_impedance, rise_time = spikesafe_python.Compensation.get_custom_compensation(spikesafe_model_max_current, set_current, device_types[0], pulse_on_time)
 tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
-log_all_events(tcp_socket) 
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
-log_all_events(tcp_socket) 
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 ```
 
 ### Examples In Action

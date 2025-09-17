@@ -12,20 +12,7 @@ import time
 import logging
 import math
 import statistics
-from spikesafe_python.DigitizerDataFetch import wait_for_new_voltage_data
-from spikesafe_python.DigitizerDataFetch import fetch_voltage_data
-from spikesafe_python.Discharge import get_spikesafe_channel_discharge_time
-from spikesafe_python.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
-from spikesafe_python.Precision import get_precise_current_command_argument
-from spikesafe_python.Precision import get_precise_time_command_argument
-from spikesafe_python.Precision import get_precise_time_microseconds_command_argument
-from spikesafe_python.ReadAllEvents import log_all_events
-from spikesafe_python.ReadAllEvents import read_until_event
-from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
-from spikesafe_python.TcpSocket import TcpSocket
-from spikesafe_python.Threading import wait     
-from spikesafe_python.SpikeSafeError import SpikeSafeError
+import spikesafe_python
 from matplotlib import pyplot as plt
 
 def log_and_print_to_console(message_string):
@@ -95,19 +82,19 @@ try:
     log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket(enable_logging=False)
+    tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
     tcp_socket.open_socket(ip_address, port_number)
 
     # reset to default state and check for all events, this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
     
     # set up Channel 1 for Bias Current output to determine the K-factor
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIAS')
-    tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {get_precise_current_command_argument(0.033)}')
+    tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.033)}')
     compliance_voltage = 40
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(compliance_voltage)}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
@@ -117,7 +104,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is ready to pulse
-    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     log_and_print_to_console('\nMeasurement Current is currently outputting to the DUT.\n\nPress \'Enter\' in the console once temperature has been stabilized at T1, then record V1 and T1.')
     input()
@@ -126,7 +113,7 @@ try:
     log_and_print_to_console('Enter V1 (in V):')
     voltage_one = float(receive_user_input_and_log())
 
-    wait(2)
+    spikesafe_python.Threading.wait(2)
 
     log_and_print_to_console('\nMeasurement Current is currently outputting to the DUT.\n\nChange the control temperature to T2.\n\nPress \'Enter\' in the console once temperature has been stabilized at T2, then record V2 and T2.')
     input()
@@ -140,27 +127,27 @@ try:
 
     # turn off Channel 1 
     tcp_socket.send_scpi_command('OUTP1 0')
-    wait_time = get_spikesafe_channel_discharge_time(compliance_voltage)
-    wait(wait_time)
+    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+    spikesafe_python.Threading.wait(wait_time)
 
     log_and_print_to_console('\nK-factor values obtained. Stopped bias current output. Configuring to perform Electrical Test Method measurement.')
 
     # set up Channel 1 for CDBC output to make the junction temperature measurement
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIASPULSEDDYNAMIC')
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(3.5)}')
-    tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {get_precise_current_command_argument(0.033)}')
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(1)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.001)}')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(3.5)}')
+    tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.033)}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(1)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.001)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
     # set Digitizer settings to take a series of quick measurements during the Off Time of CDBC operation
     tcp_socket.send_scpi_command('VOLT:RANG 100')
     aperture = 2
-    tcp_socket.send_scpi_command(f'VOLT:APER {get_precise_time_microseconds_command_argument(aperture)}')
+    tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
     hardware_trigger_delay = 0
-    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE FALLING')
     hardware_trigger_count = 1
@@ -169,13 +156,13 @@ try:
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # check all SpikeSafe event since all settings have been sent
-    log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is ready to pulse
-    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     log_and_print_to_console('\nHeating Current is being outputted.\n\nWait until temperature has stabilized, then press \'Enter\' in the console to take voltage measurements.')
     input()
@@ -184,11 +171,11 @@ try:
     tcp_socket.send_scpi_command('VOLT:INIT')
 
     # wait for the Digitizer measurements to complete
-    wait_for_new_voltage_data(tcp_socket, 0.5)
+    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
 
     # fetch the Digitizer voltage readings using VOLT:FETC? query
     digitizerData = []
-    digitizerData = fetch_voltage_data(tcp_socket)
+    digitizerData = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
@@ -232,7 +219,7 @@ try:
 
     log.info("TjMeasurement.py completed.\n")
 
-except SpikeSafeError as ssErr:
+except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
     error_message = 'SpikeSafe error: {}\n'.format(ssErr)
     log.error(error_message)
