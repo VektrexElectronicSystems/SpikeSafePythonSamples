@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=False)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | Compensation.get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=False)
 
-## get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=False)
+## Compensation.get_custom_compensation(spikesafe_model_max_current_amps, set_current_amps, device_type, custom_compensation_table, pulse_on_time_seconds=None, enable_logging=False)
 
 ### Definition
 Returns the custom compensation values for a given set_current_amps and device_type based on a custom_compensation_table, and optionally a given pulse on time.

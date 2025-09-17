@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps, pulse_on_time_seconds=None, enable_logging=False)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | Compensation.get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps, pulse_on_time_seconds=None, enable_logging=False)
 
-## spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps, pulse_on_time_seconds=None, enable_logging=False)
+## Compensation.get_optimum_compensation(spikesafe_model_max_current_amps, set_current_amps, pulse_on_time_seconds=None, enable_logging=False)
 
 ### Definition
 Returns the optimum compensation for a given set current, and optionally a given pulse on time.

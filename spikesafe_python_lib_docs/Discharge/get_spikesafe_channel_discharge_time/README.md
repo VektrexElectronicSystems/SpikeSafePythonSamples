@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Discharge](/spikesafe_python_lib_docs/Discharge/README.md) | def spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Discharge](/spikesafe_python_lib_docs/Discharge/README.md) | Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
 
-## spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+## Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
 
 ### Definition
 Returns the time in seconds to fully discharge the SpikeSafe channel based on the compliance voltage.

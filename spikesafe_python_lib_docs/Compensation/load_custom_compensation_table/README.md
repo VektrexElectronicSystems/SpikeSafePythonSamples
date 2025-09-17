@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | load_custom_compensation_table(file_path)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | Compensation.load_custom_compensation_table(file_path)
 
-## load_custom_compensation_table(file_path)
+## Compensation.load_custom_compensation_table(file_path)
 
 ### Definition
 Returns a custom compensation table from a JSON file.

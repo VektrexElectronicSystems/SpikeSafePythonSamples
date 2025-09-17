@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)
 
-## spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)
+## Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)
 
 ### Definition
 Returns the optimal precision for a compliance voltage command argument.

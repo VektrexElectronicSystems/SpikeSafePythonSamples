@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | spikesafe_python.Precision.get_precise_current_command_argument(current_amps)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | Precision.get_precise_current_command_argument(current_amps)
 
-## spikesafe_python.Precision.get_precise_current_command_argument(current_amps)
+## Precision.get_precise_current_command_argument(current_amps)
 
 ### Definition
 Returns the optimal precision for a current in amps command argument.

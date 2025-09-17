@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None)
 
-## spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None, timeout = None)
+## DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None, timeout = None)
 
 ### Definition
 Queries the SpikeSafe PSMU digitizer until it responds that it has acquired new data.

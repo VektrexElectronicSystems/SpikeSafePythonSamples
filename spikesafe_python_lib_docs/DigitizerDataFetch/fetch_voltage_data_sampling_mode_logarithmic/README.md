@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | fetch_voltage_data_sampling_mode_logarithmic(spike_safe_socket, time_sampling_mode, sampling_mode, hardware_trigger_delay_microseconds = 0, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.fetch_voltage_data_sampling_mode_logarithmic(spike_safe_socket, time_sampling_mode, sampling_mode, hardware_trigger_delay_microseconds = 0, enable_logging = None)
 
-## fetch_voltage_data_sampling_mode_logarithmic(spike_safe_socket, time_sampling_mode, sampling_mode, hardware_trigger_delay_microseconds = 0, enable_logging = None)
+## DigitizerDataFetch.fetch_voltage_data_sampling_mode_logarithmic(spike_safe_socket, time_sampling_mode, sampling_mode, hardware_trigger_delay_microseconds = 0, enable_logging = None)
 
 ### Definition
 Returns an array of voltage readings using logarithmic sampling mode from the digitizer obtained through a fetch query.

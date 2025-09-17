@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | spikesafe_python.ReadAllEvents.read_until_event(spike_safe_socket, code, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | ReadAllEvents.read_until_event(spike_safe_socket, code, enable_logging = None)
 
-## spikesafe_python.ReadAllEvents.read_until_event(spike_safe_socket, code, enable_logging = None)
+## ReadAllEvents.read_until_event(spike_safe_socket, code, enable_logging = None)
 
 ### Definition
 Returns an array of all events from the SpikeSafe event queue until a specific event is read.

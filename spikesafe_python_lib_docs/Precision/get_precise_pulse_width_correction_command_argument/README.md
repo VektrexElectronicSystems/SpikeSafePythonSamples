@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | get_precise_pulse_width_correction_command_argument(pulse_width_offset)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | Precision.get_precise_pulse_width_correction_command_argument(pulse_width_offset)
 
-## get_precise_pulse_width_correction_command_argument(pulse_width_offset)
+## Precision.get_precise_pulse_width_correction_command_argument(pulse_width_offset)
 
 ### Definition
 Returns the optimal precision for a pulse width correction command argument.

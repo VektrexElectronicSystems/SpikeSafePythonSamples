@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | spikesafe_python.ReadAllEvents.log_all_events(spike_safe_socket)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | ReadAllEvents.log_all_events(spike_safe_socket)
 
-## spikesafe_python.ReadAllEvents.log_all_events(spike_safe_socket)
+## ReadAllEvents.log_all_events(spike_safe_socket)
 
 ### Definition
 Reads all SpikeSafe events from event queue and prints them to the log file.

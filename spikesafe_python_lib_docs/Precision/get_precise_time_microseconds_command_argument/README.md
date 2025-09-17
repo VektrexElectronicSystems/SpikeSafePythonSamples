@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | spikesafe_python.Precision.get_precise_time_microseconds_command_argument(time_microseconds)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | Precision.get_precise_time_microseconds_command_argument(time_microseconds)
 
-## spikesafe_python.Precision.get_precise_time_microseconds_command_argument(time_microseconds)
+## Precision.get_precise_time_microseconds_command_argument(time_microseconds)
 
 ### Definition
 Returns the optimal precision for a time in microseconds command argument.

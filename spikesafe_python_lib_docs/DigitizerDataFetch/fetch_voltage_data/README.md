@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | spikesafe_python.DigitizerDataFetch.fetch_voltage_data(spike_safe_socket, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.fetch_voltage_data(spike_safe_socket, enable_logging = None)
 
-## spikesafe_python.DigitizerDataFetch.fetch_voltage_data(spike_safe_socket, enable_logging = None)
+## DigitizerDataFetch.fetch_voltage_data(spike_safe_socket, enable_logging = None)
 
 ### Definition
 Returns an array of voltage readings from the digitizer obtained through a fetch query.

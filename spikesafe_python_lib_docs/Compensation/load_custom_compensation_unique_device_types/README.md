@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | load_custom_compensation_unique_device_types(custom_compensation_table)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Compensation](/spikesafe_python_lib_docs/Compensation/README.md) | Compensation.load_custom_compensation_unique_device_types(custom_compensation_table)
 
-## load_custom_compensation_unique_device_types(custom_compensation_table)
+## Compensation.load_custom_compensation_unique_device_types(custom_compensation_table)
 
 ### Definition
 Returns the unique device types from a custom compensation table.
