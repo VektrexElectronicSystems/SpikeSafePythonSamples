@@ -41,9 +41,9 @@ Logging specific SCPI communication will capture sending SCPI and reading SCPI o
 A typical output in SpikeSafePythonSamples.log is shown below:
 
 09/13/2022 04:57:35, INFO, LogSpecificTcpSocketScpi.py started.  
-09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.231. Read Data reply: (DIF (NAME "Output Readings" (DATA (BULK 99.8) (CH1 0.000000 0.000000 0) (T1 29.9) (T2 29.9) (T3 0.0) (T4 0.0) )))  
-09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.231. Sending SCPI command: SYST:ERR?  
-09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.231. Read Data reply: 102, External Paused Signal Stopped  
-09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.231. Sending SCPI command: SYST:ERR?  
-09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.231. Read Data reply: 0, OK  
+09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.220. Read Data reply: (DIF (NAME "Output Readings" (DATA (BULK 99.8) (CH1 0.000000 0.000000 0) (T1 29.9) (T2 29.9) (T3 0.0) (T4 0.0) )))  
+09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.220. Sending SCPI command: SYST:ERR?  
+09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.220. Read Data reply: 102, External Paused Signal Stopped  
+09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.220. Sending SCPI command: SYST:ERR?  
+09/13/2022 04:57:36, INFO, TcpSocket 10.0.0.220. Read Data reply: 0, OK  
 09/13/2022 04:57:36, INFO, LogSpecificTcpSocketScpi.py completed.  

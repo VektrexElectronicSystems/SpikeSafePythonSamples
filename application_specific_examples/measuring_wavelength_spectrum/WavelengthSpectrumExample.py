@@ -10,16 +10,7 @@ import sys
 import time
 import logging
 import os
-from spikesafe_python.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
-from spikesafe_python.Precision import get_precise_current_command_argument
-from spikesafe_python.Precision import get_precise_time_command_argument
-from spikesafe_python.ReadAllEvents import log_all_events
-from spikesafe_python.ReadAllEvents import read_until_event
-from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
-from spikesafe_python.TcpSocket import TcpSocket
-from spikesafe_python.Threading import wait     
-from spikesafe_python.SpikeSafeError import SpikeSafeError
+import spikesafe_python
 from CasSpectrometer import CasDll
 from matplotlib import pyplot as plt 
 
@@ -145,26 +136,26 @@ try:
     ### SpikeSafe Connection and Configuration (Start of typical sequence)
 
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket(enable_logging=False)
+    tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
     tcp_socket.open_socket(ip_address, port_number)
 
     # reset SpikeSafe to default state and check for all events    
     tcp_socket.send_scpi_command('*RST')                  
-    log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set SpikeSafe Channel 1's pulse mode to Single Pulse and set all relevant settings. For more information, see run_spikesafe_operating_modes/run_dc
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(1)}')    
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current_amps)}')
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(compliance_voltage_V)}')         
-    log_all_events(tcp_socket) 
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(1)}')    
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current_amps)}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage_V)}')         
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # turn on SpikeSafe Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 1')               
-    log_all_events(tcp_socket)                            
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)                            
 
     # wait until the channel is fully ramped and output a single pulse
-    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
     tcp_socket.send_scpi_command('OUTP1:TRIG')   
 
     # take a CAS4 measurement
@@ -190,7 +181,7 @@ try:
 
     # turn off SpikeSafe Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 0')               
-    log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()     
@@ -218,7 +209,7 @@ try:
 
     log.info("WavelengthSpectrumExample.py completed.\n")
 
-except SpikeSafeError as ssErr:
+except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
     error_message = 'SpikeSafe error: {}\n'.format(ssErr)
     log.error(error_message)

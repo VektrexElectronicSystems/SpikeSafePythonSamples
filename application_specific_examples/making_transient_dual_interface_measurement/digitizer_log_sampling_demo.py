@@ -6,12 +6,7 @@ import logging
 import os
 
 from decimal import Decimal
-from spikesafe_python.MemoryTableReadData import MemoryTableReadData
-from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
-from spikesafe_python.Precision import get_precise_current_command_argument
-from spikesafe_python.TcpSocket import TcpSocket
-from spikesafe_python.SpikeSafeError import SpikeSafeError
-from spikesafe_python.DigitizerDataFetch import fetch_voltage_data, wait_for_new_voltage_data
+import spikesafe_python
 from matplotlib import pyplot as plt 
 import numpy as np
 
@@ -56,7 +51,7 @@ elif grease_input == 2:
 ### start of main program
 try:   
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket(enable_logging=False)
+    tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
     tcp_socket.open_socket(ip_address, port_number)
 
     # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU  
@@ -100,13 +95,13 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')
     
     # set MCV to 25
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
 
     # set Auto Range
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')
 
     # set current to 1A
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(1)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(1)}')   
 
     # set Ramp mode to Fast
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
@@ -139,7 +134,7 @@ try:
             break  
 
     # Fetch Data    
-    digitizer_data = fetch_voltage_data(tcp_socket)
+    digitizer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
 
     # time stamp record the approximate timing between the trigger signal and the data output 
     end_data_ready_time = time.time()
@@ -236,7 +231,7 @@ try:
     plt.grid()
     plt.show()
 
-except SpikeSafeError as ssErr:
+except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
     error_message = 'SpikeSafe error: {}\n'.format(ssErr)
     print(error_message)

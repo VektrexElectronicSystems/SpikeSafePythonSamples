@@ -19,7 +19,7 @@ tcp_socket.send_scpi_command('MEM:TABL:READ')
 data = tcp_socket.read_data()                                        
 
 # parse SpikeSafe memory table
-memory_table_read = MemoryTableReadData().parse_memory_table_read(data)
+memory_table_read = spikesafe_python.MemoryTableReadData().parse_memory_table_read(data)
 
 # extract Bulk Voltage data
 bulk_voltage = memory_table_read.bulk_voltage

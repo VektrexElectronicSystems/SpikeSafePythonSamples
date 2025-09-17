@@ -8,18 +8,7 @@
 import sys
 import time
 import logging
-from spikesafe_python.Compensation import get_optimum_compensation
-from spikesafe_python.MemoryTableReadData import log_memory_table_read
-from spikesafe_python.Precision import get_precise_compliance_voltage_command_argument
-from spikesafe_python.Precision import get_precise_current_command_argument
-from spikesafe_python.Precision import get_precise_duty_cycle_command_argument
-from spikesafe_python.Precision import get_precise_time_command_argument
-from spikesafe_python.ReadAllEvents import log_all_events
-from spikesafe_python.ReadAllEvents import read_until_event
-from spikesafe_python.SpikeSafeEvents import SpikeSafeEvents
-from spikesafe_python.TcpSocket import TcpSocket
-from spikesafe_python.Threading import wait     
-from spikesafe_python.SpikeSafeError import SpikeSafeError
+import spikesafe_python
 
 ### set these before starting application
 
@@ -56,7 +45,7 @@ def verify_current_pulse_settings(spike_safe_socket):
     pulse_period = spike_safe_socket.read_data()
     log_and_print('Updated Pulse Period: {}s'.format(pulse_period))
 
-    log_all_events(spike_safe_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(spike_safe_socket)
 
     # space out the log and terminal output for clarity
     log_and_print('')
@@ -68,46 +57,46 @@ try:
     log.info("Python version: {}".format(sys.version))
         
     # instantiate new TcpSocket to connect to SpikeSafe
-    tcp_socket = TcpSocket(enable_logging=False)
+    tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
     tcp_socket.open_socket(ip_address, port_number)
 
     # reset to default state and configure settings to run in Continuous Dynamic mode
     tcp_socket.send_scpi_command('*RST')                  
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDDYNAMIC')
     set_current = 0.1
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {get_precise_current_command_argument(set_current)}')   
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(20)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(20)}')   
 
     # initially setting the On and Off Time to their default values using the standard commands 
     # Although not recommended, it is possible to use On Time, Off Time, Pulse Width, Period, and Duty Cycle commands in the same test session
     # If On or Off Time is specified using these standard commands, the Pulse Hold will be ignored
     pulse_on_time = 0.001
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {get_precise_time_command_argument(pulse_on_time)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {get_precise_time_command_argument(0.009)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.009)}')
 
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+    load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')   
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
 
     # Check for any errors with initializing commands
-    log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until the channel is fully ramped
-    read_until_event(tcp_socket, SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # check for all events and measure readings on Channel 1 once per second for 5 seconds,
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
     time_end = time.time() + 5                         
     while time.time() < time_end:                       
-        log_all_events(tcp_socket)
-        log_memory_table_read(tcp_socket)
-        wait(1)
+        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
+        spikesafe_python.Threading.wait(1)
 
     # set Channel 1's Pulse Hold to Period. Setting any pulse-related setting will not re-calculate Pulse Period
     tcp_socket.send_scpi_command('SOUR1:PULS:HOLD PER')
@@ -115,49 +104,49 @@ try:
 
     # set Channel 1's Pulse Width to 8ms. Since Period is being held, the Period will remain at 10ms
     pulse_width_seconds = 0.008
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:WIDT {get_precise_time_command_argument(pulse_width_seconds)}')
-    log_and_print(f'Set Pulse Width to {get_precise_time_command_argument(pulse_width_seconds)}s')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:WIDT {spikesafe_python.Precision.get_precise_time_command_argument(pulse_width_seconds)}')
+    log_and_print(f'Set Pulse Width to {spikesafe_python.Precision.get_precise_time_command_argument(pulse_width_seconds)}s')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
     
     # wait two seconds while running with the newly updated settings
-    wait(2)
+    spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Duty Cycle to 50%. Since Period is being held, the Period will remain at 10ms
     duty_cycle = 50
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {get_precise_duty_cycle_command_argument(duty_cycle)}')
-    log_and_print(f'Set Duty Cycle to {get_precise_duty_cycle_command_argument(duty_cycle)}%')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}')
+    log_and_print(f'Set Duty Cycle to {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
     
     # wait two seconds while running with the newly updated settings
-    wait(2)
+    spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Duty Cycle to 0%. Using this alternate command set, the Duty Cycle is able to be set to 0% and 100%
     # Duty Cycle of 0% corresponds to an always-off output, similar to a disabled channel
     duty_cycle = 0
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {get_precise_duty_cycle_command_argument(duty_cycle)}')
-    log_and_print(f'Set Duty Cycle to {get_precise_duty_cycle_command_argument(duty_cycle)}%')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}')
+    log_and_print(f'Set Duty Cycle to {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
     
     # wait two seconds while running with the newly updated settings
-    wait(2)
+    spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Duty Cycle to 100%. Using this alternate command set, the Duty Cycle is able to be set to 0% and 100%
     # Duty Cycle of 100% corresponds to an always-on output, similar to a DC mode
     duty_cycle = 100
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {get_precise_duty_cycle_command_argument(duty_cycle)}')
-    log_and_print(f'Set Duty Cycle to {get_precise_duty_cycle_command_argument(duty_cycle)}%')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}')
+    log_and_print(f'Set Duty Cycle to {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
     
     # wait two seconds while running with the newly updated settings
-    wait(2)
+    spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Pulse Hold to Pulse Width. Setting any pulse-related setting will not re-calculate Pulse Width
     tcp_socket.send_scpi_command('SOUR1:PULS:HOLD WIDT')
@@ -165,25 +154,25 @@ try:
 
     # set Channel 1's Pulse Period to 20ms. Since Pulse Width is being held, the Pulse Width will remain at 10ms
     pulse_period_seconds = 0.02
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:PER {get_precise_time_command_argument(pulse_period_seconds)}')
-    log_and_print(f'Set Pulse Period to {get_precise_time_command_argument(pulse_period_seconds)}s')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:PER {spikesafe_python.Precision.get_precise_time_command_argument(pulse_period_seconds)}')
+    log_and_print(f'Set Pulse Period to {spikesafe_python.Precision.get_precise_time_command_argument(pulse_period_seconds)}s')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
     
     # wait two seconds while running with the newly updated settings
-    wait(2)
+    spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Duty Cycle to 25%. Since Pulse Width is being held, the Pulse Width will remain at 10ms
     duty_cycle = 25
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {get_precise_duty_cycle_command_argument(duty_cycle)}')
-    log_and_print(f'Set Duty Cycle to {get_precise_duty_cycle_command_argument(duty_cycle)}%')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}')
+    log_and_print(f'Set Duty Cycle to {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
     
     # wait two seconds while running with the newly updated settings
-    wait(2)
+    spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Pulse Hold to Duty Cycle. Setting any pulse-related setting will not re-calculate Duty Cycle
     tcp_socket.send_scpi_command('SOUR1:PULS:HOLD DCYC')
@@ -198,18 +187,18 @@ try:
     verify_current_pulse_settings(tcp_socket)
     
     # wait two seconds while running with the newly updated settings
-    wait(2)
+    spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Pulse Width to 1ms. Since Duty Cycle is being held, the Duty Cycle will remain at 25%
     pulse_width_seconds = 0.001
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:WIDT {get_precise_time_command_argument(pulse_width_seconds)}')
-    log_and_print(f'Set Pulse Width to {get_precise_time_command_argument(pulse_width_seconds)}s')
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:WIDT {spikesafe_python.Precision.get_precise_time_command_argument(pulse_width_seconds)}')
+    log_and_print(f'Set Pulse Width to {spikesafe_python.Precision.get_precise_time_command_argument(pulse_width_seconds)}s')
 
     # verify that the expected updates are made to the pulse settings
     verify_current_pulse_settings(tcp_socket)
     
     # wait two seconds while running with the newly updated settings
-    wait(2)
+    spikesafe_python.Threading.wait(2)
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
@@ -219,7 +208,7 @@ try:
 
     log.info("UsingPulseHolds.py completed.\n")
 
-except SpikeSafeError as ssErr:
+except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
     error_message = 'SpikeSafe error: {}\n'.format(ssErr)
     log.error(error_message)

@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeError](/spikesafe_python_lib_docs/SpikeSafeError/README.md) | SpikeSafeError(self, code, message, channel_list, full_error)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeError](/spikesafe_python_lib_docs/SpikeSafeError/README.md) | spikesafe_python.SpikeSafeError(self, code, message, channel_list, full_error)
 
-## SpikeSafeError(self, code, message, channel_list, full_error)
+## spikesafe_python.SpikeSafeError(self, code, message, channel_list, full_error)
 
 ### Definition
 Initializes a new instance of the SpikeSafeError class.
@@ -26,7 +26,7 @@ event_queue = []
 is_event_queue_empty = False                                                                                                                      
 
 # set Channel 1's voltage to an invalid 1 V and check for all events
-tcp_socket.send_scpi_command(f'SOUR1:VOLT {get_precise_compliance_voltage_command_argument(40)}')
+tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
 
 # initialize flag to check if event queue is empty 
 is_event_queue_empty = False                                                                                                                      
@@ -47,13 +47,13 @@ while is_event_queue_empty == False:
 
 # convert all events in the SpikeSafe event queue to EventData objects in a new list
 for event in event_queue:
-    event_data_response = EventData().parse_event_data(event)
+    event_data_response = spikesafe_python.EventData().parse_event_data(event)
 
     # raise a SpikeSafeError for any event codes 200 and greater that correspond to SpikeSafe Errors. In general, operation should stop for these
     # here it's expected to raise a SpikeSafeError for event: 304, Invalid Voltage Setting; SOUR1:VOLT 1
     if (event_data_response.code > 200):
-        raise SpikeSafeError(event_data_response.code, event_data_response.message, event_data_response.channel_list, event_data_response.event)
+        raise spikesafe_python.SpikeSafeError(event_data_response.code, event_data_response.message, event_data_response.channel_list, event_data_response.event)
 ```
 
 ### Examples In Action
-[/getting_started/read_all_events/ReadAllEventsManual.py](/getting_started/read_all_events/ReadAllEventsManual.py)
+[/getting_started/spikesafe_python.ReadAllEvents.read_all_events/ReadAllEventsManual.py](/getting_started/spikesafe_python.ReadAllEvents.read_all_events/ReadAllEventsManual.py)
