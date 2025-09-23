@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None, digitizer_number = None)
 
-## DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None, timeout = None)
+## DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None, timeout = None, digitizer_number = None)
 
 ### Definition
 Queries the SpikeSafe PSMU digitizer until it responds that it has acquired new data.
@@ -17,6 +17,9 @@ Overrides spike_safe_socket.enable_logging attribute (None by default, will use 
 
 timeout [float](https://docs.python.org/3/library/functions.html#float) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Timeout in seconds for waiting for new data. If None, wait indefinitely.
+
+digitizer_number [int](https://docs.python.org/3/library/functions.html#int) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)
+The Digitizer number to fetch from. If None, fetches from Digitizer 1.
 
 ### Examples
 The following example demonstrates the spikesafe_python.wait_for_new_voltage_data function. It checks if the PSMU Digitizer has finished measuring voltage data every 500 milliseconds, fetches its measuremments, and store thems in sample and voltage arrays to be used for plotting in a graph.

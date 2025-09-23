@@ -12,6 +12,8 @@ The Vektrex SpikeSafe Python API powers the Python examples published on Github.
 
 Instructions to download and setup **spikesafe-python** can be found [here](https://pypi.org/project/spikesafe-python/) on pypi.org.
 
+For release notes, see [_releases/README.md](/spikesafe_python_lib_docs/_releases/README.md).
+
 ## Classes
 
 | Class Name | Description |
