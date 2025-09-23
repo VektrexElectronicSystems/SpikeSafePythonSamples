@@ -1,5 +1,15 @@
 # spikesafe-python Releases
 
+## v1.10.2
+9/23/25
+
+- Added
+    - DigitizerDataFetch.fetch_voltage_data() new optional parameter digitizer_number
+    - DigitizerDataFetch.fetch_voltage_data_sampling_mode_custom() new optional parameter digitizer_number
+    - DigitizerDataFetch.fetch_voltage_data_sampling_mode_linear() new optional parameter digitizer_number
+    - DigitizerDataFetch.fetch_voltage_data_sampling_mode_logarithmic() new optional parameter digitizer_number
+    - DigitizerDataFetch.wait_for_new_voltage_data() new optional parameter digitizer_number
+
 ## v1.9.7
 9/17/25
 
