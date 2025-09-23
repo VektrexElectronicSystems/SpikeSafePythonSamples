@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.fetch_voltage_data(spike_safe_socket, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.fetch_voltage_data(spike_safe_socket, enable_logging = None, digitizer_number = None)
 
-## DigitizerDataFetch.fetch_voltage_data(spike_safe_socket, enable_logging = None)
+## DigitizerDataFetch.fetch_voltage_data(spike_safe_socket, enable_logging = None, digitizer_number = None)
 
 ### Definition
 Returns an array of voltage readings from the digitizer obtained through a fetch query.
@@ -11,6 +11,9 @@ Socket object used to communicate with SpikeSafe.
 
 enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Overrides spike_safe_socket.enable_logging attribute (None by default, will use spike_safe_socket.enable_logging value).
+
+digitizer_number [int](https://docs.python.org/3/library/functions.html#int) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)
+The Digitizer number to fetch from. If None, fetches from Digitizer 1.
 
 ### Returns
 [DigitizerData array](/spikesafe_python_lib_docs/DigitizerData/README.md)  
