@@ -56,8 +56,8 @@ def calculate_Vf0(start_point: int, end_point: int, digitizer_data_list: list[sp
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282 
+ip_address: str = '10.0.0.220'
+port_number:int = 8282 
 
 # The graph zoom offset is used to zoom in or out to better visualize data in the final graph to make it easier to determine Vf(0). Value is in volts
 # A value of zero corresponds to a completely zoomed in graph. Increase the value to zoom out. Recommended values are between 0.001 and 0.100
@@ -96,7 +96,7 @@ try:
     # set up Channel 1 for Bias Current output to determine the K-factor
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIAS')
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.033)}')
-    compliance_voltage = 40
+    compliance_voltage: float = 40
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
@@ -144,7 +144,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIASPULSEDDYNAMIC')
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(3.5)}')
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.033)}')
-    compliance_voltage = 40
+    compliance_voltage: float = 40
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(1)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.001)}')
@@ -153,15 +153,15 @@ try:
 
     # set Digitizer settings to take a series of quick measurements during the Off Time of CDBC operation
     tcp_socket.send_scpi_command('VOLT:RANG 100')
-    aperture = 2
+    aperture: int = 2
     tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
-    hardware_trigger_delay = 0
+    hardware_trigger_delay: int = 0
     tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE FALLING')
-    hardware_trigger_count = 1
+    hardware_trigger_count: int = 1
     tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}')
-    reading_count = 500
+    reading_count: int = 500
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # check all SpikeSafe event since all settings have been sent

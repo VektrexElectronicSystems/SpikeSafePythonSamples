@@ -13,8 +13,8 @@ import spikesafe_python
 from tkinter import messagebox     
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.231'
-port_number = 8282  
+ip_address: str = '10.0.0.220'
+port_number: int = 8282  
 
 spikesafe_info: spikesafe_python.SpikeSafeInfo = None
 
@@ -103,7 +103,7 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(0.1)}')     
 
     # set channel 1's voltage to 20 V 
-    compliance_voltage = 20
+    compliance_voltage: float = 20
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')   
 
     # set channel 1's pulse width to 100µs. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode

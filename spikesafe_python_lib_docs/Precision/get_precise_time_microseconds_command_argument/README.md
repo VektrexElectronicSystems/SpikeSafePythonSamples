@@ -17,11 +17,11 @@ Time in microseconds command argument with optimal precision
 The following example demonstrates the `spikesafe_python.Precision.get_precise_time_microseconds_command_argument()` function. It sends the SpikeSafe PSMU Digitizer aperture and hardware trigger delay SCPI commands with the optimum precision for 600us and 200us.
 ```
 # set Digitizer aperture for 600µs. Aperture specifies the measurement time, and we want to measure a majority of the pulse's constant current output
-aperture = 600
+aperture: int = 600
 tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
 
 # set Digitizer trigger delay to 200µs. We want to give sufficient delay to omit any overshoot the current pulse may have
-hardware_trigger_delay = 200
+hardware_trigger_delay: int = 200
 tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
 ```
 

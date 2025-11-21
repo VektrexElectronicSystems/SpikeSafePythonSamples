@@ -12,8 +12,8 @@ import spikesafe_python
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282          
+ip_address: str = '10.0.0.220'
+port_number: int = 8282          
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -50,7 +50,7 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # set Channel 1's Pulse On Time to 1ms and check for all events
-    pulse_on_time = 0.001
+    pulse_on_time: float = 0.001
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
@@ -59,12 +59,12 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
     # set Channel 1's current to 100 mA and check for all events
-    set_current = 0.1
+    set_current: float = 0.1
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)  
 
     # set Channel 1's voltage to 20 V and check for all events
-    compliance_voltage = 20
+    compliance_voltage: float = 20
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 

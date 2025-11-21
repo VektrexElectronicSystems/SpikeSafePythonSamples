@@ -17,19 +17,19 @@ from matplotlib import pyplot as plt
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282         
+ip_address: str = '10.0.0.220'
+port_number: int = 8282         
 
 # SpikeSafe Single Pulse current settings
-set_current_amps = 0.1
-compliance_voltage_V = 20
+set_current_amps: float = 0.1
+compliance_voltage_V: float = 20
 
 # CAS4 measurement settings
 CAS4_integration_time_ms = 20
 CAS4_trigger_delay_ms = 5 # needs to be set to a non-zero value for the spectrometer to correctly output data
 
 # CAS4 interface mode
-CAS4_interface_mode = 3
+CAS4_interface_mode: int = 3
 """
     CAS4_interface_mode: int
     - 1: PCI

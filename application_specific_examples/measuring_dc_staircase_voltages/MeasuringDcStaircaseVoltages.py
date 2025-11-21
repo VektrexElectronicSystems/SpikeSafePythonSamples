@@ -15,15 +15,15 @@ from matplotlib import pyplot as plt
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282
+ip_address: str = '10.0.0.220'
+port_number:int = 8282
 
 # stair case parameters
-step_count = 10
-start_current_A = 0.010
-stop_current_A = 0.100
-step_size_A = (stop_current_A - start_current_A) / (step_count - 1)
-load_ohm_value = 1
+step_count: int = 10
+start_current_A: float = 0.010
+stop_current_A: float = 0.100
+step_size_A: float = (stop_current_A - start_current_A) / (step_count - 1)
+load_ohm_value: float = 1
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -60,7 +60,7 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set Channel 1's voltage to 10 and check for all events
-    compliance_voltage = 40
+    compliance_voltage: float = 40
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
@@ -83,7 +83,7 @@ try:
     spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # set Digitizer Aperture to 10us and check for all events
-    aperture = 10
+    aperture: int = 10
     tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
@@ -92,7 +92,7 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set Digitizer Read Count to 1 and check for all events
-    reading_count = 1
+    reading_count: int = 1
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 

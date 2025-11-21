@@ -20,7 +20,7 @@ def receive_user_input_and_log() -> str:
 ### set these before starting application
 
 # SpikeSafe port number
-port_number = 8282         
+port_number: int = 8282         
 
 ok_string = "0, OK"
 channel_ready_string = "100, Channel Ready; Channel(s) 1"
@@ -98,7 +98,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')
     
     # set MCV to 25
-    compliance_voltage = 40
+    compliance_voltage: float = 40
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
 
     # set Auto Range

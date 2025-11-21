@@ -19,24 +19,24 @@ from matplotlib import pyplot as plt
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282      
+ip_address: str = '10.0.0.220'
+port_number: int = 8282      
 
 # LIV Sweep SpikeSafe parameters
-LIV_start_current_mA = 20
-LIV_stop_current_mA = 200
-LIV_sweep_step_count = 19
+LIV_start_current_mA: float = 20
+LIV_stop_current_mA: float = 200
+LIV_sweep_step_count: int = 19
 
-compliance_voltage_V = 20
-pulse_on_time_seconds = 0.02
-pulse_off_time_seconds = 0.05 # setting too small of an off time may result in missed measurements by the CAS4
+compliance_voltage_V: float = 20
+pulse_on_time_seconds: float = 0.02
+pulse_off_time_seconds: float = 0.05 # setting too small of an off time may result in missed measurements by the CAS4
 
 # CAS4 measurement settings
 CAS4_integration_time_ms = 10
 CAS4_trigger_delay_ms = 5
 
 # CAS4 interface mode
-CAS4_interface_mode = 3
+CAS4_interface_mode: int = 3
 """
     CAS4_interface_mode: int
     - 1: PCI
@@ -169,15 +169,15 @@ try:
 
     # set up SpikeSafe Digitizer to measure Pulsed Sweep output. To find more explanation, see making_integrated_voltage_measurements/measure_pulsed_sweep_voltage
     tcp_socket.send_scpi_command('VOLT:RANG 100')
-    aperture = pulse_on_time_seconds * 600000 # we want to measure 60% of the pulse
+    aperture: int = pulse_on_time_seconds * 600000 # we want to measure 60% of the pulse
     tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
-    hardware_trigger_delay = pulse_on_time_seconds * 200000 # we want to skip the first 20% of the pulse
+    hardware_trigger_delay: int = pulse_on_time_seconds * 200000 # we want to skip the first 20% of the pulse
     tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
-    hardware_trigger_count = LIV_sweep_step_count
+    hardware_trigger_count: int = LIV_sweep_step_count
     tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}')
-    reading_count = 1
+    reading_count: int = 1
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # Check for any errors with Digitizer initialization commands

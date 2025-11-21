@@ -52,8 +52,8 @@ logging.basicConfig(
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282          
+ip_address: str = '10.0.0.220'
+port_number: int = 8282          
 
 ### start of main program
 try:
@@ -74,8 +74,6 @@ try:
     # read SpikeSafe information
     data = tcp_socket.read_data()                    
     log.info("SpikeSafe *IDN? Response: {}".format(data))
-
-    bool_value1 = compare_rev_version(data, ref_version)
 
     # request if Digitizer is available (This is only available on PSMU and PSMU HC depending on model)
     tcp_socket.send_scpi_command('VOLT:DIGI:AVAIL?')         

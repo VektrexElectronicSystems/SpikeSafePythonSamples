@@ -50,7 +50,7 @@ The following settings are configured by default. At the top of the sequence, th
     - C headers file: C:\Program Files\Instrument Systems\CAS4x64-SDK\VC2013\CAS4.h
     - CAS DLL: C:\Windows\System32\CAS4x64.dll
 - The CAS4 spectrometer requires a configuration (.INI) file and calibration (.ISC) file to operate. Both of these files should be copied and pasted to the SpikeSafePythonSamples\application_specific_examples\running_liv_sweeps folder before starting this sequence.
-- In LIVSweepExample.py, modify the line `CAS4_interface_mode = 3` in order to specify the communication interface for the CAS4. The following communication interfaces are supported:
+- In LIVSweepExample.py, modify the line `CAS4_interface_mode: int = 3` in order to specify the communication interface for the CAS4. The following communication interfaces are supported:
     - **1:** PCI
     - **3:** Demo (No hardware (Default))
     - **5:** USB

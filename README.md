@@ -64,7 +64,7 @@ To run these sequences in a more feature rich IDE, use the free [Visual Studio C
 
 Start with [TCP Socket Sample](getting_started/tcp_socket_sample) to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](getting_started).
 
-You will need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address = '10.0.0.220'`.
+You will need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address: str = '10.0.0.220'`.
 
 Each file can be modified to include additional settings and commands to fit individual needs. Complete class documentation is available in [spikesafe-python API Overview](spikesafe_python_lib_docs).
 

@@ -13,8 +13,8 @@ from matplotlib import pyplot as plt
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282          
+ip_address: str = '10.0.0.220'
+port_number: int = 8282          
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -48,12 +48,12 @@ try:
 
     # set up Channel 1 for pulsed output. To find more explanation, see instrument_examples/run_pulsed
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSED')
-    pulse_on_time = 0.001
+    pulse_on_time: float = 0.001
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.009)}')
-    set_current = 0.1
+    set_current: float = 0.1
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')
-    compliance_voltage = 20
+    compliance_voltage: float = 20
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
@@ -67,11 +67,11 @@ try:
     tcp_socket.send_scpi_command('VOLT:RANG 10')
 
     # set Digitizer aperture for 600µs. Aperture specifies the measurement time, and we want to measure a majority of the pulse's constant current output
-    aperture = 600
+    aperture: int = 600
     tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
 
     # set Digitizer trigger delay to 200µs. We want to give sufficient delay to omit any overshoot the current pulse may have
-    hardware_trigger_delay = 200
+    hardware_trigger_delay: int = 200
     tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
 
     # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
@@ -81,11 +81,11 @@ try:
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
 
     # set Digitizer trigger count to 525, the maximum value. 525 rising edges of current pulses will correspond to 525 voltage readings
-    hardware_trigger_count = 525
+    hardware_trigger_count: int = 525
     tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}')
 
     # set Digitizer reading count to 1. This is the amount of readings that will be taken when the Digitizer receives its specified trigger signal
-    reading_count = 1
+    reading_count: int = 1
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # check all SpikeSafe event since all settings have been sent

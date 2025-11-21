@@ -13,8 +13,8 @@ import spikesafe_python
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282   
+ip_address: str = '10.0.0.220'
+port_number: int = 8282   
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -64,15 +64,15 @@ try:
     tcp_socket.send_scpi_command('*RST')
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)                  
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDDYNAMIC')
-    set_current = 0.1
+    set_current: float = 0.1
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')
-    compliance_voltage = 20
+    compliance_voltage: float = 20
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')   
 
     # initially setting the On and Off Time to their default values using the standard commands 
     # Although not recommended, it is possible to use On Time, Off Time, Pulse Width, Period, and Duty Cycle commands in the same test session
     # If On or Off Time is specified using these standard commands, the Pulse Hold will be ignored
-    pulse_on_time = 0.001
+    pulse_on_time: float = 0.001
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.009)}')
 
@@ -105,7 +105,7 @@ try:
     log_and_print('Held Pulse Period')
 
     # set Channel 1's Pulse Width to 8ms. Since Period is being held, the Period will remain at 10ms
-    pulse_width_seconds = 0.008
+    pulse_width_seconds: float = 0.008
     tcp_socket.send_scpi_command(f'SOUR1:PULS:WIDT {spikesafe_python.Precision.get_precise_time_command_argument(pulse_width_seconds)}')
     log_and_print(f'Set Pulse Width to {spikesafe_python.Precision.get_precise_time_command_argument(pulse_width_seconds)}s')
 
@@ -116,7 +116,7 @@ try:
     spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Duty Cycle to 50%. Since Period is being held, the Period will remain at 10ms
-    duty_cycle = 50
+    duty_cycle: float = 50
     tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}')
     log_and_print(f'Set Duty Cycle to {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
@@ -128,7 +128,7 @@ try:
 
     # set Channel 1's Duty Cycle to 0%. Using this alternate command set, the Duty Cycle is able to be set to 0% and 100%
     # Duty Cycle of 0% corresponds to an always-off output, similar to a disabled channel
-    duty_cycle = 0
+    duty_cycle: float = 0
     tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}')
     log_and_print(f'Set Duty Cycle to {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
@@ -140,7 +140,7 @@ try:
 
     # set Channel 1's Duty Cycle to 100%. Using this alternate command set, the Duty Cycle is able to be set to 0% and 100%
     # Duty Cycle of 100% corresponds to an always-on output, similar to a DC mode
-    duty_cycle = 100
+    duty_cycle: float = 100
     tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}')
     log_and_print(f'Set Duty Cycle to {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
@@ -155,7 +155,7 @@ try:
     log_and_print('Held Pulse Width')
 
     # set Channel 1's Pulse Period to 20ms. Since Pulse Width is being held, the Pulse Width will remain at 10ms
-    pulse_period_seconds = 0.02
+    pulse_period_seconds: float = 0.02
     tcp_socket.send_scpi_command(f'SOUR1:PULS:PER {spikesafe_python.Precision.get_precise_time_command_argument(pulse_period_seconds)}')
     log_and_print(f'Set Pulse Period to {spikesafe_python.Precision.get_precise_time_command_argument(pulse_period_seconds)}s')
 
@@ -166,7 +166,7 @@ try:
     spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Duty Cycle to 25%. Since Pulse Width is being held, the Pulse Width will remain at 10ms
-    duty_cycle = 25
+    duty_cycle: float = 25
     tcp_socket.send_scpi_command(f'SOUR1:PULS:DCYC {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}')
     log_and_print(f'Set Duty Cycle to {spikesafe_python.Precision.get_precise_duty_cycle_command_argument(duty_cycle)}%')
 
@@ -181,7 +181,7 @@ try:
     log_and_print('Held Duty Cycle')
 
     # set Channel 1's Pulse Period to 200ms. Since Duty Cycle is being held, the Duty Cycle will remain at 25%
-    pulse_period_seconds = 0.2
+    pulse_period_seconds: float = 0.2
     tcp_socket.send_scpi_command('SOUR1:PULS:PER {}'.format(pulse_period_seconds))
     log_and_print('Set Pulse Period to {}s'.format(pulse_period_seconds))
 
@@ -192,7 +192,7 @@ try:
     spikesafe_python.Threading.wait(2)
 
     # set Channel 1's Pulse Width to 1ms. Since Duty Cycle is being held, the Duty Cycle will remain at 25%
-    pulse_width_seconds = 0.001
+    pulse_width_seconds: float = 0.001
     tcp_socket.send_scpi_command(f'SOUR1:PULS:WIDT {spikesafe_python.Precision.get_precise_time_command_argument(pulse_width_seconds)}')
     log_and_print(f'Set Pulse Width to {spikesafe_python.Precision.get_precise_time_command_argument(pulse_width_seconds)}s')
 

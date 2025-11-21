@@ -12,8 +12,8 @@ import spikesafe_python
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282  
+ip_address: str = '10.0.0.220'
+port_number: int = 8282  
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -49,15 +49,15 @@ try:
     tcp_socket.send_scpi_command('SOUR0:FUNC:SHAP SINGLEPULSE')
 
     # set each channel's current to 100 mA
-    set_current = 0.1
+    set_current: float = 0.1
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')    
 
     # set each channel's voltage to 20 V
-    compliance_voltage = 20
+    compliance_voltage: float = 20
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')   
 
     # set each channel's pulse width to 1ms. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
-    pulse_on_time = 0.001
+    pulse_on_time: float = 0.001
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
 
     # set each channel's compensation settings to their default values
