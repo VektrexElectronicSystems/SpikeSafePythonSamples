@@ -28,11 +28,11 @@ logging.basicConfig(
     ]
 )
 
-def log_and_print(message_string):
+def log_and_print(message_string: str) -> None:
     log.info(message_string)
     print(message_string)
 
-def verify_current_pulse_settings(spike_safe_socket):
+def verify_current_pulse_settings(spike_safe_socket: spikesafe_python.TcpSocket) -> None:
     spike_safe_socket.send_scpi_command('SOUR1:PULS:WIDT?')
     pulse_width = spike_safe_socket.read_data()
     log_and_print('Updated Pulse Width: {}s'.format(pulse_width))

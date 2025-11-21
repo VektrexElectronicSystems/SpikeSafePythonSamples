@@ -10,10 +10,10 @@ import spikesafe_python
 from matplotlib import pyplot as plt 
 import numpy as np
 
-def log_and_print_to_console(message_string):
+def log_and_print_to_console(message_string: str) -> None:
     print(message_string)
 
-def receive_user_input_and_log():
+def receive_user_input_and_log() -> str:
     inputText = input()
     return inputText
 

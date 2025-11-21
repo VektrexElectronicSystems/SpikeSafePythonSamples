@@ -15,7 +15,7 @@ import statistics
 import spikesafe_python
 from matplotlib import pyplot as plt
 
-def log_and_print_to_console(message_string):
+def log_and_print_to_console(message_string: str) -> None:
     log.info(message_string.replace('\n',''))
     print(message_string)
 
@@ -24,7 +24,7 @@ def receive_user_input_and_log():
     log.info(inputText)
     return inputText
 
-def calculate_Vf0(start_point, end_point, digitizer_data_list):
+def calculate_Vf0(start_point: int, end_point: int, digitizer_data_list: list[spikesafe_python.DigitizerData]) -> float:
     # only want to reference the data within the straight line
     straight_line_digitizer_data = []
     for index in range(start_point, end_point):

@@ -29,7 +29,10 @@ logging.basicConfig(
 )
 
 ### defining the action to take per test session
-def run_single_pulse_tuning_test(load_impedance, rise_time):
+def run_single_pulse_tuning_test(
+    load_impedance: spikesafe_python.SpikeSafeEnums.LoadImpedance,
+    rise_time: spikesafe_python.SpikeSafeEnums.RiseTime
+) -> None:
     
     log.info('Running single pulse tuning test iteration with {} and {}'.format(load_impedance, rise_time))
 
