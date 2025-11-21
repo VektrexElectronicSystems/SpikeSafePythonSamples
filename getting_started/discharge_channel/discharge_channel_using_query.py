@@ -74,10 +74,7 @@ try:
 
     # wait until the channel is fully discharged before starting test #2
     log.info('Waiting for Channel 1 to fully discharge after test #1...')
-    is_discharge_complete = ''                
-    while is_discharge_complete != 'TRUE':                       
-        tcp_socket.send_scpi_command('OUTP1:DISC:COMP?', enable_logging=True)
-        is_discharge_complete = tcp_socket.read_data(enable_logging=True)
+    spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1, enable_logging=True)
 
     # start test #2 by turning on Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 1', enable_logging=True)               
@@ -100,10 +97,7 @@ try:
 
     # wait until the channel is fully discharged before disconnecting the load
     log.info('Waiting for Channel 1 to fully discharge after test #2...')
-    is_discharge_complete = ''                
-    while is_discharge_complete != 'TRUE':                
-        tcp_socket.send_scpi_command('OUTP1:DISC:COMP?', enable_logging=True)
-        is_discharge_complete = tcp_socket.read_data(enable_logging=True)
+    spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1, enable_logging=True)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()                  
