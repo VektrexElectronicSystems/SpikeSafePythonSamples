@@ -117,7 +117,7 @@ try:
     tcp_socket.send_scpi_command('VOLT:INIT')
 
     # Start the channel
-    tcp_socket.send_scpi_command('OUTP1 ON')
+    tcp_socket.send_scpi_command('OUTP1 1')
     # wait for channel ready
     while True:
         tcp_socket.send_scpi_command('SYST:ERR?')

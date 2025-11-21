@@ -91,7 +91,7 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # Start the channel
-    tcp_socket.send_scpi_command('OUTP1 ON')
+    tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is ready
     spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
@@ -101,7 +101,7 @@ try:
     time.sleep(0.030)
     
     # disable Channel
-    tcp_socket.send_scpi_command('OUTP1 OFF')
+    tcp_socket.send_scpi_command('OUTP1 0')
         
     # disconnect from SpikeSafe    
     tcp_socket.close_socket()      

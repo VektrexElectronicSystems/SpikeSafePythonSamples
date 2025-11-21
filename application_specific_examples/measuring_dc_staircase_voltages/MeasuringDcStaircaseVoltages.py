@@ -73,7 +73,7 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # start the Channel 1
-    tcp_socket.send_scpi_command('OUTP1 ON')
+    tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is ready
     spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
