@@ -41,6 +41,9 @@ try:
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # Synchronize rising edge of all channels
     tcp_socket.send_scpi_command('SOUR0:PULS:STAG 0')   
@@ -52,8 +55,9 @@ try:
     set_current = 0.1
     tcp_socket.send_scpi_command(f'SOUR0:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
 
-    # set each channel's voltage to 20 V 
-    tcp_socket.send_scpi_command('SOUR0:VOLT 20') 
+    # set each channel's voltage to 20 V
+    compliance_voltage = 20
+    tcp_socket.send_scpi_command(f'SOUR0:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}') 
 
     # set each channel's bias current to 20 mA and check for all events
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.02)}')   
@@ -98,6 +102,13 @@ try:
 
     # turn off all channels after routine is complete
     tcp_socket.send_scpi_command('OUTP0 0')
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()  

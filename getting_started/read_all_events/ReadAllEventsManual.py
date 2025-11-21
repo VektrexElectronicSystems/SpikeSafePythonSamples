@@ -37,7 +37,10 @@ try:
 
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
-    tcp_socket.send_scpi_command('*RST') 
+    tcp_socket.send_scpi_command('*RST')
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket) 
 
     # request SpikeSafe memory table
     tcp_socket.send_scpi_command('MEM:TABL:READ')
@@ -77,7 +80,8 @@ try:
         log.info(','.join(map(str, event_data_response.channel_list)))
 
     # set Channel 1's voltage to an invalid 1 V and check for all events
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
+    compliance_voltage = 1
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
 
     # clear event queue list
     event_queue.clear()

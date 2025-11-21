@@ -39,6 +39,9 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
+
     # set Channel 1's mode to DC Dynamic and check for all events
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDDYNAMIC')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
@@ -70,7 +73,8 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set Channel 1's voltage to 20V and check for all events
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(20)}')
+    compliance_voltage = 20
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set Channel 1's Auto Range to On and check for all events
@@ -102,6 +106,13 @@ try:
     
     # disable Channel
     tcp_socket.send_scpi_command('OUTP1 0')
+
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
         
     # disconnect from SpikeSafe    
     tcp_socket.close_socket()      

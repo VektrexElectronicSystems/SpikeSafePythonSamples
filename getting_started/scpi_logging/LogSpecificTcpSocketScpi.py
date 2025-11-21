@@ -44,6 +44,9 @@ try:
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # request SpikeSafe memory table but do not print SCPI to file
     tcp_socket.send_scpi_command('MEM:TABL:READ', False)

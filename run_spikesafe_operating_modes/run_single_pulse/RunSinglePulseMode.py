@@ -41,6 +41,9 @@ try:
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set each channel's pulse mode to Single Pulse
     tcp_socket.send_scpi_command('SOUR0:FUNC:SHAP SINGLEPULSE')
@@ -49,8 +52,9 @@ try:
     set_current = 0.1
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')    
 
-    # set each channel's voltage to 20 V 
-    tcp_socket.send_scpi_command('SOUR0:VOLT 20')   
+    # set each channel's voltage to 20 V
+    compliance_voltage = 20
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')   
 
     # set each channel's pulse width to 1ms. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
     pulse_on_time = 0.001
@@ -71,13 +75,13 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # turn on all channels
-    tcp_socket.send_scpi_command('OUTP0 1')
+    tcp_socket.send_scpi_command('OUTP1 1')
 
     # Wait until channels are ready for a trigger command
     spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # Output 1ms pulse for all channels
-    tcp_socket.send_scpi_command('OUTP0:TRIG')
+    tcp_socket.send_scpi_command('OUTP1:TRIG')
 
     # check for all events and measure readings on each channel once per second for 2 seconds,
     # it is best practice to do this to ensure each channel is on and does not have any errors
@@ -88,7 +92,7 @@ try:
         spikesafe_python.Threading.wait(1)        
 
     # Output 1ms pulse for all channels. Multiple pulses can be outputted while the channel is enabled
-    tcp_socket.send_scpi_command('OUTP0:TRIG')
+    tcp_socket.send_scpi_command('OUTP1:TRIG')
 
     # check for all events and measure readings after the second pulse output
     time_end = time.time() + 2                         
@@ -98,10 +102,10 @@ try:
         spikesafe_python.Threading.wait(1) 
 
     # After the pulse is complete, set each channel's current to 200 mA while the channels are enabled
-    tcp_socket.send_scpi_command(f'SOUR0:CURR {spikesafe_python.Precision.get_precise_current_command_argument(0.2)}')  
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(0.2)}')  
 
     # Output 1ms pulse for all channels
-    tcp_socket.send_scpi_command('OUTP0:TRIG')
+    tcp_socket.send_scpi_command('OUTP1:TRIG')
 
     # check for all events and measure readings after the last pulse output
     time_end = time.time() + 2                         
@@ -111,7 +115,14 @@ try:
         spikesafe_python.Threading.wait(1) 
 
     # turn off all channels after routine is complete
-    tcp_socket.send_scpi_command('OUTP0 0')
+    tcp_socket.send_scpi_command('OUTP1 0')
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    
