@@ -16,49 +16,36 @@ Discharge time in seconds
 ### Examples
 The following example demonstrates the `spikesafe_python.Discharge.get_spikesafe_channel_discharge_time()` function. It checks for the time to fully discharge the SpikeSafe channel based on the compliance voltage, and waits for that period until restarting the channel.
 ```
-# set Channel 1's pulse mode to Modulated DC
-tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP MODULATED')    
+# parse the SpikeSafe information
+spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
-# set Channel 1's current to 200 mA. This will be the output current when a sequence step specifies "@100"
-tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(0.2)}')       
+# start test #1 by turning on Channel 1 and check for all events
+tcp_socket.send_scpi_command('OUTP1 1')               
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
-# set Channel 1's voltage to 20 V
-compliance_voltage = 20
-tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}') 
-
-# set Channel 1's modulated sequence to a DC staircase with 5 steps
-# There are 5 current steps that each last for 1 second: 40mA, 80mA, 120mA, 160mA, and 200mA
-tcp_socket.send_scpi_command('SOUR1:SEQ 1(1@20,1@40,1@60,1@80,1@100)') 
-
-# Log all events since all settings are sent
-spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
-
-# turn on Channel 1
-tcp_socket.send_scpi_command('OUTP1 1')                                         
-
-# Wait until channel is ready for a trigger command
+# wait until the channel is fully ramped to 10mA
 spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
-# Output modulated sequence
-tcp_socket.send_scpi_command('OUTP1:TRIG')
+# check for all events and measure readings on Channel 1 once per second for 5 seconds,
+# it is best practice to do this to ensure Channel 1 is on and does not have any errors
+time_end = time.time() + 5                         
+while time.time() < time_end:                       
+    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
+    spikesafe_python.Threading.wait(1)    
 
-# Wait until channel has completed it modulated sequence
-spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.MODULATED_SEQ_IS_COMPLETED) # event 105 is "Modulated SEQ completed"
+# turn off Channel 1 and check for all events
+tcp_socket.send_scpi_command('OUTP1 0', enable_logging=True)               
+spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
-# turn off Channel 1
-tcp_socket.send_scpi_command('OUTP1 0')
-wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-spikesafe_python.Threading.wait(wait_time)      
-
-# set Channel 1's modulated sequence to an infinite pulsing pattern. This pulsing pattern will repeatedly perform 3 steps:
-# 1.) it will pulse Off for 250ms, then On for 250ms at 120mA. This will happen twice
-# 2.) it will pulse Off for 500ms, then On for 500ms at 60mA. This will also happen twice 
-# 3.) for one second, 180mA will be outputted
-tcp_socket.send_scpi_command('SOUR1:SEQ *(2(.25@0,.25@60),2(.5@0,.5@30),1@90)')          
-
-# turn on Channel 1
-tcp_socket.send_scpi_command('OUTP1 1') 
+# wait until the channel is fully discharged before starting test #2
+log.info('Waiting for Channel 1 to fully discharge after test #1...')
+if spikesafe_info.supports_discharge_query:
+    spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1, enable_logging=True)
+else:
+    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+    spikesafe_python.Threading.wait(wait_time)
 ```
 
 ### Examples In Action
-[/run_spikesafe_operating_modes/run_modulated_dc/RunModulatedMode.py](/run_spikesafe_operating_modes/run_modulated_dc/RunModulatedMode.py)
+[/getting_started/discharge_channel/discharge_channel.py](/getting_started/discharge_channel/discharge_channel.py)
