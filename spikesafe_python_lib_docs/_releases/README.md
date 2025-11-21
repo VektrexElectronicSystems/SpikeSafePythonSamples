@@ -1,5 +1,12 @@
 # spikesafe-python Releases
 
+## v1.11.7
+11/21/25
+
+- Added
+    - [Discharge.wait_for_spikesafe_channel_discharge()](../Discharge/wait_for_spikesafe_channel_discharge/README.md)
+    - Type hints to all function parameters, returns, classes, variables
+
 ## v1.10.2
 9/23/25
 
