@@ -9,3 +9,4 @@ Provides a collection of helper functions you can use to take extract SpikeSafe 
 | Name | Description |
 | - | - |
 | [parse_spikesafe_info(spike_safe_socket, enable_logging = False)](/spikesafe_python_lib_docs/SpikeSafeInfoParser/parse_spikesafe_info/README.md) | Parses the SpikeSafe information from the SCPI command responses. |
+| [compare_rev_version(rev_version: str, ref_version: str) -> bool)](/spikesafe_python_lib_docs/SpikeSafeInfoParser/compare_rev_version/README.md) | Compares two revision version strings. |
