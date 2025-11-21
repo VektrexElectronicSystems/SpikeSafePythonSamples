@@ -24,19 +24,6 @@ import sys
 import logging
 import spikesafe_python
 
-def compare_rev_version(string, ref_version):
-    # Extract revision version using regular expression
-    match = re.search(r'Rev (\d+\.\d+\.\d+\.\d+)', string)
-    if match:
-        rev_version = match.group(1)
-        # Compare the revision version with the reference version
-        return rev_version > ref_version
-    else:
-        return False  # Return False if no match is found
-
-# Reference revision version
-ref_version = "3.0.5.6"
-
 ### setting up sequence log
 log = logging.getLogger(__name__)
 logging.basicConfig(
