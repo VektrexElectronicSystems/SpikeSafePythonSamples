@@ -25,7 +25,7 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
 
 ### Setup Steps
 
-1. **Install Python 3.10 to 3.13**
+1. **Install Python 3.10 to 3.14**
    - Download Python from [python.org](https://www.python.org/downloads/).
    - During installation check **Add Python to PATH**.
 
