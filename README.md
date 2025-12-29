@@ -83,10 +83,10 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## FAQ
 
-I'm developing an application using C/C++, how do I get started?
+I'm developing an application using C/C++, how do I get started?  
 See [Wrapping C/C++ for Python](https://intermediate-and-advanced-software-carpentry.readthedocs.io/en/latest/c++-wrapping.html)
 
-I'm developing an application using LabView, how do I get started?
+I'm developing an application using LabView, how do I get started?  
 See [Integrating Python Code in LabVIEW](https://www.ni.com/en/support/documentation/supplemental/18/installing-python-for-calling-python-code.html?srsltid=AfmBOopUCkwZOUDOXRi8BDeCwXPoa-t65l7ChqWDWXJgeQWCP3ZqJAqT)
 
 I'm developing an application using MATLAB, how do I get started?  
