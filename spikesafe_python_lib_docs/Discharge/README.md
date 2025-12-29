@@ -9,3 +9,4 @@ Provides a collection of helper functions you can use to properly discharge the 
 | Name | Description |
 | - | - |
 | [Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)](/spikesafe_python_lib_docs/Discharge/Discharge.get_spikesafe_channel_discharge_time/README.md) | Returns the time in seconds to fully discharge the SpikeSafe channel based on the compliance voltage. |
+| [Discharge.wait_for_spikesafe_channel_discharge(tcp_socket: TcpSocket, channel_number: int, enable_logging: bool \| None = None) -> None](/spikesafe_python_lib_docs/Discharge/wait_for_spikesafe_channel_discharge/README.md) | Waits for the SpikeSafe channel to fully discharge. |

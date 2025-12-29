@@ -15,8 +15,8 @@ from tkinter import messagebox
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282          
+ip_address: str = '10.0.0.220'
+port_number: int = 8282          
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -43,6 +43,9 @@ try:
     # reset to default state
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # check that the Force Sense Selector Switch is available for this SpikeSafe. We need the switch to run this sequence
     # If switch related SCPI is sent and there is no switch configured, it will result in error "386, Output Switch is not installed"
@@ -59,7 +62,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DC')    
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(0.1)}')
-    compliance_voltage = 20        
+    compliance_voltage: float = 20        
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')       
 
     # log all SpikeSafe event after settings are adjusted  
@@ -78,8 +81,14 @@ try:
     # turn off Channel 1 and check for all events
     # When operating in DC mode, the channel must be turned off before adjusting the switch state
     tcp_socket.send_scpi_command('OUTP1 0')
-    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-    spikesafe_python.Threading.wait(wait_time)               
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
+
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set the Force Sense Selector Switch state to Auxiliary (B) so that the Auxiliary Source will be routed to the DUT and the SpikeSafe will be disconnected
@@ -105,6 +114,13 @@ try:
     # turn off Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 0')               
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()                 

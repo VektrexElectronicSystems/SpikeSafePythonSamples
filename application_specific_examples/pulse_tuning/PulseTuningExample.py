@@ -13,8 +13,10 @@ import spikesafe_python
 from tkinter import messagebox     
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282  
+ip_address: str = '10.0.0.220'
+port_number: int = 8282  
+
+spikesafe_info: spikesafe_python.SpikeSafeInfo = None
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -29,7 +31,10 @@ logging.basicConfig(
 )
 
 ### defining the action to take per test session
-def run_single_pulse_tuning_test(load_impedance, rise_time):
+def run_single_pulse_tuning_test(
+    load_impedance: spikesafe_python.SpikeSafeEnums.LoadImpedance,
+    rise_time: spikesafe_python.SpikeSafeEnums.RiseTime
+) -> None:
     
     log.info('Running single pulse tuning test iteration with {} and {}'.format(load_impedance, rise_time))
 
@@ -58,6 +63,13 @@ def run_single_pulse_tuning_test(load_impedance, rise_time):
     messagebox.showinfo("Single Pulse Outputted", f"Observe the current pulse shape using an oscilloscope or DMM, and note the current compensation settings.\n\nPress \"OK\" to move to the next combination of Pulse Tuning settings.\n\nLoad Impedance: {load_impedance.name}\nRise Time: {rise_time.name}")
 
     tcp_socket.send_scpi_command('OUTP1 0')
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # wait one second to account for any electrical transients before starting the next session
     spikesafe_python.Threading.wait(1)
@@ -80,6 +92,9 @@ try:
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set channel 1's pulse mode to Single Pulse
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
@@ -88,7 +103,8 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(0.1)}')     
 
     # set channel 1's voltage to 20 V 
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(20)}')   
+    compliance_voltage: float = 20
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')   
 
     # set channel 1's pulse width to 100µs. Of the pulse time settings, only Pulse On Time and Pulse Width [+Offset] are relevant in Single Pulse mode
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(0.0001)}')

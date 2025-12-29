@@ -24,19 +24,6 @@ import sys
 import logging
 import spikesafe_python
 
-def compare_rev_version(string, ref_version):
-    # Extract revision version using regular expression
-    match = re.search(r'Rev (\d+\.\d+\.\d+\.\d+)', string)
-    if match:
-        rev_version = match.group(1)
-        # Compare the revision version with the reference version
-        return rev_version > ref_version
-    else:
-        return False  # Return False if no match is found
-
-# Reference revision version
-ref_version = "3.0.5.6"
-
 ### setting up sequence log
 log = logging.getLogger(__name__)
 logging.basicConfig(
@@ -52,8 +39,8 @@ logging.basicConfig(
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282          
+ip_address: str = '10.0.0.220'
+port_number: int = 8282          
 
 ### start of main program
 try:
@@ -74,8 +61,6 @@ try:
     # read SpikeSafe information
     data = tcp_socket.read_data()                    
     log.info("SpikeSafe *IDN? Response: {}".format(data))
-
-    bool_value1 = compare_rev_version(data, ref_version)
 
     # request if Digitizer is available (This is only available on PSMU and PSMU HC depending on model)
     tcp_socket.send_scpi_command('VOLT:DIGI:AVAIL?')         

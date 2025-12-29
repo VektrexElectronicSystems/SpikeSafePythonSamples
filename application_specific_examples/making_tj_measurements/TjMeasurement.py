@@ -15,7 +15,7 @@ import statistics
 import spikesafe_python
 from matplotlib import pyplot as plt
 
-def log_and_print_to_console(message_string):
+def log_and_print_to_console(message_string: str) -> None:
     log.info(message_string.replace('\n',''))
     print(message_string)
 
@@ -24,7 +24,7 @@ def receive_user_input_and_log():
     log.info(inputText)
     return inputText
 
-def calculate_Vf0(start_point, end_point, digitizer_data_list):
+def calculate_Vf0(start_point: int, end_point: int, digitizer_data_list: list[spikesafe_python.DigitizerData]) -> float:
     # only want to reference the data within the straight line
     straight_line_digitizer_data = []
     for index in range(start_point, end_point):
@@ -56,8 +56,8 @@ def calculate_Vf0(start_point, end_point, digitizer_data_list):
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282 
+ip_address: str = '10.0.0.220'
+port_number:int = 8282 
 
 # The graph zoom offset is used to zoom in or out to better visualize data in the final graph to make it easier to determine Vf(0). Value is in volts
 # A value of zero corresponds to a completely zoomed in graph. Increase the value to zoom out. Recommended values are between 0.001 and 0.100
@@ -90,10 +90,13 @@ try:
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
     
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
+    
     # set up Channel 1 for Bias Current output to determine the K-factor
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIAS')
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.033)}')
-    compliance_voltage = 40
+    compliance_voltage: float = 40
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
@@ -127,8 +130,13 @@ try:
 
     # turn off Channel 1 
     tcp_socket.send_scpi_command('OUTP1 0')
-    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-    spikesafe_python.Threading.wait(wait_time)
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     log_and_print_to_console('\nK-factor values obtained. Stopped bias current output. Configuring to perform Electrical Test Method measurement.')
 
@@ -136,7 +144,8 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIASPULSEDDYNAMIC')
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(3.5)}')
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.033)}')
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
+    compliance_voltage: float = 40
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(1)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.001)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
@@ -144,15 +153,15 @@ try:
 
     # set Digitizer settings to take a series of quick measurements during the Off Time of CDBC operation
     tcp_socket.send_scpi_command('VOLT:RANG 100')
-    aperture = 2
+    aperture: int = 2
     tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
-    hardware_trigger_delay = 0
+    hardware_trigger_delay: int = 0
     tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE FALLING')
-    hardware_trigger_count = 1
+    hardware_trigger_count: int = 1
     tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}')
-    reading_count = 500
+    reading_count: int = 500
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # check all SpikeSafe event since all settings have been sent
@@ -179,6 +188,13 @@ try:
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
+
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # prepare digitizer voltage data to plot
     samples = []

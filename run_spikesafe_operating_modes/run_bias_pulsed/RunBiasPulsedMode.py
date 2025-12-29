@@ -12,8 +12,8 @@ import spikesafe_python
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282         
+ip_address: str = '10.0.0.220'
+port_number: int = 8282         
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -41,6 +41,9 @@ try:
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # Synchronize rising edge of all channels
     tcp_socket.send_scpi_command('SOUR0:PULS:STAG 0')   
@@ -49,11 +52,12 @@ try:
     tcp_socket.send_scpi_command('SOUR0:FUNC:SHAP BIASPULSED')
 
     # set each channel's current to 100 mA
-    set_current = 0.1
+    set_current: float = 0.1
     tcp_socket.send_scpi_command(f'SOUR0:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
 
-    # set each channel's voltage to 20 V 
-    tcp_socket.send_scpi_command('SOUR0:VOLT 20') 
+    # set each channel's voltage to 20 V
+    compliance_voltage: float = 20
+    tcp_socket.send_scpi_command(f'SOUR0:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}') 
 
     # set each channel's bias current to 20 mA and check for all events
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.02)}')   
@@ -65,7 +69,7 @@ try:
     tcp_socket.send_scpi_command(f'SOUR0:PULS:PER {spikesafe_python.Precision.get_precise_time_command_argument(0.01)}')
 
     # When Pulse Width is set, Period will not be adjusted at all because we are holding period. Duty Cycle will be adjusted as a result
-    pulse_width = 0.001
+    pulse_width: float = 0.001
     tcp_socket.send_scpi_command(f'SOUR0:PULS:WIDT {spikesafe_python.Precision.get_precise_time_command_argument(pulse_width)}')
 
     # set each channel's compensation settings to their default values
@@ -98,6 +102,13 @@ try:
 
     # turn off all channels after routine is complete
     tcp_socket.send_scpi_command('OUTP0 0')
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()  

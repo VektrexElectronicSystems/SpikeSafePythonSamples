@@ -1,20 +1,19 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Discharge](/spikesafe_python_lib_docs/Discharge/README.md) | Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Discharge](/spikesafe_python_lib_docs/Discharge/README.md) | Discharge.wait_for_spikesafe_channel_discharge(tcp_socket: TcpSocket, channel_number: int, enable_logging: bool | None = None) -> None
 
-## Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+## Discharge.wait_for_spikesafe_channel_discharge(tcp_socket: TcpSocket, channel_number: int, enable_logging: bool | None = None) -> None
 
 ### Definition
-Returns the time in seconds to fully discharge the SpikeSafe channel based on the compliance voltage.
+Waits for the SpikeSafe channel to fully discharge.
 
 ### Parameters
-compliance_voltage [float](https://docs.python.org/3/library/functions.html#float)  
-Compliance voltage to factor in discharge time
+tcp_socket [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md)  
+TCP socket connection to the SpikeSafe device
 
-### Returns
-[float](https://docs.python.org/3/library/functions.html#float)    
-Discharge time in seconds
+channel_number [int](https://docs.python.org/3/library/functions.html#int)  
+Channel number to poll discharge state of
 
 ### Examples
-The following example demonstrates the `spikesafe_python.Discharge.get_spikesafe_channel_discharge_time()` function. It checks for the time to fully discharge the SpikeSafe channel based on the compliance voltage, and waits for that period until restarting the channel.
+The following example demonstrates the `spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge()` function. After the SpikeSafe Channel is turned off, the channel is fully discharged.
 ```
 # parse the SpikeSafe information
 spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)

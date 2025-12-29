@@ -12,8 +12,8 @@ import spikesafe_python
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282          
+ip_address: str = '10.0.0.220'
+port_number: int = 8282          
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -41,6 +41,9 @@ try:
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set Channel 1's pulse mode to Modulated DC
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP MODULATED')    
@@ -49,7 +52,7 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(0.2)}')       
 
     # set Channel 1's voltage to 20 V
-    compliance_voltage = 20
+    compliance_voltage: float = 20
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}') 
 
     # set Channel 1's modulated sequence to a DC staircase with 5 steps
@@ -73,8 +76,13 @@ try:
 
     # turn off Channel 1
     tcp_socket.send_scpi_command('OUTP1 0')
-    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-    spikesafe_python.Threading.wait(wait_time)      
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)     
 
     # set Channel 1's modulated sequence to an infinite pulsing pattern. This pulsing pattern will repeatedly perform 3 steps:
     #       1.) it will pulse Off for 250ms, then On for 250ms at 120mA. This will happen twice
@@ -100,7 +108,14 @@ try:
         spikesafe_python.Threading.wait(1)                            
     
     # turn off Channel 1. Since the sequence runs indefinitely, we do not wait for a "Modulated SEQ completed" message
-    tcp_socket.send_scpi_command('OUTP1 0')      
+    tcp_socket.send_scpi_command('OUTP1 0')
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)      
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()   

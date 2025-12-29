@@ -17,19 +17,19 @@ from matplotlib import pyplot as plt
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282         
+ip_address: str = '10.0.0.220'
+port_number: int = 8282         
 
 # SpikeSafe Single Pulse current settings
-set_current_amps = 0.1
-compliance_voltage_V = 20
+set_current_amps: float = 0.1
+compliance_voltage_V: float = 20
 
 # CAS4 measurement settings
 CAS4_integration_time_ms = 20
 CAS4_trigger_delay_ms = 5 # needs to be set to a non-zero value for the spectrometer to correctly output data
 
 # CAS4 interface mode
-CAS4_interface_mode = 3
+CAS4_interface_mode: int = 3
 """
     CAS4_interface_mode: int
     - 1: PCI
@@ -142,6 +142,9 @@ try:
     # reset SpikeSafe to default state and check for all events    
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set SpikeSafe Channel 1's pulse mode to Single Pulse and set all relevant settings. For more information, see run_spikesafe_operating_modes/run_dc
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
@@ -182,6 +185,13 @@ try:
     # turn off SpikeSafe Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 0')               
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage_V)
+        spikesafe_python.Threading.wait(wait_time)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()     

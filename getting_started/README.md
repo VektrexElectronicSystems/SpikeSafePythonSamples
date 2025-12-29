@@ -15,4 +15,4 @@ For first-time users, Vektrex recommends running the sequences in the order show
 ## Usage
 To run these sequences, an IDE such as [Visual Studio Code](https://code.visualstudio.com/) is required. The [spikesafe-python](https://pypi.org/project/spikesafe-python/) repository will need to be installed. See [Project Setup](/README.md#project-setup) for install instructions.
 
-Simply change the line `ip_address = '10.0.0.220'` to match the IP address of you connected SpikeSafe and run the sequence (generally by pressing F5). Observe the outputs that appear in both the terminal window and SpikeSafePythonSamples.log, which will output wherever you have saved the SpikeSafePythonSamples repository.
+Simply change the line `ip_address: str = '10.0.0.220'` to match the IP address of you connected SpikeSafe and run the sequence (generally by pressing F5). Observe the outputs that appear in both the terminal window and SpikeSafePythonSamples.log, which will output wherever you have saved the SpikeSafePythonSamples repository.
