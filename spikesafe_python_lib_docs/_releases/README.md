@@ -1,7 +1,7 @@
 # spikesafe-python Releases
 
-## v1.11.21
-11/21/25
+## v1.11.22
+12/29/25
 
 - Added
     - Official support for Python 3.14
