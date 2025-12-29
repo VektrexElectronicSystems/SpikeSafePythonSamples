@@ -15,15 +15,15 @@ from matplotlib import pyplot as plt
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282
+ip_address: str = '10.0.0.220'
+port_number:int = 8282
 
 # stair case parameters
-step_count = 10
-start_current_A = 0.010
-stop_current_A = 0.100
-step_size_A = (stop_current_A - start_current_A) / (step_count - 1)
-load_ohm_value = 1
+step_count: int = 10
+start_current_A: float = 0.010
+stop_current_A: float = 0.100
+step_size_A: float = (stop_current_A - start_current_A) / (step_count - 1)
+load_ohm_value: float = 1
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -51,13 +51,17 @@ try:
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set Channel 1's mode to DC Dynamic mode and check for all events
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set Channel 1's voltage to 10 and check for all events
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
+    compliance_voltage: float = 40
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set Channel 1's Auto Range to On and check for all events
@@ -73,13 +77,13 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # start the Channel 1
-    tcp_socket.send_scpi_command('OUTP1 ON')
+    tcp_socket.send_scpi_command('OUTP1 1')
 
     # wait until Channel 1 is ready
     spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
 
     # set Digitizer Aperture to 10us and check for all events
-    aperture = 10
+    aperture: int = 10
     tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
@@ -88,7 +92,7 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # set Digitizer Read Count to 1 and check for all events
-    reading_count = 1
+    reading_count: int = 1
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
@@ -125,6 +129,16 @@ try:
     # Fetch Data and check for all events
     digitizer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # disable Channel
+    tcp_socket.send_scpi_command('OUTP1 0')
+
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # disconnect from PSMU    
     tcp_socket.close_socket()      

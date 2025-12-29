@@ -14,8 +14,8 @@ import spikesafe_python
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282          
+ip_address: str = '10.0.0.220'
+port_number: int = 8282          
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -43,13 +43,16 @@ try:
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set Channel 1's pulse mode to Bias Pulsed Sweep and check for all events
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP BIASPULSEDSWEEP')
 
     # set Channel 1's Pulsed Sweep parameters to match the test expectation
     tcp_socket.send_scpi_command(f'SOUR1:CURR:STAR {spikesafe_python.Precision.get_precise_current_command_argument(0.02)}')
-    stop_current = 0.2
+    stop_current: float = 0.2
     tcp_socket.send_scpi_command(f'SOUR1:CURR:STOP {spikesafe_python.Precision.get_precise_current_command_argument(stop_current)}')   
     tcp_socket.send_scpi_command('SOUR1:CURR:STEP 100')   
 
@@ -59,11 +62,12 @@ try:
     # set Channel 1's Bias Current to 10mA
     tcp_socket.send_scpi_command(f'SOUR1:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.01)}')   
 
-    # set Channel 1's voltage to 20 V 
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(20)}')   
+    # set Channel 1's voltage to 20 V
+    compliance_voltage: float = 20
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')   
 
     # set Channel 1's pulse settings for a 1% duty cycle and 1ms Period using the Pulse On Time and Pulse Off Time commands
-    pulse_on_time = 0.0001
+    pulse_on_time: float = 0.0001
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(0.0001)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.0099)}')
 
@@ -101,6 +105,13 @@ try:
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()    

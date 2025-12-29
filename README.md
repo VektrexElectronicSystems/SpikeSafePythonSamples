@@ -4,6 +4,8 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
  - [SpikeSafe PSMU](https://www.vektrex.com/products/spikesafe-source-measure-unit/)
  - [SpikeSafe Performance Series ("PRF")](https://www.vektrex.com/products/spikesafe-performance-series-precision-pulsed-current-sources/)
 
+Additional turn-key software solutions for advanced scenarios, such as LM-92 UV Measurement and Reliability/Burn-in Test, may be purchased. For a complete list, visit [Vektrex Software Applications](https://www.vektrex.com/software-applications/).
+
 ## Directory
 
 - [Getting Started](getting_started) - These sequences are primarily intended for first-time users of Vektrex products. They contain steps to perform the basic tasks that are necessary to run the sequences within the run_spikesafe_operating_modes folder.
@@ -11,7 +13,7 @@ Use these code samples to start learning how to communicate with your SpikeSafe 
 - [Making Integrated Voltage Measurements](making_integrated_voltage_measurements) - These folders contain examples to measure voltage using the SpikeSafe PSMU's integrated voltage Digitizer. The SpikeSafe outputs current to an LED, Laser, or electrical equipment, and then voltage measurements are read and displayed onscreen.
 - [Using the Force Sense Selector Switch](using_force_sense_selector_switch) - These folders contain examples to operate the optional integrated switch within the SpikeSafe PSMU. The SpikeSafe outputs to an LED, Laser, or electrical equipment as in the previous examples, and the switch is used to either disconnect the SpikeSafe from the test circuit or to operate an auxiliary source to power the DUT.
 - [Application-Specific Examples](application_specific_examples) - These folders consist of more advanced sequences to address specific test scenarios, as well as some demonstrations to fine-tune your SpikeSafe current output. These sequences explain how to make light measurements using a SpikeSafe and a spectrometer, how to make in-situ junction temperature measurements on LEDs, and how to take full advantage of all SpikeSafe features.
-- [spikesafe-python API Overview](spikesafe_python_lib_docs). These folders contain complete class documentation for the spikesafe-python package used to power all of the aforementioned example directories.
+- [spikesafe-python API Overview](spikesafe_python_lib_docs). These folders contain complete class documentation for the [spikesafe-python](https://pypi.org/project/spikesafe-python/) package used to power all of the aforementioned example directories.
 
 ## Downloading Files
 
@@ -23,7 +25,7 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
 
 ### Setup Steps
 
-1. **Install Python 3.10 to 3.13**
+1. **Install Python 3.10 to 3.14**
    - Download Python from [python.org](https://www.python.org/downloads/).
    - During installation check **Add Python to PATH**.
 
@@ -64,9 +66,9 @@ To run these sequences in a more feature rich IDE, use the free [Visual Studio C
 
 Start with [TCP Socket Sample](getting_started/tcp_socket_sample) to learn how setup a simple socket to communicate with your SpikeSafe. Then check out the rest of the samples under [Getting Started](getting_started).
 
-You will need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address = '10.0.0.220'`.
+You will need to modify the specified IP address within a sequence to match the IP address that is physically set on your SpikeSafe's DIP switch. In each sequence, the default IP address of 10.0.0.220 is set in the line `ip_address: str = '10.0.0.220'`.
 
-Each file can be modified to include additional settings and commands to fit individual needs. Complete class documentation is available in [spikesafe-python API Overview](spikesafe_python_lib_docs).
+Each file can be modified to include additional settings and commands to fit individual needs. Complete class documentation for the [spikesafe-python](https://pypi.org/project/spikesafe-python/) package is available in [spikesafe-python API Overview](spikesafe_python_lib_docs).
 
 Most examples will log messages to the SpikeSafePythonSamples.log file under your local SpikeSafePythonSamples\ directory. Please refer to this file to ensure your sequence is running correctly.
 
@@ -81,11 +83,17 @@ We use [SemVer](http://semver.org/) for versioning. For the versions available, 
 
 ## FAQ
 
-I'm developing an application using NI-VISA, what is the recommended practice for handling termination characters?  
-See [Termination Characters in NI-VISA](https://www.ni.com/en-us/support/documentation/supplemental/06/termination-characters-in-ni-visa.html)
+I'm developing an application using C/C++, how do I get started?  
+See [Wrapping C/C++ for Python](https://intermediate-and-advanced-software-carpentry.readthedocs.io/en/latest/c++-wrapping.html)
+
+I'm developing an application using LabView, how do I get started?  
+See [Integrating Python Code in LabVIEW](https://www.ni.com/en/support/documentation/supplemental/18/installing-python-for-calling-python-code.html?srsltid=AfmBOopUCkwZOUDOXRi8BDeCwXPoa-t65l7ChqWDWXJgeQWCP3ZqJAqT)
 
 I'm developing an application using MATLAB, how do I get started?  
 See [System Requirements for MATLAB Engine API for Python](https://www.mathworks.com/help/matlab/matlab_external/system-requirements-for-matlab-engine-for-python.html) to ensure your system can support Python. Then see [Call Python from MATLAB](https://www.mathworks.com/help/matlab/call-python-libraries.html) on how to access Python libraries in MATLAB.
+
+I'm developing an application using NI-VISA, what is the recommended practice for handling termination characters?  
+See [Termination Characters in NI-VISA](https://www.ni.com/en-us/support/documentation/supplemental/06/termination-characters-in-ni-visa.html)
 
 Why does my script's performance vary between different operating systems and machines?  
 See [Remarks](/spikesafe_python_lib_docs/Threading/wait/README.md#remarks) describing resolution of system timers between operating systems.

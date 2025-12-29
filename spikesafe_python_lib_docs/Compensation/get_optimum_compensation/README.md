@@ -43,12 +43,12 @@ If an Operating Mode is used to sweep through steps of currents where the compen
 The following example demonstrates the `spikesafe_python.Compensation.get_optimum_compensation()` function. It determines the optimum compensation settings to use based off the SpikeSafe's set current setting, maximum settable current, and pulse on time.
 ```
 # set Channel 1's Pulse On Time to 1ms and check for all events
-pulse_on_time = 0.001
+pulse_on_time: float = 0.001
 tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
 spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
 # set Channel 1's current to 100 mA and check for all events
-set_current = 0.1
+set_current: float = 0.1
 tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
 spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)  
 

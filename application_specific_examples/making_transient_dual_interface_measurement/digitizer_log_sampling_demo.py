@@ -10,17 +10,17 @@ import spikesafe_python
 from matplotlib import pyplot as plt 
 import numpy as np
 
-def log_and_print_to_console(message_string):
+def log_and_print_to_console(message_string: str) -> None:
     print(message_string)
 
-def receive_user_input_and_log():
+def receive_user_input_and_log() -> str:
     inputText = input()
     return inputText
 
 ### set these before starting application
 
 # SpikeSafe port number
-port_number = 8282         
+port_number: int = 8282         
 
 ok_string = "0, OK"
 channel_ready_string = "100, Channel Ready; Channel(s) 1"
@@ -55,7 +55,10 @@ try:
     tcp_socket.open_socket(ip_address, port_number)
 
     # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU  
-    tcp_socket.send_scpi_command('*RST')    
+    tcp_socket.send_scpi_command('*RST')
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)    
 
     # Set digitizer range to 10V
     tcp_socket.send_scpi_command('VOLT:RANG 10')
@@ -95,7 +98,8 @@ try:
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')
     
     # set MCV to 25
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(40)}')
+    compliance_voltage: float = 40
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
 
     # set Auto Range
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')
@@ -117,7 +121,7 @@ try:
     tcp_socket.send_scpi_command('VOLT:INIT')
 
     # Start the channel
-    tcp_socket.send_scpi_command('OUTP1 ON')
+    tcp_socket.send_scpi_command('OUTP1 1')
     # wait for channel ready
     while True:
         tcp_socket.send_scpi_command('SYST:ERR?')
@@ -145,6 +149,16 @@ try:
         syst_err_string = tcp_socket.read_data()    
         if syst_err_string == ok_string:
             break
+    
+    # disable Channel
+    tcp_socket.send_scpi_command('OUTP1 0')
+
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # disconnect from SpikeSafe    
     tcp_socket.close_socket()      

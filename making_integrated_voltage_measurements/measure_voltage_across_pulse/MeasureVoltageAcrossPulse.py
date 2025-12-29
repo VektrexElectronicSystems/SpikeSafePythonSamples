@@ -14,8 +14,8 @@ from matplotlib import pyplot as plt
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282          
+ip_address: str = '10.0.0.220'
+port_number: int = 8282          
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -42,14 +42,18 @@ try:
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set up Channel 1 for single pulse output. To find more explanation, see run_spikesafe_operating_modes/run_single_pulse
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP SINGLEPULSE')
-    pulse_on_time = 0.001
+    pulse_on_time: float = 0.001
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
-    set_current = 0.1
-    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(20)}')
+    set_current: float = 0.1
+    tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')
+    compliance_voltage: float = 20
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
@@ -62,11 +66,11 @@ try:
     tcp_socket.send_scpi_command('VOLT:RANG 10')
 
     # set Digitizer aperture for 2µs, the minimum value. Aperture specifies the measurement time, and we want to measure incrementally across the current pulse
-    aperture = 2
+    aperture: int = 2
     tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
 
     # set Digitizer trigger delay to 0µs. We want to take measurements as fast as possible
-    hardware_trigger_delay = 0
+    hardware_trigger_delay: int = 0
     tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
 
     # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
@@ -76,11 +80,11 @@ try:
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
 
     # set Digitizer trigger count to 1. We are measuring the output of one current pulse
-    hardware_trigger_count = 1
+    hardware_trigger_count: int = 1
     tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}')
 
     # set Digitizer reading count to 525, the maximum value. We are measuring a 1ms pulse, and will take 525 measurements 2µs apart from each other
-    reading_count = 525
+    reading_count: int = 525
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # check all SpikeSafe event since all settings have been sent
@@ -107,6 +111,13 @@ try:
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
+    
+    # wait until the channel is fully discharged
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # prepare digitizer voltage data to plot
     samples = []

@@ -6,8 +6,8 @@ import spikesafe_python
 ### set these before starting application
 
 # SpikeSafe IP address and port number
-ip_address = '10.0.0.220'
-port_number = 8282          
+ip_address: str = '10.0.0.220'
+port_number: int = 8282          
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -23,7 +23,7 @@ logging.basicConfig(
 
 ### start of main program
 try:
-    log.info("discharge_channel_using_delay.py started.")
+    log.info("discharge_channel.py started.")
 
     log.info("Python version: {}".format(sys.version))
     
@@ -35,6 +35,9 @@ try:
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+
+    # parse the SpikeSafe information
+    spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set Channel 1's pulse mode to DC and check for all events
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DC')    
@@ -49,7 +52,7 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)  
 
     # set Channel 1's voltage to 20 V and check for all events
-    compliance_voltage = 20
+    compliance_voltage: float = 20
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')         
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
 
@@ -69,16 +72,19 @@ try:
         spikesafe_python.Threading.wait(1)                            
     
     # turn off Channel 1 and check for all events
-    tcp_socket.send_scpi_command('OUTP1 0')               
+    tcp_socket.send_scpi_command('OUTP1 0', enable_logging=True)               
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # wait until the channel is fully discharged before starting test #2
-    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-    log.info('Waiting %s seconds for Channel 1 to fully discharge...', wait_time)
-    spikesafe_python.Threading.wait(wait_time)
+    log.info('Waiting for Channel 1 to fully discharge after test #1...')
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1, enable_logging=True)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # start test #2 by turning on Channel 1 and check for all events
-    tcp_socket.send_scpi_command('OUTP1 1')               
+    tcp_socket.send_scpi_command('OUTP1 1', enable_logging=True)               
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
     
     # wait until the channel is fully ramped to 10mA
@@ -93,18 +99,21 @@ try:
         spikesafe_python.Threading.wait(1)                            
     
     # turn off Channel 1 and check for all events
-    tcp_socket.send_scpi_command('OUTP1 0')               
+    tcp_socket.send_scpi_command('OUTP1 0', enable_logging=True)               
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # wait until the channel is fully discharged before disconnecting the load
-    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-    log.info('Waiting %s seconds for Channel 1 to fully discharge...', wait_time)
-    spikesafe_python.Threading.wait(wait_time)
+    log.info('Waiting for Channel 1 to fully discharge after test #2...')
+    if spikesafe_info.supports_discharge_query:
+        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1, enable_logging=True)
+    else:
+        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
+        spikesafe_python.Threading.wait(wait_time)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()                  
 
-    log.info("discharge_channel_using_delay.py completed.\n")
+    log.info("discharge_channel.py completed.\n")
 
 except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
