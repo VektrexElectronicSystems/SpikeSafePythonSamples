@@ -8,7 +8,7 @@ If the SpikeSafe supports the Discharge Complete query, it will poll the channel
 If not, it will wait for a calculated time based on the compliance voltage.
 
 ### Parameters
-spike_safe_socket [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md)  
+spikesafe_socket [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md)  
 Socket object used to communicate with SpikeSafe.
 
 spikesafe_info [SpikeSafeInfo](/spikesafe_python_lib_docs/SpikeSafeInfo/README.md)  
@@ -21,7 +21,7 @@ channel_number [int](https://docs.python.org/3/library/functions.html#int)
 Channel number to wait for discharge. By default, this is 1.
 
 enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
-Overrides spike_safe_socket.enable_logging attribute (None by default, will use spike_safe_socket.enable_logging value).
+Overrides spikesafe_socket.enable_logging attribute (None by default, will use spikesafe_socket.enable_logging value).
 
 ### Examples
 The following example demonstrates the `spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge()` function. After the SpikeSafe Channel is turned off, the channel is fully discharged.
@@ -50,16 +50,11 @@ spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
 # wait until the channel is fully discharged before starting test #2
 log.info('Waiting for Channel 1 to fully discharge after test #1...')
-if spikesafe_info.supports_discharge_query:
-    spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(
-        spikesafe_socket: tcp_socket, 
-        spikesafe_info: spikesafe_info,
-        compliance_voltage: compliance_voltage,
-        channel_number=1, 
-        enable_logging=True)
-else:
-    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-    spikesafe_python.Threading.wait(wait_time)
+spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(
+    spikesafe_socket=tcp_socket, 
+    spikesafe_info=spikesafe_info,
+    compliance_voltage=compliance_voltage,
+    channel_number=1)
 ```
 
 ### Examples In Action
