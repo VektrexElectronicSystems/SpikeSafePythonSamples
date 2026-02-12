@@ -54,7 +54,7 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:CURR:STEP 100')
     compliance_voltage: float = 20
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
-    pulse_on_time: float = 0.0001   
+    pulse_on_time: float = 0.001   
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.0099)}')
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
@@ -104,11 +104,53 @@ try:
     # trigger Channel 1 to start the pulsed sweep output
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
-    # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
+    # Get estimated completion time for Digitizer measurements to occur. Estimating completion time minimizes digitizer polling during DigitizerDataFetch
+    estimated_complete_time_seconds = spikesafe_python.DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(
+        aperture_microseconds=aperture,
+        hardware_trigger_count=hardware_trigger_count,
+        reading_count=reading_count,
+        hardware_trigger_delay_microseconds=hardware_trigger_delay)
+    
+    # fetch voltage data from Digitizer containing sample number and voltage reading
+    digitzer_data = [spikesafe_python.DigitizerData]
 
-    # fetch the Digitizer voltage readings
-    digitizerData = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
+    try:
+        # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
+        digitzer_data = spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(
+            spike_safe_socket=tcp_socket,
+            wait_time=estimated_complete_time_seconds,
+            timeout=10)
+        
+        # fetch complete data
+        digitzer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
+
+        log.info(f"Complete VOLT:FETC? Response returned with {len(digitzer_data)} readings")
+    except Exception as err:
+        log.error(f"Complete VOLT:FETC? Response error: {err}")
+
+        try:
+            # attempt to abort partial digitizer readings
+            tcp_socket.send_scpi_command("VOLT:ABOR:PART")
+
+            # wait for the Digitizer partial measurements to complete. It's expected that the wait time here will be small since we are fetching partial data after an abort.
+            spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket)
+
+            # fetch whatever data is available
+            digitzer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
+
+            log.info(f"Partial VOLT:FETC? Response after error returned with {len(digitzer_data)} readings")
+
+            # check if partial measurements were a result of a SpikeSafe error
+            spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        except TimeoutError as e:
+            # Timeout error will occur if no partial measurements were taken
+            log.error(f"Partial VOLT:FETC? Response error: {e}")
+
+            # check if no partial measurements were a result of a SpikeSafe error
+            spikesafe_python.ReadAllEvents.read_all_events(tcp_socket)
+        except Exception as e:
+            # All other errors, exit the script
+            raise
 
     # turn off Channel 1 after routine is complete
     tcp_socket.send_scpi_command('OUTP1 0')
@@ -125,7 +167,7 @@ try:
     current_steps = []
     start_current_mA = 20
     step_size_mA = 1.82 # 1.82mA = Step Size = (StopCurrent - StartCurrent)/(StepCount - 1)
-    for dd in digitizerData:
+    for dd in digitzer_data:
         voltage_readings.append(dd.voltage_reading)
         current_steps.append(start_current_mA + step_size_mA * (dd.sample_number - 1))
 
