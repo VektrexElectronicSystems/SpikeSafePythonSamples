@@ -118,6 +118,9 @@ try:
         # send Set Current command for next step
         tcp_socket.send_scpi_command(cmdStr)
         currentIncrementFloat = step_size_A
+        
+        # A small delay of at least 5ms between setting the current and triggering the software trigger for the digitizer to properly measure the voltage at each step. The optimal delay time may vary based on the characteristics of the load being driven and should be determined experimentally
+        spikesafe_python.Threading.wait(0.005)
 
         
     # check for all events

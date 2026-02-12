@@ -3,7 +3,7 @@
 ## Purpose
 Measuring DC staircase voltages is essential in comparing the actual versus expected I/V results of a DUT. This example demonstrates how to use a SpikeSafe PSMU to provide a DUT DC current in a staircase pattern and take a voltage measurement at each step. This is an alternative to [Measure Pulsed Sweep Voltage](../../making_integrated_voltage_measurements/measure_pulsed_sweep_voltage) when presented with any of the following cases:
 1. No hardware triggering is available on external device
-1. Trigger timing is greater than 5ms
+1. Trigger timing is greater than or equal to 5ms
 
 The SpikeSafe PSMU's integrated Digitizer is used to make high precision voltage measurements while outputting a DC current steps to the DUT. The Digitizer is taking triggered readings using a software trigger initiated by a SCPI command. In this case a 1 ohm resistor is used as the DUT.
 
