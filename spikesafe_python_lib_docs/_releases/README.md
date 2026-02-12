@@ -1,5 +1,23 @@
 # spikesafe-python Releases
 
+## 1.12.9
+2/12/26
+
+- Breaking Changes
+    - [Discharge.wait_for_spikesafe_channel_discharge()](../Discharge/wait_for_spikesafe_channel_discharge/README.md)
+        - Added required parameters:
+            - spikesafe_info : SpikeSafeInfo. An object containing the SpikeSafe information.
+            - compliance_voltage : float. Compliance voltage to factor in discharge time.
+- Added
+    - [ReadAllEvents.read_until_event()](../ReadAllEvents/read_until_event/README.md)
+        - Added optional parameter timeout : float. Maximum time in seconds to wait for the desired event before raising an exception (default to None will wait indefinitely)
+- Fixed
+    - [DigitizerDataFetch.get_new_voltage_data_estimated_complete_time()](../DigitizerDataFetch/get_new_voltage_data_estimated_complete_time/README.md)
+        - Calculation now returns the correct time, which before returned a time larger by a factor of 10.
+- Updated
+    - [DigitizerDataFetch.wait_for_new_voltage_data()](../DigitizerDataFetch/wait_for_new_voltage_data/README.md)
+        - Default wait_time change from 0.0s to 0.01s.
+
 ## v1.11.22
 12/29/25
 

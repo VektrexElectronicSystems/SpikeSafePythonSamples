@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | ReadAllEvents.read_until_event(spike_safe_socket, code, enable_logging = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | ReadAllEvents.read_until_event(spike_safe_socket, code, enable_logging = None, timeout = None)
 
-## ReadAllEvents.read_until_event(spike_safe_socket, code, enable_logging = None)
+## ReadAllEvents.read_until_event(spike_safe_socket, code, enable_logging = None, timeout = None)
 
 ### Definition
 Returns an array of all events from the SpikeSafe event queue until a specific event is read.
@@ -14,6 +14,9 @@ Event code for desired event
 
 enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Overrides spike_safe_socket.enable_logging attribute (None by default, will use spike_safe_socket.enable_logging value).
+
+timeout [float](https://docs.python.org/3/library/functions.html#float) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
+Maximum time in seconds to wait for the desired event before raising an exception (default to None will wait indefinitely)
 
 ### Returns
 [EventData array](/spikesafe_python_lib_docs/EventData/README.md)  
