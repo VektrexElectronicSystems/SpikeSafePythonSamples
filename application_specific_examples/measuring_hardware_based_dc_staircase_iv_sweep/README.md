@@ -1,7 +1,7 @@
 # Examples for Measuring Software Based DC Staircase Voltages Using the SpikeSafe PSMU Digitizer in DC Dynamic Mode
 
 ## Purpose
-Measuring DC staircase voltages is essential in comparing the actual versus expected I/V results of a DUT. This example demonstrates how to use a SpikeSafe PSMU to provide a DUT DC current in a staircase pattern and take both a voltage and current measurement at each step. This is an alternative to [Measure Staircase Sweep Voltage](../../making_integrated_voltage_measurements/measure_staircase_sweep_voltage/) when presented with any of the following cases:
+Measuring DC staircase voltages is essential in comparing the actual versus expected I/V results of a DUT. This example demonstrates how to use a SpikeSafe PSMU to provide a DUT DC current in a staircase pattern and take both a voltage and current measurement at each step. This is an addition to [Measure Staircase Sweep Voltage](../../making_integrated_voltage_measurements/measure_staircase_sweep_voltage/) when presented with any of the following cases:
 1. Hardware triggering is available on external device
 1. Trigger timing is greater than or equal to 1ms
 1. Current readings are needed
