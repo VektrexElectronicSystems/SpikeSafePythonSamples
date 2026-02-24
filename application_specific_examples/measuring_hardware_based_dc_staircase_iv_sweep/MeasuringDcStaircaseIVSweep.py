@@ -5,7 +5,6 @@
 # Channel 1 will be driven with 100mA with a forward voltage of ~1V during this time
 
 from datetime import datetime
-import numpy as np
 import sys
 import time
 import logging
@@ -327,26 +326,11 @@ try:
     # put the fetched data in a plottable data format
     voltage_readings = []
     current_steps = []
-    sweep1_step_size_amps = (stop_current_amps - start_current_amps) / (current_step_count - 1)
+    sweep_step_size_amps = (stop_current_amps - start_current_amps) / (current_step_count - 1)
     current_readings = dmm_readings
     for dd in digitizerData:
         voltage_readings.append(dd.voltage_reading)
-        current_steps.append(start_current_amps + sweep1_step_size_amps * (dd.sample_number - 1))
-
-    # compute Rd and SE
-    I = np.asarray(current_steps, dtype=float)
-    P = np.asarray(dmm_readings, dtype=float)
-    V = np.asarray(voltage_readings, dtype=float)
-
-    dI = np.diff(I)
-    dP = np.diff(P)
-    dV = np.diff(V)
-
-    SE = np.divide(dP, dI, out=np.full_like(dP, np.nan), where=(dI != 0))  # dP/dI
-    Rd = np.divide(dV, dI, out=np.full_like(dV, np.nan), where=(dI != 0))  # dV/dI
-
-    I_mid = 0.5 * (I[:-1] + I[1:])
-            
+        current_steps.append(start_current_amps + sweep_step_size_amps * (dd.sample_number - 1))
 
     # create figure and first axis
     fig, ax1 = plt.subplots()
