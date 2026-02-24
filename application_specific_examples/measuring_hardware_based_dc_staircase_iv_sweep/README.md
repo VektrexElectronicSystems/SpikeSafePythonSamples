@@ -17,11 +17,11 @@ Note the use of the New Data query while the SpikeSafe is operating. While the D
 
 ### SpikeSafe Current Output Settings
 - **Pulse Mode**: Staircase Sweep
-- **Start Current**: 10mA
+- **Start Current**: 20mA
 - **Stop Current**: 200mA
 - **Step Count**: 10
 - **On Time**: 2ms
-- **Compliance Voltage**: 30V
+- **Compliance Voltage**: 20V
 
 ### Digitizer Voltage Measurement Settings
 - **Voltage Range**: 10V
