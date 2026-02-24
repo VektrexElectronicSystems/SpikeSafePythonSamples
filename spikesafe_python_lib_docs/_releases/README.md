@@ -1,6 +1,6 @@
 # spikesafe-python Releases
 
-## 1.12.9
+## 1.12.10
 2/12/26
 
 - Breaking Changes
@@ -11,6 +11,13 @@
 - Added
     - [ReadAllEvents.read_until_event()](../ReadAllEvents/read_until_event/README.md)
         - Added optional parameter timeout : float. Maximum time in seconds to wait for the desired event before raising an exception (default to None will wait indefinitely)
+    - [SpikeSafeEvents](../SpikeSafeEvents/README.md)
+        - Added new events:
+            - CURRENT_RAMP_RATE_RESTORED = 126
+            - STAIRCASE_SWEEP_IS_COMPLETED = 127
+            - STAIRCASE_SWEEP_SHUTDOWN_DUE_TO_ERROR = 128
+            - INVALID_STAIRCASE_SWEEP_ON_TIME = 602
+            - INVALID_STAIRCASE_SWEEP_STEP_COUNT = 603
 - Fixed
     - [DigitizerDataFetch.get_new_voltage_data_estimated_complete_time()](../DigitizerDataFetch/get_new_voltage_data_estimated_complete_time/README.md)
         - Calculation now returns the correct time, which before returned a time larger by a factor of 10.
