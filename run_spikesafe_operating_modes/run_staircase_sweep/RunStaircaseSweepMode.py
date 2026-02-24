@@ -64,7 +64,7 @@ try:
 
     # set Channel 1's compensation settings
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
-    load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_info.maximum_set_current, stop_current_amps, step_on_time_milliseconds)
+    load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_info.maximum_set_current, stop_current_amps, step_on_time_milliseconds / 1000.0)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}') 
     
