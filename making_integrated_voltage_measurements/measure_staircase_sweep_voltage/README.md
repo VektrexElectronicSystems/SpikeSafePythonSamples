@@ -17,7 +17,7 @@ Note the use of the New Data query while the SpikeSafe is operating. While the D
 ### SpikeSafe Current Output Settings
 - **Start Current:** 20mA
 - **Stop Current:** 200mA
-- **Step Count:** 100
+- **Step Count:** 10
 - **Compliance Voltage:** 20V
 - **On Time:** 1ms
 
@@ -27,7 +27,7 @@ Note the use of the New Data query while the SpikeSafe is operating. While the D
 - **Trigger Delay:** 150µs
 - **Trigger Source:** Hardware
 - **Trigger Edge:** Rising
-- **Trigger Count:** 100
+- **Trigger Count:** 10
 - **Reading Count:** 1 (per trigger)
 
 ## Considerations

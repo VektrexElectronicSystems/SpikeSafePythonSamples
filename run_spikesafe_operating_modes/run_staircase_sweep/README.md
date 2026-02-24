@@ -15,7 +15,7 @@ With default settings, a staircase sweep is started when the "Output Trigger" SC
 ### Key Settings 
 - **Start Current:** 20mA
 - **Stop Current:** 200mA
-- **Step Count:** 100
+- **Step Count:** 10
 - **Compliance Voltage:** 20V
 - **On Time:** 1ms
 
