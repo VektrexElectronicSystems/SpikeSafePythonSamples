@@ -25,7 +25,3 @@ When running a staircase sweep using this sequence, one can expect to see the fo
 **Full Pulsed Sweep**
 
 ![](staircase_sweep_output.png)
-
-**Current Pulse Shape**
-
-![](staircase_sweep_pulse_shape.png)

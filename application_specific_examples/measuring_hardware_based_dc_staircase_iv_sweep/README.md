@@ -1,4 +1,4 @@
-# Examples for Measuring Software Based DC Staircase Voltages Using the SpikeSafe PSMU Digitizer in DC Dynamic Mode
+# Examples for Measuring Hardware Based DC Staircase Voltages Using the SpikeSafe PSMU Digitizer in Staircase Sweep Mode
 
 ## Purpose
 Measuring DC staircase voltages is essential in comparing the actual versus expected I/V results of a DUT. This example demonstrates how to use a SpikeSafe PSMU to provide a DUT DC current in a staircase pattern and take both a voltage and current measurement at each step. This is an addition to [Measure Staircase Sweep Voltage](../../making_integrated_voltage_measurements/measure_staircase_sweep_voltage/) when presented with any of the following cases:
@@ -6,7 +6,7 @@ Measuring DC staircase voltages is essential in comparing the actual versus expe
 1. Trigger timing is greater than or equal to 1ms
 1. Current readings are needed
 
-The SpikeSafe PSMU's integrated Digitizer is used to make high precision voltage measurements and the Keithley 7510 DMM is used to make current measurements while outputting a DC current steps to the DUT. The Digitizer and DMM are taking triggered readings using a hardware trigger initiated by a SCPI command. In this case a 1 ohm resistor is used as the DUT.
+The SpikeSafe PSMU's integrated Digitizer is used to make high precision voltage measurements and the Keithley 7510 DMM is used to make current measurements while outputting a DC current steps to the DUT. The Digitizer and DMM are taking triggered readings using a hardware trigger initiated by a SCPI command. In this case a 3.5A, 25V LED is used as the DUT.
 
 ## Overview 
 Operates SpikeSafe as both DC current source and a high precision voltage measurement device. A DC output is demonstrated in [Run Staircase Sweep](../../run_spikesafe_operating_modes/run_staircase_sweep/). While current is outputted, voltage measurements are being taken across the flattest portion of each current pulse. After all measurements are taken and read, the results are plotted in an I-V graph.
@@ -46,7 +46,7 @@ When running a DC staircase using this sequence, one can expect to see the follo
 
 Once all 10 steps are measured, a graph will appear like below:
 
-![](dc_staircase_graph.png)
+![](staircase_sweep_liv.png)
 
 **DC Staircase Current Output**
 
