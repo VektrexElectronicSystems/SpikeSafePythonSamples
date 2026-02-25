@@ -236,11 +236,53 @@ try:
     # trigger Channel 1 to start the Staircase Sweep output
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
-    # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
+    # Get estimated completion time for Digitizer measurements to occur. Estimating completion time minimizes digitizer polling during DigitizerDataFetch
+    estimated_complete_time_seconds = spikesafe_python.DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(
+        aperture_microseconds=digitizer_aperture_microseconds,
+        hardware_trigger_count=digitizer_hardware_trigger_count,
+        reading_count=digitizer_reading_count,
+        hardware_trigger_delay_microseconds=digitizer_hardware_trigger_delay_microseconds)
+    
+    # fetch voltage data from Digitizer containing sample number and voltage reading
+    digitzer_data = [spikesafe_python.DigitizerData]
 
-    # fetch the Digitizer voltage readings
-    digitizerData = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
+    try:
+        # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
+        digitzer_data = spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(
+            spike_safe_socket=tcp_socket,
+            wait_time=estimated_complete_time_seconds,
+            timeout=10)
+        
+        # fetch complete data
+        digitzer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
+
+        log.info(f"Complete VOLT:FETC? Response returned with {len(digitzer_data)} readings")
+    except Exception as err:
+        log.error(f"Complete VOLT:FETC? Response error: {err}")
+
+        try:
+            # attempt to abort partial digitizer readings
+            tcp_socket.send_scpi_command("VOLT:ABOR:PART")
+
+            # wait for the Digitizer partial measurements to complete. It's expected that the wait time here will be small since we are fetching partial data after an abort.
+            spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket)
+
+            # fetch whatever data is available
+            digitzer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
+
+            log.info(f"Partial VOLT:FETC? Response after error returned with {len(digitzer_data)} readings")
+
+            # check if partial measurements were a result of a SpikeSafe error
+            spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        except TimeoutError as e:
+            # Timeout error will occur if no partial measurements were taken
+            log.error(f"Partial VOLT:FETC? Response error: {e}")
+
+            # check if no partial measurements were a result of a SpikeSafe error
+            spikesafe_python.ReadAllEvents.read_all_events(tcp_socket)
+        except Exception as e:
+            # All other errors, exit the script
+            raise
 
     # initialize flag to check if DMM trigger state is idle
     is_dmm_idle_state = False
@@ -328,7 +370,7 @@ try:
     current_steps = []
     sweep_step_size_amps = (stop_current_amps - start_current_amps) / (current_step_count - 1)
     current_readings = dmm_readings
-    for dd in digitizerData:
+    for dd in digitzer_data:
         voltage_readings.append(dd.voltage_reading)
         current_steps.append(start_current_amps + sweep_step_size_amps * (dd.sample_number - 1))
 
