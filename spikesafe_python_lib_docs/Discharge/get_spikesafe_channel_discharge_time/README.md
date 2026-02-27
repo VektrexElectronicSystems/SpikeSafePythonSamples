@@ -40,11 +40,11 @@ spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
 # wait until the channel is fully discharged before starting test #2
 log.info('Waiting for Channel 1 to fully discharge after test #1...')
-if spikesafe_info.supports_discharge_query:
-    spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1, enable_logging=True)
-else:
-    wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-    spikesafe_python.Threading.wait(wait_time)
+spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(
+    spikesafe_socket=tcp_socket, 
+    spikesafe_info=spikesafe_info,
+    compliance_voltage=compliance_voltage,
+    channel_number=1)
 ```
 
 ### Examples In Action

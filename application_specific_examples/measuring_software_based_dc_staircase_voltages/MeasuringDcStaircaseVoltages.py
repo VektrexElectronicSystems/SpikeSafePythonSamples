@@ -118,6 +118,9 @@ try:
         # send Set Current command for next step
         tcp_socket.send_scpi_command(cmdStr)
         currentIncrementFloat = step_size_A
+        
+        # A small delay of at least 5ms between setting the current and triggering the software trigger for the digitizer to properly measure the voltage at each step. The optimal delay time may vary based on the characteristics of the load being driven and should be determined experimentally
+        spikesafe_python.Threading.wait(0.005)
 
         
     # check for all events
@@ -134,11 +137,11 @@ try:
     tcp_socket.send_scpi_command('OUTP1 0')
 
     # wait until the channel is fully discharged
-    if spikesafe_info.supports_discharge_query:
-        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
-    else:
-        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-        spikesafe_python.Threading.wait(wait_time)
+    spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(
+        spikesafe_socket=tcp_socket, 
+        spikesafe_info=spikesafe_info,
+        compliance_voltage=compliance_voltage,
+        channel_number=1)
 
     # disconnect from PSMU    
     tcp_socket.close_socket()      

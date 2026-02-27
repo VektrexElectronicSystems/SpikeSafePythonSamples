@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None, digitizer_number = None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.01, enable_logging = None, digitizer_number = None)
 
-## DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.0, enable_logging = None, timeout = None, digitizer_number = None)
+## DigitizerDataFetch.wait_for_new_voltage_data(spike_safe_socket, wait_time = 0.01, enable_logging = None, timeout = None, digitizer_number = None)
 
 ### Definition
 Queries the SpikeSafe PSMU digitizer until it responds that it has acquired new data.
@@ -10,7 +10,7 @@ spike_safe_socket [TcpSocket](/spikesafe_python_lib_docs/TcpSocket/README.md)
 Socket object used to communicate with SpikeSafe.
 
 wait_time [float](https://docs.python.org/3/library/functions.html#float) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
-Wait time in between each set of queries, in seconds (0 by default).
+Wait time in between each set of VOLT:NDAT? queries in seconds (default 0.010s). Use [DigitizerDataFetch.get_new_voltage_data_estimated_complete_time()](/spikesafe_python_lib_docs/DigitizerDataFetch/get_new_voltage_data_estimated_complete_time/README.md) for the recommended value.
 
 enable_logging [bool](https://docs.python.org/3/library/stdtypes.html#boolean-values) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Overrides spike_safe_socket.enable_logging attribute (None by default, will use spike_safe_socket.enable_logging value).
