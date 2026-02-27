@@ -187,11 +187,11 @@ try:
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
     # wait until the channel is fully discharged
-    if spikesafe_info.supports_discharge_query:
-        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
-    else:
-        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage_V)
-        spikesafe_python.Threading.wait(wait_time)
+    spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(
+        spikesafe_socket=tcp_socket, 
+        spikesafe_info=spikesafe_info,
+        compliance_voltage=compliance_voltage_V,
+        channel_number=1)
 
     # disconnect from SpikeSafe                      
     tcp_socket.close_socket()     

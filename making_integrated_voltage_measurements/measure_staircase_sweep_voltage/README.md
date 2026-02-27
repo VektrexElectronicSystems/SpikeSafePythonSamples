@@ -1,0 +1,51 @@
+# Example for Obtaining Voltage Measurements to Graph an I-V Curve Using the SpikeSafe PSMU Digitizer in Staircase Sweep Mode
+
+## Purpose
+Demonstrate how to obtain the I-V curve of a given LED, Laser, or electrical component using the SpikeSafe PSMU. Determining the actual I-V curve of a given DUT helps validate the part by comparing the measured results to the expected results provided within the part's documentation.
+
+The SpikeSafe PSMU's integrated Digitizer is used to make high precision voltage measurements while outputting a DC current sweep to the DUT. The Digitizer is taking triggered readings on the rising edge of the SpikeSafe's DC current output.
+
+## Overview 
+Operates SpikeSafe as both a DC current source and a high precision voltage measurement device. A Staircase Sweep is outputted as demonstrated in [Run Staircase Mode](../../run_spikesafe_operating_modes/run_staircase_sweep). While current DC currents are outputted, voltage measurements are being taken across the flattest portion of each DC current output. After all measurements are taken and read, the results are plotted in an I-V graph.
+
+The Digitizer is set to receive a hardware trigger, meaning that it will use the SpikeSafe's output trigger signal as its input trigger. The measurement is delayed slightly to allow the current output to stabilize.
+
+Note the use of the New Data query while the SpikeSafe is operating. While the Digitizer is still acquiring voltage data, it can be unobtrusively queried to determine if the buffer is full yet. This information can be used to determine whether the user would ideally want to fetch data, as the data fetch will only return fresh data if the specified measurements have occurred.
+
+## Key Settings
+
+### SpikeSafe Current Output Settings
+- **Start Current:** 20mA
+- **Stop Current:** 200mA
+- **Step Count:** 10
+- **Compliance Voltage:** 20V
+- **On Time:** 1ms
+
+### Digitizer Voltage Measurement Settings
+- **Voltage Range:** 10V
+- **Aperture:** 514µs
+- **Trigger Delay:** 150µs
+- **Trigger Source:** Hardware
+- **Trigger Edge:** Rising
+- **Trigger Count:** 10
+- **Reading Count:** 1 (per trigger)
+
+## Considerations
+This sequence assumes the user has basic knowledge of SpikeSafe Staircase Sweep operation. To find more information on the basics of SpikeSafe DC current output, see [Run Staircase Sweep](../../run_spikesafe_operating_modes/run_staircase_sweep).
+
+## Expected Results
+The SpikeSafe current output will look exactly as it does in the "Run Staircase Sweep" example. The Digitizer voltage measurements will be returned as a string in byte format with comma-separated voltage measurements in scientific notation. See the graphs below, which show an I-V curve using the above settings outputting to a 3.5A, 25V LED. 
+
+**LED Sweep**
+
+![](staircase_sweep_voltages_LED.png)
+
+NOTE: for the LED sweep, the following settings needed to be modified to accomodate the DUT:
+- **Compliance Voltage:** 30V
+- **Digtizer Voltage Range:** 100V
+
+**DC Staircase Current Output**
+
+This image was acquired by measuring output current using a TCPA300 Current Probe into a MDO3024 Mixed Domain Oscilloscope
+
+![](dc_staircase_output.png)

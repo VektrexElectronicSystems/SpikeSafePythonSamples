@@ -1,11 +1,10 @@
 # Goal: 
-# Connect to a SpikeSafe and run a Pulsed Sweep into a 10Ω resistor. Take voltage measurements from the pulsed output using the SpikeSafe PSMU's integrated Digitizer
+# Connect to a SpikeSafe and run a Staircase Sweep into a 10Ω resistor. Take voltage measurements from the DC output using the SpikeSafe PSMU's integrated Digitizer
 # 
 # Expectation: 
 # Channel 1 will be driven with 100mA with a forward voltage of ~1V during this time
 
 import sys
-import time
 import logging
 import spikesafe_python
 from matplotlib import pyplot as plt   
@@ -14,7 +13,20 @@ from matplotlib import pyplot as plt
 
 # SpikeSafe IP address and port number
 ip_address: str = '10.0.0.220'
-port_number: int = 8282          
+port_number: int = 8282
+
+start_current_amps: float = 0.02
+stop_current_amps: float = 0.2
+current_step_count: int = 10  
+compliance_voltage_volts: float = 20
+step_on_time_milliseconds: int = 1
+
+# Digitizer voltage range options in volts: 10, 100, 400
+digitizer_voltage_range_volts: float = 10
+digitizer_aperture_microseconds: int = 514
+digitizer_hardware_trigger_delay_microseconds: int = 150
+digitizer_hardware_trigger_count: int = current_step_count
+digitizer_reading_count: int = 1
 
 ### setting up sequence log
 log = logging.getLogger(__name__)
@@ -30,7 +42,7 @@ logging.basicConfig(
 
 ### start of main program
 try:
-    log.info("MeasurePulsedSweepVoltage.py started.")
+    log.info("MeasureStaircaseSweepVoltage.py started.")
 
     log.info("Python version: {}".format(sys.version))
     
@@ -45,35 +57,44 @@ try:
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
+    log.info(f'SpikeSafe *IDN?: {spikesafe_info.idn}')
     
     # set up Channel 1 for pulsed sweep output. To find more explanation, see instrument_examples/run_spikesafe_operating_modes/run_pulsed
-    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSEDSWEEP')
-    tcp_socket.send_scpi_command(f'SOUR1:CURR:STAR {spikesafe_python.Precision.get_precise_current_command_argument(0.02)}')
-    stop_current: float = 0.2
-    tcp_socket.send_scpi_command(f'SOUR1:CURR:STOP {spikesafe_python.Precision.get_precise_current_command_argument(stop_current)}')   
-    tcp_socket.send_scpi_command(f'SOUR1:CURR:STEP 100')
-    compliance_voltage: float = 20
-    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
-    pulse_on_time: float = 0.001   
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.0099)}')
-    tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
-    spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current, stop_current, pulse_on_time)
+    tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP STAIRCASESWEEP')
+
+    # set Channel 1's Staircase Sweep parameters to match the test expectation
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STA:SWE:STAR {spikesafe_python.Precision.get_precise_current_command_argument(start_current_amps)}')
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STA:SWE:STOP {spikesafe_python.Precision.get_precise_current_command_argument(stop_current_amps)}')   
+    tcp_socket.send_scpi_command(f'SOUR1:CURR:STA:SWE:STEP {current_step_count}')  
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:STA:SWE:TON {step_on_time_milliseconds}')
+    tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage_volts)}')
+    
+    # set Channel 1's compensation settings
+    # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
+    load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_info.maximum_set_current, stop_current_amps, step_on_time_milliseconds / 1000.0)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')   
-    tcp_socket.send_scpi_command('OUTP1:RAMP FAST') 
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}') 
+
+    # set Channel 1's Ramp mode to Fast
+    tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
+    
+    # set Channel 1's External Source Trigger Out to Always
+    tcp_socket.send_scpi_command('SOUR1:PULS:TRIG ALWAYS')
+
+    # set Channel 1's External Source Trigger Out to Positive
+    tcp_socket.send_scpi_command('OUTP1:TRIG:SLOP POS')
+
+    # set Channel 1's trigger source to Internal (so that the SpikeSafe triggers the Staircase Sweep when the OUTP:TRIG command is sent)
+    tcp_socket.send_scpi_command('OUTP1:TRIG:SOUR INT')
 
     # set Digitizer voltage range to 10V since we expect to measure voltages significantly less than 10V
-    tcp_socket.send_scpi_command('VOLT:RANG 10')
+    tcp_socket.send_scpi_command(f'VOLT:RANG {digitizer_voltage_range_volts}')
 
-    # set Digitizer aperture for 60µs. Aperture specifies the measurement time, and we want to measure a majority of the pulse's constant current output
-    aperture: int = 60
-    tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
+    # set Digitizer aperture. Aperture specifies the measurement time, and we want to measure a majority of the pulse's constant current output
+    tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(digitizer_aperture_microseconds)}')
 
-    # set Digitizer trigger delay to 20µs. We want to give sufficient delay to omit any overshoot the current pulse may have
-    hardware_trigger_delay: int = 20
-    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(hardware_trigger_delay)}')
+    # set Digitizer trigger delay. We want to give sufficient delay to omit any overshoot the current pulse may have
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:DEL {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(digitizer_hardware_trigger_delay_microseconds)}')
 
     # set Digitizer trigger source to hardware. When set to a hardware trigger, the digitizer waits for a trigger signal from the SpikeSafe to start a measurement
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR HARDWARE')
@@ -81,50 +102,48 @@ try:
     # set Digitizer trigger edge to rising. The Digitizer will start a measurement after the SpikeSafe's rising pulse edge occurs
     tcp_socket.send_scpi_command('VOLT:TRIG:EDGE RISING')
 
-    # set Digitizer trigger count to 100. We want to take one voltage reading for every step in the pulsed sweep
-    hardware_trigger_count: int = 100
-    tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {hardware_trigger_count}')
+    # set Digitizer trigger count. We want to setup to measure voltage for every step in the Staircase Sweep
+    tcp_socket.send_scpi_command(f'VOLT:TRIG:COUN {digitizer_hardware_trigger_count}')
 
     # set Digitizer reading count to 1. This is the amount of readings that will be taken when the Digitizer receives its specified trigger signal
-    reading_count: int = 1
-    tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
+    tcp_socket.send_scpi_command(f'VOLT:READ:COUN {digitizer_reading_count}')
 
     # check all SpikeSafe event since all settings have been sent
     spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
 
-    # turn on Channel 1 
-    tcp_socket.send_scpi_command('OUTP1 1')
-
-    # wait until Channel 1 is fully ramped so we can send a trigger command for a pulsed sweep
-    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
-
-    # start Digitizer measurements. We want the digitizer waiting for triggers before starting the pulsed sweep
+    # start Digitizer measurements. We want the digitizer waiting for triggers before starting the Staircase Sweep
     tcp_socket.send_scpi_command('VOLT:INIT')
 
-    # trigger Channel 1 to start the pulsed sweep output
+    # turn on Channel 1 
+    tcp_socket.send_scpi_command('OUTP1 1')    
+    
+    # wait until Channel 1 is fully ramped so we can send a trigger command for a Staircase Sweep
+    spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
+
+    # trigger Channel 1 to start the Staircase Sweep output
     tcp_socket.send_scpi_command('OUTP1:TRIG')
 
     # Get estimated completion time for Digitizer measurements to occur. Estimating completion time minimizes digitizer polling during DigitizerDataFetch
     estimated_complete_time_seconds = spikesafe_python.DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(
-        aperture_microseconds=aperture,
-        hardware_trigger_count=hardware_trigger_count,
-        reading_count=reading_count,
-        hardware_trigger_delay_microseconds=hardware_trigger_delay)
+        aperture_microseconds=digitizer_aperture_microseconds,
+        hardware_trigger_count=digitizer_hardware_trigger_count,
+        reading_count=digitizer_reading_count,
+        hardware_trigger_delay_microseconds=digitizer_hardware_trigger_delay_microseconds)
     
     # fetch voltage data from Digitizer containing sample number and voltage reading
-    digitzer_data = [spikesafe_python.DigitizerData]
+    digitizer_data = [spikesafe_python.DigitizerData]
 
     try:
         # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-        digitzer_data = spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(
+        digitizer_data = spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(
             spike_safe_socket=tcp_socket,
             wait_time=estimated_complete_time_seconds,
             timeout=10)
         
         # fetch complete data
-        digitzer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
+        digitizer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
 
-        log.info(f"Complete VOLT:FETC? Response returned with {len(digitzer_data)} readings")
+        log.info(f"Complete VOLT:FETC? Response returned with {len(digitizer_data)} readings")
     except Exception as err:
         log.error(f"Complete VOLT:FETC? Response error: {err}")
 
@@ -136,9 +155,9 @@ try:
             spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket)
 
             # fetch whatever data is available
-            digitzer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
+            digitizer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
 
-            log.info(f"Partial VOLT:FETC? Response after error returned with {len(digitzer_data)} readings")
+            log.info(f"Partial VOLT:FETC? Response after error returned with {len(digitizer_data)} readings")
 
             # check if partial measurements were a result of a SpikeSafe error
             spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
@@ -157,33 +176,31 @@ try:
     
     # wait until the channel is fully discharged
     spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(
-        spikesafe_socket=tcp_socket, 
+        spikesafe_socket= tcp_socket,
         spikesafe_info=spikesafe_info,
-        compliance_voltage=compliance_voltage,
+        compliance_voltage=compliance_voltage_volts, 
         channel_number=1)
 
-    # put the fetched data in a plottable data format
+    # disconnect from SpikeSafe                      
+    tcp_socket.close_socket()    
+            
+    # split array and separate with commas
     voltage_readings = []
     current_steps = []
-    start_current_mA = 20
-    step_size_mA = 1.82 # 1.82mA = Step Size = (StopCurrent - StartCurrent)/(StepCount - 1)
-    for dd in digitzer_data:
+    step_size_amps = (stop_current_amps - start_current_amps) / (current_step_count - 1)
+    for dd in digitizer_data:
         voltage_readings.append(dd.voltage_reading)
-        current_steps.append(start_current_mA + step_size_mA * (dd.sample_number - 1))
-
+        current_steps.append(start_current_amps + step_size_amps * (dd.sample_number - 1))
 
     # plot the pulse shape using the fetched voltage readings
     plt.plot(current_steps, voltage_readings)
     plt.ylabel('Voltage (V)')
-    plt.xlabel('Set Current (mA)')
-    plt.title('Digitizer Voltage Readings - Pulsed Sweep (20mA to 200mA)')
+    plt.xlabel('Set Current (A)')
+    plt.title(f'Digitizer Voltage Readings - Staircase Sweep ({start_current_amps}A to {stop_current_amps}A)')
     plt.grid()
     plt.show()
 
-    # disconnect from SpikeSafe                      
-    tcp_socket.close_socket()    
-
-    log.info("MeasurePulsedSweepVoltage.py completed.\n")
+    log.info("MeasureStaircaseSweepVoltage.py completed.\n")
 
 except spikesafe_python.SpikeSafeError as ssErr:
     # print any SpikeSafe-specific error to both the terminal and the log file, then exit the application
@@ -197,5 +214,3 @@ except Exception as err:
     log.error(error_message)       
     print(error_message)   
     sys.exit(1)
-
-

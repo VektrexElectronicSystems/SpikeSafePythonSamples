@@ -132,11 +132,11 @@ try:
     tcp_socket.send_scpi_command('OUTP1 0')
     
     # wait until the channel is fully discharged
-    if spikesafe_info.supports_discharge_query:
-        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
-    else:
-        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-        spikesafe_python.Threading.wait(wait_time)
+    spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(
+        spikesafe_socket=tcp_socket, 
+        spikesafe_info=spikesafe_info,
+        compliance_voltage=compliance_voltage,
+        channel_number=1)
 
     log_and_print_to_console('\nK-factor values obtained. Stopped bias current output. Configuring to perform Electrical Test Method measurement.')
 
@@ -190,11 +190,11 @@ try:
     tcp_socket.send_scpi_command('OUTP1 0')
 
     # wait until the channel is fully discharged
-    if spikesafe_info.supports_discharge_query:
-        spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(tcp_socket, channel_number=1)
-    else:
-        wait_time = spikesafe_python.Discharge.get_spikesafe_channel_discharge_time(compliance_voltage)
-        spikesafe_python.Threading.wait(wait_time)
+    spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(
+        spikesafe_socket=tcp_socket, 
+        spikesafe_info=spikesafe_info,
+        compliance_voltage=compliance_voltage,
+        channel_number=1)
 
     # prepare digitizer voltage data to plot
     samples = []
