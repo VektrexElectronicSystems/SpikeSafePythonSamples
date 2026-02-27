@@ -1,13 +1,18 @@
 # spikesafe-python Releases
 
-## 1.12.10
-2/12/26
+## 1.12.12
+2/27/26
 
 - Breaking Changes
     - [Discharge.wait_for_spikesafe_channel_discharge()](../Discharge/wait_for_spikesafe_channel_discharge/README.md)
         - Added required parameters:
             - spikesafe_info : SpikeSafeInfo. An object containing the SpikeSafe information.
             - compliance_voltage : float. Compliance voltage to factor in discharge time.
+    - PulseWidthCorrection.get_optimum_pulse_width_correction()
+        - Added required parameters:
+            - spikesafe_info : SpikeSafeInfo. An object containing the SpikeSafe information.
+        - Removed required parameters:
+            - spikesafe_model_max_current_amps : float. Maximum current of the SpikeSafe model.
 - Added
     - [ReadAllEvents.read_until_event()](../ReadAllEvents/read_until_event/README.md)
         - Added optional parameter timeout : float. Maximum time in seconds to wait for the desired event before raising an exception (default to None will wait indefinitely)
