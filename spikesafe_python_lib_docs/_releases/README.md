@@ -1,6 +1,6 @@
 # spikesafe-python Releases
 
-## 1.3.5
+## 1.13.5
 
 - Added
     - [TcpSocket.open_socket()](../TcpSocket/open_socket/README.md)
