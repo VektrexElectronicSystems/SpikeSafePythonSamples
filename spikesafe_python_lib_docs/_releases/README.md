@@ -1,5 +1,15 @@
 # spikesafe-python Releases
 
+## 1.3.5
+
+- Added
+    - [TcpSocket.open_socket()](../TcpSocket/open_socket/README.md)
+        - Set socket send maximum buffer size to 512 bytes, matching SpikeSafe's command buffer. This directs python to send packets with a data length of up to 512 bytes.
+- Updated
+    - [Discharge.wait_for_spikesafe_channel_discharge()](../Discharge/wait_for_spikesafe_channel_discharge/README.md)
+        - Function assesses Discharge Complete query response before checking if elapsed time has surpassed the model's maximum expected discharge time.
+        - Error message when the elapsed time has surpassed the model's maximum expected discharge time now includes the expected times for both the compliance voltage and model's maximum compliance voltage.
+
 ## 1.12.12
 2/27/26
 
