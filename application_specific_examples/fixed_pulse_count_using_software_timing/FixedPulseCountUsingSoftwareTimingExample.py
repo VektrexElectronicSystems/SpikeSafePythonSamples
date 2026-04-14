@@ -102,7 +102,7 @@ try:
 
     # pulsing starts before before getting Channel Ready message
     # wait 30ms for getting ~10000 pulses
-    time.sleep(0.030)
+    spikesafe_python.Threading.wait(0.030)
     
     # disable Channel
     tcp_socket.send_scpi_command('OUTP1 0')

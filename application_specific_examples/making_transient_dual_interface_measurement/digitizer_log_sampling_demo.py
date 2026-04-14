@@ -131,7 +131,7 @@ try:
 
     start_data_ready_time = time.time()
     while True:
-        time.sleep(1)
+        spikesafe_python.Threading.wait(1)
         tcp_socket.send_scpi_command('VOLT:NDAT?')
         ndataStr = tcp_socket.read_data()    
         if ndataStr == true_string:
