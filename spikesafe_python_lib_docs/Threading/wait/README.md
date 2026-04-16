@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Threading](/spikesafe_python_lib_docs/Threading/README.md) | Threading.wait(wait_time, os_timer_resolution_offset_time=0, current_time=time.perf_counter)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [Threading](/spikesafe_python_lib_docs/Threading/README.md) | Threading.wait(wait_time, os_timer_resolution_offset_time=0, current_time: float | None = None)
 
-## Threading.wait(wait_time, os_timer_resolution_offset_time=0, current_time=time.perf_counter)
+## Threading.wait(wait_time, os_timer_resolution_offset_time=0, current_time: float | None = None)
 
 ### Definition
 Suspends the current thread for a specified amount of time.
@@ -13,7 +13,7 @@ os_timer_resolution_offset_time [float](https://docs.python.org/3/library/functi
 The offset time in seconds to add to wait_time due to the operating system timer resolution limit. Default is 0.
 
 current_time [float](https://docs.python.org/3/library/functions.html#float) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)    
-Current time in seconds (time.perf_counter by default).
+Current time in seconds (None by default).
 
 ### Remarks
 The resolution of system timers between operating systems refers to the precision with which a system can measure and manage time. Different operating systems may have varying timer resolutions, which can impact tasks like scheduling, synchronization, and overall system performance.
