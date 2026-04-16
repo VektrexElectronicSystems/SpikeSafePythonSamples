@@ -1,6 +1,14 @@
 # spikesafe-python Releases
 
+## 1.14.1
+4/14/26
+
+- Fixed
+    - [Threading.wait()](../Threading/wait/README.md)
+        - Function returning instantly due to parameter `current_time: float = time.perf_counter()` calculating once the function was defined. This parameter has been changed to `current_time: float | None = None`, with the instantiation occuring within the function.
+
 ## 1.13.5
+4/10/26
 
 - Added
     - [TcpSocket.open_socket()](../TcpSocket/open_socket/README.md)
