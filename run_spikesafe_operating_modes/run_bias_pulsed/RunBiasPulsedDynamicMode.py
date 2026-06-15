@@ -43,7 +43,7 @@ try:
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
@@ -84,7 +84,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
     # Check for any errors with initializing commands
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')
@@ -96,7 +96,7 @@ try:
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
     time_end = time.time() + 10                         
     while time.time() < time_end:                       
-        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
         spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
         spikesafe_python.Threading.wait(1)
 
@@ -105,7 +105,7 @@ try:
 
     # set Channel 1's Pulse On Time to 100µs dynamically while channel is operating. Check events and measure readings
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(0.0001)}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
     spikesafe_python.Threading.wait(1)
 
@@ -115,7 +115,7 @@ try:
     # after dynamically applying all new settings, check for all events and measure readings on Channel 1 once per second for 5 seconds
     time_end = time.time() + 5                         
     while time.time() < time_end:                       
-        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
         spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
         spikesafe_python.Threading.wait(1)
 

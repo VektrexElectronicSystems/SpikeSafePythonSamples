@@ -89,7 +89,7 @@ try:
     # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
@@ -145,7 +145,7 @@ try:
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {digitizer_reading_count}')
 
     # check all SpikeSafe event since all settings have been sent
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # instantiate new TcpSocket to connect to DMM
     dmm_tcp_socket = spikesafe_python.TcpSocket(enable_logging=False)
@@ -273,7 +273,7 @@ try:
             log.info(f"Partial VOLT:FETC? Response after error returned with {len(digitzer_data)} readings")
 
             # check if partial measurements were a result of a SpikeSafe error
-            spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+            spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
         except TimeoutError as e:
             # Timeout error will occur if no partial measurements were taken
             log.error(f"Partial VOLT:FETC? Response error: {e}")

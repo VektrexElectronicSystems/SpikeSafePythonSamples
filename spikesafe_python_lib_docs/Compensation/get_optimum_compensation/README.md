@@ -45,12 +45,12 @@ The following example demonstrates the `spikesafe_python.Compensation.get_optimu
 # set Channel 1's Pulse On Time to 1ms and check for all events
 pulse_on_time: float = 0.001
 tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
-spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 
 # set Channel 1's current to 100 mA and check for all events
 set_current: float = 0.1
 tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
-spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)  
+spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)  
 
 # set Channel 1's compensation settings to their default values and check for all events
 # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
@@ -58,9 +58,9 @@ tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
 spikesafe_model_max_current = float(tcp_socket.read_data())
 load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
 tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
-spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
-spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 ```
 
 ### Examples In Action

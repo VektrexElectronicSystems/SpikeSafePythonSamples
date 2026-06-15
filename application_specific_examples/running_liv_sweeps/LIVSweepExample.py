@@ -146,7 +146,7 @@ try:
 
     # reset to default state and check for all events,  this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU   
     tcp_socket.send_scpi_command('*RST')     
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
@@ -165,7 +165,7 @@ try:
     # if different, use the stop current values. However, consider breaking sweep into multiple segments 
 
     # Check for any errors with SpikeSafe initialization commands
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set up SpikeSafe Digitizer to measure Pulsed Sweep output. To find more explanation, see making_integrated_voltage_measurements/measure_pulsed_sweep_voltage
     tcp_socket.send_scpi_command('VOLT:RANG 100')
@@ -181,7 +181,7 @@ try:
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # Check for any errors with Digitizer initialization commands
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
 
     ### LIV Sweep Operation
@@ -216,7 +216,7 @@ try:
         cas_spectrometer.check_cas4_device_error(deviceId)
 
         # Check for any SpikeSafe errors while outputting the Pulsed Sweep
-        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
     spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)

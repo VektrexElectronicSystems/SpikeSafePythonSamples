@@ -48,7 +48,7 @@ reading_count = 1
 tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
 # check all SpikeSafe event since all settings have been sent
-spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
 # turn on Channel 1 
 tcp_socket.send_scpi_command('OUTP1 1')

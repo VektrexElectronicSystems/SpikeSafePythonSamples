@@ -43,7 +43,7 @@ def run_single_pulse_tuning_test(
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}') 
 
     # Check for any errors with initializing commands
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # turn on all channels
     tcp_socket.send_scpi_command('OUTP1 1')
@@ -58,7 +58,7 @@ def run_single_pulse_tuning_test(
     while is_pulse_complete != 'TRUE':                       
         tcp_socket.send_scpi_command('SOUR1:PULS:END?')
         is_pulse_complete = tcp_socket.read_data()
-        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     messagebox.showinfo("Single Pulse Outputted", f"Observe the current pulse shape using an oscilloscope or DMM, and note the current compensation settings.\n\nPress \"OK\" to move to the next combination of Pulse Tuning settings.\n\nLoad Impedance: {load_impedance.name}\nRise Time: {rise_time.name}")
 
@@ -91,7 +91,7 @@ try:
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
@@ -113,7 +113,7 @@ try:
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
 
     # Check for any errors with initializing commands
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # run each combination of Pulse Tuning settings to determine the settings that output the best pulse shape
     # per Vektrex recommendation, Load Impedance is tuned prior to Rise Time

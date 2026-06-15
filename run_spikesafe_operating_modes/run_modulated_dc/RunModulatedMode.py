@@ -40,7 +40,7 @@ try:
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
@@ -60,7 +60,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:SEQ 1(1@20,1@40,1@60,1@80,1@100)') 
 
     # Log all events since all settings are sent
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 
     # turn on Channel 1
     tcp_socket.send_scpi_command('OUTP1 1')                                         
@@ -103,7 +103,7 @@ try:
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
     time_end = time.time() + 10                         
     while time.time() < time_end:                       
-        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
         spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
         spikesafe_python.Threading.wait(1)                            
     

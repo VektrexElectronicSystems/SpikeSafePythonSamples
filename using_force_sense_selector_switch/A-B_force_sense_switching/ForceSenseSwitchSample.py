@@ -42,7 +42,7 @@ try:
 
     # reset to default state
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
@@ -66,7 +66,7 @@ try:
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')       
 
     # log all SpikeSafe event after settings are adjusted  
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 
     # turn on Channel 1
     tcp_socket.send_scpi_command('OUTP1 1')                                        
@@ -74,7 +74,7 @@ try:
     # check for all events and measure readings on Channel 1 once per second for 10 seconds
     time_end = time.time() + 10                         
     while time.time() < time_end:                       
-        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
         spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
         spikesafe_python.Threading.wait(1)                            
     
@@ -89,7 +89,7 @@ try:
         compliance_voltage=compliance_voltage,
         channel_number=1)
 
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set the Force Sense Selector Switch state to Auxiliary (B) so that the Auxiliary Source will be routed to the DUT and the SpikeSafe will be disconnected
     tcp_socket.send_scpi_command('OUTP1:CONN AUX')
@@ -107,13 +107,13 @@ try:
     # check for all events and measure readings on Channel 1 once per second for 10 seconds
     time_end = time.time() + 10                         
     while time.time() < time_end:                       
-        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
         spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
         spikesafe_python.Threading.wait(1)                            
     
     # turn off Channel 1 and check for all events
     tcp_socket.send_scpi_command('OUTP1 0')               
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # wait until the channel is fully discharged
     spikesafe_python.Discharge.wait_for_spikesafe_channel_discharge(

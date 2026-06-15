@@ -50,31 +50,31 @@ try:
     # reset to default state and check for all events, this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set Channel 1's mode to DC Dynamic mode and check for all events
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP DCDYNAMIC')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set Channel 1's voltage to 10 and check for all events
     compliance_voltage: float = 40
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set Channel 1's Auto Range to On and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR:RANG:AUTO 1')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set Channel 1's current to start current and check for all events
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(start_current_A)}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set Channel 1's Ramp mode to Fast and check for all events
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # start the Channel 1
     tcp_socket.send_scpi_command('OUTP1 1')
@@ -85,28 +85,28 @@ try:
     # set Digitizer Aperture to 10us and check for all events
     aperture: int = 10
     tcp_socket.send_scpi_command(f'VOLT:APER {spikesafe_python.Precision.get_precise_time_microseconds_command_argument(aperture)}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set Digitizer Trigger Count to step count and check for all events
     tcp_socket.send_scpi_command('VOLT:TRIG:COUN {}'.format(step_count))
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set Digitizer Read Count to 1 and check for all events
     reading_count: int = 1
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set Digitizer Range to 10V and check for all events
     tcp_socket.send_scpi_command('VOLT:RANG 10')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set Digitizer SW Trigger and check for all events
     tcp_socket.send_scpi_command('VOLT:TRIG:SOUR SOFTWARE')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # start Digitizer software triggered measurements
     tcp_socket.send_scpi_command('VOLT:INIT:SEND')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # start DC staircase current supply and voltage measurement per step
     set_current = start_current_A
@@ -124,14 +124,14 @@ try:
 
         
     # check for all events
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
     spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
 
     # Fetch Data and check for all events
     digitizer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # disable Channel
     tcp_socket.send_scpi_command('OUTP1 0')
