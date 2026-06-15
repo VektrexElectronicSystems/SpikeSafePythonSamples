@@ -183,6 +183,8 @@ Defines the SpikeSafe events as enumerations.
 | INVALID_VOLTAGE_PROTECTION_MODE | 600 |
 | INVALID_STAIRCASE_SWEEP_ON_TIME | 602 |
 | INVALID_STAIRCASE_SWEEP_STEP_COUNT | 603 |
+| INVALID_CURRENT_RAMP_RATE_SETTINGS = 604 |
+| BIAS_CURRENT_SETTING_IS_ONLY_ALLOWED_IN_BIAS_MODE_ON_CHANNEL_1 = 605 |
 
 ### Examples
 [/run_spikesafe_operating_modes/run_dc/RunDcMode.py](/run_spikesafe_operating_modes/run_dc/RunDcMode.py)  
