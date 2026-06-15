@@ -1,5 +1,19 @@
 # spikesafe-python Releases
 
+## 1.15.6
+6/15/26
+- Added
+    - [SpikeSafeEvents](../SpikeSafeEvents/README.md)
+        - Added new events:
+            - INVALID_CURRENT_RAMP_RATE_SETTINGS = 604
+            - BIAS_CURRENT_SETTING_IS_ONLY_ALLOWED_IN_BIAS_MODE_ON_CHANNEL_1 = 605
+- Fixed
+    - [SpikeSafeInfoParser.parse_spikesafe_info()](../SpikeSafeInfoParser/parse_spikesafe_info/README.md)
+        - Works when there are no Digitizers available
+- Improved
+    - [TcpSocket.open_socket()](../TcpSocket/open_socket/README.md)
+        - Disabled Nagle's algorithm to improve SCPI round trip timing
+
 ## 1.14.1
 4/14/26
 
