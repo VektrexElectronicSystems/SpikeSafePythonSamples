@@ -2,6 +2,9 @@
 
 ## ReadAllEvents.log_all_events(spike_safe_socket)
 
+### Deprecated
+Use [ReadAllEvents.read_all_events(spike_safe_socket, enable_logging=True)](/spikesafe_python_lib_docs/ReadAllEvents/read_all_events/README.md) instead.
+
 ### Definition
 Reads all SpikeSafe events from event queue and prints them to the log file.
 
