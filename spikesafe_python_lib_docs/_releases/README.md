@@ -6,6 +6,8 @@
     - [`ReadAll.log_all_events()`](../ReadAllEvents/log_all_events/README.md)
         - Use [`ReadAllEvents.read_all_events(spike_safe_socket, enable_logging=True)`](../ReadAllEvents/read_all_events/README.md) instead
 - Added
+    - [`DigitizerDataFetch.get_new_voltage_data_estimated_complete_time()`](../DigitizerDataFetch/get_new_voltage_data_estimated_complete_time/README.md)
+        - Added optional parameter `pulse_period_seconds: float | None = None`. Pulse period in seconds. If not provided, the Digitizer minimum retrigger time of 600us is used for multiple hardware triggers.
     - [`SpikeSafeEvents`](../SpikeSafeEvents/README.md)
         - Added new events:
             - `INVALID_CURRENT_RAMP_RATE_SETTINGS = 604`
