@@ -40,37 +40,37 @@ try:
     # reset to default state and check for all events,
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
 
     # set Channel 1's pulse mode to Pulsed and check for all events
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSED')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 
     # set Channel 1's Pulse On Time to 1ms and check for all events
     pulse_on_time: float = 0.001
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 
     # set Channel 1's Pulse Off Time to 9ms and check for all events
     tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.009)}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 
     # set Channel 1's current to 100 mA and check for all events
     set_current: float = 0.1
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')   
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)  
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)  
 
     # set Channel 1's voltage to 20 V and check for all events
     compliance_voltage: float = 20
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # set Channel 1's safety threshold for over current protection to 50% and check for all events
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 
     # set Channel 1's compensation settings to their default values and check for all events
     # For higher power loads or shorter pulses, these settings may have to be adjusted to obtain ideal pulse shape
@@ -78,9 +78,9 @@ try:
     spikesafe_model_max_current = float(tcp_socket.read_data())
     load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket) 
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True) 
 
     # set Channel 1's Ramp mode to Fast and check for all events
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
@@ -95,7 +95,7 @@ try:
     # it is best practice to do this to ensure Channel 1 is on and does not have any errors
     time_end = time.time() + 10                        
     while time.time() < time_end:                       
-        spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+        spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
         spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
         spikesafe_python.Threading.wait(1)
 

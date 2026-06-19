@@ -1,9 +1,9 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(aperture_microseconds, reading_count, hardware_trigger_count=None, hardware_trigger_delay_microseconds=None)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(aperture_microseconds, reading_count, hardware_trigger_count=None, hardware_trigger_delay_microseconds=None, pulse_period_seconds=None)
 
-## DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(aperture_microseconds, reading_count, hardware_trigger_count=None, hardware_trigger_delay_microseconds=None)
+## DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(aperture_microseconds, reading_count, hardware_trigger_count=None, hardware_trigger_delay_microseconds=None, pulse_period_seconds=None)
 
 ### Definition
-Returns the estimated minimum possible time in seconds it will take for the SpikeSafe PSMU digitizer to acquire new voltage readings. If hardware triggering is used, this does not take into account the pulse period, so the actual time may be longer.
+Returns the estimated minimum possible time in seconds it will take for the SpikeSafe PSMU digitizer to acquire new voltage readings.
 
 ### Parameters
 aperture_microseconds [int](https://docs.python.org/3/library/functions.html#int)  
@@ -17,6 +17,9 @@ Number of hardware triggers to be sent. Omit this parameter from the function ca
 
 hardware_trigger_delay_microseconds [int](https://docs.python.org/3/library/functions.html#int) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
 Delay in microseconds between each hardware trigger. Omit this parameter from the function call when software triggering is used
+
+pulse_period_seconds [float](https://docs.python.org/3/library/functions.html#float) [optional](https://docs.python.org/3/library/typing.html#typing.Optional)  
+Pulse period in seconds. If not provided, the Digitizer minimum retrigger time of 600us is used for multiple hardware triggers.
 
 ### Returns
 [float](https://docs.python.org/3/library/functions.html#float)  
@@ -48,7 +51,7 @@ reading_count = 1
 tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
 # check all SpikeSafe event since all settings have been sent
-spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
 # turn on Channel 1 
 tcp_socket.send_scpi_command('OUTP1 1')
