@@ -146,8 +146,10 @@ try:
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.033)}')
     compliance_voltage: float = 40
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(1)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.001)}')
+    pulse_on_time_seconds: float = 1
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time_seconds)}')
+    pulse_off_time_seconds: float = 0.001
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(pulse_off_time_seconds)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
@@ -180,7 +182,14 @@ try:
     tcp_socket.send_scpi_command('VOLT:INIT')
 
     # wait for the Digitizer measurements to complete
-    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
+    estimated_complete_time_seconds = spikesafe_python.DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(
+        aperture_microseconds = aperture,
+        reading_count = reading_count,
+        hardware_trigger_count = hardware_trigger_count,
+        hardware_trigger_delay_microseconds = hardware_trigger_delay,
+        pulse_period_seconds = pulse_on_time_seconds + pulse_off_time_seconds
+    )
+    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, wait_time = estimated_complete_time_seconds, timeout = 10)
 
     # fetch the Digitizer voltage readings using VOLT:FETC? query
     digitizerData = []

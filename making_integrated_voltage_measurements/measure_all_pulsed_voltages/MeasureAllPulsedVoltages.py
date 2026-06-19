@@ -48,9 +48,10 @@ try:
 
     # set up Channel 1 for pulsed output. To find more explanation, see instrument_examples/run_pulsed
     tcp_socket.send_scpi_command('SOUR1:FUNC:SHAP PULSED')
-    pulse_on_time: float = 0.001
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.009)}')
+    pulse_on_time_seconds: float = 0.001
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time_seconds)}')
+    pulse_off_time_seconds: float = 0.009
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(pulse_off_time_seconds)}')
     set_current: float = 0.1
     tcp_socket.send_scpi_command(f'SOUR1:CURR {spikesafe_python.Precision.get_precise_current_command_argument(set_current)}')
     compliance_voltage: float = 20
@@ -58,7 +59,7 @@ try:
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('SOUR1:CURR? MAX')
     spikesafe_model_max_current = float(tcp_socket.read_data())
-    load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time)
+    load_impedance, rise_time = spikesafe_python.Compensation.get_optimum_compensation(spikesafe_model_max_current, set_current, pulse_on_time_seconds)
     tcp_socket.send_scpi_command(f'SOUR1:PULS:CCOM {load_impedance}')
     tcp_socket.send_scpi_command(f'SOUR1:PULS:RCOM {rise_time}')
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
@@ -101,7 +102,14 @@ try:
     tcp_socket.send_scpi_command('VOLT:INIT')
 
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
+    estimated_complete_time_seconds = spikesafe_python.DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(
+        aperture_microseconds = aperture,
+        reading_count = reading_count,
+        hardware_trigger_count = hardware_trigger_count,
+        hardware_trigger_delay_microseconds = hardware_trigger_delay,
+        pulse_period_seconds = pulse_on_time_seconds + pulse_off_time_seconds
+    )
+    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, wait_time = estimated_complete_time_seconds, timeout = 10)
 
     # fetch the Digitizer voltage readings
     digitizerData = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)

@@ -265,7 +265,7 @@ try:
             tcp_socket.send_scpi_command("VOLT:ABOR:PART")
 
             # wait for the Digitizer partial measurements to complete. It's expected that the wait time here will be small since we are fetching partial data after an abort.
-            spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket)
+            spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, timeout=10)
 
             # fetch whatever data is available
             digitzer_data = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)

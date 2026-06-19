@@ -219,7 +219,14 @@ try:
         spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # wait for the Digitizer measurements to complete. We need to wait for the data acquisition to complete before fetching the data
-    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
+    estimated_complete_time_seconds = spikesafe_python.DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(
+        aperture_microseconds = aperture,
+        reading_count = reading_count,
+        hardware_trigger_count = hardware_trigger_count,
+        hardware_trigger_delay_microseconds = hardware_trigger_delay,
+        pulse_period_seconds = pulse_on_time_seconds + pulse_off_time_seconds
+    )
+    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, wait_time = estimated_complete_time_seconds, timeout = 10)
 
     # fetch the SpikeSafe Digitizer voltage readings
     digitizerData = spikesafe_python.DigitizerDataFetch.fetch_voltage_data(tcp_socket)
