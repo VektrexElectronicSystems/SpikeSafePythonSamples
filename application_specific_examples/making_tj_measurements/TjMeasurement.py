@@ -88,7 +88,7 @@ try:
     # reset to default state and check for all events, this will automatically abort digitizer in order get it into a known state. This is good practice when connecting to a SpikeSafe PSMU
     # it is best practice to check for errors after sending each command      
     tcp_socket.send_scpi_command('*RST')                  
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     
     # parse the SpikeSafe information
     spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_socket)
@@ -146,8 +146,10 @@ try:
     tcp_socket.send_scpi_command(f'SOUR0:CURR:BIAS {spikesafe_python.Precision.get_precise_current_command_argument(0.033)}')
     compliance_voltage: float = 40
     tcp_socket.send_scpi_command(f'SOUR1:VOLT {spikesafe_python.Precision.get_precise_compliance_voltage_command_argument(compliance_voltage)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(1)}')
-    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(0.001)}')
+    pulse_on_time_seconds: float = 1
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TON {spikesafe_python.Precision.get_precise_time_command_argument(pulse_on_time_seconds)}')
+    pulse_off_time_seconds: float = 0.001
+    tcp_socket.send_scpi_command(f'SOUR1:PULS:TOFF {spikesafe_python.Precision.get_precise_time_command_argument(pulse_off_time_seconds)}')
     tcp_socket.send_scpi_command('SOUR1:CURR:PROT 50')    
     tcp_socket.send_scpi_command('OUTP1:RAMP FAST')  
 
@@ -165,7 +167,7 @@ try:
     tcp_socket.send_scpi_command(f'VOLT:READ:COUN {reading_count}')
 
     # check all SpikeSafe event since all settings have been sent
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
     # turn on Channel 1 
     tcp_socket.send_scpi_command('OUTP1 1')
@@ -180,7 +182,14 @@ try:
     tcp_socket.send_scpi_command('VOLT:INIT')
 
     # wait for the Digitizer measurements to complete
-    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, 0.5)
+    estimated_complete_time_seconds = spikesafe_python.DigitizerDataFetch.get_new_voltage_data_estimated_complete_time(
+        aperture_microseconds = aperture,
+        reading_count = reading_count,
+        hardware_trigger_count = hardware_trigger_count,
+        hardware_trigger_delay_microseconds = hardware_trigger_delay,
+        pulse_period_seconds = pulse_on_time_seconds + pulse_off_time_seconds
+    )
+    spikesafe_python.DigitizerDataFetch.wait_for_new_voltage_data(tcp_socket, wait_time = estimated_complete_time_seconds, timeout = 10)
 
     # fetch the Digitizer voltage readings using VOLT:FETC? query
     digitizerData = []

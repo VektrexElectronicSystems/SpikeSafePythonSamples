@@ -1,5 +1,25 @@
 # spikesafe-python Releases
 
+## 1.15.8
+6/19/26
+- Deprecated
+    - [`ReadAll.log_all_events()`](../ReadAllEvents/log_all_events/README.md)
+        - Use [`ReadAllEvents.read_all_events(spike_safe_socket, enable_logging=True)`](../ReadAllEvents/read_all_events/README.md) instead
+- Added
+    - [`DigitizerDataFetch.get_new_voltage_data_estimated_complete_time()`](../DigitizerDataFetch/get_new_voltage_data_estimated_complete_time/README.md)
+        - Added optional parameter `pulse_period_seconds: float | None = None`. Pulse period in seconds. If not provided, the Digitizer minimum retrigger time of 600us is used for multiple hardware triggers.
+    - [`SpikeSafeEvents`](../SpikeSafeEvents/README.md)
+        - Added new events:
+            - `INVALID_CURRENT_RAMP_RATE_SETTINGS = 604`
+            - `BIAS_CURRENT_SETTING_IS_ONLY_ALLOWED_IN_BIAS_MODE_ON_CHANNEL_1 = 605`
+            - `INVALID_PULSE_TIME_WITH_PULSE_CORRECTION_VALUE = 606`
+- Fixed
+    - [`SpikeSafeInfoParser.parse_spikesafe_info()`](../SpikeSafeInfoParser/parse_spikesafe_info/README.md)
+        - Works when there are no Digitizers available
+- Improved
+    - [`TcpSocket.open_socket()`](../TcpSocket/open_socket/README.md)
+        - Disabled Nagle's algorithm to improve SCPI round trip timing
+
 ## 1.14.1
 4/14/26
 

@@ -21,7 +21,7 @@ spikesafe_info = spikesafe_python.SpikeSafeInfoParser.parse_spikesafe_info(tcp_s
 
 # start test #1 by turning on Channel 1 and check for all events
 tcp_socket.send_scpi_command('OUTP1 1')               
-spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
 # wait until the channel is fully ramped to 10mA
 spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.SpikeSafeEvents.CHANNEL_READY) # event 100 is "Channel Ready"
@@ -30,13 +30,13 @@ spikesafe_python.ReadAllEvents.read_until_event(tcp_socket, spikesafe_python.Spi
 # it is best practice to do this to ensure Channel 1 is on and does not have any errors
 time_end = time.time() + 5                         
 while time.time() < time_end:                       
-    spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
     spikesafe_python.MemoryTableReadData.log_memory_table_read(tcp_socket)
     spikesafe_python.Threading.wait(1)    
 
 # turn off Channel 1 and check for all events
 tcp_socket.send_scpi_command('OUTP1 0', enable_logging=True)               
-spikesafe_python.ReadAllEvents.log_all_events(tcp_socket)
+spikesafe_python.ReadAllEvents.read_all_events(tcp_socket, enable_logging=True)
 
 # wait until the channel is fully discharged before starting test #2
 log.info('Waiting for Channel 1 to fully discharge after test #1...')
