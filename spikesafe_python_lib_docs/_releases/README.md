@@ -1,7 +1,7 @@
 # spikesafe-python Releases
 
-## 1.15.6
-6/15/26
+## 1.15.8
+6/19/26
 - Deprecated
     - [`ReadAll.log_all_events()`](../ReadAllEvents/log_all_events/README.md)
         - Use [`ReadAllEvents.read_all_events(spike_safe_socket, enable_logging=True)`](../ReadAllEvents/read_all_events/README.md) instead
@@ -12,6 +12,7 @@
         - Added new events:
             - `INVALID_CURRENT_RAMP_RATE_SETTINGS = 604`
             - `BIAS_CURRENT_SETTING_IS_ONLY_ALLOWED_IN_BIAS_MODE_ON_CHANNEL_1 = 605`
+            - `INVALID_PULSE_TIME_WITH_PULSE_CORRECTION_VALUE = 606`
 - Fixed
     - [`SpikeSafeInfoParser.parse_spikesafe_info()`](../SpikeSafeInfoParser/parse_spikesafe_info/README.md)
         - Works when there are no Digitizers available
