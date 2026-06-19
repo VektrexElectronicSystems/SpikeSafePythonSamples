@@ -45,7 +45,7 @@ def verify_current_pulse_settings(spike_safe_socket: spikesafe_python.TcpSocket)
     pulse_period = spike_safe_socket.read_data()
     log_and_print('Updated Pulse Period: {}s'.format(pulse_period))
 
-    spikesafe_python.ReadAllEvents.log_all_events(spike_safe_socket)
+    spikesafe_python.ReadAllEvents.read_all_events(spike_safe_socket, enable_logging=True)
 
     # space out the log and terminal output for clarity
     log_and_print('')
