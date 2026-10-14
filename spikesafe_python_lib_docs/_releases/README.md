@@ -1,5 +1,15 @@
 # spikesafe-python Releases
 
+## 1.16.4
+10/14/26
+- Fixed
+    - [`Compensation.load_custom_compensation_table()`](../Compensation/load_custom_compensation_table/README.md)
+        - Reads JSON files explicitly as UTF-8 instead of using the system's default text encoding, so non-ASCII device names load consistently across machines.
+        - ASCII-only files remain compatible. Files containing non-ASCII characters saved in legacy encodings, such as Windows-1252, must be converted to UTF-8.
+- Documentation
+    - Clarified that SCPI numeric formatting and response parsing are already locale-independent. Numeric precision and public APIs are unchanged, and the library does not change the application's locale.
+    - Documented UTF-8 compensation-file requirements in the compensation API and schema pages.
+
 ## 1.15.8
 6/19/26
 - Deprecated

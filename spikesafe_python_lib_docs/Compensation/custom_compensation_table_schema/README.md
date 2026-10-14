@@ -5,6 +5,11 @@
 ### Definition
 This schema defines the structure of the data required for custom compensation in the system. It is a list of objects, where each object contains details about compensation settings for a specific device. Below are the fields and their descriptions.
 
+Save compensation JSON files as UTF-8. JSON numbers must use a period (`.`) as
+the decimal separator and no digit grouping, regardless of the application's
+locale. See [load_custom_compensation_table(file_path)](/spikesafe_python_lib_docs/Compensation/load_custom_compensation_table/README.md)
+for file encoding requirements and compatibility with existing files.
+
 ### Schema Overview
 - Type: [list([])](https://docs.python.org/3/library/stdtypes.html#list) of objects
 - Minimum items: 1 (at least one compensation setting is required)

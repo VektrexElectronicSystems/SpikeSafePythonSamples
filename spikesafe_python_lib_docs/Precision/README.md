@@ -5,6 +5,12 @@
 ### Definition
 Provides a collection of helper functions to get the precise number of decimal places for a SpikeSafe SCPI command argument
 
+Formatted numeric arguments always use a period (`.`) as the decimal separator
+and no digit grouping, regardless of the application's locale. For example,
+`Precision.get_precise_current_command_argument(1.25)` returns `"1.2500"` in both
+en-US and de-DE. These functions accept numeric values, rather than localized
+strings such as `"1,25"`, and do not change the application's process-wide locale.
+
 ### Functions
 | Name | Description |
 | - | - |
