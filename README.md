@@ -25,8 +25,9 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
 
 ### Setup Steps
 
-1. **Install Python 3.10 to 3.14**
+1. **Install Python 3.11 to 3.15**
    - Download Python from [python.org](https://www.python.org/downloads/).
+   - Python 3.15 is recommended for a new environment.
    - During installation check **Add Python to PATH**.
 
 2. **Verify Python**
@@ -51,8 +52,13 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
    - Run:
       | OS | Command |
       | - | - |
-      | Windows | `py -m pip install --force-reinstall -r requirements.txt` |
-      | macOS | `python3 -m pip install --force-reinstall -r requirements.txt` |
+      | Windows | `py -3.15 -m pip install --upgrade -r requirements.txt` |
+      | macOS | `python3.15 -m pip install --upgrade -r requirements.txt` |
+
+   - These commands select Python 3.15 explicitly. If using another supported
+     version, substitute that interpreter and select the same environment in your IDE.
+   - Instrument and spectrometer examples still require their vendor drivers and
+     DLLs. Python package installation alone does not verify those drivers on 3.15.
 
 ### IDEs
 
