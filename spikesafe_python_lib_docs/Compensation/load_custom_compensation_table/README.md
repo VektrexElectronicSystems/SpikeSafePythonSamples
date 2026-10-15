@@ -3,11 +3,16 @@
 ## Compensation.load_custom_compensation_table(file_path)
 
 ### Definition
-Returns a custom compensation table from a JSON file.
+Returns a custom compensation table from a UTF-8 JSON file.
 
 ### Parameters
 file_path [string](https://docs.python.org/3/library/string.html)  
-Path to the JSON file containing the custom compensation table
+Path to the UTF-8 JSON file containing the custom compensation table.
+
+The file is decoded explicitly as UTF-8, independent of the system's default
+encoding. ASCII-only JSON files remain compatible. Convert files saved in legacy
+encodings, such as Windows-1252, to UTF-8 before loading them. JSON numbers must
+use a period (`.`) as the decimal separator, regardless of the application's locale.
 
 ### Returns
 list [list([])](https://docs.python.org/3/library/stdtypes.html#list)  

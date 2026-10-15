@@ -20,11 +20,13 @@ A class to hold the information of a SpikeSafe.
 | [last_calibration_date](/spikesafe_python_lib_docs/SpikeSafeInfo/last_calibration_date/README.md) | Last calibration date of the SpikeSafe. |
 | [maximum_compliance_voltage](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_compliance_voltage/README.md) | Maximum compliance voltage of the SpikeSafe in volts. |
 | [maximum_pulse_width](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_pulse_width/README.md) | Maximum pulse width of the SpikeSafe in seconds.  |
+| [maximum_pulse_width_correction_override](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_pulse_width_correction_override/README.md) | Maximum pulse width correction override in microseconds. |
 | [maximum_pulse_width_offset](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_pulse_width_offset/README.md) | Maximum pulse width offset of the SpikeSafe in microseconds.  |
 | [maximum_set_current](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_set_current/README.md) | Maximum current of the SpikeSafe in amps. |
 | [minimum_compliance_voltage](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_compliance_voltage/README.md) | Minimum compliance voltage of the SpikeSafe in volts. |
 | [minimum_pulse_width](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_pulse_width/README.md) |Minimum pulse width of the SpikeSafe in seconds.  |
 | [minimum_pulse_width_offset](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_pulse_width_offset/README.md) |Minimum pulse width offset of the SpikeSafe in microseconds.  |
+| [minimum_pulse_width_supporting_pulse_width_adjustment](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_pulse_width_supporting_pulse_width_adjustment/README.md) | Minimum pulse width supporting pulse width adjustment, in seconds. |
 | [minimum_set_current](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_set_current/README.md) | Minimum current of the SpikeSafe in amps. |
 | [serial_number](/spikesafe_python_lib_docs/SpikeSafeInfo/serial_number/README.md) | Serial number of the SpikeSafe. |
 | [spikesafe_type](/spikesafe_python_lib_docs/SpikeSafeInfo/spikesafe_type/README.md) | Type of the SpikeSafe. |

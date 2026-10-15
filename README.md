@@ -25,8 +25,9 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
 
 ### Setup Steps
 
-1. **Install Python 3.10 to 3.14**
+1. **Install Python 3.11 to 3.15**
    - Download Python from [python.org](https://www.python.org/downloads/).
+   - Python 3.15 is recommended for a new environment.
    - During installation check **Add Python to PATH**.
 
 2. **Verify Python**
@@ -51,8 +52,13 @@ If only a specific sequence or folder is needed, right-click the desired file/fo
    - Run:
       | OS | Command |
       | - | - |
-      | Windows | `py -m pip install --force-reinstall -r requirements.txt` |
-      | macOS | `python3 -m pip install --force-reinstall -r requirements.txt` |
+      | Windows | `py -3.15 -m pip install --upgrade -r requirements.txt` |
+      | macOS | `python3.15 -m pip install --upgrade -r requirements.txt` |
+
+   - These commands select Python 3.15 explicitly. If using another supported
+     version, substitute that interpreter and select the same environment in your IDE.
+   - Instrument and spectrometer examples still require their vendor drivers and
+     DLLs. Python package installation alone does not verify those drivers on 3.15.
 
 ### IDEs
 
@@ -98,11 +104,16 @@ See [Termination Characters in NI-VISA](https://www.ni.com/en-us/support/documen
 Why does my script's performance vary between different operating systems and machines?  
 See [Remarks](/spikesafe_python_lib_docs/Threading/wait/README.md#remarks) describing resolution of system timers between operating systems.
 
-How does Python handle locale?  
-The [locale](https://docs.python.org/3/library/locale.html#module-locale) module is implemented on top of the _locale module, which in turn uses an ANSI [C locale](https://docs.oracle.com/cd/E19253-01/817-2521/overview-1002/index.html) (also called the "POSIX locale") implementation if available. The C locale is often described as "culture-neutral" because it doesn't apply any regional or language-specific rules for formatting data. It is a basic, system-independent locale that follows standardized rules for formatting data such as numbers, dates, and currency. The C locale uses U.S.-style conventions by default, such as:
-- Period (.) as the decimal point for numbers
-- Simple ASCII character classification and sorting
-- English-style date and time formats
+Does the library depend on the system locale?
+
+SCPI numeric formatting and response parsing are independent of the application's
+locale. Command arguments use a period (`.`) as the decimal separator and no digit
+grouping; responses are parsed with Python's locale-independent `float()` and
+`int()`. Supply numeric values rather than localized strings such as `"1,25"`.
+
+Custom compensation JSON files must be UTF-8 encoded, with JSON numbers using a
+period as the decimal separator. TCP and serial text use UTF-8 as well. The library
+does not change the application's process-wide locale.
 
 ## Support/Feedback
 
