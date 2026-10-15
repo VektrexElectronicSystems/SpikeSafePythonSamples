@@ -1,14 +1,41 @@
 # spikesafe-python Releases
 
-## 1.16.4
-10/14/26
+## 1.16.8
+10/15/26
+
+- Breaking Changes
+    - The package now requires Python 3.11 or later; Python 3.10 is no longer supported.
+- Added
+    - Python 3.15 to the package's supported-version classifiers and CI test matrix. The CI matrix now covers Python 3.11 through 3.15.
+    - [`SpikeSafeInfo`](../SpikeSafeInfo/README.md) attribute `minimum_pulse_width_supporting_pulse_width_adjustment`, in seconds.
+    - [`SpikeSafeInfoParser.parse_spikesafe_info()`](../SpikeSafeInfoParser/parse_spikesafe_info/README.md) populates the attribute with 5 microseconds for firmware 3.0.18.1 or later, and 10 microseconds for older firmware.
+    - [`SpikeSafeEvents`](../SpikeSafeEvents/README.md) event codes:
+        - `WAITING_FOR_CONFIGURATION = 111`
+        - `CONFIGURATION_COMPLETED = 112`
+        - `CONFIGURATION_CLEARED = 113`
+        - `ERROR_CONFIGURING_AT_LEAST_ONE_DSP = 319`
+        - `INVALID_GAIN_VALUE = 333`
+        - `INVALID_OFFSET_VALUE = 334`
+        - `INVALID_CHANNEL_CONFIGURATION = 335`
+        - `INVALID_MODE_CONFIGURATION = 338`
+        - `INVALID_CALIBRATION_MODE_ARGUMENT = 349`
+        - `INVALID_MAC_ADDRESS = 390`
+        - `INVALID_FLOAT_VALUE_FORMAT = 393`
+        - `INVALID_PULSE_WIDTH_CORRECTION_ARGUMENT = 394`
+        - `DIGITIZER_INTERNAL_COMMUNICATION_ERROR = 400`
+        - `DIGITIZER_INVALID_CAL_SETTINGS = 408`
+        - `DIGITIZER_MISSING_CAL_PARAMETER = 417`
+        - `CURRENT_RAMP_RATE_SETTING_ONLY_ALLOW_IN_PULSED_MODE_AND_FAST_RAMP_RATE = 601`
 - Fixed
     - [`Compensation.load_custom_compensation_table()`](../Compensation/load_custom_compensation_table/README.md)
         - Reads JSON files explicitly as UTF-8 instead of using the system's default text encoding, so non-ASCII device names load consistently across machines.
         - ASCII-only files remain compatible. Files containing non-ASCII characters saved in legacy encodings, such as Windows-1252, must be converted to UTF-8.
+- Updated
+    - Minimum versions in the repository's `requirements.txt`.
 - Documentation
     - Clarified that SCPI numeric formatting and response parsing are already locale-independent. Numeric precision and public APIs are unchanged, and the library does not change the application's locale.
     - Documented UTF-8 compensation-file requirements in the compensation API and schema pages.
+    - Marked event 122, `MULTIPLE_PULSE_BURST_MODE_SET_EXTERNAL_SOURCE_TRIGGER_OUT_FORCED_TO_ALWAYS_AND_MULTIPLE_PULSE_TRIGGER_OUT_FORCED_TO_ONE`, as deprecated starting with Ethernet Processor firmware 3.0.18.3. The enum member remains available.
 
 ## 1.15.8
 6/19/26
