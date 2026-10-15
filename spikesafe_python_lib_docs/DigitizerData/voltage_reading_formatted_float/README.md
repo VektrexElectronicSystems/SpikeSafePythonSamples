@@ -3,11 +3,11 @@
 ## voltage_reading_volts_formatted_float(self)
 
 ### Definition
-Return the voltage reading formatted to matching hardware decimal places.
+Returns the voltage reading rounded to seven decimal places as a float.
 
 ### Returns
 [float](https://docs.python.org/3/library/functions.html#float)  
-Return the voltage reading formatted to matching hardware decimal places.
+Returns the voltage reading rounded to seven decimal places as a float.
 
 ### Examples
 The following example demonstrates the voltage_reading attribute. It checks if the PSMU Digitizer has finished measuring voltage data every 500 milliseconds, fetches its measuremments, and store thems in sample and voltage arrays to be used for plotting in a graph.
@@ -24,7 +24,7 @@ samples = []
 voltage_readings = []
 for dd in digitizerData:
     samples.append(dd.sample_number)
-    voltage_readings.append(dd.voltage_reading.voltage_reading_volts_formatted_float())
+    voltage_readings.append(dd.voltage_reading_volts_formatted_float())
 ```
 
 ### Examples In Action
