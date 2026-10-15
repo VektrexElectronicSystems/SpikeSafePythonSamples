@@ -1,6 +1,6 @@
-# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeInfoParser](/spikesafe_python_lib_docs/SpikeSafeInfoParser/README.md) | parse_spikesafe_info(spike_safe_socket, enable_logging = False)
+# [spikesafe-python API Overview](/spikesafe_python_lib_docs/README.md) | [SpikeSafeInfoParser](/spikesafe_python_lib_docs/SpikeSafeInfoParser/README.md) | parse_spikesafe_info(spike_safe_socket, enable_logging = None)
 
-## parse_spikesafe_info(spike_safe_socket, enable_logging = False)
+## parse_spikesafe_info(spike_safe_socket, enable_logging = None)
 
 ### Definition
 Parses the SpikeSafe information from the SCPI command responses.
@@ -14,7 +14,9 @@ Overrides spike_safe_socket.enable_logging attribute (None by default, will use 
 
 ### Returns
 [SpikeSafeInfo](/spikesafe_python_lib_docs/SpikeSafeInfo/README.md)  
-An object containing the SpikeSafe information.
+An object containing the SpikeSafe information, including firmware-dependent
+[`maximum_pulse_width_correction_override`](/spikesafe_python_lib_docs/SpikeSafeInfo/maximum_pulse_width_correction_override/README.md)
+and [`minimum_pulse_width_supporting_pulse_width_adjustment`](/spikesafe_python_lib_docs/SpikeSafeInfo/minimum_pulse_width_supporting_pulse_width_adjustment/README.md).
 
 ### Examples
 The following example demonstrates the parse_spikesafe_info function. It connects to a SpikeSafe and calls the function which then returns an object with its information.

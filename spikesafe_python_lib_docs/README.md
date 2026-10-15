@@ -24,10 +24,13 @@ For release notes, see [_releases/README.md](/spikesafe_python_lib_docs/_release
 | [DigitizerDataFetch](/spikesafe_python_lib_docs/DigitizerDataFetch/README.md) | A helper class used to simplify collecting data from a PSMU Digitizer. |
 | [DigitizerEnums](/spikesafe_python_lib_docs/DigitizerEnums/README.md) | Defines the Digitizer acceptable values as enumerations. |
 | [DigitizerInfo](/spikesafe_python_lib_docs/DigitizerInfo/README.md) | A class to represent the information of a Digitizer in a SpikeSafe. |
+| [DigitizerVfCustomSequence](/spikesafe_python_lib_docs/DigitizerVfCustomSequence/README.md) | Parses and inspects a custom digitizer sampling sequence. |
+| [DigitizerVfCustomSequenceStep](/spikesafe_python_lib_docs/DigitizerVfCustomSequenceStep/README.md) | Stores one step of a custom digitizer sampling sequence. |
 | [Discharge](/spikesafe_python_lib_docs/Discharge/README.md) | A helper class that provides a collection of helper functions you can use to properly discharge the SpikeSafe channel. |
 | [EventData](/spikesafe_python_lib_docs/EventData/README.md) | A class used to store data in a simple accessible object from a SpikeSafe's event response. |
 | [MemoryTableReadData](/spikesafe_python_lib_docs/MemoryTableReadData/README.md) | A class used to store data in a simple accessible object from a SpikeSafe's Memory Table Read response. |
 | [Precision](/spikesafe_python_lib_docs/Precision/README.md) | A helper class that provides a collection of helper functions to get the precise number of decimal places for a SpikeSafe SCPI command argument. |
+| [PulseWidthCorrection](/spikesafe_python_lib_docs/PulseWidthCorrection/README.md) | Calculates a pulse width correction argument using SpikeSafe capabilities and compensation settings. |
 | [ReadAllEvents](/spikesafe_python_lib_docs/ReadAllEvents/README.md) | A helper class used to simplify reading events from a SpikeSafe. |
 | [ScpiFormatter](/spikesafe_python_lib_docs/ScpiFormatter/README.md) | A helper class that provides a collection of helper functions to get the SCPI Format of an argument for a SpikeSafe SCPI command argument. |
 | [SerialPortConnection](/spikesafe_python_lib_docs/SerialPortConnection/README.md) | Class to manage a Serial Port connection to a device. |

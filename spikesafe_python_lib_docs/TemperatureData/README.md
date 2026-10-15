@@ -10,3 +10,8 @@ A class used to store data in a simple accessible object from a heat sink in Spi
 | - | - |
 | [heat_sink_number](/spikesafe_python_lib_docs/TemperatureData/heat_sink_number/README.md) | Heat sink number. |
 | [temperature_reading](/spikesafe_python_lib_docs/TemperatureData/temperature_reading/README.md) | Heat sink temperature reading. |
+
+### Methods
+| Name | Description |
+| - | - |
+| [parse_temperature_data](/spikesafe_python_lib_docs/TemperatureData/parse_temperature_data/README.md) | Parses one heat-sink temperature portion of a memory-table response into the current object. |
